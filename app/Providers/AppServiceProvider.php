@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace KRLX\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
