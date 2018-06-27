@@ -8,6 +8,7 @@
         <title>KRLX</title>
 
         <link href="/css/app.css" rel="stylesheet">
+        <script src="/js/app.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
     </head>
     <body>
@@ -37,6 +38,10 @@
         </nav>
         <div class="landing-card">
             <img src="/storage/cover.jpg">
+            <div class="alert m-3 py-2 px-3 d-flex align-items-center alert-success">
+                <i class="fas fa-check fa-2x mr-3"></i>
+                <span>You have been signed out.</span>
+            </div>
             <div class="landing-headline px-3">
                 <h1 class="cover">Welcome to KRLX.</h1>
                 <h2>Don't worry, sometimes we mix up the letters too.</h2>

@@ -40,6 +40,12 @@ h1, h2, h3, h4, h5, h6 {
         object-fit: cover;
     }
 
+    .alert {
+        z-index: 20;
+        position: absolute;
+        top: 0;
+    }
+
     .landing-headline {
         z-index: 20;
         position: absolute;
