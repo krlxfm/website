@@ -1,6 +1,5 @@
-
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Noto+Serif|Noto+Serif:400,400i,700,700i|Nunito:900');
 
 // Variables
 @import "variables";
@@ -8,7 +7,83 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+h1, h2, h3, h4, h5, h6 {
+    &:not(.head-sans-sarif) {
+        font-family: "Noto Serif", serif;
+    }
+}
+
+.font-serif {
+    font-family: "Noto Serif", serif;
+}
+
+.hide-mobile {
+    @include media-breakpoint-down(xs) {
+        display: none;
+    }
+}
+
+.landing-card {
+    position: relative;
+    overflow: hidden;
+    color: white;
+    height: 200px;
+    background-color: #666;
+
+    img {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 100%;
+        z-index: 10;
+        object-fit: cover;
+    }
+
+    .landing-headline {
+        z-index: 20;
+        position: absolute;
+        bottom: 0;
+    }
+
+    @include media-breakpoint-up(md) {
+        height: 400px;
+    }
+
+    .btn {
+        text-transform: uppercase;
+    }
+
+    h1 {
+        font-family: "Nunito", sans-serif;
+        -webkit-text-stroke: 2px black;
+        line-height: 1em;
+        margin-bottom: 0;
+        @include media-breakpoint-up(md) {
+            font-size: 500%;
+        }
+    }
+
+    h2 {
+        @include media-breakpoint-down(md) {
+            font-size: 100%;
+        }
+    }
+}
+
+.bg-krlx-red {
+    background: #aa0000;
+}
+
+.bg-black {
+    background: black;
+    color: white;
+}
+
+span.onair-now {
+    font-size: 150%;
+}
+
+span.text-smallcaps {
+    font-variant: small-caps;
 }
