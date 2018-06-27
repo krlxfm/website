@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     h2 {
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-down(sm) {
             font-size: 100%;
         }
     }

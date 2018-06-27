@@ -19,7 +19,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
@@ -60,10 +60,10 @@
                 <a href="#" class="text-light">Full schedule<i class="fas fa-chevron-right ml-1"></i></a>
             </span>
         </div>
-        <div class="container-fluid mt-4">
+        <div class="container-fluid my-4">
             <div class="row">
                 <div class="col-md-3">
-                    <h2 class="text-center">Playlist</h2>
+                    <h2 class="text-center mb-3">Playlist</h2>
                     <div class="list-group">
                         <div class="list-group-item">
                             <small class="text-muted">Just now</small>
@@ -91,12 +91,81 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h2 class="text-center">From the Blog</h2>
+                    <h2 class="text-center mb-3">From the Blog</h2>
+                    <div>
+                        <h4 class="mb-0">Late Night Trivia 2019: What You Need to Know</h4>
+                        <p class="my-1">
+                            <small class="text-muted mr-2">Tate Bosler, IT Engineer</small>
+                            <small class="text-muted">March 1, 2019</small>
+                        </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Read more<i class="fas fa-chevron-right ml-1"></i></a></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <h4 class="mb-0">So Weezer Covered Africa By Toto</h4>
+                        <p class="my-1">
+                            <small class="text-muted mr-2">Tristan Pitt, Music Director</small>
+                            <small class="text-muted">February 20, 2019</small>
+                        </p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Read more<i class="fas fa-chevron-right ml-1"></i></a></p>
+                    </div>
+                    <a href="#" class="btn btn-lg btn-dark">More articles on the blog <i class="fas fa-chevron-right"></i></a>
                 </div>
                 <div class="col-md-3">
-                    <h2 class="text-center">Events</h2>
+                    <h2 class="text-center mb-3">Events</h2>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <h5 class="my-1">Board of Directors Meeting</h5>
+                            <p class="mb-1">Record Libe<br>Sunday, March 3, 5:00 - 6:00 pm</p>
+                        </div>
+                        <div class="list-group-item">
+                            <h5 class="my-1">Bandemonium: Prince</h5>
+                            <p class="mb-1">KRLX One<br>Hosted by Tate Bosler<br>Sunday, March 3, 5:00 - 7:00 pm</p>
+                        </div>
+                        <div class="list-group-item">
+                            <h5 class="my-1">Mansplainless Music Monday</h5>
+                            <p class="mb-1">Record Libe<br>Monday, March 4, 7:00 - 8:30 pm</p>
+                        </div>
+                        <div class="list-group-item">
+                            <h5 class="my-1">KRLX Off Air for Spring Break</h5>
+                            <p class="mb-1">KRLX One<br>Wednesday, March 13, 9:00 pm</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="bg-light py-4 px-3 text-center">
+            <p class="mb-2">
+                <a class="fa-stack fa-2x" href="#">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-rss fa-stack-1x"></i>
+                </a>
+                <a class="fa-stack fa-2x" href="https://facebook.com/krlxradio">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x"></i>
+                </a>
+                <a class="fa-stack fa-2x" href="https://twitter.com/krlxfm">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x"></i>
+                </a>
+                <a class="fa-stack fa-2x" href="https://instagram.com/krlxfm">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-instagram fa-stack-1x"></i>
+                </a>
+                <a class="fa-stack fa-2x" href="https://www.youtube.com/channel/UCCNkWqOvLNmDEpd7PD2BLJg">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-youtube fa-stack-1x"></i>
+                </a>
+                <a class="fa-stack fa-2x" href="https://www.soundcloud.com/krlxfm">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-soundcloud fa-stack-1x"></i>
+                </a>
+            </p>
+            <p>
+                Website content copyright &copy; KRLX-FM 2018. All rights reserved.<br>
+                KRLX-FM is a registered student organization of <a href="https://www.carleton.edu">Carleton College</a>, Northfield, Minn., and is licensed by the FCC to broadcast.
+            </p>
+            Home - About - Contact - FCC Public File - Terms - Privacy
         </div>
     </body>
 </html>
