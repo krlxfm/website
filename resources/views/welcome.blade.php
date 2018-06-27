@@ -18,7 +18,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
@@ -26,8 +26,13 @@
                     <li class="nav-item"><a class="nav-link" href="#">Record Libe</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Playlist</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Mission Control</a></li>
                 </ul>
+                <div class="nav-item">
+                    <a class="btn btn-outline-light mr-2" href="#">Listen Live</a>
+                </div>
+                <div class="nav-item">
+                    <a class="btn btn-outline-light" href="#">Mission Control</a>
+                </div>
             </div>
         </nav>
         <div class="landing-card">
@@ -50,7 +55,7 @@
             </span>
         </div>
         <div class="bg-dark text-light d-flex flex-wrap align-items-center px-3 py-1">
-            <span><strong>Up next, at 9:00 pm:</strong> ZootSuit Wyatt</span>
+            <span><strong>Up next, at 9:00 pm:</strong> Savor Kindness</span>
             <span class="ml-auto">
                 <a href="#" class="text-light">Full schedule<i class="fas fa-chevron-right ml-1"></i></a>
             </span>
@@ -59,6 +64,31 @@
             <div class="row">
                 <div class="col-md-3">
                     <h2 class="text-center">Playlist</h2>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <small class="text-muted">Just now</small>
+                            <h5 class="my-1">Africa</h5>
+                            <p class="mb-1">Weezer</p>
+                        </div>
+                        <div class="list-group-item">
+                            <small class="text-muted">4 minutes ago</small>
+                            <h5 class="my-1">no tears left to cry</h5>
+                            <p class="mb-1">Ariana Grande</p>
+                        </div>
+                        <div class="list-group-item">
+                            <small class="text-muted">8 minutes ago</small>
+                            <h5 class="my-1">There's Nothing Holdin' Me Back</h5>
+                            <p class="mb-1">Shawn Mendes</p>
+                        </div>
+                        <div class="list-group-item">
+                            <small class="text-muted">12 minutes ago</small>
+                            <h5 class="my-1">This Is What You Came For</h5>
+                            <p class="mb-1">Calvin Harris (feat. Rihanna)</p>
+                        </div>
+                        <a class="list-group-item list-group-item-action text-center" href="#">
+                            Full chart and playlist <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <h2 class="text-center">From the Blog</h2>
