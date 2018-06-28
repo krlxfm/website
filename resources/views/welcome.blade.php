@@ -139,7 +139,7 @@
                 </div>
             </div>
         </div>
-        <div class="bg-light py-4 px-3 text-center">
+        <div class="bg-light py-4 px-3 text-center page-footer">
             <p class="mb-2">
                 <a class="fa-stack fa-2x" href="#">
                     <i class="far fa-circle fa-stack-2x"></i>

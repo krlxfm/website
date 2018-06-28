@@ -13,6 +13,10 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.page-footer {
+    border-top: 0.2em solid $krlx-red;
+}
+
 .font-serif {
     font-family: "Noto Serif", serif;
 }
@@ -78,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-krlx-red {
-    background: #aa0000;
+    background: $krlx-red;
 }
 
 .bg-black {
