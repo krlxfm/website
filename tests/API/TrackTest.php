@@ -97,16 +97,30 @@ class TrackTest extends TestCase
     public function testPatchOnlyUpdatesRequestedData()
     {
         $name = $this->track->name;
-        $description = $this->track->description;
 
         $request = $this->json('PATCH', "/api/v1/tracks/{$this->track->id}", [
             'description' => 'A patched description.'
         ]);
 
         $request->assertOk()
-               ->assertJson([
-                   'description' => 'A patched description.',
-                   'name' => $name
-               ]);
+                ->assertJson([
+                    'description' => 'A patched description.',
+                    'name' => $name
+                ]);
+    }
+
+    /**
+     * Test that PUT requests FAIL if data is missing.
+     *
+     * @return void
+     */
+    public function testPutFailsWithMissingAttribute()
+    {
+        $request = $this->json('PUT', "/api/v1/tracks/{$this->track->id}", [
+            'description' => 'A patched description.'
+        ]);
+
+        $request->assertStatus(422);
+        $this->assertNotEquals('A patched description.', Track::find($this->track->id)->description);
     }
 }
