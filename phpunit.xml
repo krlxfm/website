@@ -9,10 +9,12 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
+        <testsuite name="API">
+            <directory suffix="Test.php">./tests/API</directory>
+        </testsuite>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
-        
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
@@ -29,5 +31,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
+        <env name="DB_DATABASE" value="missioncontrol_test"/>
     </php>
 </phpunit>
