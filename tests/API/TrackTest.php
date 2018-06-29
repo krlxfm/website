@@ -63,4 +63,22 @@ class TrackTest extends TestCase
         $this->assertNull(Track::find($track->id));
         $this->assertNotNull(Track::withTrashed()->find($track->id));
     }
+
+    /**
+     * Test that the "index" route returns all tracks in the system (not
+     * including deleted ones).
+     *
+     * @return void
+     */
+    public function testTrackIndexReturnsTracks()
+    {
+        factory(Track::class)->create(['name' => 'Track 1']);
+        factory(Track::class)->create(['name' => 'Track 2']);
+
+        $request = $this->json('GET', '/api/v1/tracks');
+
+        $request->assertOk()
+                ->assertJsonFragment(['name' => 'Track 1'])
+                ->assertJsonFragment(['name' => 'Track 2']);
+    }
 }
