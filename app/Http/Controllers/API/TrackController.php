@@ -26,7 +26,13 @@ class TrackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3|max:190|unique:tracks',
+            'description' => 'required|min:20'
+        ]);
+
+        $track = Track::create($request->all());
+        return $track;
     }
 
     /**
