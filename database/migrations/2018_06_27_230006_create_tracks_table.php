@@ -27,7 +27,6 @@ class CreateTracksTable extends Migration
             $table->boolean('clonable')->default(true);
             $table->boolean('allows_images')->default(true);
             $table->boolean('can_fall_back')->default(true);
-            $table->boolean('joinable')->default(true);
             $table->boolean('taggable')->default(true);
             $table->boolean('awards_xp')->default(true);
 
@@ -39,6 +38,7 @@ class CreateTracksTable extends Migration
 
             // Group size and participants
             $table->boolean('allows_direct_add')->default(false);
+            $table->boolean('joinable')->default(true);
             $table->tinyInteger('max_participants')->unsigned()->nullable();
 
             // Content

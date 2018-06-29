@@ -11,6 +11,14 @@ class TrackTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $track;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->track = factory(Track::class)->create();
+    }
+
     /**
      * Test that tracks can be created.
      * Given a track name and description, assert that the track is created,
@@ -37,14 +45,12 @@ class TrackTest extends TestCase
      */
     public function testSingleTrackQuery()
     {
-        $track = factory(Track::class)->create();
-
-        $request = $this->json('GET', "/api/v1/tracks/{$track->id}");
+        $request = $this->json('GET', "/api/v1/tracks/{$this->track->id}");
 
         $request->assertStatus(200)
                 ->assertJson([
-                    'id' => $track->id,
-                    'name' => $track->name
+                    'id' => $this->track->id,
+                    'name' => $this->track->name
                 ]);
     }
 
@@ -55,13 +61,11 @@ class TrackTest extends TestCase
      */
     public function testAPITrackDeleteSoftDeletes()
     {
-        $track = factory(Track::class)->create();
-
-        $request = $this->json('DELETE', "/api/v1/tracks/{$track->id}");
+        $request = $this->json('DELETE', "/api/v1/tracks/{$this->track->id}");
 
         $request->assertStatus(204);
-        $this->assertNull(Track::find($track->id));
-        $this->assertNotNull(Track::withTrashed()->find($track->id));
+        $this->assertNull(Track::find($this->track->id));
+        $this->assertNotNull(Track::withTrashed()->find($this->track->id));
     }
 
     /**
@@ -72,13 +76,12 @@ class TrackTest extends TestCase
      */
     public function testTrackIndexReturnsTracks()
     {
-        factory(Track::class)->create(['name' => 'Track 1']);
-        factory(Track::class)->create(['name' => 'Track 2']);
+        $secondTrack = factory(Track::class)->create();
 
         $request = $this->json('GET', '/api/v1/tracks');
 
         $request->assertOk()
-                ->assertJsonFragment(['name' => 'Track 1'])
-                ->assertJsonFragment(['name' => 'Track 2']);
+                ->assertJsonFragment(['id' => $this->track->id])
+                ->assertJsonFragment(['id' => $secondTrack->id]);
     }
 }
