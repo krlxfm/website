@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'KRLX\Events\Event' => [
-            'KRLX\Listeners\EventListener',
+        'KRLX\Events\TrackCreating' => [
+            'KRLX\Listeners\FillTrackDefaults',
         ],
     ];
 

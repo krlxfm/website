@@ -12,3 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function() {
+    Route::apiResource('tracks', 'TrackController');
+});
