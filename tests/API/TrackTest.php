@@ -103,12 +103,10 @@ class TrackTest extends TestCase
             'description' => 'A patched description.'
         ]);
 
-        $this->assertOk()
-             ->assertJson([
-                 'description' => 'A patched description.',
-                 'name' => $name
-             });
-
-        dump($this->track->description);
+        $request->assertOk()
+               ->assertJson([
+                   'description' => 'A patched description.',
+                   'name' => $name
+               ]);
     }
 }
