@@ -61,5 +61,6 @@ class TrackTest extends TestCase
 
         $request->assertStatus(204);
         $this->assertNull(Track::find($track->id));
+        $this->assertNotNull(Track::withTrashed()->find($track->id));
     }
 }
