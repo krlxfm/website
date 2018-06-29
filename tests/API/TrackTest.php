@@ -88,4 +88,27 @@ class TrackTest extends TestCase
                 ->assertJsonFragment(['id' => $secondTrack->id])
                 ->assertJsonMissing(['id' => $deletedTrack->id]);
     }
+
+    /**
+     * Test that PATCH requests ONLY update the requested data.
+     *
+     * @return void
+     */
+    public function testPatchOnlyUpdatesRequestedData()
+    {
+        $name = $this->track->name;
+        $description = $this->track->description;
+
+        $request = $this->json('PATCH', "/api/v1/tracks/{$this->track->id}", [
+            'description' => 'A patched description.'
+        ]);
+
+        $this->assertOk()
+             ->assertJson([
+                 'description' => 'A patched description.',
+                 'name' => $name
+             });
+
+        dump($this->track->description);
+    }
 }
