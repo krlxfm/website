@@ -78,11 +78,14 @@ class TrackTest extends TestCase
     public function testTrackIndexReturnsTracks()
     {
         $secondTrack = factory(Track::class)->create();
+        $deletedTrack = factory(Track::class)->create();
+        $deletedTrack->delete();
 
         $request = $this->json('GET', '/api/v1/tracks');
 
         $request->assertOk()
                 ->assertJsonFragment(['id' => $this->track->id])
-                ->assertJsonFragment(['id' => $secondTrack->id]);
+                ->assertJsonFragment(['id' => $secondTrack->id])
+                ->assertJsonMissing(['id' => $deletedTrack->id]);
     }
 }
