@@ -45,6 +45,16 @@ class Track extends Model
     protected $casts = [
         'content' => 'array',
         'scheduling' => 'array',
-        'etc' => 'array'
+        'etc' => 'array',
+        'active' => 'boolean',
+        'boostable' => 'boolean',
+        'clonable' => 'boolean',
+        'allows_images' => 'boolean',
+        'can_fall_back' => 'boolean',
+        'taggable' => 'boolean',
+        'awards_xp' => 'boolean',
+        'allows_direct_add' => 'boolean',
+        'joinable' => 'boolean',
+        'weekly' => 'boolean'
     ];
 }
