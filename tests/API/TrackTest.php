@@ -29,18 +29,4 @@ class TrackTest extends TestCase
 
         $request->assertStatus(201);
     }
-
-    /**
-     * Test that tracks can't be created with duplicate names.
-     *
-     * @return void
-     */
-    public function testTracksCantBeCreatedWithDuplicateNames()
-    {
-        $this->json('POST', '/api/v1/tracks', ['name' => 'Duplicate Test', 'description' => 'Two tracks are not supposed to have the same name.']);
-
-        $request = $this->json('POST', '/api/v1/tracks', ['name' => 'Duplicate Test', 'description' => 'If this description appears, there\'s going to be a problem.']);
-
-        $request->assertStatus(422);
-    }
 }
