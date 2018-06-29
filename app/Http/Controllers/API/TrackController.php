@@ -64,12 +64,9 @@ class TrackController extends Controller
      * @param  \KRLX\Track  $track
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Track $track)
+    public function destroy(Track $track)
     {
         $track->delete();
-        if($request->wantsJSON()) {
-            return response(null, 204);
-        }
-        return true;
+        return response(null, 204);
     }
 }
