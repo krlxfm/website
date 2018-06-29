@@ -29,4 +29,37 @@ class TrackTest extends TestCase
 
         $request->assertStatus(201);
     }
+
+    /**
+     * Test that, once a track is created, it can be fetched.
+     *
+     * @return void
+     */
+    public function testSingleTrackQuery()
+    {
+        $track = factory(Track::class)->create();
+
+        $request = $this->json('GET', "/api/v1/tracks/{$track->id}");
+
+        $request->assertStatus(200)
+                ->assertJson([
+                    'id' => $track->id,
+                    'name' => $track->name
+                ]);
+    }
+
+    /**
+     * Test that deleting a track via the API soft-deletes it.
+     *
+     * @return void
+     */
+    public function testAPITrackDeleteSoftDeletes()
+    {
+        $track = factory(Track::class)->create();
+
+        $request = $this->json('DELETE', "/api/v1/tracks/{$track->id}");
+
+        $request->assertStatus(204);
+        $this->assertNull(Track::find($track->id));
+    }
 }

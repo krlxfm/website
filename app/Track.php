@@ -4,9 +4,12 @@ namespace KRLX;
 
 use KRLX\Events\TrackCreating;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Track extends Model
 {
+    use SoftDeletes;
+
     /**
      * The attributes that should be mass-assignable.
      *
