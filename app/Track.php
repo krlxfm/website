@@ -29,6 +29,15 @@ class Track extends Model
     ];
 
     /**
+     * The attributes that should be hidden from API responses.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at'
+    ];
+
+    /**
      * The attributes that should be type-cast.
      *
      * @var array

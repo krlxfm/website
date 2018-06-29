@@ -51,7 +51,8 @@ class TrackTest extends TestCase
                 ->assertJson([
                     'id' => $this->track->id,
                     'name' => $this->track->name
-                ]);
+                ])
+                ->assertJsonMissing(['created_at', 'updated_at', 'deleted_at']);
     }
 
     /**
