@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Requests;
 
+use KRLX\Rules\ValidatorRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TrackUdpateRequest extends FormRequest
@@ -80,6 +81,7 @@ class TrackUdpateRequest extends FormRequest
                 "$special.*.helptext" => 'present|nullable|string',
                 "$special.*.type" => 'required|in:'.implode(',', array_keys(config('fields'))),
                 "$special.*.rules" => 'present|array|min:0',
+                "$special.*.rules.*" => [new ValidatorRule],
                 "$special.*.options" => "required_if:$special.*.type,".implode(',', array_keys(collect(config('fields'))->where('has_options', true)->all())).'|array|min:0',
                 "$special.*.options.*.title" => "required_with:$special.*.options|string",
                 "$special.*.options.*.value" => "required_with:$special.*.options|string",
