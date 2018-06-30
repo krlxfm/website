@@ -10,6 +10,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TermTest extends TestCase
 {
+
+    public $term;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->term = factory(Term::class)->create();
+    }
+
     /**
      * Test that terms can be created.
      *
@@ -24,5 +33,23 @@ class TermTest extends TestCase
         ]);
 
         $request->assertStatus(201);
+    }
+
+    /**
+     * Test that an individual term can be queried.
+     *
+     * @return void
+     */
+    public function testQueryingIndividualTerm()
+    {
+        $request = $this->json('GET', "/api/v1/terms/{$this->term->id}");
+
+        $request->assertStatus(200)
+                ->assertJson([
+                    'id' => $this->term->id,
+                    'on_air' => $this->term->on_air,
+                    'off_air' => $this->term->off_air,
+                ])
+                ->assertJsonMissing(['created_at', 'updated_at']);
     }
 }

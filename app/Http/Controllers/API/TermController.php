@@ -44,7 +44,7 @@ class TermController extends Controller
      */
     public function show(Term $term)
     {
-        //
+        return $term;
     }
 
     /**
