@@ -28,11 +28,7 @@ class TrackUdpateRequest extends FormRequest
 
         if($this->isMethod('PUT')) {
             foreach($rules as $field => &$checks) {
-                if(is_array($checks)) {
-                    array_prepend($checks, 'present');
-                } else {
-                    $checks = "present|$checks";
-                }
+                array_prepend($checks, 'present');
             }
         }
 
