@@ -14,5 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function() {
+    Route::apiResource('terms', 'TermController');
     Route::apiResource('tracks', 'TrackController');
 });
