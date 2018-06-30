@@ -54,6 +54,19 @@ class TermTest extends TestCase
     }
 
     /**
+     * Test that deleting a term counts as a hard delete.
+     *
+     * @return void
+     */
+    public function testTermsDeleteHard()
+    {
+        $request = $this->json('DELETE', "/api/v1/terms/{$this->term->id}");
+        $request->assertStatus(204);
+
+        $this->assertNull(Term::find($this->term->id));
+    }
+
+    /**
      * Test that all terms can be queried.
      *
      * @return void
