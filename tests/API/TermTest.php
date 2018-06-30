@@ -16,7 +16,9 @@ class TermTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->term = factory(Term::class)->create();
+        $this->term = factory(Term::class)->create([
+            'accepting_applications' => false
+        ]);
     }
 
     /**
@@ -82,5 +84,39 @@ class TermTest extends TestCase
                 ->assertJsonFragment(['id' => $this->term->id])
                 ->assertJsonFragment(['id' => $secondTerm->id])
                 ->assertJsonMissing(['id' => $deletedTerm->id]);
+    }
+
+    /**
+     * Test that PATCH requests ONLY update the requested data.
+     *
+     * @return void
+     */
+    public function testPatchOnlyUpdatesRequestedData()
+    {
+        $off_air = $this->term->off_air;
+        $request = $this->json('PATCH', "/api/v1/terms/{$this->term->id}", [
+            'accepting_applications' => true
+        ]);
+
+        $request->assertOk()
+                ->assertJson([
+                    'accepting_applications' => true,
+                    'off_air' => $off_air
+                ]);
+    }
+
+    /**
+     * Test that PUT requests FAIL if data is missing.
+     *
+     * @return void
+     */
+    public function testPutFailsWithMissingAttribute()
+    {
+        $request = $this->json('PUT', "/api/v1/terms/{$this->term->id}", [
+            'accepting_applications' => true
+        ]);
+
+        $request->assertStatus(422);
+        $this->assertNotEquals(true, Term::find($this->term->id)->accepting_applications);
     }
 }

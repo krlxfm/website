@@ -5,6 +5,7 @@ namespace KRLX\Http\Controllers\API;
 use KRLX\Term;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Http\Requests\TermUpdateRequest;
 
 class TermController extends Controller
 {
@@ -54,9 +55,14 @@ class TermController extends Controller
      * @param  \KRLX\Term  $term
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Term $term)
+    public function update(TermUpdateRequest $request, Term $term)
     {
-        //
+        foreach($request->validated() as $field => $value) {
+            $term->{$field} = $value;
+        }
+        $term->save();
+
+        return $term;
     }
 
     /**
