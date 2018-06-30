@@ -30,7 +30,8 @@ class TermController extends Controller
         $request->validate([
             'id' => 'required|string|max:30|regex:/^[0-9]{4,}-[A-Z][A-Z_]*[A-Z]$/',
             'on_air' => 'required|date',
-            'off_air' => 'required|date|after:on_air'
+            'off_air' => 'required|date|after:on_air',
+            'boosted' => 'sometimes|boolean'
         ]);
 
         $term = Term::create($request->all());

@@ -9,6 +9,7 @@ $factory->define(KRLX\Term::class, function (Faker $faker) {
     return [
         'id' => date('Y').'-'.$faker->regexify('[A-Z][A-Z_]+[A-Z]'),
         'on_air' => $date,
-        'off_air' => $futureDate->addWeeks(2)
+        'off_air' => $futureDate->addWeeks(2),
+        'boosted' => true
     ];
 });

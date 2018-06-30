@@ -18,6 +18,7 @@ class CreateTermsTable extends Migration
             $table->timestamps();
             $table->dateTime('on_air');
             $table->dateTime('off_air');
+            $table->boolean('boosted')->default(false);
             $table->boolean('accepting_applications')->default(false);
         });
     }
