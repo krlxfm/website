@@ -26,7 +26,14 @@ class TermController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required|string|max:30|regex:/^[0-9]{4,}-[A-Z][A-Z_]*[A-Z]$/',
+            'on_air' => 'required|date',
+            'off_air' => 'required|date|after:on_air'
+        ]);
+
+        $term = Term::create($request->all());
+        return $term;
     }
 
     /**

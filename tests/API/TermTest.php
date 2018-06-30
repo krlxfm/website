@@ -19,8 +19,8 @@ class TermTest extends TestCase
     {
         $request = $this->json('POST', '/api/v1/terms', [
             'id' => date('Y').'-SP',
-            'on_air' => Carbon::create(date('Y'), 4, 1, 21),
-            'off_air' => Carbon::create(date('Y'), 6, 1, 21)
+            'on_air' => date('Y').'-04-01 21:00:00',
+            'off_air' => date('Y').'-06-01 21:00:00'
         ]);
 
         $request->assertStatus(201);

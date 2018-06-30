@@ -14,8 +14,11 @@ class CreateTermsTable extends Migration
     public function up()
     {
         Schema::create('terms', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id', 30)->primary();
             $table->timestamps();
+            $table->dateTime('on_air');
+            $table->dateTime('off_air');
+            $table->boolean('accepting_applications')->default(false);
         });
     }
 
