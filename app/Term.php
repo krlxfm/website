@@ -68,6 +68,10 @@ class Term extends Model
     public function getNameAttribute()
     {
         $components = explode('-', $this->id);
-        return str_replace('_', ' ', title_case($components[1])).' '.$components[0];
+        if(array_key_exists($components[1], config('terms'))) {
+            return config('terms')[$components[1]].' '.$components[0];
+        } else {
+            return str_replace('_', ' ', title_case($components[1])).' '.$components[0];
+        }
     }
 }

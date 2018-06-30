@@ -30,4 +30,16 @@ class TermTest extends TestCase
         $components = explode('-', $this->term->id);
         $this->assertEquals(str_replace('_', ' ', title_case($components[1])).' '.date('Y'), $this->term->name);
     }
+
+    /**
+     * Test the "name" attribute for a standard term (like 2018-SP) actually
+     * matches up with the config value.
+     *
+     * @return void
+     */
+    public function testStandardTermNamesFollowConfig()
+    {
+        $term = factory(Term::class)->create(['id' => date('Y').'-FA']);
+        $this->assertEquals(config('terms.FA', 'Fa').' '.date('Y'), $term->name);
+    }
 }
