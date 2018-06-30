@@ -58,4 +58,15 @@ class Term extends Model
         'on_air',
         'off_air'
     ];
+
+    /**
+     * Computes the "long form" name of a term.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        $components = explode('-', $this->id);
+        return str_replace('_', ' ', title_case($components[1])).' '.$components[0];
+    }
 }
