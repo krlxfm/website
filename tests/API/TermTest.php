@@ -61,10 +61,13 @@ class TermTest extends TestCase
     public function testQueryingAllTerms()
     {
         $secondTerm = factory(Term::class)->create();
+        $deletedTerm = factory(Term::class)->create();
+        $deletedTerm->delete();
         $request = $this->json('GET', '/api/v1/terms');
 
         $request->assertOk()
                 ->assertJsonFragment(['id' => $this->term->id])
-                ->assertJsonFragment(['id' => $secondTerm->id]);
+                ->assertJsonFragment(['id' => $secondTerm->id])
+                ->assertJsonMissing(['id' => $deletedTerm->id]);
     }
 }
