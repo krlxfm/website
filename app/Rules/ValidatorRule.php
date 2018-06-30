@@ -29,13 +29,13 @@ class ValidatorRule implements Rule
 
         $needle = $value;
         $colon = strpos($value, ":");
-        if($colon !== false) {
-            $needle = substr($value, 0, ($colon + 1));
-            $param = substr($value, ($colon + 1));
-            if(strlen($param) == 0) return false;
-            if(!is_numeric($param)) return false;
-            if($param < 0) return false;
-        }
+        if($colon === false) return in_array($needle, $rules);
+
+        $needle = substr($value, 0, ($colon + 1));
+        $param = substr($value, ($colon + 1));
+        if(strlen($param) == 0) return false;
+        if(!is_numeric($param)) return false;
+        if($param < 0) return false;
 
         return in_array($needle, $rules);
     }
