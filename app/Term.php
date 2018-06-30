@@ -39,6 +39,15 @@ class Term extends Model
     ];
 
     /**
+     * The attributes that should be mutated to non-date things.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'accepting_applications' => 'boolean'
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
