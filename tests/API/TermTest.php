@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TermTest extends TestCase
 {
+    use RefreshDatabase;
 
     public $term;
 
