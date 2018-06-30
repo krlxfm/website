@@ -24,43 +24,7 @@ class TrackUdpateRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'name' => 'string|min:3|max:190|unique:tracks',
-            'description' => 'string|min:20',
-            'active' => 'boolean',
-            'boostable' => 'boolean',
-            'clonable' => 'boolean',
-            'allows_images' => 'boolean',
-            'can_fall_back' => 'boolean',
-            'taggable' => 'boolean',
-            'awards_xp' => 'boolean',
-            'prefix' => 'nullable|string',
-            'zone' => 'nullable|string|alpha|size:1',
-            'group' => 'nullable|integer|min:0|max:100',
-            'order' => 'integer|min:0|max:65500',
-            'allows_direct_add' => 'boolean',
-            'joinable' => 'boolean',
-            'max_participants' => 'nullable|integer|min:0|max:200',
-            'title_label' => 'nullable|string|max:190',
-            'description_label' => 'nullable|string|max:190',
-            'description_min_length' => 'nullable|integer|min:0|max:65500',
-            'weekly' => 'boolean',
-            'start_day' => [
-                'nullable',
-                'required_with_all:start_time,end_time',
-                'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'
-            ],
-            'start_time' => [
-                'nullable',
-                'required_with_all:start_day,end_time',
-                'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/'
-            ],
-            'end_time' => [
-                'nullable',
-                'required_with_all:start_day,start_time',
-                'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/'
-            ]
-        ];
+        $rules = config('tracks.rules');
 
         if($this->isMethod('PUT')) {
             foreach($rules as $field => &$checks) {
@@ -74,21 +38,32 @@ class TrackUdpateRequest extends FormRequest
 
         $specials = ['content', 'scheduling', 'etc'];
         foreach($specials as $special) {
-            $rules = array_merge($rules, [
-                $special => ($this->isMethod('PUT') ? 'present|' : '').'nullable|array|min:0',
-                "$special.*.title" => 'required|string',
-                "$special.*.db" => 'required|string',
-                "$special.*.helptext" => 'present|nullable|string',
-                "$special.*.type" => 'required|in:'.implode(',', array_keys(config('fields'))),
-                "$special.*.rules" => 'present|array|min:0',
-                "$special.*.rules.*" => [new ValidatorRule],
-                "$special.*.options" => "required_if:$special.*.type,".implode(',', array_keys(collect(config('fields'))->where('has_options', true)->all())).'|array|min:0',
-                "$special.*.options.*.title" => "required_with:$special.*.options|string",
-                "$special.*.options.*.value" => "required_with:$special.*.options|string",
-                "$special.*.options.*.default" => "required_with:$special.*.options|boolean"
-            ]);
+            $rules = array_merge($rules, $this->special($special));
         }
 
         return $rules;
+    }
+
+    /**
+     * Rules for the "special" fields (those that allow custom questions).
+     *
+     * @param  string  $type
+     * @return array
+     */
+    protected function special(string $type)
+    {
+        return [
+            $type => ($this->isMethod('PUT') ? 'present|' : '').'nullable|array|min:0',
+            "$type.*.title" => 'required|string',
+            "$type.*.db" => 'required|string',
+            "$type.*.helptext" => 'present|nullable|string',
+            "$type.*.type" => 'required|in:'.implode(',', array_keys(config('fields'))),
+            "$type.*.rules" => 'present|array|min:0',
+            "$type.*.rules.*" => [new ValidatorRule],
+            "$type.*.options" => "required_if:$type.*.type,".implode(',', array_keys(collect(config('fields'))->where('has_options', true)->all())).'|array|min:0',
+            "$type.*.options.*.title" => "required_with:$type.*.options|string",
+            "$type.*.options.*.value" => "required_with:$type.*.options|string",
+            "$type.*.options.*.default" => "required_with:$type.*.options|boolean"
+        ];
     }
 }
