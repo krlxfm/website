@@ -52,4 +52,19 @@ class TermTest extends TestCase
                 ])
                 ->assertJsonMissing(['created_at', 'updated_at']);
     }
+
+    /**
+     * Test that all terms can be queried.
+     *
+     * @return void
+     */
+    public function testQueryingAllTerms()
+    {
+        $secondTerm = factory(Term::class)->create();
+        $request = $this->json('GET', '/api/v1/terms');
+
+        $request->assertOk()
+                ->assertJsonFragment(['id' => $this->term->id])
+                ->assertJsonFragment(['id' => $secondTerm->id]);
+    }
 }
