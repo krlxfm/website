@@ -17,4 +17,4 @@ jobs:
   include:
     - stage: report
       php: '7.1'
-      script: ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+      script: phpunit --coverage-clover ./clover.xml && ./cc-test-reporter after-build
