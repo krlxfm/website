@@ -20,7 +20,7 @@ class LoginTest extends DuskTestCase
     {
         $user = factory(User::class)->create();
 
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
                     ->assertPresent('@login-tos')
                     ->assertMissing('@login-password')
