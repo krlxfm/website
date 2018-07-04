@@ -8,10 +8,10 @@
             <p>Enter your email address to create your account or sign in.</p>
             <form name="auth-email" method="post" action="{{ route('login') }}">
                 <div class="form-group">
-                    <input name="email" type="email" class="form-control" placeholder="luke.skywalker@rebelalliance.net" autofocus required>
+                    <input name="email" type="email" class="form-control" dusk="login-email" placeholder="luke.skywalker@rebelalliance.net" autofocus required>
                 </div>
                 <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="login-tos" name="tos">
+                    <input type="checkbox" class="form-check-input" id="login-tos" name="tos" dusk="login-tos">
                     <label class="form-check-label" for="login-tos">I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I grant  KRLX permission to use my personal information as described in the Privacy Policy.</label>
                 </div>
                 <button type="button" class="btn btn-dark btn-lg">Continue</button>
