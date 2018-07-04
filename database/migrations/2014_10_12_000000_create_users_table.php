@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             // Name and class year
             $table->string('name');
             $table->string('first_name');
+            $table->string('nickname')->nullable();
             $table->string('title');
             $table->integer('year')->unsigned()->default(0);
 

@@ -2,6 +2,7 @@
 
 namespace KRLX;
 
+use KRLX\Events\UserCreating;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'first_name', 'photo'
     ];
 
     /**
@@ -25,5 +26,14 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * The events that should be dispatched.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'creating' => UserCreating::class
     ];
 }
