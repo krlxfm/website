@@ -42,6 +42,21 @@ class LoginController extends Controller
     }
 
     /**
+     * Show the view for completing login for email/password users that exist.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return Illuminate\Http\Response
+     */
+    public function password(Request $request)
+    {
+        if(!$request->session()->has('user')) {
+            return redirect()->route('login');
+        }
+
+        return view('auth.password');
+    }
+
+    /**
      * Process "pre-login" requests and send the user to the correct location
      * based on the account type.
      *
@@ -60,7 +75,7 @@ class LoginController extends Controller
         ]);
 
         $user = User::whereEmail($request->input('email'))->first();
-        $request->session()->put('user', $request->input('email'));
-        return redirect()->route($user ? 'login' : 'register');
+        $request->session()->put('user', $user);
+        return redirect()->route($user ? 'login.password' : 'register');
     }
 }

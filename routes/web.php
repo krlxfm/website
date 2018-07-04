@@ -16,5 +16,6 @@ Route::get('landing', function () {
 });
 
 Auth::routes();
+Route::get('/login/password', 'Auth\LoginController@password')->name('login.password');
 
 Route::get('/home', 'HomeController@index')->name('home');

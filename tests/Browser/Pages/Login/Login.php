@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Browser\Pages;
+namespace Tests\Browser\Pages\Login;
 
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Page;
 
 class Login extends Page
 {
