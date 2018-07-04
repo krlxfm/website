@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="login-tos" name="tos">
-                    <label class="form-check-label" for="login-tos">I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I hereby give KRLX permission to use my personal information as outlined in the Privacy Policy.</label>
+                    <label class="form-check-label" for="login-tos">I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I grant  KRLX permission to use my personal information as described in the Privacy Policy.</label>
                 </div>
                 <button type="button" class="btn btn-dark btn-lg">Continue</button>
             </form>
