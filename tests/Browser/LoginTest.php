@@ -2,24 +2,31 @@
 
 namespace Tests\Browser;
 
+use KRLX\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class LoginTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     /**
-     * Test that visiting the login page with a fresh session does not display
-     * the password field, but does display the terms-of-service checkbox.
+     * Test the email/password login flow for an existing account.
      *
      * @return void
      */
-    public function testExample()
+    public function testLogin()
     {
+        $user = factory(User::class)->create();
+
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                     ->assertPresent('@login-tos')
-                    ->assertMissing('@login-password');
+                    ->assertMissing('@login-password')
+                    ->type('email', $user->email)
+                    ->check('@login-tos')
+                    ->press('Continue');
         });
     }
 }
