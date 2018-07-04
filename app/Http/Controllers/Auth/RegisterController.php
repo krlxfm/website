@@ -81,7 +81,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(Request $request)
     {
-        if($request->session()->has('user')) {
+        if($request->session()->get('user', 'not-set') != 'not-set') {
             return $this->showForm();
         }
         return redirect()->route('login');
