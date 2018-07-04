@@ -48,7 +48,8 @@ class LoginTest extends DuskTestCase
                     ->assertPresent('@login-password')
                     ->assertMissing('@login-terms')
                     ->type('password', 'secret')
-                    ->press('Sign in');
+                    ->press('Sign in')
+                    ->assertPathIs('/home');
         });
     }
 }
