@@ -22,11 +22,14 @@ class LoginTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/login')
-                    ->assertPresent('@login-tos')
+                    ->assertPresent('@login-terms')
                     ->assertMissing('@login-password')
                     ->type('email', $user->email)
-                    ->check('@login-tos')
-                    ->press('Continue');
+                    ->check('@login-terms')
+                    ->press('Continue')
+                    ->waitForReload()
+                    ->assertPresent('@login-password')
+                    ->assertMissing('@login-terms');
         });
     }
 }

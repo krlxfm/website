@@ -42,6 +42,18 @@
             </div>
         </div>
     </nav>
+    @if($errors->any())
+        <div class="container my-4">
+            <div class="alert alert-danger">
+                The following {{ str_plural('error', $errors->count()) }} occurred:
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    @endif
     <div class="container mt-4">
         @yield('content')
     </div>
