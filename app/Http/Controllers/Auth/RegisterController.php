@@ -4,6 +4,7 @@ namespace KRLX\Http\Controllers\Auth;
 
 use KRLX\User;
 use KRLX\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -21,7 +22,9 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RegistersUsers {
+        showRegistrationForm as showForm;
+    }
 
     /**
      * Where to redirect users after registration.
@@ -50,7 +53,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:190|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -68,5 +71,19 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * Redirect the user to the login flow if they have a clean session.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm(Request $request)
+    {
+        if($request->session()->has('user')) {
+            return $this->showForm();
+        }
+        return redirect()->route('login');
     }
 }
