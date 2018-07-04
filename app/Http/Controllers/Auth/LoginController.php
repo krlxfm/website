@@ -75,6 +75,7 @@ class LoginController extends Controller
         ]);
 
         $user = User::whereEmail($request->input('email'))->first();
+        $request->session()->put('email', $request->input('email'));
         $request->session()->put('user', $user);
         return redirect()->route($user == null ? 'register' : 'login.password');
     }

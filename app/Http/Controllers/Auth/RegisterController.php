@@ -54,7 +54,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:190|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:12|confirmed',
+        ], [
+            'unique' => 'The :attribute :input is already in use. Please click "Already have an account?" and enter your email address to sign in.'
         ]);
     }
 
@@ -81,7 +83,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(Request $request)
     {
-        if($request->session()->get('user', 'not-set') != 'not-set') {
+        if($request->session()->has('email')) {
             return $this->showForm();
         }
         return redirect()->route('login');
