@@ -6,7 +6,7 @@
         <div class="card-body">
             <h1 class="head-sans-serif"><strong>Welcome</strong></h1>
             <p>Enter your email address to create your account or sign in.</p>
-            <form name="auth-email" method="post">
+            <form name="auth-email" method="post" action="{{ route('login') }}">
                 <div class="form-group">
                     <input name="email" type="email" class="form-control" placeholder="luke.skywalker@rebelalliance.net" autofocus required>
                 </div>
