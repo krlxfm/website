@@ -14,6 +14,20 @@ class LoginTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
+     * Test that visiting /login/password on a clean session redirects you
+     * to /login.
+     *
+     * @return void
+     */
+    public function testLoginPasswordRedirects()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login/password')
+                    ->assertPathIs('/login');
+        });
+    }
+
+    /**
      * Test the email/password login flow for an existing account.
      *
      * @return void

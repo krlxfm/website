@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="head-sans-serif"><strong>Welcome</strong></h1>
-<p>Enter your email address to create your account or sign in.</p>
+<p>Enter your email address to create your account or sign in. Current Carleton students, faculty, and staff, please enter your Carleton email address.</p>
 <form name="auth-email" method="post" action="{{ route('login') }}">
     @csrf
     <div class="form-group">
