@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use KRLX\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Tests\Browser\Pages\Login;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class LoginTest extends DuskTestCase
@@ -21,13 +22,13 @@ class LoginTest extends DuskTestCase
         $user = factory(User::class)->create();
 
         $this->browse(function (Browser $browser) use ($user) {
-            $browser->visit('/login')
+            $browser->visit(new Login)
                     ->assertPresent('@login-terms')
                     ->assertMissing('@login-password')
                     ->type('email', $user->email)
                     ->check('@login-terms')
                     ->press('Continue')
-                    ->waitForReload()
+                    ->on(new Login)
                     ->assertPresent('@login-password')
                     ->assertMissing('@login-terms');
         });
