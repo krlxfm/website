@@ -2,9 +2,14 @@ language: php
 php:
   - '7.1'
   - '7.2'
+sudo: required
+dist: trusty
+addons:
+  chrome: stable
 services:
   - mysql
-install: composer install --no-dev
+install:
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
@@ -12,6 +17,8 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - php artisan serve &
 script: phpunit --coverage-clover ./clover.xml
 jobs:
   include:
