@@ -14,14 +14,17 @@ before_script:
   - cp .env.travis .env
   - php artisan key:generate
   - mysql -e "CREATE DATABASE missioncontrol_test;"
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-  - php artisan serve &
 script: phpunit --coverage-clover ./clover.xml
 jobs:
   include:
     - stage: report
       php: '7.1'
-      script: phpunit --coverage-clover ./clover.xml && ./cc-test-reporter after-build
+      before_script:
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      script:
+        - phpunit --coverage-clover ./phpunit.xml
+        - php artisan dusk
+      after_script:
+        - ./cc-test-reporter after-build
