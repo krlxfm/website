@@ -74,6 +74,10 @@ class LoginController extends Controller
             'terms' => 'accepted'
         ]);
 
+        if(ends_with($request->input('email'), '@carleton.edu')) {
+            return redirect()->route('login.carleton');
+        }
+
         $user = User::whereEmail($request->input('email'))->first();
         $request->session()->put('email', $request->input('email'));
         $request->session()->put('user', $user);
