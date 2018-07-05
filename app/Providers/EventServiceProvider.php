@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'KRLX\Events\TrackCreating' => [
             'KRLX\Listeners\FillTrackDefaults',
         ],
+        'KRLX\Events\UserCreating' => [
+            'KRLX\Listeners\FillUserDefaults',
+        ],
     ];
 
     /**

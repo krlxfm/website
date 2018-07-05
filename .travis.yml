@@ -4,17 +4,24 @@ php:
   - '7.2'
 services:
   - mysql
-install: composer install
+install:
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
   - mysql -e "CREATE DATABASE missioncontrol_test;"
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 script: phpunit --coverage-clover ./clover.xml
 jobs:
   include:
     - stage: report
       php: '7.1'
-      script: phpunit --coverage-clover ./clover.xml && ./cc-test-reporter after-build
+      before_script:
+        - cp .env.travis .env
+        - php artisan key:generate
+        - mysql -e "CREATE DATABASE missioncontrol_test;"
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      script: phpunit --coverage-clover ./phpunit.xml
+      after_script:
+        - ./cc-test-reporter after-build

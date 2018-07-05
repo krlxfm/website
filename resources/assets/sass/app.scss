@@ -7,8 +7,21 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+html {
+    min-height: 100%;
+}
+
+body.auth {
+    background: $krlx-red;
+    background: linear-gradient(135deg, $krlx-red-dark 40%, $krlx-red-light 90%);
+}
+
+.card-auth {
+    border-top: 2.5px solid $krlx-red-light;
+}
+
 h1, h2, h3, h4, h5, h6 {
-    &:not(.head-sans-sarif) {
+    &:not(.head-sans-serif) {
         font-family: "Noto Serif", serif;
     }
 }
