@@ -4,7 +4,7 @@ php:
   - '7.2'
 services:
   - mysql
-install: composer install
+install: composer install --no-dev
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
