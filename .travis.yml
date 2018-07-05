@@ -2,10 +2,6 @@ language: php
 php:
   - '7.1'
   - '7.2'
-sudo: required
-dist: trusty
-addons:
-  chrome: stable
 services:
   - mysql
 install:
@@ -26,9 +22,6 @@ jobs:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
         - ./cc-test-reporter before-build
-        - php artisan dusk:install
-      script:
-        - phpunit --coverage-clover ./phpunit.xml
-        - php artisan dusk --coverage-clover ./dusk.xml
+      script: phpunit --coverage-clover ./phpunit.xml
       after_script:
         - ./cc-test-reporter after-build
