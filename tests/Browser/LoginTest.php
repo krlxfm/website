@@ -28,6 +28,20 @@ class LoginTest extends DuskTestCase
     }
 
     /**
+     * Test that visiting /login/carleton on a clean session redirects you
+     * to /login.
+     *
+     * @return void
+     */
+    public function testLoginCarletonRedirect()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login/carleton')
+                    ->assertPathIs('/login');
+        });
+    }
+
+    /**
      * Test the email/password login flow for an existing account.
      *
      * @return void

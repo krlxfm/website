@@ -4,6 +4,7 @@ namespace KRLX\Http\Controllers\Auth;
 
 use Socialite;
 use KRLX\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use KRLX\Http\Controllers\Controller;
@@ -13,10 +14,15 @@ class CarletonAuthController extends Controller
     /**
      * Redirects users to the Carleton authentication page.
      *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Response
      */
-    public function redirect()
+    public function redirect(Request $request)
     {
+        if(!$request->session()->has('user')) {
+            return redirect()->route('login');
+        }
+
         return Socialite::driver('google')->with(['hd' => 'carleton.edu'])->redirect();
     }
 
