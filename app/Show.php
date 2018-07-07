@@ -67,4 +67,14 @@ class Show extends Model
     {
         return $this->belongsTo('KRLX\Track');
     }
+
+    /**
+     * Shows have a Term ID that corresponds to a Term.
+     *
+     * @return Term
+     */
+    public function track()
+    {
+        return $this->belongsTo('KRLX\Term');
+    }
 }
