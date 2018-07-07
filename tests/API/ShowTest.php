@@ -4,6 +4,7 @@ namespace Tests\API;
 
 use KRLX\Show;
 use KRLX\Term;
+use KRLX\User;
 use KRLX\Track;
 use Tests\API\APITestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -65,5 +66,25 @@ class ShowTest extends APITestCase
         ]);
 
         $request->assertStatus(201);
+    }
+
+    /**
+     * Test that only the current user's shows will be returned from the GET
+     * /api/v1/shows route. This technically breaks REST conventions, but it's
+     * worth it for simplicity's sake.
+     *
+     * @return void
+     */
+    public function testOnlyMyShowsReturnedFromIndex()
+    {
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $this->track->id
+        ]);
+        $show->hosts()->attach($this->user->id, ['accepted' => true]);
+
+        $request = $this->json('GET', '/api/v1/shows');
+        $request->assertJsonFragment(['id' => $show->id])
+                ->assertJsonMissing(['id' => $this->show->id]);
     }
 }
