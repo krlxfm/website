@@ -40,7 +40,7 @@ class ShowController extends Controller
             'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+'
         ]);
 
-        $show = Show::create($request->all());
+        $show = $request->user()->shows()->create($request->all(), ['accepted' => true]);
         return $show;
     }
 

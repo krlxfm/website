@@ -62,6 +62,10 @@ class ShowTest extends TestCase
         ]);
 
         $request->assertStatus(201);
+        $show = Show::find($request->getData()->id);
+        $this->assertContains($show->id, $this->user->shows()->pluck('id'));
+        $this->assertContains($this->user->id, $show->hosts()->pluck('id'));
+        $this->assertNotContains($this->user->id, $show->invitees()->pluck('id'));
     }
 
     /**

@@ -46,7 +46,7 @@ class User extends Authenticatable
     public function shows()
     {
         return $this->belongsToMany('KRLX\Show')
-                    ->pivot('accepted', 'boost')
+                    ->withPivot('accepted', 'boost')
                     ->wherePivot('accepted', true)
                     ->withTimestamps()
                     ->as('membership');
