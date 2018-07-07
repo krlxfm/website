@@ -9,6 +9,7 @@ install:
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
+  - php artisan passport:install
   - mysql -e "CREATE DATABASE missioncontrol_test;"
 script: phpunit --coverage-clover ./clover.xml
 jobs:
@@ -18,6 +19,7 @@ jobs:
       before_script:
         - cp .env.travis .env
         - php artisan key:generate
+        - php artisan passport:install
         - mysql -e "CREATE DATABASE missioncontrol_test;"
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
