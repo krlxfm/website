@@ -45,13 +45,10 @@ class FillShowDefaults
             if(!$check) $show->id = $string;
         } while ($show->id == null);
 
-        $show->content = [];
-        $show->scheduling = [];
-        $show->etc = [];
-        $show->tags = [];
-        $show->conflicts = [];
-        $show->preferences = [];
-        $show->classes = [];
+        $arrays = ['content', 'scheduling', 'etc', 'tags', 'conflicts', 'preferences', 'classes'];
+        foreach($arrays as $array) {
+            $show->{$array} = [];
+        }
 
         $show->title = $show->title ?? $show->track->name.' Show';
 

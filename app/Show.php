@@ -73,7 +73,7 @@ class Show extends Model
      *
      * @return Term
      */
-    public function track()
+    public function term()
     {
         return $this->belongsTo('KRLX\Term');
     }
