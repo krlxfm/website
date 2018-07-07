@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use KRLX\Show;
+use KRLX\User;
 use KRLX\Term;
 use KRLX\Track;
 use Tests\TestCase;
@@ -10,6 +12,24 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase
 {
+    public $user;
+    public $show;
+    public $term;
+    public $track;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->term = factory(Term::class)->create(['accepting_applications' => true]);
+        $this->track = factory(Track::class)->create(['active' => true]);
+        $this->show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $this->track->id
+        ]);
+    }
+
     /**
      * Assert that authentication is required to make calls on the API.
      *
@@ -17,13 +37,12 @@ class ShowTest extends TestCase
      */
     public function testUnauthenticatedCallsNotPermitted()
     {
-        $track = factory(Track::class)->create(['active' => true]);
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $this->assertGuest('api');
 
         $request = $this->json('POST', '/api/v1/shows', [
             'title' => 'Gray Duck',
-            'track_id' => $track->id,
-            'term_id' => $term->id
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id
         ]);
 
         $request->assertStatus(401);
@@ -36,13 +55,10 @@ class ShowTest extends TestCase
      */
     public function testShowsCanBeCreated()
     {
-        $track = factory(Track::class)->create(['active' => true]);
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
-
-        $request = $this->json('POST', '/api/v1/shows', [
+        $request = $this->actingAs($this->user, 'api')->json('POST', '/api/v1/shows', [
             'title' => 'Gray Duck',
-            'track_id' => $track->id,
-            'term_id' => $term->id
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id
         ]);
 
         $request->assertStatus(201);
@@ -56,12 +72,9 @@ class ShowTest extends TestCase
      */
     public function testShowsCanGenerateTitles()
     {
-        $track = factory(Track::class)->create(['active' => true]);
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
-
-        $request = $this->json('POST', '/api/v1/shows', [
-            'track_id' => $track->id,
-            'term_id' => $term->id
+        $request = $this->actingAs($this->user, 'api')->json('POST', '/api/v1/shows', [
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id
         ]);
 
         $request->assertStatus(201);
