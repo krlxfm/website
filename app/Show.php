@@ -55,7 +55,17 @@ class Show extends Model
         'classes' => 'array',
         'tags' => 'array',
         'preferences' => 'array',
-        'special_times' => 'array'
+        'special_times' => 'array',
+        'submitted' => 'boolean'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'deleted_at'
     ];
 
     /**
