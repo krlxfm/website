@@ -37,4 +37,32 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'creating' => UserCreating::class
     ];
+
+    /**
+     * Returns the shows that the user is a member of.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function shows()
+    {
+        return $this->belongsToMany('KRLX\Show')
+                    ->pivot('accepted', 'boost')
+                    ->wherePivot('accepted', true)
+                    ->withTimestamps()
+                    ->as('membership');
+    }
+
+    /**
+     * Returns the shows that the user has been invited to, but not joined yet.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function invitations()
+    {
+        return $this->belongsToMany('KRLX\Show')
+                    ->pivot('accepted', 'boost')
+                    ->wherePivot('accepted', false)
+                    ->withTimestamps()
+                    ->as('membership');
+    }
 }
