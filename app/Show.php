@@ -4,9 +4,12 @@ namespace KRLX;
 
 use KRLX\Events\ShowCreating;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Show extends Model
 {
+    use SoftDeletes;
+
     /**
      * Attribute overrides to allow for non-integer primary key.
      *
@@ -37,5 +40,21 @@ class Show extends Model
      */
     protected $dispatchesEvents = [
         'creating' => ShowCreating::class
+    ];
+
+    /**
+     * The attributes that should be type cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'content' => 'array',
+        'scheduling' => 'array',
+        'etc' => 'array',
+        'conflicts' => 'array',
+        'classes' => 'array',
+        'tags' => 'array',
+        'preferences' => 'array',
+        'special_times' => 'array'
     ];
 }

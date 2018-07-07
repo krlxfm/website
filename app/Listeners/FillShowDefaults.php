@@ -3,6 +3,7 @@
 namespace KRLX\Listeners;
 
 use KRLX\Show;
+use Jdenticon\Identicon;
 use Faker\Factory as Faker;
 use KRLX\Events\ShowCreating;
 use Illuminate\Queue\InteractsWithQueue;
@@ -51,6 +52,11 @@ class FillShowDefaults
         $show->conflicts = [];
         $show->preferences = [];
         $show->classes = [];
+
+        $icon = new Identicon;
+        $icon->setValue($show->id);
+        $icon->setSize(300);
+        $show->image = $icon->getImageDataUri();
 
         $show->special_times = array_fill_keys(array_keys(config('defaults.special_times')), 'm');
     }
