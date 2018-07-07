@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase
 {
+    use RefreshDatabase;
+
     public $user;
     public $show;
     public $term;
