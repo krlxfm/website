@@ -16,7 +16,7 @@ class ShowController extends Controller
      */
     public function index()
     {
-        return Show::with('hosts')->get();
+        return Show::with(['hosts', 'invitees'])->get();
     }
 
     /**

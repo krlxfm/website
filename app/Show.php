@@ -91,4 +91,19 @@ class Show extends Model
                     ->as('membership')
                     ->withTimestamps();
     }
+
+    /**
+     * DJs that have not yet accepted invitations to join the show, but have
+     * been invited.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function invitees()
+    {
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('accepted', 0)
+                    ->withPivot('accepted', 'boost')
+                    ->as('membership')
+                    ->withTimestamps();
+    }
 }
