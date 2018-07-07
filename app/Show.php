@@ -2,6 +2,7 @@
 
 namespace KRLX;
 
+use KRLX\Events\ShowCreating;
 use Illuminate\Database\Eloquent\Model;
 
 class Show extends Model
@@ -27,5 +28,14 @@ class Show extends Model
      */
     protected $fillable = [
         'title', 'term_id', 'track_id', 'source'
+    ];
+
+    /**
+     * The events that should be dispatched.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'creating' => ShowCreating::class
     ];
 }
