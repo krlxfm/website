@@ -11,6 +11,25 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ShowTest extends TestCase
 {
     /**
+     * Assert that authentication is required to make calls on the API.
+     *
+     * @return void
+     */
+    public function testUnauthenticatedCallsNotPermitted()
+    {
+        $track = factory(Track::class)->create(['active' => true]);
+        $term = factory(Term::class)->create(['accepting_applications' => true]);
+
+        $request = $this->json('POST', '/api/v1/shows', [
+            'title' => 'Gray Duck',
+            'track_id' => $track->id,
+            'term_id' => $term->id
+        ]);
+
+        $request->assertStatus(401);
+    }
+
+    /**
      * Assert that shows can be created via the API.
      *
      * @return void
