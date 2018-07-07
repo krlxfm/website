@@ -85,25 +85,10 @@ class Show extends Model
      */
     public function hosts()
     {
-        return $this->belongsToMany('KRLX\User')
-                    ->pivot('accepted', 'boost')
-                    ->wherePivot('accepted', true)
-                    ->withTimestamps()
-                    ->as('membership');
-    }
-
-    /**
-     * DJs that have not yet accepted invitations to join the show, but have
-     * been invited.
-     *
-     * @return Eloquent\Collection<KRLX\Show>
-     */
-    public function invitees()
-    {
-        return $this->belongsToMany('KRLX\User')
-                    ->pivot('accepted', 'boost')
-                    ->wherePivot('accepted', false)
-                    ->withTimestamps()
-                    ->as('membership');
+        return $this->belongsToMany(User::class)
+                    ->wherePivot('accepted', 1)
+                    ->withPivot('accepted', 'boost')
+                    ->as('membership')
+                    ->withTimestamps();
     }
 }
