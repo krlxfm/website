@@ -53,6 +53,8 @@ class FillShowDefaults
         $show->preferences = [];
         $show->classes = [];
 
+        $show->title = $show->title ?? $show->track->name.' Show';
+
         $icon = new Identicon;
         $icon->setValue($show->id);
         $icon->setSize(300);

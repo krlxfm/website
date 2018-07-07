@@ -57,4 +57,14 @@ class Show extends Model
         'preferences' => 'array',
         'special_times' => 'array'
     ];
+
+    /**
+     * Shows have a Track ID that corresponds to a Track.
+     *
+     * @return Track
+     */
+    public function track()
+    {
+        return $this->belongsTo('KRLX\Track');
+    }
 }

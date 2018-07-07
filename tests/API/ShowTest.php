@@ -28,4 +28,23 @@ class ShowTest extends TestCase
 
         $request->assertStatus(201);
     }
+
+    /**
+     * Test that shows can be created with an empty title and still create OK
+     * (they'll have a title generated for them).
+     *
+     * @return void
+     */
+    public function testShowsCanGenerateTitles()
+    {
+        $track = factory(Track::class)->create(['active' => true]);
+        $term = factory(Term::class)->create(['accepting_applications' => true]);
+
+        $request = $this->json('POST', '/api/v1/shows', [
+            'track_id' => $track->id,
+            'term_id' => $term->id
+        ]);
+
+        $request->assertStatus(201);
+    }
 }
