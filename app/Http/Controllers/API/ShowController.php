@@ -65,6 +65,8 @@ class ShowController extends Controller
      */
     public function update(ShowUpdateRequest $request, Show $show)
     {
+        $this->authorize('update', $show);
+
         foreach($request->validated() as $field => $value) {
             $show->{$field} = $value;
         }

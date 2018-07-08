@@ -28,6 +28,7 @@ class ShowTest extends APITestCase
             'term_id' => $this->term->id,
             'track_id' => $this->track->id
         ]);
+        $this->show->hosts()->attach($this->user->id, ['accepted' => true]);
     }
 
     /**
@@ -81,11 +82,10 @@ class ShowTest extends APITestCase
             'term_id' => $this->term->id,
             'track_id' => $this->track->id
         ]);
-        $show->hosts()->attach($this->user->id, ['accepted' => true]);
 
         $request = $this->json('GET', '/api/v1/shows');
-        $request->assertJsonFragment(['id' => $show->id])
-                ->assertJsonMissing(['id' => $this->show->id]);
+        $request->assertJsonFragment(['id' => $this->show->id])
+                ->assertJsonMissing(['id' => $show->id]);
     }
 
     /**
@@ -100,6 +100,25 @@ class ShowTest extends APITestCase
         $request->assertOk()
                 ->assertJson(['id' => $this->show->id]);
     }
+
+    /**
+     * Test that we CAN'T update a show that we're not a member of.
+     *
+     * @return void
+     */
+     public function testUpdatingSomeoneElsesSingleShow()
+     {
+         $show = factory(Show::class)->create([
+             'term_id' => $this->term->id,
+             'track_id' => $this->track->id
+         ]);
+
+         $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+             'description' => 'This is an example show description. It should be long enough to pass validation.'
+         ]);
+         $this->assertNotContains($this->user, $show->hosts);
+         $request->assertStatus(403);
+     }
 
     /**
      * Test that PATCH requests ONLY update the requested data.
