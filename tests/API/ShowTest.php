@@ -153,4 +153,24 @@ class ShowTest extends APITestCase
         $request->assertStatus(422);
         $this->assertNotEquals('Amazing Show', Show::find($this->show->id)->title);
     }
+
+    /**
+     * Test that users can delete their own shows.
+     *
+     * @return void
+     */
+    public function testUsersCanDeleteOnlyOwnShows()
+    {
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $this->track->id
+        ]);
+
+        $delete_my_show = $this->json('DELETE', "/api/v1/shows/{$this->show->id}");
+        $delete_other_show = $this->json('DELETE', "/api/v1/shows/{$show->id}");
+
+        $this->assertNotContains($this->user, $show->hosts);
+        $delete_my_show->assertStatus(204);
+        $delete_other_show->assertStatus(403);
+    }
 }

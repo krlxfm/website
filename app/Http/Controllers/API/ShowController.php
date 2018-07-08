@@ -83,6 +83,8 @@ class ShowController extends Controller
      */
     public function destroy(Show $show)
     {
-        //
+        $this->authorize('delete', $show);
+        $show->delete();
+        return response(null, 204);
     }
 }

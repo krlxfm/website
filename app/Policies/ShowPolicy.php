@@ -54,6 +54,6 @@ class ShowPolicy
      */
     public function delete(User $user, Show $show)
     {
-        //
+        return $show->hosts->contains($user);
     }
 }
