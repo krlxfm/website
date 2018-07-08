@@ -23,7 +23,11 @@ class CarletonAuthController extends Controller
             return redirect()->route('login');
         }
 
-        return Socialite::driver('google')->with(['hd' => 'carleton.edu'])->redirect();
+        return Socialite::driver('google')->with([
+            'hd' => 'carleton.edu',
+            'prompt' => 'select_account',
+            'login_hint' => $request->session()->get('email')
+        ])->redirect();
     }
 
     /**
