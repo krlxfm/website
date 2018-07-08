@@ -65,7 +65,12 @@ class ShowController extends Controller
      */
     public function update(ShowUpdateRequest $request, Show $show)
     {
-        //
+        foreach($request->validated() as $field => $value) {
+            $show->{$field} = $value;
+        }
+        $show->save();
+
+        return $show->with(['hosts', 'invitees'])->first();
     }
 
     /**

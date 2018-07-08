@@ -103,7 +103,7 @@ class ShowTest extends APITestCase
         $request->assertOk()
                 ->assertJson([
                     'description' => 'This is an example show description. It should be long enough to pass validation.',
-                    'off_air' => $title
+                    'title' => $title
                 ]);
     }
 
@@ -119,6 +119,6 @@ class ShowTest extends APITestCase
         ]);
 
         $request->assertStatus(422);
-        $this->assertNotEquals('Amazing Show', Show::find($this->term->id)->title);
+        $this->assertNotEquals('Amazing Show', Show::find($this->show->id)->title);
     }
 }
