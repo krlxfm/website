@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'KRLX\Model' => 'KRLX\Policies\ModelPolicy',
+        'KRLX\Show' => 'KRLX\Policies\ShowPolicy',
     ];
 
     /**

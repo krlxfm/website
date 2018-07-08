@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at'
     ];
 
     /**
@@ -37,4 +37,32 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'creating' => UserCreating::class
     ];
+
+    /**
+     * Returns the shows that the user is a member of.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function shows()
+    {
+        return $this->belongsToMany('KRLX\Show')
+                    ->withPivot('accepted', 'boost')
+                    ->wherePivot('accepted', true)
+                    ->withTimestamps()
+                    ->as('membership');
+    }
+
+    /**
+     * Returns the shows that the user has been invited to, but not joined yet.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function invitations()
+    {
+        return $this->belongsToMany('KRLX\Show')
+                    ->pivot('accepted', 'boost')
+                    ->wherePivot('accepted', false)
+                    ->withTimestamps()
+                    ->as('membership');
+    }
 }

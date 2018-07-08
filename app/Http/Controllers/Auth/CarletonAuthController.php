@@ -19,7 +19,7 @@ class CarletonAuthController extends Controller
      */
     public function redirect(Request $request)
     {
-        if(!$request->session()->has('user')) {
+        if(!$request->session()->has('email')) {
             return redirect()->route('login');
         }
 
