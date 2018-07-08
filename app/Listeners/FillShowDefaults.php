@@ -50,6 +50,7 @@ class FillShowDefaults
             $show->{$array} = [];
         }
 
+        $show->description = $show->description ?? '';
         $show->title = $show->title ?? $show->track->name.' Show';
 
         $icon = new Identicon;

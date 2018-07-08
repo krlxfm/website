@@ -29,7 +29,7 @@ class CreateShowsTable extends Migration
 
             // Content
             $table->string('title');
-            $table->text('description')->nullable();
+            $table->text('description');
             $table->text('tags');
             $table->text('image');
             $table->text('content');
