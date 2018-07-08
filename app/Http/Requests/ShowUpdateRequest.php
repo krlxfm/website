@@ -26,11 +26,19 @@ class ShowUpdateRequest extends FormRequest
     public function rules()
     {
         $track = Track::find($this->input('track_id')) ?? $this->show->track;
-        return array_merge(
+        $rules = array_merge(
             $this->baseRules(),
             $this->trackDependentRules($track),
             $this->customFieldRules($track)
         );
+
+        if($this->isMethod('PUT')) {
+            foreach($rules as $field => &$ruleset) {
+                $ruleset = array_prepend($ruleset, (head($ruleset) == 'nullable' or in_array('min:0', $ruleset)) ? 'present' : 'required');
+            }
+        }
+
+        return $rules;
     }
 
     /**
