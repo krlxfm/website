@@ -51,6 +51,9 @@ class CarletonAuthController extends Controller
             ]);
         }
 
+        $request->session()->forget('user');
+        $request->session()->forget('email');
+
         Auth::login($user, true);
         return redirect()->intended('/home');
     }

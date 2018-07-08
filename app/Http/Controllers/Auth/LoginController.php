@@ -50,6 +50,7 @@ class LoginController extends Controller
     public function password(Request $request)
     {
         if(!$request->session()->has('user')) {
+            $request->session()->reflash();
             return redirect()->route('login');
         }
 
