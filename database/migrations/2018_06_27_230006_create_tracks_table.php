@@ -44,7 +44,7 @@ class CreateTracksTable extends Migration
             // Content
             $table->string('title_label')->nullable();
             $table->string('description_label')->nullable();
-            $table->smallInteger('description_min_length')->unsigned()->nullable();
+            $table->smallInteger('description_min_length')->unsigned()->default(0);
             $table->text('content');
 
             // Scheduling
