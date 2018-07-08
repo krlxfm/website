@@ -23,6 +23,7 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
             <exclude>
+                <directory suffix=".php">./app/Http/Controllers/Auth/</directory>
                 <directory suffix=".php">./app/Http/Middleware</directory>
                 <directory suffix=".php">./app/Providers</directory>
                 <file>./app/Console/Kernel.php</file>
