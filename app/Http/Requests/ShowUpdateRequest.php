@@ -48,7 +48,6 @@ class ShowUpdateRequest extends FormRequest
      */
     protected function baseRules()
     {
-        $special_times = array_keys(config('defaults.special_times'));
         $baseRules = [
             'track_id' => ['integer', Rule::exists('tracks', 'id')->where(function ($query) {
                 $query->where('active', true);
@@ -60,7 +59,7 @@ class ShowUpdateRequest extends FormRequest
             'conflicts' => ['array', 'min:0'],
             'preferences' => ['array', 'min:1'],
             'etc' => ['array'],
-            'special_times' => ['array', 'size:'.count($special_times)],
+            'special_times' => ['array', 'size:'.count(config('defaults.special_times'))],
             'classes.*' => ['string'],
             'tags.*' => ['string'],
             'preferred_length' => ['integer', 'min:0', 'max:240'],
@@ -71,7 +70,7 @@ class ShowUpdateRequest extends FormRequest
             'end' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]']
         ];
 
-        foreach($special_times as $time) {
+        foreach(config('defaults.special_times') as $time => $details) {
             $baseRules["special_times.$time"] = ['string', 'in:y,m,n'];
         }
 
