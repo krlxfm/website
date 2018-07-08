@@ -89,6 +89,19 @@ class ShowTest extends APITestCase
     }
 
     /**
+     * Test that we can query a single show.
+     *
+     * @return void
+     */
+    public function testQueryingSingleShow()
+    {
+        $request = $this->json('GET', "/api/v1/shows/{$this->show->id}");
+
+        $request->assertOk()
+                ->assertJson(['id' => $this->show->id]);
+    }
+
+    /**
      * Test that PATCH requests ONLY update the requested data.
      *
      * @return void

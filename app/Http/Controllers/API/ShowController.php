@@ -53,7 +53,7 @@ class ShowController extends Controller
      */
     public function show(Show $show)
     {
-        //
+        return $show->with(['hosts', 'invitees'])->first();
     }
 
     /**
@@ -70,7 +70,7 @@ class ShowController extends Controller
         }
         $show->save();
 
-        return $show->with(['hosts', 'invitees'])->first();
+        return $this->show($show);
     }
 
     /**
