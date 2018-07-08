@@ -6,6 +6,7 @@ use KRLX\Show;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Http\Requests\ShowUpdateRequest;
 
 class ShowController extends Controller
 {
@@ -62,7 +63,7 @@ class ShowController extends Controller
      * @param  \KRLX\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Show $show)
+    public function update(ShowUpdateRequest $request, Show $show)
     {
         //
     }

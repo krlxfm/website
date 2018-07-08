@@ -87,4 +87,38 @@ class ShowTest extends APITestCase
         $request->assertJsonFragment(['id' => $show->id])
                 ->assertJsonMissing(['id' => $this->show->id]);
     }
+
+    /**
+     * Test that PATCH requests ONLY update the requested data.
+     *
+     * @return void
+     */
+    public function testPatchOnlyUpdatesRequestedData()
+    {
+        $title = $this->show->title;
+        $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is an example show description. It should be long enough to pass validation.'
+        ]);
+
+        $request->assertOk()
+                ->assertJson([
+                    'description' => 'This is an example show description. It should be long enough to pass validation.',
+                    'off_air' => $title
+                ]);
+    }
+
+    /**
+     * Test that PUT requests FAIL if data is missing.
+     *
+     * @return void
+     */
+    public function testPutFailsWithMissingAttribute()
+    {
+        $request = $this->json('PUT', "/api/v1/shows/{$this->show->id}", [
+            'title' => 'Amazing Show'
+        ]);
+
+        $request->assertStatus(422);
+        $this->assertNotEquals('Amazing Show', Show::find($this->term->id)->title);
+    }
 }
