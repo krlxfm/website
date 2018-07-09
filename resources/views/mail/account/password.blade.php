@@ -1,11 +1,8 @@
 @component('mail::message')
 # Get back in there!
 
-Hi there!
-
-Someone -- probably you -- has requested a password reset for your account with KRLX.
-No worries, it happens to the best of us!
-You can click this button to reset your password.
+We have received a request to reset the password on your account with KRLX.
+To complete the reset process, please click the button below.
 
 @component('mail::button', ['url' => $url])
 Reset Password
