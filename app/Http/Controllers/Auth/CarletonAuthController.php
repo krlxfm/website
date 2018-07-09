@@ -34,9 +34,10 @@ class CarletonAuthController extends Controller
      * Process details about the authenticating user from Google, and redirect
      * to the intended destination.
      *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Response
      */
-    public function callback()
+    public function callback(Request $request)
     {
         $googleUser = Socialite::driver('google')->user();
         $user = User::whereEmail($googleUser->getEmail())->first();
