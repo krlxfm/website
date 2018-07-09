@@ -4,6 +4,7 @@ namespace KRLX;
 
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
+use KRLX\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -64,5 +65,16 @@ class User extends Authenticatable
                     ->wherePivot('accepted', false)
                     ->withTimestamps()
                     ->as('membership');
+    }
+
+    /**
+     * Send a password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
     }
 }

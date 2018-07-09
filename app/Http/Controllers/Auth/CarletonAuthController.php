@@ -23,16 +23,21 @@ class CarletonAuthController extends Controller
             return redirect()->route('login');
         }
 
-        return Socialite::driver('google')->with(['hd' => 'carleton.edu'])->redirect();
+        return Socialite::driver('google')->with([
+            'hd' => 'carleton.edu',
+            'prompt' => 'select_account',
+            'login_hint' => $request->session()->get('email')
+        ])->redirect();
     }
 
     /**
      * Process details about the authenticating user from Google, and redirect
      * to the intended destination.
      *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Response
      */
-    public function callback()
+    public function callback(Request $request)
     {
         $googleUser = Socialite::driver('google')->user();
         $user = User::whereEmail($googleUser->getEmail())->first();
@@ -46,6 +51,9 @@ class CarletonAuthController extends Controller
                 'password' => Hash::make($googleUser->getId().config('defaults.salt'))
             ]);
         }
+
+        $request->session()->forget('user');
+        $request->session()->forget('email');
 
         Auth::login($user, true);
         return redirect()->intended('/home');
