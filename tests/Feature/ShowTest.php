@@ -32,6 +32,7 @@ class ShowTest extends TestCase
             'accepting_applications' => true
         ]);
         $this->show = factory(Show::class)->create([
+            'id' => 'SHOW01',
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
             'submitted' => false
@@ -48,6 +49,7 @@ class ShowTest extends TestCase
     public function testUserCanSeeOwnShows()
     {
         $secondShow = factory(Show::class)->create([
+            'id' => 'SECOND',
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
             'submitted' => false

@@ -25,11 +25,11 @@ class ShowController extends Controller
         $incomplete_shows = $request->user()->shows()->where([
             ['submitted', '=', false],
             ['term_id', '=', $term->id]
-        ])->get();
+        ])->orderByDesc('id')->get();
         $completed_shows = $request->user()->shows()->where([
             ['submitted', '=', true],
             ['term_id', '=', $term->id]
-        ])->get();
+        ])->orderByDesc('id')->get();
         $invitations = $request->user()->invitations()->where('term_id', $term->id)->get();
 
         return view('shows.my', compact('term', 'terms', 'invitations', 'incomplete_shows', 'completed_shows'));

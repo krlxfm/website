@@ -39,11 +39,11 @@ class FillShowDefaults
          * adjusted in the config files. At 6 characters, the probability of a
          * collision on the first try is 1 in 2,176,782,336 -- better than 2^31.
          */
-        do {
+        while($show->id == null) {
             $string = $faker->regexify('[A-Z0-9]{'.config('defaults.show_id_length', 6).'}');
             $check = Show::find($string);
             if(!$check) $show->id = $string;
-        } while ($show->id == null);
+        }
 
         $arrays = ['content', 'scheduling', 'etc', 'tags', 'conflicts', 'preferences', 'classes'];
         foreach($arrays as $array) {
