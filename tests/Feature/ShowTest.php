@@ -33,14 +33,15 @@ class ShowTest extends TestCase
         ]);
         $this->show = factory(Show::class)->create([
             'track_id' => $this->track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
+            'submitted' => false
         ]);
         $this->show->hosts()->attach($this->user, ['accepted' => true]);
         $this->session = $this->actingAs($this->user);
     }
 
     /**
-     * Test that we can see our list of shows.
+     * Test that we can see our list of incomplete shows.
      *
      * @return void
      */
@@ -48,13 +49,14 @@ class ShowTest extends TestCase
     {
         $secondShow = factory(Show::class)->create([
             'track_id' => $this->track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
+            'submitted' => false
         ]);
         $secondShow->hosts()->attach($this->user, ['accepted' => true]);
 
         $request = $this->get('/shows');
 
         $request->assertOk()
-                ->assertSeeInOrder([$this->show->title, $secondShow->title]);
+                ->assertSeeInOrder(['Applications in progress', $this->show->title, $secondShow->title, 'Completed applications']);
     }
 }
