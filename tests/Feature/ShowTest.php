@@ -56,6 +56,7 @@ class ShowTest extends TestCase
 
         $request = $this->get('/shows');
 
+        $this->assertCount(1, Term::all());
         $request->assertOk()
                 ->assertSeeInOrder(['Applications in progress', $this->show->title, $secondShow->title, 'Completed applications']);
     }
