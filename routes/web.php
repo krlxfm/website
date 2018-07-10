@@ -20,3 +20,7 @@ Route::get('/login/password', 'Auth\LoginController@password')->name('login.pass
 Route::get('/login/carleton', 'Auth\CarletonAuthController@redirect')->name('login.carleton');
 Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->group(function() {
+    Route::get('shows', 'ShowController@my')->name('shows.my');
+});

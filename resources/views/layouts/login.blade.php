@@ -17,7 +17,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="auth">
+<body class="bg-krlx-gradient">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">KRLX</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

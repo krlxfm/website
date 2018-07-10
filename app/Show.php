@@ -116,4 +116,18 @@ class Show extends Model
                     ->as('membership')
                     ->withTimestamps();
     }
+
+    /**
+     * Determine whether or not the show has a Priority Boost request on it.
+     * Participants MUST BE HOSTS in order to qualify!
+     *
+     * @return bool
+     */
+    public function getBoostedAttribute()
+    {
+        foreach($this->hosts as $host) {
+            if($host->membership->boost != null) return true;
+        }
+        return false;
+    }
 }

@@ -11,9 +11,13 @@ html {
     min-height: 100%;
 }
 
-body.auth {
+.bg-krlx-gradient {
     background: $krlx-red;
     background: linear-gradient(135deg, $krlx-red-dark 40%, $krlx-red-light 90%);
+}
+
+.bg-gray {
+    background: $gray-200;
 }
 
 .card-auth {
