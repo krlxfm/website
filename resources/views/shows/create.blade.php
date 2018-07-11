@@ -16,8 +16,8 @@
                 </div>
                 <div class="list-group list-group-flush">
                     @forelse($tracks as $track)
-                        <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" href="#">
-                            <div>
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" data-track-name="{{ $track->name }}" dusk="track-{{ $track->id }}" href="#">
+                            <div class="pr-3">
                                 <h4 class="card-title mb-1">{{ $track->name }}</h4>
                                 <p class="card-text">
                                     {{ $track->description }}
