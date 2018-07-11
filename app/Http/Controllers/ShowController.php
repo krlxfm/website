@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Controllers;
 
+use KRLX\Track;
 use KRLX\Term;
 use KRLX\Show;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class ShowController extends Controller
      *
      * @param  Illuminate\Http\Request  $request
      * @param  Term|null  $term
-     * @return void
+     * @return Illuminate\Http\Response
      */
     public function my(Request $request, Term $term = null)
     {
@@ -33,5 +34,18 @@ class ShowController extends Controller
         $invitations = $request->user()->invitations()->where('term_id', $term->id)->get();
 
         return view('shows.my', compact('term', 'terms', 'invitations', 'incomplete_shows', 'completed_shows'));
+    }
+
+    /**
+     * Returns view for users to select a track and create a show.
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $terms = Term::where('accepting_applications', true)->orderByDesc('on_air')->get();
+        $tracks = Track::where('active', true)->get();
+
+        return view('shows.create', compact('terms', 'tracks'));
     }
 }

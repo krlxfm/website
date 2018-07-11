@@ -23,4 +23,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function() {
     Route::get('shows', 'ShowController@my')->name('shows.my');
+    Route::get('shows/create', 'ShowController@create')->name('shows.create');
 });

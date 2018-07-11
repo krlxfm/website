@@ -62,4 +62,23 @@ class ShowTest extends TestCase
         $request->assertOk()
                 ->assertSeeInOrder(['Applications in progress', $this->show->title, $secondShow->title, 'Completed applications']);
     }
+
+    /**
+     * Test that the list of available tracks appears when we go to create a
+     * new show.
+     *
+     * @return void
+     */
+    public function testTrackListAppearsWhenCreatingNewShow()
+    {
+        $track = factory(Track::class)->create([
+            'active' => false
+        ]);
+
+        $request = $this->get('/shows/create');
+
+        $request->assertOk()
+                ->assertSee($this->track->name)
+                ->assertDontSee($track->name);
+    }
 }
