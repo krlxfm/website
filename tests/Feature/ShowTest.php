@@ -92,11 +92,11 @@ class ShowTest extends TestCase
     {
         $request = $this->post('/shows', [
             'title' => 'Example Show Title',
-            'track' => $this->track->id,
-            'term' => $this->term->id
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id
         ]);
 
         $show = Show::where('title', 'Example Show Title')->first();
-        $request->assertRedirected(route('shows.participants', $show->id));
+        $request->assertRedirect(route('shows.participants', $show->id));
     }
 }

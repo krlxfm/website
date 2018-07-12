@@ -6,6 +6,7 @@ use KRLX\Track;
 use KRLX\Term;
 use KRLX\Show;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ShowController extends Controller
 {
@@ -47,5 +48,27 @@ class ShowController extends Controller
         $tracks = Track::where('active', true)->get();
 
         return view('shows.create', compact('terms', 'tracks'));
+    }
+
+    /**
+     * Create a new show and place it in storage.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'track_id' => ['required', 'integer', Rule::exists('tracks', 'id')->where(function ($query) {
+                $query->where('active', true);
+            })],
+            'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
+                $query->where('accepting_applications', true);
+            })],
+            'title' => 'required|string|min:3'
+        ]);
+
+        $show = Show::create(array_merge($request->all(), ['source' => 'web']));
+        return redirect()->route('shows.participants', $show);
     }
 }

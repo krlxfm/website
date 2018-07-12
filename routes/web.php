@@ -24,5 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function() {
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/create', 'ShowController@create')->name('shows.create');
+    Route::get('shows/{show}/participants', 'ShowController@participants')->name('shows.participants');
     Route::post('shows', 'ShowController@store')->name('shows.store');
 });
