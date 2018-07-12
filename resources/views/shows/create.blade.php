@@ -44,10 +44,10 @@
         @endslot
         <p>
             To create your show,
-            @if($terms->count() == 1)
+            @if($terms->count() > 1)
                 choose a term to apply for and
             @endif
-            enter a working <span class="title-modal-field">title</span> for your show (which you can change later).
+            create a working <span class="title-modal-field">title</span> (which you can change later).
         </p>
         <div class="form-group row">
             <label for="show-title" class="col-sm-4 col-lg-3 col-form-label">Working <span class="title-modal-field">title</span></label>
