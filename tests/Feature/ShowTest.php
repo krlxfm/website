@@ -97,6 +97,7 @@ class ShowTest extends TestCase
         ]);
 
         $show = Show::where('title', 'Example Show Title')->first();
+        $this->assertContains($this->user->id, $show->hosts()->pluck('id'));
         $request->assertRedirect(route('shows.participants', $show->id));
     }
 }

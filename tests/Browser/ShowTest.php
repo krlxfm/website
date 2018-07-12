@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -39,13 +40,20 @@ class ShowTest extends DuskTestCase
     public function testExample()
     {
         $this->browse(function (Browser $browser) {
+            $this->assertCount(1, Term::all());
+
             $browser->loginAs($this->user)
                     ->visit(new CreatePage)
                     ->assertSee($this->track->name)
                     ->click("@track-{$this->track->id}")
                     ->waitFor("@show-title")
                     ->assertPresent("@term")
-                    ->assertMissing("@term-selector");
+                    ->assertMissing("@term-selector")
+                    ->type('title', 'Example Show')
+                    ->click("@create-show");
+
+            $show = Show::where('title', 'Example Show')->first();
+            $browser->assertRouteIs('shows.participants', $show->id);
         });
     }
 }

@@ -43,7 +43,7 @@
                 Create Show
             </button>
         @endslot
-        <input type="hidden" name="track" value="0" id="track-input">
+        <input type="hidden" name="track_id" value="0" id="track-input">
         <p>
             To create your show,
             @if($terms->count() > 1)
@@ -54,17 +54,17 @@
         <div class="form-group row">
             <label for="show-title" class="col-sm-4 col-lg-3 col-form-label">Working <span class="title-modal-field">title</span></label>
             <div class="col-sm-8 col-lg-9">
-                <input type="text" class="form-control" id="show-title" dusk="show-title" placeholder="Working title">
+                <input type="text" class="form-control" id="show-title" dusk="show-title" placeholder="Working title" name="title">
             </div>
         </div>
         <div class="form-group row">
             <label for="show-term" class="col-sm-4 col-lg-3 col-form-label">Term</label>
             <div class="col-sm-8 col-lg-9">
                 @if($terms->count() == 1)
-                    <input type="hidden" name="term" value="{{ $terms->first()->id }}">
+                    <input type="hidden" name="term_id" value="{{ $terms->first()->id }}">
                     <input type="text" readonly class="form-control-plaintext" id="show-term" dusk="term" value="{{ $terms->first()->name }}">
                 @else
-                    <select class="custom-select" name="term" dusk="term-selector">
+                    <select class="custom-select" name="term_id" dusk="term-selector">
                         @foreach($terms as $term)
                             <option value="{{ $term->id }}">{{ $term->name }}</option>
                         @endforeach

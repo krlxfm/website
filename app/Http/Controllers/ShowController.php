@@ -69,6 +69,7 @@ class ShowController extends Controller
         ]);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
+        $show->hosts()->attach($request->user(), ['accepted' => true]);
         return redirect()->route('shows.participants', $show);
     }
 }
