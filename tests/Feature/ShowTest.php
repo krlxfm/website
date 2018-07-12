@@ -81,4 +81,22 @@ class ShowTest extends TestCase
                 ->assertSee($this->track->name)
                 ->assertDontSee($track->name);
     }
+
+    /**
+     * Test that submitting the show creation form on the web results in a new
+     * show being created, and that we are redirected there.
+     *
+     * @return void
+     */
+    public function testWebShowCreation()
+    {
+        $request = $this->post('/shows', [
+            'title' => 'Example Show Title',
+            'track' => $this->track->id,
+            'term' => $this->term->id
+        ]);
+
+        $show = Show::where('title', 'Example Show Title')->first();
+        $request->assertRedirected(route('shows.participants', $show->id));
+    }
 }
