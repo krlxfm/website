@@ -72,4 +72,15 @@ class ShowController extends Controller
         $show->hosts()->attach($request->user(), ['accepted' => true]);
         return redirect()->route('shows.participants', $show);
     }
+
+    /**
+     * Display the hosts (and invitees) of a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function hosts(Show $show)
+    {
+        return view('shows.hosts', compact('show'));
+    }
 }
