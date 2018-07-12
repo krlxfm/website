@@ -8,6 +8,7 @@
                 </button>
             </div>
             <form method="post" name="{{ $id }}-form" action="{{ $action ?? '#' }}">
+                @csrf
                 <div class="modal-body">
                     {!! $slot !!}
                 </div>

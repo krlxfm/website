@@ -37,11 +37,13 @@
     @component('components.modal')
         @slot('id', 'show-title-modal')
         @slot('title', 'Create Show')
+        @slot('action', route('shows.store'))
         @slot('footer')
             <button type="submit" class="btn btn-primary" dusk="create-show" id="create-show">
                 Create Show
             </button>
         @endslot
+        <input type="hidden" name="track" value="0" id="track-input">
         <p>
             To create your show,
             @if($terms->count() > 1)
@@ -59,6 +61,7 @@
             <label for="show-term" class="col-sm-4 col-lg-3 col-form-label">Term</label>
             <div class="col-sm-8 col-lg-9">
                 @if($terms->count() == 1)
+                    <input type="hidden" name="term" value="{{ $terms->first()->id }}">
                     <input type="text" readonly class="form-control-plaintext" id="show-term" dusk="term" value="{{ $terms->first()->name }}">
                 @else
                     <select class="custom-select" name="term" dusk="term-selector">
