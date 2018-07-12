@@ -4,7 +4,9 @@ function setListeners() {
 
 function showModal(e) {
     e.preventDefault();
-    console.log($(this).data('trackId'));
+    $("#show-title-modal-label, #create-show").text('Create '+$(this).data('trackName')+' Show');
+    $(".title-modal-field").text($(this).data('trackTitle').toLowerCase());
+    $("#show-title-modal").modal('show');
 }
 
 $(setListeners);

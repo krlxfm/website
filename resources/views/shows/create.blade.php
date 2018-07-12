@@ -16,7 +16,7 @@
                 </div>
                 <div class="list-group list-group-flush">
                     @forelse($tracks as $track)
-                        <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" data-track-name="{{ $track->name }}" dusk="track-{{ $track->id }}" href="#">
+                        <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" data-track-name="{{ $track->name }}" data-track-title="{{ $track->title_label ?? 'Title' }}" dusk="track-{{ $track->id }}" href="#">
                             <div class="pr-3">
                                 <h4 class="card-title mb-1">{{ $track->name }}</h4>
                                 <p class="card-text">
@@ -34,6 +34,42 @@
             </div>
         </div>
     </div>
+    @component('components.modal')
+        @slot('id', 'show-title-modal')
+        @slot('title', 'Create Show')
+        @slot('footer')
+            <button type="submit" class="btn btn-primary" dusk="create-show" id="create-show">
+                Create Show
+            </button>
+        @endslot
+        <p>
+            To create your show,
+            @if($terms->count() == 1)
+                choose a term to apply for and
+            @endif
+            enter a working <span class="title-modal-field">title</span> for your show (which you can change later).
+        </p>
+        <div class="form-group row">
+            <label for="show-title" class="col-sm-4 col-lg-3 col-form-label">Working <span class="title-modal-field">title</span></label>
+            <div class="col-sm-8 col-lg-9">
+                <input type="text" class="form-control" id="show-title" dusk="show-title" placeholder="Working title">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="show-term" class="col-sm-4 col-lg-3 col-form-label">Term</label>
+            <div class="col-sm-8 col-lg-9">
+                @if($terms->count() == 1)
+                    <input type="text" readonly class="form-control-plaintext" id="show-term" dusk="term" value="{{ $terms->first()->name }}">
+                @else
+                    <select class="custom-select" name="term" dusk="term-selector">
+                        @foreach($terms as $term)
+                            <option value="{{ $term->id }}">{{ $term->name }}</option>
+                        @endforeach
+                    </select>
+                @endif
+            </div>
+        </div>
+    @endcomponent
 @endsection
 
 @push('js')
