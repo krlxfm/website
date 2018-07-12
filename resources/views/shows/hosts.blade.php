@@ -1,4 +1,4 @@
-@extends('layouts.showapp', ['title' => 'Hosts'])
+@extends('layouts.showapp', ['title' => 'Hosts', 'next' => 'content'])
 
 @section('head')
     @parent
@@ -33,7 +33,7 @@
                             <td class="align-middle">
                                 {{ $dj->membership->accepted ? ($dj->membership->boost ? 'Joined with Priority Boost' : 'Joined') : 'Invited' }}
                             </td>
-                            <td class="align-middle"><button class="btn btn-danger"><i class="fas fa-trash"></i> Remove</button></td>
+                            <td class="align-middle"><button class="btn btn-danger"><i class="fas fa-user-minus"></i> Remove</button></td>
                         </tr>
                     @endforeach
                 </tbody>

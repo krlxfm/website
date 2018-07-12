@@ -12,12 +12,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous" defer></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
-<body class="bg-gray" id="app">
+<body class="bg-gray {{ $body_class ?? '' }}">
     <nav class="navbar navbar-expand-lg navbar-dark bg-krlx-gradient">
         <a class="navbar-brand" href="/home">Mission Control</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,14 +76,17 @@
             </div>
         </div>
     @endif
-    <div class="container mt-4">
-        @yield('head')
-    </div>
-    <div class="container-fluid">
-        @yield('mid')
-    </div>
-    <div class="container">
-        @yield('foot')
+    <div id="app">
+        <div class="container mt-4">
+            @yield('head')
+        </div>
+        <div class="container-fluid">
+            @yield('mid')
+        </div>
+        <div class="container">
+            @yield('foot')
+        </div>
+        @yield('bottom')
     </div>
     @stack('js')
 </body>
