@@ -19,12 +19,7 @@
                     </div>
                 </div>
                 @foreach($show->track->content as $field)
-                    <div class="form-group row">
-                        <label for="tags" class="col-sm-3 col-md-2 col-form-label">{{ $field['title'] }}</label>
-                        <div class="col-sm-9 col-md-10">
-                            <input type="text" readonly class="form-control-plaintext" id="tagsComingSoon" value="Coming soon, by popular demand!">
-                        </div>
-                    </div>
+                    @include('fields.'.$field['type'], ['category' => 'content', 'value' => $show->content[$field['db']]])
                 @endforeach
                 @if($show->track->allows_images)
                     <div class="form-group row">
