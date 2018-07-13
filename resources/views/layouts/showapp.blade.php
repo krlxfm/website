@@ -5,8 +5,8 @@
         <div class="col">
             <div class="d-flex flex-wrap align-items-center">
                 <h1>{{ $title }}</h1>
-                <span class="ml-auto mr-2">Show ID</span>
-                <span style="font-size: xx-large; padding-bottom: 1px"><strong>{{ $show->id }}</strong></span>
+                <span class="d-none d-sm-block ml-auto mr-2">Show ID</span>
+                <span class="d-none d-sm-block" style="font-size: xx-large; padding-bottom: 1px"><strong>{{ $show->id }}</strong></span>
             </div>
         </div>
     </div>
