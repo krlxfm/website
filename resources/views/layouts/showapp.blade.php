@@ -15,7 +15,12 @@
 @section('bottom')
     <div class="mc-toolbar-footer">
         <div class="container d-flex">
-            <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary ml-auto" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
+            @isset($back)
+                <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="next-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
+            @endisset
+            @isset($next)
+                <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary ml-auto" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
+            @endisset
         </div>
     </div>
 @endsection
