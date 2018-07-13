@@ -70,7 +70,7 @@ class ShowController extends Controller
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
-        return redirect()->route('shows.participants', $show);
+        return redirect()->route('shows.hosts', $show);
     }
 
     /**
@@ -82,5 +82,16 @@ class ShowController extends Controller
     public function hosts(Show $show)
     {
         return view('shows.hosts', compact('show'));
+    }
+
+    /**
+     * Display the content fields of a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function content(Show $show)
+    {
+        return view('shows.content', compact('show'));
     }
 }

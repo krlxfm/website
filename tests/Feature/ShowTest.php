@@ -98,6 +98,32 @@ class ShowTest extends TestCase
 
         $show = Show::where('title', 'Example Show Title')->first();
         $this->assertContains($this->user->id, $show->hosts()->pluck('id'));
-        $request->assertRedirect(route('shows.participants', $show->id));
+        $request->assertRedirect(route('shows.hosts', $show->id));
+    }
+
+    /**
+     * Test that we have access to the hosts view after creating a show.
+     *
+     * @return void
+     */
+    public function testHostsViewRenders()
+    {
+        $request = $this->get("/shows/{$this->show->id}/hosts");
+
+        $request->assertOk()
+                ->assertViewIs('shows.hosts');
+    }
+
+    /**
+     * Test that we have access to the content view after creating a show.
+     *
+     * @return void
+     */
+    public function testContentViewRenders()
+    {
+        $request = $this->get("/shows/{$this->show->id}/content");
+
+        $request->assertOk()
+                ->assertViewIs('shows.content');
     }
 }

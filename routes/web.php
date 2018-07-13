@@ -25,5 +25,7 @@ Route::middleware('auth')->group(function() {
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/create', 'ShowController@create')->name('shows.create');
     Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
+    Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
+    Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
     Route::post('shows', 'ShowController@store')->name('shows.store');
 });

@@ -4,7 +4,7 @@
     @parent
     <div class="row">
         <div class="col">
-            <div class="card my-3">
+            <div class="card mb-3">
                 <div class="card-body">
                     <p class="card-text">If you will be doing this show with others, you can invite your co-host(s) here. Each co-host must sign in to the website and accept the invitation in order to be listed on the show, receive experience points, count towards show priority, or be eligible to cover other shows.</p>
                 </div>
