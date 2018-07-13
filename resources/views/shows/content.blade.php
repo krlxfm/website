@@ -63,3 +63,7 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script src="/js/pages/shows/content.js" defer></script>
+@endpush
