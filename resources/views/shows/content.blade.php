@@ -4,7 +4,8 @@
     @parent
     <div class="row">
         <div class="col">
-            <form>
+            <form method="post" action="/shows/{{ $show->id }}" id="content-form">
+                @method('patch')
                 @csrf
                 <div class="form-group row">
                     <label for="title" class="col-sm-3 col-md-2 col-form-label">{{ $show->track->title_label ?? 'Title' }}</label>
@@ -65,5 +66,8 @@
 @endsection
 
 @push('js')
+<script>
+var showID = "{{ $show->id }}";
+</script>
 <script src="/js/pages/shows/content.js" defer></script>
 @endpush

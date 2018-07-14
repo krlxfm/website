@@ -15,12 +15,20 @@
 @section('bottom')
     <div class="mc-toolbar-footer">
         <div class="container d-flex">
-            @isset($back)
-                <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="next-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
-            @endisset
-            @isset($next)
-                <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary ml-auto" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
-            @endisset
+            <div class="d-flex">
+                @isset($back)
+                    <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="next-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
+                @endisset
+            </div>
+            <div class="ml-auto d-flex align-items-center">
+                <span class="mr-2" id="changes-saved-item">
+                    <i class="fas fa-check text-success"></i>
+                    Changes saved!
+                </span>
+                @isset($next)
+                    <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
+                @endisset
+            </div>
         </div>
     </div>
 @endsection
