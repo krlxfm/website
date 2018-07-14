@@ -5,13 +5,13 @@
         </div>
         <div v-if="suggestions.length > 0" class="new-participant-suggestions">
             <div class="list-group">
-                <div class="list-group-item d-flex align-items-center" v-for="dj in suggestions">
+                <div class="list-group-item d-flex align-items-center" v-for="(dj, index) in suggestions">
                     <div>
                         {{ dj.name }}
                         <br>
                         <small class="text-muted">{{ dj.email }}</small>
                     </div>
-                    <button class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1">
+                    <button type="button" class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1" v-on:click="invite(index)">
                         <i class="fas fa-user-plus"></i> Invite
                     </button>
                     <button class="ml-auto btn btn-light" v-else disabled>
@@ -42,7 +42,6 @@ module.exports = {
             value: '',
             timer: null,
             noResults: false,
-            currentDJs: window.participants.map((dj) => { return dj.id; }),
             suggestions: []
         }
     },
@@ -62,6 +61,23 @@ module.exports = {
                 this.suggestions = [];
                 this.noResults = false;
             })
+        },
+        invite: function(index, event) {
+            axios.patch('/api/v1/shows/'+window.showID+'/hosts', {
+                "add": [this.suggestions[index].email]
+            })
+            .then(() => {
+                window.participants.push({
+                    id: this.suggestions[index].id,
+                    name: this.suggestions[index].name,
+                    email: this.suggestions[index].email,
+                    membership: {
+                        accepted: false
+                    }
+                });
+                $("#add-participant-modal").modal('hide');
+                this.value = '';
+            })
         }
     },
     computed: {
@@ -74,6 +90,9 @@ module.exports = {
             } else {
                 return this.value.toLowerCase() + "@carleton.edu";
             }
+        },
+        currentDJs: function () {
+            return window.participants.map((dj) => { return dj.id; });
         }
     }
 }
