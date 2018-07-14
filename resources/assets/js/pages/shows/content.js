@@ -1,6 +1,5 @@
 function setListeners() {
     $("#changes-saved-item").hide();
-    $(".mc-toolbar-footer a").click(submitFormBeforeContinuing);
     $("input, textarea").change(submitForm)
 }
 
@@ -18,24 +17,33 @@ function submitForm() {
     });
     delete requestData._method;
     delete requestData._token;
-    console.log(requestData);
 
     axios.patch('/api/v1/shows/'+showID, requestData)
     .then((response) => {
+        $("div.invalid-feedback, div.valid-feedback").remove();
+        $(".is-invalid").removeClass('is-invalid');
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
-        console.log(response);
     })
     .catch((error) => {
-        console.log(error);
+        $("div.invalid-feedback, div.valid-feedback").remove();
+        $(".is-invalid").removeClass('is-invalid');
         if (error.response) {
-            console.log(error.response.data.errors);
+            showValidationErrors(error.response.data.errors);
         }
     });
 }
 
-function submitFormBeforeContinuing(e) {
-    e.preventDefault();
+function showValidationErrors(rawErrors) {
+    var errors = Object.entries(rawErrors);
+    errors.forEach((error) => {
+        var key = error[0];
+        var message = error[1][0];
+        var field = $('[name="'+key+'"]');
+
+        field.addClass('is-invalid');
+        field.after('<div class="invalid-feedback">'+message+'</div>');
+    })
 }
 
 $(setListeners);
