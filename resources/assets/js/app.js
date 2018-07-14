@@ -17,6 +17,7 @@ window.swal = require('sweetalert');
  */
 
 Vue.component('participant-list', require('./components/ParticipantList.vue'));
+Vue.component('participant-search', require('./components/ParticipantSearch.vue'));
 
 const app = new Vue({
     el: '#app'

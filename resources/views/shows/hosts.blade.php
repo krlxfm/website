@@ -10,13 +10,19 @@
                 </div>
             </div>
             <p>
-                <button class="btn btn-block btn-lg btn-dark">
+                <button class="btn btn-block btn-lg btn-dark" data-toggle="modal" data-target="#add-participant-modal">
                     <i class="fas fa-user-plus"></i> Invite a host
                 </button>
             </p>
             <participant-list></participant-list>
         </div>
     </div>
+    @component('components.modal')
+        @slot('id', 'add-participant-modal')
+        @slot('title', 'Add Participant')
+        <p>To invite a co-host, enter their name or email address, and select them below.</p>
+        <participant-search></participant-search>
+    @endcomponent
 @endsection
 
 @push('js')
