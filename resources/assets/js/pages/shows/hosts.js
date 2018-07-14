@@ -10,10 +10,10 @@ function warnAndDelete(e) {
         if (!willDelete) throw new Error('User chose to preserve host.');
     })
     .then(() => {
-        return axios.patch('/api/v1/shows/'+showID+'/hosts', { remove: button.data('email') })
+        return axios.patch('/api/v1/shows/'+showID+'/hosts', { remove: [button.data('email')] })
     })
     .then((response) => {
-        console.log(response);
+        return removeCompleteAlert(button.data('name'))
     })
     .catch((err) => {});
 }
@@ -25,6 +25,14 @@ function removeAlert(name) {
         icon: "warning",
         buttons: true,
         dangerMode: true,
+    })
+}
+
+function removeCompleteAlert(name) {
+    return swal({
+        title: "Done!",
+        text: name+" has been removed from the show.",
+        icon: "success",
     })
 }
 

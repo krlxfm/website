@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                     @foreach($show->hosts->merge($show->invitees) as $dj)
-                        <tr>
+                        <tr data-user-id="{{ $dj->id }}">
                             <td class="align-middle">
                                 {{ $dj->name }}
                                 <br>
@@ -45,6 +45,7 @@
 @push('js')
 <script>
 var showID = "{{ $show->id }}";
+var participants = {!! json_encode($show->hosts->merge($show->invitees)) !!};
 </script>
 <script src="/js/pages/shows/hosts.js" defer></script>
 @endpush
