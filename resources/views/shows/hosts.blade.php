@@ -20,7 +20,7 @@
     @component('components.modal')
         @slot('id', 'add-participant-modal')
         @slot('title', 'Add Participant')
-        <p>To invite a co-host, enter their name or email address, and select them below.</p>
+        <p>To invite a co-host, enter their name, username, or email address, and select them below.</p>
         <participant-search></participant-search>
     @endcomponent
 @endsection

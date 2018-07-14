@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-group">
-            <input type="text" class="form-control" v-on:input="search">
+            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email">
         </div>
         <div v-if="suggestions.length > 0" class="new-participant-suggestions">
             <div class="list-group">
