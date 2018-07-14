@@ -14,30 +14,7 @@
                     <i class="fas fa-user-plus"></i> Invite a host
                 </button>
             </p>
-            <table class="table table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th>Host</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($show->hosts->merge($show->invitees) as $dj)
-                        <tr data-user-id="{{ $dj->id }}">
-                            <td class="align-middle">
-                                {{ $dj->name }}
-                                <br>
-                                <small class="text-muted">{{ $dj->email }}</small>
-                            </td>
-                            <td class="align-middle">
-                                {{ $dj->membership->accepted ? ($dj->membership->boost ? 'Joined with Priority Boost' : 'Joined') : 'Invited' }}
-                            </td>
-                            <td class="align-middle"><button class="btn btn-danger" data-action="remove-dj" data-id="{{ $dj->id }}" data-email="{{ $dj->email }}" data-name="{{ $dj->name }}"><i class="fas fa-user-minus"></i> Remove</button></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <participant-list></participant-list>
         </div>
     </div>
 @endsection
@@ -45,6 +22,7 @@
 @push('js')
 <script>
 var showID = "{{ $show->id }}";
+var userID = {{ Auth::user()->id }};
 var participants = {!! json_encode($show->hosts->merge($show->invitees)) !!};
 </script>
 <script src="/js/pages/shows/hosts.js" defer></script>

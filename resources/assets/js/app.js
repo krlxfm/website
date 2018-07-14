@@ -16,7 +16,7 @@ window.swal = require('sweetalert');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('participant-list', require('./components/ParticipantList.vue'));
 
 const app = new Vue({
     el: '#app'
