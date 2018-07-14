@@ -33,7 +33,7 @@
                             <td class="align-middle">
                                 {{ $dj->membership->accepted ? ($dj->membership->boost ? 'Joined with Priority Boost' : 'Joined') : 'Invited' }}
                             </td>
-                            <td class="align-middle"><button class="btn btn-danger"><i class="fas fa-user-minus"></i> Remove</button></td>
+                            <td class="align-middle"><button class="btn btn-danger" data-action="remove-dj" data-id="{{ $dj->id }}" data-name="{{ $dj->name }}"><i class="fas fa-user-minus"></i> Remove</button></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -41,3 +41,10 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+var showID = "{{ $show->id }}";
+</script>
+<script src="/js/pages/shows/hosts.js" defer></script>
+@endpush
