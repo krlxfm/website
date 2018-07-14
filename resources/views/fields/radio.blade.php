@@ -14,7 +14,7 @@ $currentValue = old("${category}[{$field['db']}]") ?? $value;
                         class="form-check-input"
                         id="{{ $field['db'].'-'.$option['value'] }}"
                         type="radio"
-                        name="{{ "${category}[{$field['db']}]" }}"
+                        name="{{ "${category}.{$field['db']}" }}"
                         value="{{ $option['value'] }}"
                         {{ ($currentValue == $option['value'] or ($currentValue == null and $option['default'])) ? 'checked' : '' }}>
                     <label class="form-check-label" for="{{ $field['db'].'-'.$option['value'] }}">

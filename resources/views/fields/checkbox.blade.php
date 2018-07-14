@@ -14,7 +14,7 @@ $currentValue = array_wrap(old("${category}[{$field['db']}]") ?? $value);
                         class="form-check-input"
                         id="{{ $field['db'].'-'.$option['value'] }}"
                         type="checkbox"
-                        name="{{ "${category}[{$field['db']}]" }}[]"
+                        name="{{ "${category}.{$field['db']}" }}[]"
                         value="{{ $option['value'] }}"
                         {{ (in_array($option['value'], $currentValue) or $option['default']) ? 'checked' : '' }}>
                     <label class="form-check-label" for="{{ $field['db'].'-'.$option['value'] }}">
