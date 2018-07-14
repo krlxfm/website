@@ -10,7 +10,7 @@ function warnAndDelete(e) {
         if (!willDelete) throw new Error('User chose to preserve host.');
     })
     .then(() => {
-        return axios.patch('/api/v1/shows/'+showID+'/hosts', { remove: button.data('id') })
+        return axios.patch('/api/v1/shows/'+showID+'/hosts', { remove: button.data('email') })
     })
     .then((response) => {
         console.log(response);
