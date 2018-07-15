@@ -62,7 +62,7 @@
         </div>
     @endforeach
 </div>
-<div class="d-flex my-3 align-items-center flex-wrap">
+<div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
     <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button">
         <i class="fas fa-plus"></i> Add conflict
@@ -71,9 +71,9 @@
 <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation. If you're an RA, be sure to declare standard duty hours.</p>
 <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box below</strong> to ensure it gets honored.</p>
 <conflict-list></conflict-list>
-<div class="d-flex my-3 align-items-center flex-wrap">
+<div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Preferences</h2>
-    <button type="button" class="btn btn-primary ml-auto">
+    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button">
         <i class="fas fa-plus"></i> Add preference
     </button>
 </div>
@@ -115,6 +115,54 @@
             <div class="form-group">
                 <label class="form-control-label">End time</label>
                 <select class="custom-select" name="conflict-end" id="conflict-end"></select>
+            </div>
+        </div>
+    </div>
+@endcomponent
+
+@component('components.modal')
+    @slot('id', 'preference-manager')
+    @slot('title', 'Add Preference')
+    @slot('footer')
+        <button type="button" class="btn btn-primary" dusk="save-preference" id="save-preference" onclick="savePreference()">
+            Save preference
+        </button>
+    @endslot
+    <p>Enter the times you'd like this show to occur. For best results, be flexible and give a few options. You can also list the relative strength of your preferences.</p>
+    <input type="hidden" id="preference-index" value="-1">
+    <div class="row">
+        <div class="col-sm">
+            <p>Days</p>
+            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="preference-days-{{ $day }}" value="{{ $day }}" name="preference-days">
+                    <label class="custom-control-label" for="preference-days-{{ $day }}">{{ $day }}</label>
+                </div>
+            @endforeach
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label class="form-control-label">Start time</label>
+                <select class="custom-select" name="preference-start" id="preference-start">
+                    @for($i = 0; $i < 48; $i++)
+                        @php
+                        $date = Carbon\Carbon::today()->addMinutes($i * 30);
+                        @endphp
+                        <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
+                    @endfor
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">End time</label>
+                <select class="custom-select" name="preference-end" id="preference-end"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">Preference strength</label>
+                <select class="custom-select" name="preference-strength" id="preference-strength">
+                    <option value="1">Preferred</option>
+                    <option value="2">Strongly Preferred</option>
+                    <option value="3">First Choice</option>
+                </select>
             </div>
         </div>
     </div>

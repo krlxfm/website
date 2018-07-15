@@ -15,7 +15,7 @@
                 </td>
                 <td class="align-middle">
                     <div class="btn-group">
-                        <button class="btn btn-secondary" type="button"><i class="fas fa-pen"></i> Edit</button>
+                        <button class="btn btn-secondary" type="button" v-on:click="updatePreference(index)"><i class="fas fa-pen"></i> Edit</button>
                         <button class="btn btn-danger" type="button" v-on:click="rmPreference(index)"><i class="fas fa-trash"></i> Remove</button>
                     </div>
                 </td>
@@ -44,6 +44,9 @@ module.exports = {
         },
         rmPreference: function(index) {
             removePreference(index);
+        },
+        updatePreference: function(index) {
+            editPreference(index);
         }
     }
 }
