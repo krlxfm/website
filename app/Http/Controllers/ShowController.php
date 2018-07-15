@@ -94,4 +94,15 @@ class ShowController extends Controller
     {
         return view('shows.content', compact('show'));
     }
+
+    /**
+     * Display the scheduling fields of a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+     public function schedule(Show $show)
+     {
+         return view('shows.schedule', compact('show'));
+     }
 }
