@@ -1,4 +1,4 @@
-@extends('layouts.showapp', ['title' => 'Schedule', 'back' => 'content'])
+@extends('layouts.showapp', ['title' => 'Schedule', 'back' => 'content', 'next' => 'review'])
 
 @section('head')
     @parent

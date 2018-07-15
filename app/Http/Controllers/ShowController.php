@@ -101,8 +101,19 @@ class ShowController extends Controller
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-     public function schedule(Show $show)
-     {
-         return view('shows.schedule', compact('show'));
-     }
+    public function schedule(Show $show)
+    {
+        return view('shows.schedule', compact('show'));
+    }
+
+    /**
+     * Display the scheduling fields of a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function review(Show $show)
+    {
+        return view('shows.review', compact('show'));
+    }
 }
