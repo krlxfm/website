@@ -64,20 +64,17 @@
 </div>
 <div class="d-flex my-3 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-primary ml-auto">
+    <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#conflict-manager">
         <i class="fas fa-plus"></i> Add conflict
     </button>
 </div>
+<p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation. If you're an RA, be sure to declare standard duty hours.</p>
+<p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box below</strong> to ensure it gets honored.</p>
+<conflict-list></conflict-list>
 <div class="d-flex my-3 align-items-center flex-wrap">
     <h2>Preferences</h2>
     <button type="button" class="btn btn-primary ml-auto">
         <i class="fas fa-plus"></i> Add preference
     </button>
 </div>
-
-<script>
-var classes = {!! json_encode($show->classes) !!};
-var conflicts = {!! json_encode($show->conflicts) !!};
-var preferences = {!! json_encode($show->preferences) !!};
-var classTimes = {!! json_encode(config('classes.times')) !!};
-</script>
+<preference-list></preference-list>

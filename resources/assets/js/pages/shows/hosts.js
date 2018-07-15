@@ -23,7 +23,7 @@ function removeAlert(name, isMe) {
             text: "Are you sure you want to leave this show? You will need to accept an invitation from a remaining participant in order to re-join. If you're the last participant on this show, it will be deleted.",
             icon: "warning",
             buttons: true,
-            dangerMode: true,
+            dangerMode: true
         })
     }
     return swal({
@@ -31,7 +31,7 @@ function removeAlert(name, isMe) {
         text: name+" will be immediately removed from the show, and will need to accept a new invitation in order to re-join.",
         icon: "warning",
         buttons: true,
-        dangerMode: true,
+        dangerMode: true
     })
 }
 

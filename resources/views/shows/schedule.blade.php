@@ -14,3 +14,13 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+var classes = {!! json_encode($show->classes) !!};
+var conflicts = {!! json_encode($show->conflicts) !!};
+var preferences = {!! json_encode($show->preferences) !!};
+var classTimes = {!! json_encode(config('classes.times')) !!};
+</script>
+<script src="/js/pages/shows/schedule.js"></script>
+@endpush
