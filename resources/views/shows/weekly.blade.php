@@ -64,7 +64,7 @@
 </div>
 <div class="d-flex my-3 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#conflict-manager">
+    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button">
         <i class="fas fa-plus"></i> Add conflict
     </button>
 </div>
@@ -78,3 +78,54 @@
     </button>
 </div>
 <preference-list></preference-list>
+
+@component('components.modal')
+    @slot('id', 'conflict-manager')
+    @slot('title', 'Add Conflict')
+    @slot('footer')
+        <button type="button" class="btn btn-primary" dusk="save-conflict" id="save-conflict" onclick="saveConflict()">
+            Save conflict
+        </button>
+    @endslot
+    <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation.</p>
+    <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box on the main page</strong> to ensure it gets honored.</p>
+    <input type="hidden" id="conflict-index" value="-1">
+    <div class="row">
+        <div class="col-sm">
+            <p>Days</p>
+            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="conflict-days-{{ $day }}" value="{{ $day }}" name="conflict-days">
+                    <label class="custom-control-label" for="conflict-days-{{ $day }}">{{ $day }}</label>
+                </div>
+            @endforeach
+        </div>
+        <div class="col-sm">
+            <div class="form-group">
+                <label class="form-control-label">Start time</label>
+                <select class="custom-select" name="conflict-start" id="conflict-start">
+                    @for($i = 0; $i < 48; $i++)
+                        @php
+                        $date = Carbon\Carbon::today()->addMinutes($i * 30);
+                        @endphp
+                        <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
+                    @endfor
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label">End time</label>
+                <select class="custom-select" name="conflict-end" id="conflict-end"></select>
+            </div>
+        </div>
+    </div>
+@endcomponent
+
+@push('js')
+<script>
+var classes = {!! json_encode($show->classes) !!};
+var conflicts = {!! json_encode($show->conflicts) !!};
+var preferences = {!! json_encode($show->preferences) !!};
+var classTimes = {!! json_encode(config('classes.times')) !!};
+</script>
+<script src="/js/pages/shows/weekly.js" defer></script>
+@endpush

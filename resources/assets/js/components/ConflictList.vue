@@ -11,7 +11,7 @@
                 <td class="align-middle" v-html="conflictToPlainText(conflict)"></td>
                 <td class="align-middle">
                     <div class="btn-group">
-                        <button class="btn btn-secondary" type="button"><i class="fas fa-pen"></i> Edit</button>
+                        <button class="btn btn-secondary" type="button" v-on:click="updateConflict(index)"><i class="fas fa-pen"></i> Edit</button>
                         <button class="btn btn-danger" type="button" v-on:click="rmConflict(index)"><i class="fas fa-trash"></i> Remove</button>
                     </div>
                 </td>
@@ -39,6 +39,9 @@ module.exports = {
         },
         rmConflict: function(index) {
             removeConflict(index);
+        },
+        updateConflict: function(index) {
+            editConflict(index);
         }
     }
 }
