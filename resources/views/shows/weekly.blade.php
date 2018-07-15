@@ -35,7 +35,7 @@
                     {{ $zone['description'] }}
                 </div>
                 <div class="col-sm-3">
-                    <select class="custom-select">
+                    <select class="custom-select" name="special_times.{{ $id }}">
                         <option value="y" {{ $show->special_times[$id] == 'y' ? 'selected' : '' }}>Yes, please schedule me here</option>
                         <option value="n" {{ $show->special_times[$id] == 'n' ? 'selected' : '' }}>No, please avoid scheduling me here</option>
                         <option value="m" {{ $show->special_times[$id] == 'm' ? 'selected' : '' }}>Meh, doesn't matter</option>
@@ -79,94 +79,96 @@
 </div>
 <preference-list></preference-list>
 
-@component('components.modal')
-    @slot('id', 'conflict-manager')
-    @slot('title', 'Add Conflict')
-    @slot('footer')
-        <button type="button" class="btn btn-primary" dusk="save-conflict" id="save-conflict" onclick="saveConflict()">
-            Save conflict
-        </button>
-    @endslot
-    <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation.</p>
-    <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box on the main page</strong> to ensure it gets honored.</p>
-    <input type="hidden" id="conflict-index" value="-1">
-    <div class="row">
-        <div class="col-sm">
-            <p>Days</p>
-            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="conflict-days-{{ $day }}" value="{{ $day }}" name="conflict-days">
-                    <label class="custom-control-label" for="conflict-days-{{ $day }}">{{ $day }}</label>
+@push('modals')
+    @component('components.modal')
+        @slot('id', 'conflict-manager')
+        @slot('title', 'Add Conflict')
+        @slot('footer')
+            <button type="button" class="btn btn-primary" dusk="save-conflict" id="save-conflict" onclick="saveConflict()">
+                Save conflict
+            </button>
+        @endslot
+        <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation.</p>
+        <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box on the main page</strong> to ensure it gets honored.</p>
+        <input type="hidden" id="conflict-index" value="-1">
+        <div class="row">
+            <div class="col-sm">
+                <p>Days</p>
+                @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="conflict-days-{{ $day }}" value="{{ $day }}" name="conflict-days">
+                        <label class="custom-control-label" for="conflict-days-{{ $day }}">{{ $day }}</label>
+                    </div>
+                @endforeach
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-control-label">Start time</label>
+                    <select class="custom-select" name="conflict-start" id="conflict-start">
+                        @for($i = 0; $i < 48; $i++)
+                            @php
+                            $date = Carbon\Carbon::today()->addMinutes($i * 30);
+                            @endphp
+                            <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
+                        @endfor
+                    </select>
                 </div>
-            @endforeach
-        </div>
-        <div class="col-sm">
-            <div class="form-group">
-                <label class="form-control-label">Start time</label>
-                <select class="custom-select" name="conflict-start" id="conflict-start">
-                    @for($i = 0; $i < 48; $i++)
-                        @php
-                        $date = Carbon\Carbon::today()->addMinutes($i * 30);
-                        @endphp
-                        <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
-                    @endfor
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-control-label">End time</label>
-                <select class="custom-select" name="conflict-end" id="conflict-end"></select>
+                <div class="form-group">
+                    <label class="form-control-label">End time</label>
+                    <select class="custom-select" name="conflict-end" id="conflict-end"></select>
+                </div>
             </div>
         </div>
-    </div>
-@endcomponent
+    @endcomponent
 
-@component('components.modal')
-    @slot('id', 'preference-manager')
-    @slot('title', 'Add Preference')
-    @slot('footer')
-        <button type="button" class="btn btn-primary" dusk="save-preference" id="save-preference" onclick="savePreference()">
-            Save preference
-        </button>
-    @endslot
-    <p>Enter the times you'd like this show to occur. For best results, be flexible and give a few options. You can also list the relative strength of your preferences.</p>
-    <input type="hidden" id="preference-index" value="-1">
-    <div class="row">
-        <div class="col-sm">
-            <p>Days</p>
-            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="preference-days-{{ $day }}" value="{{ $day }}" name="preference-days">
-                    <label class="custom-control-label" for="preference-days-{{ $day }}">{{ $day }}</label>
+    @component('components.modal')
+        @slot('id', 'preference-manager')
+        @slot('title', 'Add Preference')
+        @slot('footer')
+            <button type="button" class="btn btn-primary" dusk="save-preference" id="save-preference" onclick="savePreference()">
+                Save preference
+            </button>
+        @endslot
+        <p>Enter the times you'd like this show to occur. For best results, be flexible and give a few options. You can also list the relative strength of your preferences.</p>
+        <input type="hidden" id="preference-index" value="-1">
+        <div class="row">
+            <div class="col-sm">
+                <p>Days</p>
+                @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $day)
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="preference-days-{{ $day }}" value="{{ $day }}" name="preference-days">
+                        <label class="custom-control-label" for="preference-days-{{ $day }}">{{ $day }}</label>
+                    </div>
+                @endforeach
+            </div>
+            <div class="col-sm">
+                <div class="form-group">
+                    <label class="form-control-label">Start time</label>
+                    <select class="custom-select" name="preference-start" id="preference-start">
+                        @for($i = 0; $i < 48; $i++)
+                            @php
+                            $date = Carbon\Carbon::today()->addMinutes($i * 30);
+                            @endphp
+                            <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
+                        @endfor
+                    </select>
                 </div>
-            @endforeach
-        </div>
-        <div class="col-sm">
-            <div class="form-group">
-                <label class="form-control-label">Start time</label>
-                <select class="custom-select" name="preference-start" id="preference-start">
-                    @for($i = 0; $i < 48; $i++)
-                        @php
-                        $date = Carbon\Carbon::today()->addMinutes($i * 30);
-                        @endphp
-                        <option value="{{ $date->format('H:i') }}">{{ $date->format('g:i a') }}</option>
-                    @endfor
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-control-label">End time</label>
-                <select class="custom-select" name="preference-end" id="preference-end"></select>
-            </div>
-            <div class="form-group">
-                <label class="form-control-label">Preference strength</label>
-                <select class="custom-select" name="preference-strength" id="preference-strength">
-                    <option value="1">Preferred</option>
-                    <option value="2">Strongly Preferred</option>
-                    <option value="3">First Choice</option>
-                </select>
+                <div class="form-group">
+                    <label class="form-control-label">End time</label>
+                    <select class="custom-select" name="preference-end" id="preference-end"></select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Preference strength</label>
+                    <select class="custom-select" name="preference-strength" id="preference-strength">
+                        <option value="1">Preferred</option>
+                        <option value="2">Strongly Preferred</option>
+                        <option value="3">First Choice</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-@endcomponent
+    @endcomponent
+@endpush
 
 @push('js')
 <script>

@@ -88,5 +88,6 @@
         </div>
     </div>
     @yield('bottom')
+    @stack('modals')
     @stack('js')
 </body>

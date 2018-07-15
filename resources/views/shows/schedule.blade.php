@@ -4,7 +4,7 @@
     @parent
     <div class="row">
         <div class="col">
-            <form method="post" action="/shows/{{ $show->id }}" id="content-form">
+            <form method="post" action="/shows/{{ $show->id }}" id="scheduling-form">
                 @method('patch')
                 @csrf
                 @if($show->track->weekly)
@@ -27,3 +27,10 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+var showID = "{{ $show->id }}";
+</script>
+<script src="/js/pages/shows/schedule.js" defer></script>
+@endpush
