@@ -67,9 +67,15 @@
 @endsection
 
 @section('next')
+@if($show->submitted)
+<button class="btn btn-light" type="button" disabled>
+    Submitted! <i class="fas fa-check"></i>
+</button>
+@else
 <button class="btn btn-success" onclick="reviewAndSubmit()" type="button">
     Submit <i class="fas fa-chevron-right"></i>
 </button>
+@endif
 @endsection
 
 @push('js')
