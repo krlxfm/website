@@ -92,14 +92,14 @@ class ShowUpdateRequest extends FormRequest
         ];
 
         if($track->weekly) {
-            $trackDepRules['conflicts.*.days'] = ['array', 'min:1', 'max:7'];
-            $trackDepRules['conflicts.*.days.*'] = ['string', 'distinct', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'];
-            $trackDepRules['conflicts.*.start'] = ['string', 'regex:([01][0-9]|2[0-3]):[03]0'];
-            $trackDepRules['conflicts.*.end'] = ['string', 'regex:([01][0-9]|2[0-3]):[03]0'];
-            $trackDepRules['preferences.*.days'] = ['array', 'min:1', 'max:7'];
-            $trackDepRules['preferences.*.days.*'] = ['string', 'distinct', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'];
-            $trackDepRules['preferences.*.start'] = ['string', 'regex:([01][0-9]|2[0-3]):[03]0'];
-            $trackDepRules['preferences.*.end'] = ['string', 'regex:([01][0-9]|2[0-3]):[03]0'];
+            $trackDepRules['conflicts.*.days'] = ['array', 'min:1', 'max:7', 'distinct'];
+            $trackDepRules['conflicts.*.days.*'] = ['string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'];
+            $trackDepRules['conflicts.*.start'] = ['string', 'regex:/([01][0-9]|2[0-3]):[03]0/'];
+            $trackDepRules['conflicts.*.end'] = ['string', 'regex:/([01][0-9]|2[0-3]):[03]0/'];
+            $trackDepRules['preferences.*.days'] = ['array', 'min:1', 'max:7', 'distinct'];
+            $trackDepRules['preferences.*.days.*'] = ['string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'];
+            $trackDepRules['preferences.*.start'] = ['string', 'regex:/([01][0-9]|2[0-3]):[03]0/'];
+            $trackDepRules['preferences.*.end'] = ['string', 'regex:/([01][0-9]|2[0-3]):[03]0/'];
             $trackDepRules['preferences.*.strength'] = ['integer', 'min:0', 'max:200'];
         }
 

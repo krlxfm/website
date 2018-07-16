@@ -39,6 +39,14 @@ function removeSlot(group, singular, index) {
     })
     .then(() => {
         group.splice(index, 1);
+        return axios.patch('/api/v1/shows/'+showID, {
+            conflicts: window.conflicts,
+            preferences: window.preferences
+        })
+    })
+    .then((response) => {
+        $("#changes-saved-item").show();
+        $("#changes-saved-item").fadeOut(2000);
     })
     .catch((err) => {});
 }
@@ -108,6 +116,20 @@ function saveConflict() {
     } else {
         conflicts.splice(index, 1, conflict);
     }
+    var data = {
+        conflicts: window.conflicts,
+        preferences: window.preferences
+    };
+    console.log(JSON.parse(JSON.stringify(data)));
+    axios.patch('/api/v1/shows/'+showID, {
+        conflicts: window.conflicts,
+        preferences: window.preferences
+    })
+    .then((response) => {
+        $("#changes-saved-item").show();
+        $("#changes-saved-item").fadeOut(2000);
+    })
+    .catch((err) => { console.log(err.response.data) })
     $("#conflict-manager").modal('hide');
 }
 
@@ -124,6 +146,14 @@ function savePreference() {
     } else {
         preferences.splice(index, 1, preference);
     }
+    axios.patch('/api/v1/shows/'+showID, {
+        conflicts: window.conflicts,
+        preferences: window.preferences
+    })
+    .then((response) => {
+        $("#changes-saved-item").show();
+        $("#changes-saved-item").fadeOut(2000);
+    })
     $("#preference-manager").modal('hide');
 }
 
