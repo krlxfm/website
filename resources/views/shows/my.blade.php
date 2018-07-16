@@ -33,22 +33,27 @@
                 </h4>
                 <div class="list-group list-group-flush">
                     @forelse($incomplete_shows as $show)
-                        <div class="list-group-item">
-                            @if($show->boosted)
-                                <span class="badge badge-danger mb-2">
-                                    <i class="fas fa-rocket"></i> PRIORITY BOOST
-                                </span>
-                            @endif
-                            <h5 class="head-sans-serif mb-0">
-                                <strong>{{ $show->title }}</strong>
-                            </h5>
-                            {{ $show->track->name }} show -
-                            @if($show->hosts()->count() == 1)
-                                Just you
-                            @else
-                                You plus {{ $show->hosts()->count() - 1 }} {{ str_plural('other', $show->hosts()->count() - 1) }}
-                            @endif
-                        </div>
+                        <a class="list-group-item d-flex align-items-center text-dark" href="{{ route('shows.review', $show) }}">
+                            <div>
+                                @if($show->boosted)
+                                    <span class="badge badge-danger mb-2">
+                                        <i class="fas fa-rocket"></i> PRIORITY BOOST
+                                    </span>
+                                @endif
+                                <h5 class="head-sans-serif mb-0">
+                                    <strong>{{ $show->title }}</strong>
+                                </h5>
+                                {{ $show->track->name }} show -
+                                @if($show->hosts()->count() == 1)
+                                    Just you
+                                @else
+                                    You plus {{ $show->hosts()->count() - 1 }} {{ str_plural('other', $show->hosts()->count() - 1) }}
+                                @endif
+                            </div>
+                            <div class="ml-auto">
+                                <i class="fas fa-chevron-right fa-2x text-muted"></i>
+                            </div>
+                        </a>
                     @empty
                         <div class="list-group-item">
                             <strong>No incomplete applications!</strong> Why not create one?
@@ -64,22 +69,27 @@
                 </h4>
                 <div class="list-group list-group-flush">
                     @forelse($completed_shows as $show)
-                        <div class="list-group-item">
-                            @if($show->boosted)
-                                <span class="badge badge-danger mb-2">
-                                    <i class="fas fa-rocket"></i> PRIORITY BOOST
-                                </span>
-                            @endif
-                            <h5 class="head-sans-serif mb-0">
-                                <strong>{{ $show->title }}</strong>
-                            </h5>
-                            {{ $show->track->name }} show -
-                            @if($show->hosts()->count() == 1)
-                                Just you
-                            @else
-                                You plus {{ $show->hosts()->count() - 1 }} {{ str_plural('other', $show->hosts()->count() - 1) }}
-                            @endif
-                        </div>
+                        <a class="list-group-item d-flex align-items-center text-dark" href="{{ route('shows.review', $show) }}">
+                            <div>
+                                @if($show->boosted)
+                                    <span class="badge badge-danger mb-2">
+                                        <i class="fas fa-rocket"></i> PRIORITY BOOST
+                                    </span>
+                                @endif
+                                <h5 class="head-sans-serif mb-0">
+                                    <strong>{{ $show->title }}</strong>
+                                </h5>
+                                {{ $show->track->name }} show -
+                                @if($show->hosts()->count() == 1)
+                                    Just you
+                                @else
+                                    You plus {{ $show->hosts()->count() - 1 }} {{ str_plural('other', $show->hosts()->count() - 1) }}
+                                @endif
+                            </div>
+                            <div class="ml-auto">
+                                <i class="fas fa-chevron-right fa-2x text-muted"></i>
+                            </div>
+                        </a>
                     @empty
                         <div class="list-group-item">
                             <strong>No completed applications yet.</strong> When you finish one, it will appear here.
@@ -96,16 +106,21 @@
                     </h4>
                     <div class="list-group list-group-flush">
                         @foreach($invitations as $show)
-                            <div class="list-group-item">
-                                @if($show->boosted)
-                                    <span class="badge badge-danger mb-2">
-                                        <i class="fas fa-rocket"></i> PRIORITY BOOST
-                                    </span>
-                                @endif
-                                <h5 class="head-sans-serif mb-0">
-                                    <strong>{{ $show->title }}</strong>
-                                </h5>
-                                {{ $show->track->name }} show (ID <code>{{ $show->id }}</code>)
+                            <div class="list-group-item d-flex align-items-center">
+                                <div>
+                                    @if($show->boosted)
+                                        <span class="badge badge-danger mb-2">
+                                            <i class="fas fa-rocket"></i> PRIORITY BOOST
+                                        </span>
+                                    @endif
+                                    <h5 class="head-sans-serif mb-0">
+                                        <strong>{{ $show->title }}</strong>
+                                    </h5>
+                                    {{ $show->track->name }} show (ID <code>{{ $show->id }}</code>)
+                                </div>
+                                <div class="ml-auto">
+                                    <i class="fas fa-chevron-right fa-2x text-muted"></i>
+                                </div>
                             </div>
                         @endforeach
                     </div>
