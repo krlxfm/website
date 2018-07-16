@@ -26,19 +26,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <!--
                 <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Record Libe</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Playlist</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
+                -->
             </ul>
             <div class="nav-item">
-                <a class="btn btn-outline-light mr-2" href="#">Listen Live</a>
-            </div>
-            <div class="nav-item">
-                <a class="btn btn-outline-light" href="#">Mission Control</a>
+                <a class="btn btn-outline-light" href="/login">Mission Control</a>
             </div>
         </div>
     </nav>
