@@ -25,36 +25,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a class="nav-link" href="/home">Home</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Radio Shows
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">My radio shows</a>
-                        <a class="dropdown-item" href="#">Start new application</a>
-                        <a class="dropdown-item" href="#">Join show</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Schedule</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">All radio shows</a>
-                        <a class="dropdown-item" href="#">DJ roster</a>
-                        <a class="dropdown-item" href="#">Schedule builder</a>
-                        <a class="dropdown-item" href="#">Special show manager</a>
-                    </div>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="#">Record Libe</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Administration</a></li>
-                @auth
-                <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
-            </ul>
-                <div class="nav-item">
-                    <a class="btn btn-outline-light" href="#">Sign out</a>
-                </div>
-                @else
-            </ul>
-            @endauth
+            {!! Menu::main() !!}
         </div>
     </nav>
     @if($errors->any())
