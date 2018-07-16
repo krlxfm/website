@@ -65,3 +65,16 @@
         </div>
     </div>
 @endsection
+
+@section('next')
+<button class="btn btn-success" onclick="reviewAndSubmit()" type="button">
+    Submit <i class="fas fa-chevron-right"></i>
+</button>
+@endsection
+
+@push('js')
+<script>
+var showID = "{{ $show->id }}";
+</script>
+<script src="/js/pages/shows/review.js" defer></script>
+@endpush

@@ -19,12 +19,14 @@
                 @isset($back)
                     <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="next-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
                 @endisset
+                @yield('back')
             </div>
             <div class="ml-auto d-flex align-items-center">
                 <span class="mr-2" id="changes-saved-item">
                     <i class="fas fa-check text-success"></i>
                     Changes saved!
                 </span>
+                @yield('next')
                 @isset($next)
                     <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
                 @endisset
