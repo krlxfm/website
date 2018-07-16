@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function() {
     Route::middleware('auth:api')->group(function() {
         Route::apiResource('shows', 'ShowController');
+        Route::patch('shows/{show}/hosts', 'ShowController@changeHosts');
+
+        Route::get('users', 'UserController@search');
     });
     Route::apiResource('terms', 'TermController');
     Route::apiResource('tracks', 'TrackController');

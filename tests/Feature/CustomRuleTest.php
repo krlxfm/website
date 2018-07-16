@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomRuleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Test the "ValidationRule" validation rule: Can a string be used as a
      * validation rule?

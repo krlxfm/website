@@ -17,7 +17,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="auth">
+<body class="bg-krlx-gradient">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">KRLX</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,19 +26,18 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <!--
                 <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Events</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Record Libe</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Playlist</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
+                -->
             </ul>
             <div class="nav-item">
-                <a class="btn btn-outline-light mr-2" href="#">Listen Live</a>
-            </div>
-            <div class="nav-item">
-                <a class="btn btn-outline-light" href="#">Mission Control</a>
+                <a class="btn btn-outline-light" href="/login">Mission Control</a>
             </div>
         </div>
     </nav>

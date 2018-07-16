@@ -173,4 +173,37 @@ class ShowTest extends APITestCase
         $delete_my_show->assertStatus(204);
         $delete_other_show->assertStatus(403);
     }
+
+    /**
+     * Test the ability to add a host.
+     *
+     * @return void
+     */
+    public function testAddingHost()
+    {
+        $new_host = factory(User::class)->create();
+
+        $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
+            'add' => [$new_host->email]
+        ]);
+        $add_request->assertOk();
+        $this->assertContains($new_host->id, $this->show->invitees->pluck('id'));
+    }
+
+    /**
+     * Test the ability to remove a host.
+     *
+     * @return void
+     */
+    public function testRemovingHost()
+    {
+        $new_host = factory(User::class)->create();
+        $this->show->invitees()->attach($new_host);
+
+        $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
+            'remove' => [$new_host->email]
+        ]);
+        $add_request->assertOk();
+        $this->assertNotContains($new_host->id, $this->show->invitees->pluck('id'));
+    }
 }

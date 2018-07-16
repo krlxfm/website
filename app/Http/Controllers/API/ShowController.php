@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Controllers\API;
 
+use KRLX\User;
 use KRLX\Show;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -86,5 +87,39 @@ class ShowController extends Controller
         $this->authorize('delete', $show);
         $show->delete();
         return response(null, 204);
+    }
+
+    /**
+     * Manage the hosts of a show.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function changeHosts(Request $request, Show $show)
+    {
+        $request->validate([
+            'add' => 'array',
+            'add.*' => 'email|distinct|exists:users,email',
+            'remove' => 'array',
+            'remove.*' => 'email|distinct|exists:users,email'
+        ]);
+
+        foreach(($request->input('add') ?? []) as $new_email) {
+            $host = User::where('email', $new_email)->first();
+
+            if(!($show->hosts->contains($host) or $show->invitees->contains($host))) {
+                $show->invitees()->attach($host->id);
+            }
+        }
+
+        foreach(($request->input('remove') ?? []) as $new_email) {
+            $host = User::where('email', $new_email)->first();
+
+            $show->hosts()->detach($host->id);
+            $show->invitees()->detach($host->id);
+        }
+
+        return $show;
     }
 }

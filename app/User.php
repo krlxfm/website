@@ -61,7 +61,7 @@ class User extends Authenticatable
     public function invitations()
     {
         return $this->belongsToMany('KRLX\Show')
-                    ->pivot('accepted', 'boost')
+                    ->withPivot('accepted', 'boost')
                     ->wherePivot('accepted', false)
                     ->withTimestamps()
                     ->as('membership');

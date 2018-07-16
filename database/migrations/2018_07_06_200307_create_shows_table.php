@@ -33,6 +33,7 @@ class CreateShowsTable extends Migration
             $table->text('tags');
             $table->text('image');
             $table->text('content');
+            $table->boolean('fallback')->default(true);
 
             // Scheduling
             $table->text('special_times');

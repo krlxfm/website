@@ -11,9 +11,13 @@ html {
     min-height: 100%;
 }
 
-body.auth {
+.bg-krlx-gradient {
     background: $krlx-red;
     background: linear-gradient(135deg, $krlx-red-dark 40%, $krlx-red-light 90%);
+}
+
+.bg-gray {
+    background: $gray-200;
 }
 
 .card-auth {
@@ -30,6 +34,23 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 0.2em solid $krlx-red;
 }
 
+.has-page-foot {
+    margin-bottom: 60px;
+}
+
+.mc-toolbar-footer {
+    background: white;
+    box-shadow: 0px -2px 5px 0px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    .container {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
 .font-serif {
     font-family: "Noto Serif", serif;
 }
@@ -38,6 +59,11 @@ h1, h2, h3, h4, h5, h6 {
     @include media-breakpoint-down(xs) {
         display: none;
     }
+}
+
+.new-participant-suggestions {
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .landing-card {

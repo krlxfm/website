@@ -49,9 +49,6 @@ class ShowUpdateRequest extends FormRequest
     protected function baseRules()
     {
         $baseRules = [
-            'track_id' => ['integer', Rule::exists('tracks', 'id')->where(function ($query) {
-                $query->where('active', true);
-            })],
             'submitted' => ['boolean'],
             'title' => ['string', 'min:3', 'max:200'],
             'content' => ['array'],
@@ -87,7 +84,7 @@ class ShowUpdateRequest extends FormRequest
     protected function trackDependentRules(Track $track)
     {
         $trackDepRules = [
-            'description' => ['string', 'min:'.$track->description_min_length, 'max:65000'],
+            'description' => ['min:'.$track->description_min_length, 'max:65000'],
             'classes' => ['array', ($track->weekly ? 'min:1' : 'max:0')],
             'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
             'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
