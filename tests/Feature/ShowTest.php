@@ -126,4 +126,29 @@ class ShowTest extends TestCase
         $request->assertOk()
                 ->assertViewIs('shows.content');
     }
+
+    /**
+     * Test that tracks with custom fields can still render okay.
+     *
+     * @return void
+     */
+    public function testCustomFieldTracksStillRender()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'content' => [
+                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']]
+            ]
+        ]);
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $track->id
+        ]);
+
+        $request = $this->get("/shows/{$show->id}/content");
+
+        $request->assertOk()
+                ->assertViewIs('shows.content')
+                ->assertSee('Sponsor');
+    }
 }

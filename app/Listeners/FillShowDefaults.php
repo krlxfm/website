@@ -49,6 +49,11 @@ class FillShowDefaults
         foreach($arrays as $array) {
             $show->{$array} = [];
         }
+        $custom = ['content', 'scheduling', 'etc'];
+        foreach($custom as $key) {
+            $fields = collect($show->track->{$key})->pluck('db')->all();
+            $show->{$key} = array_fill_keys($fields, '');
+        }
 
         $show->description = $show->description ?? '';
         $show->title = $show->title ?? $show->track->name.' Show';
