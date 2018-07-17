@@ -5,7 +5,6 @@ namespace Tests\API;
 use KRLX\Term;
 use KRLX\Track;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GuestAPITest extends TestCase
@@ -26,7 +25,7 @@ class GuestAPITest extends TestCase
         $request = $this->json('POST', '/api/v1/shows', [
             'title' => 'Gray Duck',
             'track_id' => $track->id,
-            'term_id' => $term->id
+            'term_id' => $term->id,
         ]);
 
         $request->assertStatus(401);

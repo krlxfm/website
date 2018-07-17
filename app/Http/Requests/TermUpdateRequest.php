@@ -27,7 +27,7 @@ class TermUpdateRequest extends FormRequest
             'on_air' => ($this->isMethod('PATCH') ? 'required_with:off_air' : 'required').'|date',
             'off_air' => ($this->isMethod('PATCH') ? 'required_with:on_air' : 'required').'|date|after::on_air',
             'accepting_applications' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|boolean',
-            'boosted' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|boolean'
+            'boosted' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|boolean',
         ];
     }
 }

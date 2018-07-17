@@ -49,8 +49,9 @@ class LoginController extends Controller
      */
     public function password(Request $request)
     {
-        if(!$request->session()->has('user')) {
+        if (! $request->session()->has('user')) {
             $request->session()->reflash();
+
             return redirect()->route('login');
         }
 
@@ -66,20 +67,20 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        if($request->has('password')) {
+        if ($request->has('password')) {
             return $this->defaultLogin($request);
         }
 
         $request->validate([
             'email' => 'required|email',
-            'terms' => 'accepted'
+            'terms' => 'accepted',
         ]);
 
         $user = User::whereEmail($request->input('email'))->first();
         $request->session()->put('email', $request->input('email'));
         $request->session()->put('user', $user);
 
-        if(ends_with($request->input('email'), '@carleton.edu')) {
+        if (ends_with($request->input('email'), '@carleton.edu')) {
             return redirect()->route('login.carleton');
         }
 

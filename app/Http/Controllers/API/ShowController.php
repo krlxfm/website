@@ -2,8 +2,8 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\User;
 use KRLX\Show;
+use KRLX\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
@@ -37,12 +37,13 @@ class ShowController extends Controller
                 'string',
                 Rule::exists('terms', 'id')->where(function ($query) {
                     $query->where('accepting_applications', true);
-                })
+                }),
             ],
-            'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+'
+            'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+',
         ]);
 
         $show = $request->user()->shows()->create($request->all(), ['accepted' => true]);
+
         return $show;
     }
 
@@ -68,7 +69,7 @@ class ShowController extends Controller
     {
         $this->authorize('update', $show);
 
-        foreach($request->validated() as $field => $value) {
+        foreach ($request->validated() as $field => $value) {
             $show->{$field} = $value;
         }
         $show->save();
@@ -86,6 +87,7 @@ class ShowController extends Controller
     {
         $this->authorize('delete', $show);
         $show->delete();
+
         return response(null, 204);
     }
 
@@ -102,18 +104,18 @@ class ShowController extends Controller
             'add' => 'array',
             'add.*' => 'email|distinct|exists:users,email',
             'remove' => 'array',
-            'remove.*' => 'email|distinct|exists:users,email'
+            'remove.*' => 'email|distinct|exists:users,email',
         ]);
 
-        foreach(($request->input('add') ?? []) as $new_email) {
+        foreach (($request->input('add') ?? []) as $new_email) {
             $host = User::where('email', $new_email)->first();
 
-            if(!($show->hosts->contains($host) or $show->invitees->contains($host))) {
+            if (! ($show->hosts->contains($host) or $show->invitees->contains($host))) {
                 $show->invitees()->attach($host->id);
             }
         }
 
-        foreach(($request->input('remove') ?? []) as $new_email) {
+        foreach (($request->input('remove') ?? []) as $new_email) {
             $host = User::where('email', $new_email)->first();
 
             $show->hosts()->detach($host->id);

@@ -4,8 +4,6 @@ namespace KRLX\Listeners;
 
 use Jdenticon\Identicon;
 use KRLX\Events\UserCreating;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class FillUserDefaults
 {
@@ -32,7 +30,7 @@ class FillUserDefaults
         $icon->setValue($user->email);
         $icon->setSize(300);
 
-        $names = collect(explode(' ', $user->name))->filter(function($name) {
+        $names = collect(explode(' ', $user->name))->filter(function ($name) {
             return strpos($name, '.') === false;
         });
         $user->first_name = $user->first_name ?? $names->first() ?? 'User';

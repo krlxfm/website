@@ -16,7 +16,7 @@ class Track extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'description',
     ];
 
     /**
@@ -25,7 +25,7 @@ class Track extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'creating' => TrackCreating::class
+        'creating' => TrackCreating::class,
     ];
 
     /**
@@ -34,7 +34,7 @@ class Track extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at'
+        'created_at', 'updated_at', 'deleted_at',
     ];
 
     /**
@@ -55,6 +55,6 @@ class Track extends Model
         'awards_xp' => 'boolean',
         'allows_direct_add' => 'boolean',
         'joinable' => 'boolean',
-        'weekly' => 'boolean'
+        'weekly' => 'boolean',
     ];
 }

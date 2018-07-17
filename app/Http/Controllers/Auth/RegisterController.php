@@ -3,9 +3,9 @@
 namespace KRLX\Http\Controllers\Auth;
 
 use KRLX\User;
-use KRLX\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use KRLX\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:190|unique:users',
             'password' => 'required|string|min:12|confirmed',
         ], [
-            'unique' => 'The :attribute :input is already in use. Please click "Already have an account?" and enter your email address to sign in.'
+            'unique' => 'The :attribute :input is already in use. Please click "Already have an account?" and enter your email address to sign in.',
         ]);
     }
 
@@ -83,9 +83,10 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm(Request $request)
     {
-        if($request->session()->has('email')) {
+        if ($request->session()->has('email')) {
             return $this->showForm();
         }
+
         return redirect()->route('login');
     }
 }

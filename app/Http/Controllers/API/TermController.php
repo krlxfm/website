@@ -31,10 +31,11 @@ class TermController extends Controller
             'id' => 'required|string|max:30|regex:/^[0-9]{4,}-[A-Z0-9][A-Z0-9_]*[A-Z0-9]$/',
             'on_air' => 'required|date',
             'off_air' => 'required|date|after:on_air',
-            'boosted' => 'sometimes|boolean'
+            'boosted' => 'sometimes|boolean',
         ]);
 
         $term = Term::create($request->all());
+
         return $term;
     }
 
@@ -58,7 +59,7 @@ class TermController extends Controller
      */
     public function update(TermUpdateRequest $request, Term $term)
     {
-        foreach($request->validated() as $field => $value) {
+        foreach ($request->validated() as $field => $value) {
             $term->{$field} = $value;
         }
         $term->save();
@@ -75,6 +76,7 @@ class TermController extends Controller
     public function destroy(Term $term)
     {
         $term->delete();
+
         return response(null, 204);
     }
 }

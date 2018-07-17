@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'first_name', 'photo'
+        'name', 'email', 'password', 'first_name', 'photo',
     ];
 
     /**
@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at'
+        'password', 'remember_token', 'created_at', 'updated_at',
     ];
 
     /**
@@ -36,7 +36,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $dispatchesEvents = [
-        'creating' => UserCreating::class
+        'creating' => UserCreating::class,
     ];
 
     /**

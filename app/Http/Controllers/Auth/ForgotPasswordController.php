@@ -42,7 +42,7 @@ class ForgotPasswordController extends Controller
      */
     public function showLinkRequestForm(Request $request)
     {
-        if(!$request->session()->has('email')) {
+        if (! $request->session()->has('email')) {
             return redirect()->route('login');
         }
 

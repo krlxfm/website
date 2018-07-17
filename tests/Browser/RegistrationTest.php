@@ -32,14 +32,14 @@ class RegistrationTest extends DuskTestCase
      *
      * @return void
      */
-     public function testRegistrationAccessibleAfterEnteringEmail()
-     {
-         $this->browse(function (Browser $browser) {
-             $browser->visit(new Login)
+    public function testRegistrationAccessibleAfterEnteringEmail()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new Login)
                      ->type('email', 'test@gmail.com')
                      ->check('@login-terms')
                      ->press('Continue')
                      ->on(new Registration);
-         });
-     }
+        });
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Controllers;
 
-use KRLX\Track;
-use KRLX\Term;
 use KRLX\Show;
+use KRLX\Term;
+use KRLX\Track;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -20,17 +20,17 @@ class ShowController extends Controller
     public function my(Request $request, Term $term = null)
     {
         $terms = Term::orderByDesc('on_air')->get();
-        if($term == null) {
+        if ($term == null) {
             $term = $terms->first();
         }
 
         $incomplete_shows = $request->user()->shows()->where([
             ['submitted', '=', false],
-            ['term_id', '=', $term->id]
+            ['term_id', '=', $term->id],
         ])->orderByDesc('id')->get();
         $completed_shows = $request->user()->shows()->where([
             ['submitted', '=', true],
-            ['term_id', '=', $term->id]
+            ['term_id', '=', $term->id],
         ])->orderByDesc('id')->get();
         $invitations = $request->user()->invitations()->where('term_id', $term->id)->get();
 
@@ -65,11 +65,12 @@ class ShowController extends Controller
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
                 $query->where('accepting_applications', true);
             })],
-            'title' => 'required|string|min:3'
+            'title' => 'required|string|min:3',
         ]);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
+
         return redirect()->route('shows.hosts', $show);
     }
 

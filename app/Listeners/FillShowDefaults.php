@@ -6,8 +6,6 @@ use KRLX\Show;
 use Jdenticon\Identicon;
 use Faker\Factory as Faker;
 use KRLX\Events\ShowCreating;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class FillShowDefaults
 {
@@ -32,25 +30,27 @@ class FillShowDefaults
         $faker = Faker::create();
         $show = $event->show;
 
-        /**
+        /*
          * Generate a Show ID. To ensure that the ID is unique, we'll repeatedly
          * generate if there's a collision. Note that the probability of an ID
          * collision is 1/36 raised to the power of the ID length, which can be
          * adjusted in the config files. At 6 characters, the probability of a
          * collision on the first try is 1 in 2,176,782,336 -- better than 2^31.
          */
-        while($show->id == null) {
+        while ($show->id == null) {
             $string = $faker->regexify('[A-Z0-9]{'.config('defaults.show_id_length', 6).'}');
             $check = Show::find($string);
-            if(!$check) $show->id = $string;
+            if (! $check) {
+                $show->id = $string;
+            }
         }
 
         $arrays = ['content', 'scheduling', 'etc', 'tags', 'conflicts', 'preferences', 'classes'];
-        foreach($arrays as $array) {
+        foreach ($arrays as $array) {
             $show->{$array} = [];
         }
         $custom = ['content', 'scheduling', 'etc'];
-        foreach($custom as $key) {
+        foreach ($custom as $key) {
             $fields = collect($show->track->{$key})->pluck('db')->all();
             $show->{$key} = array_fill_keys($fields, '');
         }

@@ -3,9 +3,7 @@
 namespace Tests\API;
 
 use KRLX\Term;
-use Carbon\Carbon;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TermTest extends TestCase
@@ -18,7 +16,7 @@ class TermTest extends TestCase
     {
         parent::setUp();
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => false
+            'accepting_applications' => false,
         ]);
     }
 
@@ -32,7 +30,7 @@ class TermTest extends TestCase
         $request = $this->json('POST', '/api/v1/terms', [
             'id' => date('Y').'-SP',
             'on_air' => date('Y').'-04-01 21:00:00',
-            'off_air' => date('Y').'-06-01 21:00:00'
+            'off_air' => date('Y').'-06-01 21:00:00',
         ]);
 
         $request->assertStatus(201);
@@ -96,13 +94,13 @@ class TermTest extends TestCase
     {
         $off_air = $this->term->off_air;
         $request = $this->json('PATCH', "/api/v1/terms/{$this->term->id}", [
-            'accepting_applications' => true
+            'accepting_applications' => true,
         ]);
 
         $request->assertOk()
                 ->assertJson([
                     'accepting_applications' => true,
-                    'off_air' => $off_air
+                    'off_air' => $off_air,
                 ]);
     }
 
@@ -114,7 +112,7 @@ class TermTest extends TestCase
     public function testPutFailsWithMissingAttribute()
     {
         $request = $this->json('PUT', "/api/v1/terms/{$this->term->id}", [
-            'accepting_applications' => true
+            'accepting_applications' => true,
         ]);
 
         $request->assertStatus(422);

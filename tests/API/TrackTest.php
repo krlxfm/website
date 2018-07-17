@@ -4,7 +4,6 @@ namespace Tests\API;
 
 use KRLX\Track;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TrackTest extends TestCase
@@ -30,7 +29,7 @@ class TrackTest extends TestCase
     {
         $trackData = [
             'name' => 'Epic Shows',
-            'description' => 'A track only for epic shows. Shows will be rejected if they are not epic.'
+            'description' => 'A track only for epic shows. Shows will be rejected if they are not epic.',
         ];
 
         $request = $this->json('POST', '/api/v1/tracks', $trackData);
@@ -50,7 +49,7 @@ class TrackTest extends TestCase
         $request->assertStatus(200)
                 ->assertJson([
                     'id' => $this->track->id,
-                    'name' => $this->track->name
+                    'name' => $this->track->name,
                 ])
                 ->assertJsonMissing(['created_at', 'updated_at', 'deleted_at']);
     }
@@ -99,13 +98,13 @@ class TrackTest extends TestCase
         $name = $this->track->name;
 
         $request = $this->json('PATCH', "/api/v1/tracks/{$this->track->id}", [
-            'description' => 'A patched description.'
+            'description' => 'A patched description.',
         ]);
 
         $request->assertOk()
                 ->assertJson([
                     'description' => 'A patched description.',
-                    'name' => $name
+                    'name' => $name,
                 ]);
     }
 
@@ -117,7 +116,7 @@ class TrackTest extends TestCase
     public function testPutFailsWithMissingAttribute()
     {
         $request = $this->json('PUT', "/api/v1/tracks/{$this->track->id}", [
-            'description' => 'A patched description.'
+            'description' => 'A patched description.',
         ]);
 
         $request->assertStatus(422);

@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use KRLX\User;
 use KRLX\Show;
-use KRLX\Track;
 use KRLX\Term;
+use KRLX\User;
+use KRLX\Track;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase
@@ -26,16 +25,16 @@ class ShowTest extends TestCase
 
         $this->user = factory(User::class)->create();
         $this->track = factory(Track::class)->create([
-            'active' => true
+            'active' => true,
         ]);
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => true
+            'accepting_applications' => true,
         ]);
         $this->show = factory(Show::class)->create([
             'id' => 'SHOW01',
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
-            'submitted' => false
+            'submitted' => false,
         ]);
         $this->show->hosts()->attach($this->user, ['accepted' => true]);
         $this->session = $this->actingAs($this->user);
@@ -52,7 +51,7 @@ class ShowTest extends TestCase
             'id' => 'SECOND',
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
-            'submitted' => false
+            'submitted' => false,
         ]);
         $secondShow->hosts()->attach($this->user, ['accepted' => true]);
 
@@ -72,7 +71,7 @@ class ShowTest extends TestCase
     public function testTrackListAppearsWhenCreatingNewShow()
     {
         $track = factory(Track::class)->create([
-            'active' => false
+            'active' => false,
         ]);
 
         $request = $this->get('/shows/create');
@@ -93,7 +92,7 @@ class ShowTest extends TestCase
         $request = $this->post('/shows', [
             'title' => 'Example Show Title',
             'track_id' => $this->track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
         ]);
 
         $show = Show::where('title', 'Example Show Title')->first();
@@ -137,12 +136,12 @@ class ShowTest extends TestCase
         $track = factory(Track::class)->create([
             'active' => true,
             'content' => [
-                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']]
-            ]
+                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']],
+            ],
         ]);
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
-            'track_id' => $track->id
+            'track_id' => $track->id,
         ]);
 
         $request = $this->get("/shows/{$show->id}/content");
