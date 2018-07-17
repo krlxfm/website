@@ -2,7 +2,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Conflict times</th>
+                <th>Preferred times</th>
                 <th>Strength</th>
                 <th>Actions</th>
             </tr>
