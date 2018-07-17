@@ -26,14 +26,14 @@ class TrackUdpateRequest extends FormRequest
     {
         $rules = config('tracks.rules');
 
-        if($this->isMethod('PUT')) {
-            foreach($rules as $field => &$checks) {
+        if ($this->isMethod('PUT')) {
+            foreach ($rules as $field => &$checks) {
                 array_prepend($checks, 'present');
             }
         }
 
         $specials = ['content', 'scheduling', 'etc'];
-        foreach($specials as $special) {
+        foreach ($specials as $special) {
             $rules = array_merge($rules, $this->special($special));
         }
 
@@ -59,7 +59,7 @@ class TrackUdpateRequest extends FormRequest
             "$type.*.options" => "required_if:$type.*.type,".implode(',', array_keys(collect(config('fields'))->where('has_options', true)->all())).'|array|min:0',
             "$type.*.options.*.title" => "required_with:$type.*.options|string",
             "$type.*.options.*.value" => "required_with:$type.*.options|string",
-            "$type.*.options.*.default" => "required_with:$type.*.options|boolean"
+            "$type.*.options.*.default" => "required_with:$type.*.options|boolean",
         ];
     }
 }

@@ -46,11 +46,11 @@ class ShowTest extends DuskTestCase
                     ->visit(new CreatePage)
                     ->assertSee($this->track->name)
                     ->click("@track-{$this->track->id}")
-                    ->waitFor("@show-title")
-                    ->assertPresent("@term")
-                    ->assertMissing("@term-selector")
+                    ->waitFor('@show-title')
+                    ->assertPresent('@term')
+                    ->assertMissing('@term-selector')
                     ->type('title', 'Example Show')
-                    ->click("@create-show");
+                    ->click('@create-show');
 
             $show = Show::where('title', 'Example Show')->first();
             $browser->assertRouteIs('shows.participants', $show->id);

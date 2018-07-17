@@ -29,10 +29,11 @@ class TrackController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3|max:190|unique:tracks',
-            'description' => 'required|min:20'
+            'description' => 'required|min:20',
         ]);
 
         $track = Track::create($request->all());
+
         return $track;
     }
 
@@ -56,7 +57,7 @@ class TrackController extends Controller
      */
     public function update(TrackUdpateRequest $request, Track $track)
     {
-        foreach($request->validated() as $field => $value) {
+        foreach ($request->validated() as $field => $value) {
             $track->{$field} = $value;
         }
         $track->save();
@@ -73,6 +74,7 @@ class TrackController extends Controller
     public function destroy(Track $track)
     {
         $track->delete();
+
         return response(null, 204);
     }
 }

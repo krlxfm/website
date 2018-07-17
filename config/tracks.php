@@ -25,17 +25,17 @@ return [
         'start_day' => [
             'nullable',
             'required_with_all:start_time,end_time',
-            'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'
+            'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
         ],
         'start_time' => [
             'nullable',
             'required_with_all:start_day,end_time',
-            'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/'
+            'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/',
         ],
         'end_time' => [
             'nullable',
             'required_with_all:start_day,start_time',
-            'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/'
-        ]
-    ]
+            'regex:/^(([01][0-9])|(2[0-3])):[0-9]{2}$/',
+        ],
+    ],
 ];

@@ -2,8 +2,8 @@
 
 namespace KRLX\Http\Controllers\Auth;
 
-use Socialite;
 use KRLX\User;
+use Socialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,14 +19,14 @@ class CarletonAuthController extends Controller
      */
     public function redirect(Request $request)
     {
-        if(!$request->session()->has('email')) {
+        if (! $request->session()->has('email')) {
             return redirect()->route('login');
         }
 
         return Socialite::driver('google')->with([
             'hd' => 'carleton.edu',
             'prompt' => 'select_account',
-            'login_hint' => $request->session()->get('email')
+            'login_hint' => $request->session()->get('email'),
         ])->redirect();
     }
 
@@ -42,13 +42,13 @@ class CarletonAuthController extends Controller
         $googleUser = Socialite::driver('google')->user();
         $user = User::whereEmail($googleUser->getEmail())->first();
 
-        if(!$user) {
+        if (! $user) {
             $netid = explode('@', $googleUser->getEmail())[0];
             $user = User::create([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'photo' => config('defaults.directory').$netid,
-                'password' => Hash::make($googleUser->getId().config('defaults.salt'))
+                'password' => Hash::make($googleUser->getId().config('defaults.salt')),
             ]);
         }
 
@@ -56,6 +56,7 @@ class CarletonAuthController extends Controller
         $request->session()->forget('email');
 
         Auth::login($user, true);
+
         return redirect()->intended('/home');
     }
 }

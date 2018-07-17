@@ -3,7 +3,6 @@
 namespace KRLX\Http\Requests;
 
 use KRLX\Track;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowUpdateRequest extends FormRequest
@@ -32,8 +31,8 @@ class ShowUpdateRequest extends FormRequest
             $this->customFieldRules($track)
         );
 
-        if($this->isMethod('PUT')) {
-            foreach($rules as $field => &$ruleset) {
+        if ($this->isMethod('PUT')) {
+            foreach ($rules as $field => &$ruleset) {
                 $ruleset = array_prepend($ruleset, (head($ruleset) == 'nullable' or in_array('min:0', $ruleset)) ? 'present' : 'required');
             }
         }
@@ -64,10 +63,10 @@ class ShowUpdateRequest extends FormRequest
             'date' => ['nullable', 'date'],
             'day' => ['nullable', 'string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'],
             'start' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]'],
-            'end' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]']
+            'end' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]'],
         ];
 
-        foreach(config('defaults.special_times') as $time => $details) {
+        foreach (config('defaults.special_times') as $time => $details) {
             $baseRules["special_times.$time"] = ['string', 'in:y,m,n'];
         }
 
@@ -76,7 +75,7 @@ class ShowUpdateRequest extends FormRequest
 
     /**
      * Returns the basic which change based on the track settings.
-     * (These aren't the custom fields.)
+     * (These aren't the custom fields.).
      *
      * @param  KRLX\Track  $track
      * @return array
@@ -88,10 +87,10 @@ class ShowUpdateRequest extends FormRequest
             'classes' => ['array', ($track->weekly ? 'min:1' : 'max:0')],
             'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
             'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
-            'tags' => ['array', ($track->taggable ? 'min:0' : 'max:0')]
+            'tags' => ['array', ($track->taggable ? 'min:0' : 'max:0')],
         ];
 
-        if($track->weekly) {
+        if ($track->weekly) {
             $trackDepRules['conflicts.*.days'] = ['array', 'min:1', 'max:7', 'distinct'];
             $trackDepRules['conflicts.*.days.*'] = ['string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'];
             $trackDepRules['conflicts.*.start'] = ['string', 'regex:/([01][0-9]|2[0-3]):[03]0/'];
@@ -116,8 +115,8 @@ class ShowUpdateRequest extends FormRequest
     {
         $custom = ['content', 'scheduling', 'etc'];
         $rules = [];
-        foreach($custom as $category) {
-            foreach($track->{$category} as $field) {
+        foreach ($custom as $category) {
+            foreach ($track->{$category} as $field) {
                 $rules[$category.'.'.$field['db']] = $this->processCustomFieldRules($field['rules']);
             }
         }
@@ -133,7 +132,7 @@ class ShowUpdateRequest extends FormRequest
      */
     protected function processCustomFieldRules(array $rules)
     {
-        $filtered_rules = array_where($rules, function($value, $key) {
+        $filtered_rules = array_where($rules, function ($value, $key) {
             return $value != 'required';
         });
 

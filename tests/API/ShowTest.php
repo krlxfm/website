@@ -6,8 +6,6 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
-use Tests\API\APITestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends APITestCase
@@ -26,7 +24,7 @@ class ShowTest extends APITestCase
         $this->track = factory(Track::class)->create(['active' => true]);
         $this->show = factory(Show::class)->create([
             'term_id' => $this->term->id,
-            'track_id' => $this->track->id
+            'track_id' => $this->track->id,
         ]);
         $this->show->hosts()->attach($this->user->id, ['accepted' => true]);
     }
@@ -43,7 +41,7 @@ class ShowTest extends APITestCase
         $request = $this->json('POST', '/api/v1/shows', [
             'title' => 'Gray Duck',
             'track_id' => $this->track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
         ]);
 
         $request->assertStatus(201);
@@ -63,7 +61,7 @@ class ShowTest extends APITestCase
     {
         $request = $this->json('POST', '/api/v1/shows', [
             'track_id' => $this->track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
         ]);
 
         $request->assertStatus(201);
@@ -80,7 +78,7 @@ class ShowTest extends APITestCase
     {
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
-            'track_id' => $this->track->id
+            'track_id' => $this->track->id,
         ]);
 
         $request = $this->json('GET', '/api/v1/shows');
@@ -106,19 +104,19 @@ class ShowTest extends APITestCase
      *
      * @return void
      */
-     public function testUpdatingSomeoneElsesSingleShow()
-     {
-         $show = factory(Show::class)->create([
+    public function testUpdatingSomeoneElsesSingleShow()
+    {
+        $show = factory(Show::class)->create([
              'term_id' => $this->term->id,
-             'track_id' => $this->track->id
+             'track_id' => $this->track->id,
          ]);
 
-         $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
-             'description' => 'This is an example show description. It should be long enough to pass validation.'
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+             'description' => 'This is an example show description. It should be long enough to pass validation.',
          ]);
-         $this->assertNotContains($this->user, $show->hosts);
-         $request->assertStatus(403);
-     }
+        $this->assertNotContains($this->user, $show->hosts);
+        $request->assertStatus(403);
+    }
 
     /**
      * Test that PATCH requests ONLY update the requested data.
@@ -129,13 +127,13 @@ class ShowTest extends APITestCase
     {
         $title = $this->show->title;
         $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
-            'description' => 'This is an example show description. It should be long enough to pass validation.'
+            'description' => 'This is an example show description. It should be long enough to pass validation.',
         ]);
 
         $request->assertOk()
                 ->assertJson([
                     'description' => 'This is an example show description. It should be long enough to pass validation.',
-                    'title' => $title
+                    'title' => $title,
                 ]);
     }
 
@@ -147,7 +145,7 @@ class ShowTest extends APITestCase
     public function testPutFailsWithMissingAttribute()
     {
         $request = $this->json('PUT', "/api/v1/shows/{$this->show->id}", [
-            'title' => 'Amazing Show'
+            'title' => 'Amazing Show',
         ]);
 
         $request->assertStatus(422);
@@ -163,7 +161,7 @@ class ShowTest extends APITestCase
     {
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
-            'track_id' => $this->track->id
+            'track_id' => $this->track->id,
         ]);
 
         $delete_my_show = $this->json('DELETE', "/api/v1/shows/{$this->show->id}");
@@ -184,7 +182,7 @@ class ShowTest extends APITestCase
         $new_host = factory(User::class)->create();
 
         $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
-            'add' => [$new_host->email]
+            'add' => [$new_host->email],
         ]);
         $add_request->assertOk();
         $this->assertContains($new_host->id, $this->show->invitees->pluck('id'));
@@ -201,7 +199,7 @@ class ShowTest extends APITestCase
         $this->show->invitees()->attach($new_host);
 
         $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
-            'remove' => [$new_host->email]
+            'remove' => [$new_host->email],
         ]);
         $add_request->assertOk();
         $this->assertNotContains($new_host->id, $this->show->invitees->pluck('id'));

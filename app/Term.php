@@ -9,14 +9,14 @@ class Term extends Model
     /**
      * Attribute overrides to allow for non-integer primary key.
      *
-     * @var boolean
+     * @var bool
      */
     public $incrementing = false;
 
     /**
      * Attribute overrides to allow for non-integer primary key.
      *
-     * @var boolean
+     * @var bool
      */
     protected $keyType = 'string';
 
@@ -26,7 +26,7 @@ class Term extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'on_air', 'off_air', 'boosted'
+        'id', 'on_air', 'off_air', 'boosted',
     ];
 
     /**
@@ -35,7 +35,7 @@ class Term extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
 
     /**
@@ -45,7 +45,7 @@ class Term extends Model
      */
     protected $casts = [
         'boosted' => 'boolean',
-        'accepting_applications' => 'boolean'
+        'accepting_applications' => 'boolean',
     ];
 
     /**
@@ -57,7 +57,7 @@ class Term extends Model
         'created_at',
         'updated_at',
         'on_air',
-        'off_air'
+        'off_air',
     ];
 
     /**
@@ -68,7 +68,7 @@ class Term extends Model
     public function getNameAttribute()
     {
         $components = explode('-', $this->id);
-        if(array_key_exists($components[1], config('terms'))) {
+        if (array_key_exists($components[1], config('terms'))) {
             return config('terms')[$components[1]].' '.$components[0];
         } else {
             return str_replace('_', ' ', title_case($components[1])).' '.$components[0];

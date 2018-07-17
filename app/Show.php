@@ -13,14 +13,14 @@ class Show extends Model
     /**
      * Attribute overrides to allow for non-integer primary key.
      *
-     * @var boolean
+     * @var bool
      */
     public $incrementing = false;
 
     /**
      * Attribute overrides to allow for non-integer primary key.
      *
-     * @var boolean
+     * @var bool
      */
     protected $keyType = 'string';
 
@@ -30,7 +30,7 @@ class Show extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'term_id', 'track_id', 'source'
+        'title', 'term_id', 'track_id', 'source',
     ];
 
     /**
@@ -39,7 +39,7 @@ class Show extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'creating' => ShowCreating::class
+        'creating' => ShowCreating::class,
     ];
 
     /**
@@ -56,7 +56,7 @@ class Show extends Model
         'tags' => 'array',
         'preferences' => 'array',
         'special_times' => 'array',
-        'submitted' => 'boolean'
+        'submitted' => 'boolean',
     ];
 
     /**
@@ -65,7 +65,7 @@ class Show extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -125,9 +125,12 @@ class Show extends Model
      */
     public function getBoostedAttribute()
     {
-        foreach($this->hosts as $host) {
-            if($host->membership->boost != null) return true;
+        foreach ($this->hosts as $host) {
+            if ($host->membership->boost != null) {
+                return true;
+            }
         }
+
         return false;
     }
 }

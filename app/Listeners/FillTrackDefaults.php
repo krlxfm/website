@@ -3,8 +3,6 @@
 namespace KRLX\Listeners;
 
 use KRLX\Events\TrackCreating;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class FillTrackDefaults
 {

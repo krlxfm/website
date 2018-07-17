@@ -2,10 +2,9 @@
 
 namespace Tests\Unit;
 
-use KRLX\User;
 use KRLX\Show;
+use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase

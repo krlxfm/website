@@ -6,5 +6,5 @@ return [
     'SU' => 'Summer',
     'FA' => 'Fall',
     'WB' => 'Winter Break',
-    'SB' => 'Spring Break'
+    'SB' => 'Spring Break',
 ];
