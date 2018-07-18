@@ -105,17 +105,24 @@ function showNewPreferenceModal() {
 }
 
 function saveConflict() {
-    var conflict = {
-        start: $("#conflict-start").val(),
-        end: $("#conflict-end").val(),
-        days: $.makeArray($('[name="conflict-days"]:checked').map((index, element) => { return $(element).val() }))
-    }
-    var index = $("#conflict-index").val();
+    storeScheduleItem('conflict', conflicts);
+}
+
+function storeScheduleItem(group, list) {
+    var item = {
+        start: $("#"+group+"-start").val(),
+        end: $("#"+group+"-end").val(),
+        days: $.makeArray($('[name="'+group+'-days"]:checked').map((index, element) => { return $(element).val() }))
+    };
+    if (group == 'preference') item.strength = $("#"+group+"-strength").val();
+
+    var index = $("#"+group+"-index").val();
     if(index == -1) {
-        conflicts.push(conflict);
+        list.push(item);
     } else {
-        conflicts.splice(index, 1, conflict);
+        list.splice(index, 1, item);
     }
+
     axios.patch('/api/v1/shows/'+showID, {
         conflicts: window.conflicts,
         preferences: window.preferences
@@ -124,31 +131,11 @@ function saveConflict() {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
     });
-    $("#conflict-manager").modal('hide');
+    $("#"+group+"-manager").modal('hide');
 }
 
 function savePreference() {
-    var preference = {
-        strength: $("#preference-strength").val(),
-        start: $("#preference-start").val(),
-        end: $("#preference-end").val(),
-        days: $.makeArray($('[name="preference-days"]:checked').map((index, element) => { return $(element).val() }))
-    }
-    var index = $("#preference-index").val();
-    if(index == -1) {
-        preferences.push(preference);
-    } else {
-        preferences.splice(index, 1, preference);
-    }
-    axios.patch('/api/v1/shows/'+showID, {
-        conflicts: window.conflicts,
-        preferences: window.preferences
-    })
-    .then((response) => {
-        $("#changes-saved-item").show();
-        $("#changes-saved-item").fadeOut(2000);
-    });
-    $("#preference-manager").modal('hide');
+    storeScheduleItem('preference', preferences);
 }
 
 $(document).ready(function() {
