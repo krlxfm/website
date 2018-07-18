@@ -3,7 +3,7 @@ $(document).ready(function() {
     $("#scheduling-form input, #scheduling-form textarea, #scheduling-form select").change(saveData);
 })
 
-function saveData() {
+function saveData(e) {
     var data = $("#scheduling-form").serializeArray();
     var requestData = {classes: []};
     data.forEach((item) => {
