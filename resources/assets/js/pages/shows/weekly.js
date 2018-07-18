@@ -105,22 +105,24 @@ function showNewPreferenceModal() {
 }
 
 function saveConflict() {
-    var conflict = {
-        start: $("#conflict-start").val(),
-        end: $("#conflict-end").val(),
-        days: $.makeArray($('[name="conflict-days"]:checked').map((index, element) => { return $(element).val() }))
-    }
-    var index = $("#conflict-index").val();
-    if(index == -1) {
-        conflicts.push(conflict);
-    } else {
-        conflicts.splice(index, 1, conflict);
-    }
-    var data = {
-        conflicts: window.conflicts,
-        preferences: window.preferences
+    storeScheduleItem('conflict', conflicts);
+}
+
+function storeScheduleItem(group, list) {
+    var item = {
+        start: $("#"+group+"-start").val(),
+        end: $("#"+group+"-end").val(),
+        days: $.makeArray($('[name="'+group+'-days"]:checked').map((index, element) => { return $(element).val() }))
     };
-    console.log(JSON.parse(JSON.stringify(data)));
+    if (group == 'preference') item.strength = $("#"+group+"-strength").val();
+
+    var index = $("#"+group+"-index").val();
+    if(index == -1) {
+        list.push(item);
+    } else {
+        list.splice(index, 1, item);
+    }
+
     axios.patch('/api/v1/shows/'+showID, {
         conflicts: window.conflicts,
         preferences: window.preferences
@@ -128,33 +130,12 @@ function saveConflict() {
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
-    })
-    .catch((err) => { console.log(err.response.data) })
-    $("#conflict-manager").modal('hide');
+    });
+    $("#"+group+"-manager").modal('hide');
 }
 
 function savePreference() {
-    var preference = {
-        strength: $("#preference-strength").val(),
-        start: $("#conflict-start").val(),
-        end: $("#conflict-end").val(),
-        days: $.makeArray($('[name="conflict-days"]:checked').map((index, element) => { return $(element).val() }))
-    }
-    var index = $("#preference-index").val();
-    if(index == -1) {
-        preferences.push(preference);
-    } else {
-        preferences.splice(index, 1, preference);
-    }
-    axios.patch('/api/v1/shows/'+showID, {
-        conflicts: window.conflicts,
-        preferences: window.preferences
-    })
-    .then((response) => {
-        $("#changes-saved-item").show();
-        $("#changes-saved-item").fadeOut(2000);
-    })
-    $("#preference-manager").modal('hide');
+    storeScheduleItem('preference', preferences);
 }
 
 $(document).ready(function() {

@@ -37,7 +37,7 @@ class ShowTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testShowCreation()
     {
         $this->browse(function (Browser $browser) {
             $this->assertCount(1, Term::all());

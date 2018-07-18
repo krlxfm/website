@@ -10,7 +10,7 @@ function saveData() {
         if(item.name == 'classes') {
             requestData.classes.push(item.value);
         } else if(item.name.indexOf('.') == -1) {
-            requestData[item.name] = item.value
+            requestData[item.name] = item.value;
         } else {
             var components = item.name.split('.');
             if (components[0] in requestData === false) requestData[components[0]] = {};

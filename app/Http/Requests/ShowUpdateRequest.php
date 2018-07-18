@@ -56,6 +56,7 @@ class ShowUpdateRequest extends FormRequest
             'preferences' => ['array', 'min:1'],
             'etc' => ['array'],
             'special_times' => ['array', 'size:'.count(config('defaults.special_times'))],
+            'classes' => ['array'],
             'classes.*' => ['string'],
             'tags.*' => ['string'],
             'preferred_length' => ['integer', 'min:0', 'max:240'],
@@ -84,7 +85,6 @@ class ShowUpdateRequest extends FormRequest
     {
         $trackDepRules = [
             'description' => ['min:'.$track->description_min_length, 'max:65000'],
-            'classes' => ['array', ($track->weekly ? 'min:1' : 'max:0')],
             'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
             'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
             'tags' => ['array', ($track->taggable ? 'min:0' : 'max:0')],
