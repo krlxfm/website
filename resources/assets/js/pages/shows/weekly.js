@@ -116,11 +116,6 @@ function saveConflict() {
     } else {
         conflicts.splice(index, 1, conflict);
     }
-    var data = {
-        conflicts: window.conflicts,
-        preferences: window.preferences
-    };
-    console.log(JSON.parse(JSON.stringify(data)));
     axios.patch('/api/v1/shows/'+showID, {
         conflicts: window.conflicts,
         preferences: window.preferences
@@ -128,17 +123,16 @@ function saveConflict() {
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
-    })
-    .catch((err) => { console.log(err.response.data) })
+    });
     $("#conflict-manager").modal('hide');
 }
 
 function savePreference() {
     var preference = {
         strength: $("#preference-strength").val(),
-        start: $("#conflict-start").val(),
-        end: $("#conflict-end").val(),
-        days: $.makeArray($('[name="conflict-days"]:checked').map((index, element) => { return $(element).val() }))
+        start: $("#preference-start").val(),
+        end: $("#preference-end").val(),
+        days: $.makeArray($('[name="preference-days"]:checked').map((index, element) => { return $(element).val() }))
     }
     var index = $("#preference-index").val();
     if(index == -1) {
@@ -153,7 +147,7 @@ function savePreference() {
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
-    })
+    });
     $("#preference-manager").modal('hide');
 }
 
