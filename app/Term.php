@@ -84,4 +84,14 @@ class Term extends Model
     {
         return $this->hasMany('KRLX\Show');
     }
+
+    /**
+     * Get the year attached to the term.
+     *
+     * @return int
+     */
+    public function getYearAttribute()
+    {
+        return intval(explode('-', $this->id)[0]);
+    }
 }

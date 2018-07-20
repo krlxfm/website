@@ -132,7 +132,7 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows()->get();
+        $shows = $term->shows->sortBy('updated_at')->sortBy('priority');
 
         return view('shows.all', compact('shows', 'terms', 'term'));
     }

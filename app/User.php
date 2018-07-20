@@ -84,8 +84,8 @@ class User extends Authenticatable
     public function getPriorityAttribute()
     {
         $priority = new Priority;
-        $priority->setTerms(collect($this->xp)->unique()->count())
-                 ->setYear($this->year);
+        $priority->terms = collect($this->xp)->unique()->count();
+        $priority->year = $this->year;
         return $priority;
     }
 

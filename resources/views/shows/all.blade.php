@@ -49,7 +49,9 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
-                            <td class="align-middle">???</td>
+                            <td class="align-middle">
+                                {{ $show->priority }}
+                            </td>
                             <td class="align-middle">
                                 <div class="btn-group">
                                     <a href="{{ route('shows.review', $show) }}" class="btn btn-outline-primary">View/Edit</a>
