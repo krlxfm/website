@@ -155,7 +155,7 @@ class Show extends Model
         }
 
         $year = $priorities->min->year;
-        if ($this->track->group) {
+        if ($this->track->group !== null) {
             $group = $this->track->group;
         } else if ($year >= count(config('defaults.status_codes')) and $year < 1000) {
             $zone = config('defaults.priority.default');

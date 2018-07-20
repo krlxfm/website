@@ -50,6 +50,7 @@
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
                             <td class="align-middle">
+                                {{ $show->track->prefix }}
                                 {{ $show->priority }}
                             </td>
                             <td class="align-middle">
