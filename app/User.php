@@ -45,7 +45,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'xp' => 'array'
+        'xp' => 'array',
     ];
 
     /**
