@@ -40,6 +40,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be type-cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'xp' => 'array'
+    ];
+
+    /**
      * Returns the shows that the user is a member of.
      *
      * @return Eloquent\Collection<KRLX\Show>
