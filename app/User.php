@@ -77,6 +77,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Generate the Priority object corresponding to this user.
+     *
+     * @return KRLX\Priority
+     */
+    public function getPriorityAttribute()
+    {
+        $priority = new Priority;
+        $priority->setTerms(collect($this->xp)->unique()->count())
+                 ->setYear($this->year);
+        return $priority;
+    }
+
+    /**
      * Send a password reset notification.
      *
      * @param  string  $token
