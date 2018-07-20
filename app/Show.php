@@ -148,7 +148,7 @@ class Show extends Model
         $terms = $priorities->max->terms ?? 0;
         if ($this->track->zone) {
             $zone = $this->track->zone;
-        } else if ($terms >= count(config('defaults.priority.terms'))) {
+        } elseif ($terms >= count(config('defaults.priority.terms'))) {
             $zone = config('defaults.priority.default');
         } else {
             $zone = config('defaults.priority.terms')[$terms];
@@ -157,9 +157,9 @@ class Show extends Model
         $year = $priorities->min->year;
         if ($this->track->group !== null) {
             $group = $this->track->group;
-        } else if ($year >= count(config('defaults.status_codes')) and $year < 1000) {
+        } elseif ($year >= count(config('defaults.status_codes')) and $year < 1000) {
             $zone = config('defaults.priority.default');
-        } else if (strlen($zone) == 2) {
+        } elseif (strlen($zone) == 2) {
             $group = '';
         } else {
             $group = $year - $this->term->year + ($this->term->boosted ? 1 : 0);

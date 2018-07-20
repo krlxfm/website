@@ -86,6 +86,7 @@ class User extends Authenticatable
         $priority = new Priority;
         $priority->terms = collect($this->xp)->unique()->count();
         $priority->year = $this->year;
+
         return $priority;
     }
 

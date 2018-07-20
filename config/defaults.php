@@ -6,7 +6,7 @@ return [
     'salt' => env('OAUTH_SALT', 'krlx'),
     'priority' => [
         'default' => 'A1',
-        'terms' => array_merge(range('J', 'B'), ['A3', 'A2', 'A1'])
+        'terms' => array_merge(range('J', 'B'), ['A3', 'A2', 'A1']),
     ],
     'show_id_length' => 6,
     'status_codes' => [
@@ -14,7 +14,7 @@ return [
         'Faculty',
         'Staff',
         'St. Olaf Faculty',
-        'St. Olaf Staff'
+        'St. Olaf Staff',
     ],
     'special_times' => [
         'safe-harbor' => [
