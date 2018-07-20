@@ -117,4 +117,23 @@ class ShowController extends Controller
     {
         return view('shows.review', compact('show'));
     }
+
+    /**
+     * Display the master list of shows.
+     *
+     * @param  KRLX\Show  $show
+     * @param  KRLX\Term|null  $term
+     * @return Illuminate\Http\Response
+     */
+    public function all(Request $request, Term $term = null)
+    {
+        $terms = Term::orderByDesc('on_air')->get();
+        if ($term == null) {
+            $term = $terms->first();
+        }
+
+        $shows = $term->shows()->get();
+
+        return view('shows.all', compact('shows', 'terms', 'term'));
+    }
 }

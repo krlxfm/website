@@ -74,4 +74,14 @@ class Term extends Model
             return str_replace('_', ' ', title_case($components[1])).' '.$components[0];
         }
     }
+
+    /**
+     * Get the shows attached to this term.
+     *
+     * @return Eloquent\Collection<KRLX\Show>
+     */
+    public function shows()
+    {
+        return $this->hasMany('KRLX\Show');
+    }
 }

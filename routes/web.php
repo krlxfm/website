@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('shows', 'ShowController@my')->name('shows.my');
+    Route::get('shows/all', 'ShowController@all')->name('shows.all');
     Route::get('shows/create', 'ShowController@create')->name('shows.create');
     Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
     Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
