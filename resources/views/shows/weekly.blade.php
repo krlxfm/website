@@ -7,7 +7,7 @@
         <div class="col-sm-10">
             <div class="custom-control custom-radio">
                 <input type="radio" id="length-30" name="preferred_length" class="custom-control-input" value="30" {{ $show->preferred_length == 30 ? 'checked' : '' }}>
-                <label class="custom-control-label" for="length-30">30 minutes</label>
+                <label class="custom-control-label" for="length-30">30 minutes (&frac12; hour)</label>
             </div>
             <div class="custom-control custom-radio">
                 <input type="radio" id="length-60" name="preferred_length" class="custom-control-input" value="60" {{ $show->preferred_length == 60 ? 'checked' : '' }}>
