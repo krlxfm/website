@@ -49,7 +49,7 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
-                            <td class="align-middle bg-priority-{{ strtolower($show->priority[0]) }}">
+                            <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
                                 {{ $show->track->prefix }}
                                 {{ $show->priority }}
                             </td>
@@ -92,7 +92,7 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
-                            <td class="align-middle bg-priority-{{ strtolower($show->priority[0]) }}">
+                            <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
                                 {{ $show->track->prefix }}
                                 {{ $show->priority }}
                             </td>
