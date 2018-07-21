@@ -132,7 +132,21 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows->sortBy('updated_at')->sortBy('priority');
+        $shows = $term->shows->sort(function($a, $b) {
+            $track_diff = $a->track->order <=> $b->track->order;
+            $priority_diff = $a->priority <=> $b->priority;
+            $updated_at_diff = $a->updated_at <=> $b->updated_at;
+
+            if ($track_diff != 0) {
+                return $track_diff;
+            } else if ($priority_diff != 0) {
+                return $priority_diff;
+            } else if ($updated_at_diff != 0) {
+                return $updated_at_diff;
+            } else {
+                return $a->id <=> $b->id;
+            }
+        });
 
         return view('shows.all', compact('shows', 'terms', 'term'));
     }
