@@ -38,7 +38,7 @@
                     @foreach($users as $user)
                         <tr>
                             <td class="align-middle">
-                                <h5 class="mb-1">{{ $user->name }}</h5>
+                                <h5 class="mb-1">{{ $user->full_name }}</h5>
                                 <ul class="mb-0">
                                     @foreach($user->shows as $show)
                                         <li><a href="{{ route('shows.review', $show) }}">{{ $show->title }}</li>

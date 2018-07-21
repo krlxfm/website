@@ -47,7 +47,7 @@
                                 {{ $show->description }}
                             </td>
                             <td class="align-middle">
-                                {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
+                                {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                             </td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
                                 @if($show->boosted and $show->boost == 'S')
@@ -93,7 +93,7 @@
                                 {{ $show->description }}
                             </td>
                             <td class="align-middle">
-                                {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
+                                {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                             </td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
                                 {{ $show->track->prefix }}
