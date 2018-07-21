@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use Carbon\Carbon;
 use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -70,33 +70,33 @@ class ShowSupportTest extends TestCase
     {
         $high_priority_user = factory(User::class)->create([
             'year' => date('Y') + 2,
-            'xp' => ['2017-WI', '2017-SP', '2017-FA']
+            'xp' => ['2017-WI', '2017-SP', '2017-FA'],
         ]);
         $mid_priority_user = factory(User::class)->create([
             'year' => date('Y') + 1,
-            'xp' => ['2017-SP', '2017-FA']
+            'xp' => ['2017-SP', '2017-FA'],
         ]);
         $high_priority_track = factory(Track::class)->create([
             'active' => true,
-            'order' => 900
+            'order' => 900,
         ]);
         $high_priority_show = factory(Show::class)->create([
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
             'submitted' => true,
-            'updated_at' => Carbon::now()->subMinutes(20)
+            'updated_at' => Carbon::now()->subMinutes(20),
         ]);
         $recent_show = factory(Show::class)->create([
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
             'submitted' => true,
-            'updated_at' => Carbon::now()->subMinutes(10)
+            'updated_at' => Carbon::now()->subMinutes(10),
         ]);
         $high_track_show = factory(Show::class)->create([
             'track_id' => $high_priority_track->id,
             'term_id' => $this->term->id,
             'submitted' => true,
-            'updated_at' => Carbon::now()->subMinutes(30)
+            'updated_at' => Carbon::now()->subMinutes(30),
         ]);
 
         $high_priority_show->hosts()->attach($high_priority_user, ['accepted' => true]);

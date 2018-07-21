@@ -144,8 +144,8 @@ class Show extends Model
      */
     public function getBoostAttribute()
     {
-        if (!$this->boosted) {
-            return null;
+        if (! $this->boosted) {
+            return;
         }
 
         $string = '';
@@ -153,12 +153,12 @@ class Show extends Model
             if ($host->membership->boost == 'S') {
                 $string = 'S';
                 break;
-            } else if ($host->membership->boost == 'A1') {
+            } elseif ($host->membership->boost == 'A1') {
                 $string = 'A1';
-            } else if ($host->membership->boost[0] == '+' and $string != 'A1') {
+            } elseif ($host->membership->boost[0] == '+' and $string != 'A1') {
                 $zones = intval(substr($host->membership->boost));
                 $current_zones = ($string[0] == 'Z' ? intval(substr($string, 2)) : 0);
-                if($zones > $current_zones) {
+                if ($zones > $current_zones) {
                     $string = 'Z+'.$zones;
                 }
             }

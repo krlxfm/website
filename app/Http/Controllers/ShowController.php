@@ -132,7 +132,7 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows->sort(function($a, $b) {
+        $shows = $term->shows->sort(function ($a, $b) {
             $boost_diff = ($b->boost == 'S') <=> ($a->boost == 'S');
             $track_diff = $a->track->order <=> $b->track->order;
             $priority_diff = $a->priority <=> $b->priority;
@@ -141,8 +141,8 @@ class ShowController extends Controller
 
             $diffs = [$boost_diff, $track_diff, $priority_diff, $updated_at_diff, $id_diff];
 
-            foreach($diffs as $diff) {
-                if($diff != 0) {
+            foreach ($diffs as $diff) {
+                if ($diff != 0) {
                     return $diff;
                 }
             }
