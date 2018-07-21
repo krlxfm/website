@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Controllers;
 
+use KRLX\Term;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +25,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+        $terms = Term::orderByDesc('on_air')->get();
+        $term = $terms->first();
+
         $user = $request->user();
-        return view('home', compact('user'));
+        $shows = $user->shows()->where('term_id', $term->id)->get();
+        return view('home', compact('user', 'shows', 'term'));
     }
 }
