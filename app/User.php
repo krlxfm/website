@@ -91,6 +91,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Gets the user's "full name". For Carls and alumni, this appends the class
+     * name onto the end of the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        if ($this->year >= 1000) {
+            return $this->name." '".substr($this->year, -2);
+        } else {
+            return $this->name;
+        }
+    }
+
+    /**
      * Send a password reset notification.
      *
      * @param  string  $token
