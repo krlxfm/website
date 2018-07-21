@@ -137,3 +137,14 @@ span.onair-now {
 span.text-smallcaps {
     font-variant: small-caps;
 }
+
+@each $zone, $bgcolor in $priority {
+    .bg-priority-#{$zone} {
+        background: $bgcolor;
+        @if index($light-priorities, $zone) {
+            color: #2c3e50;
+        } @else {
+            color: white;
+        }
+    }
+}

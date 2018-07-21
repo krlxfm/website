@@ -26,7 +26,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <table class="table table-hover">
+            <table class="table table-borderless table-striped">
                 <thead>
                     <tr>
                         <th class="w-50">Title and details</th>
@@ -49,7 +49,7 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle bg-priority-{{ strtolower($show->priority[0]) }}">
                                 {{ $show->track->prefix }}
                                 {{ $show->priority }}
                             </td>
@@ -69,7 +69,7 @@
                     <a href="#" class="btn btn-primary"><i class="fas fa-bell"></i> Remind shows</a>
                 </div>
             </div>
-            <table class="table table-hover">
+            <table class="table table-borderless table-striped">
                 <thead>
                     <tr>
                         <th class="w-50">Title and details</th>
@@ -92,7 +92,10 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
-                            <td class="align-middle">???</td>
+                            <td class="align-middle bg-priority-{{ strtolower($show->priority[0]) }}">
+                                {{ $show->track->prefix }}
+                                {{ $show->priority }}
+                            </td>
                             <td class="align-middle">
                                 <div class="btn-group">
                                     <a href="{{ route('shows.review', $show) }}" class="btn btn-outline-primary">View/Edit</a>
