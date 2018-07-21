@@ -50,6 +50,9 @@
                                 {!! implode('<br>', $show->hosts->pluck('name')->all()) !!}
                             </td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
+                                @if($show->boosted and $show->boost == 'S')
+                                    <i class="fas fa-rocket"></i>
+                                @endif
                                 {{ $show->track->prefix }}
                                 {{ $show->priority }}
                             </td>
