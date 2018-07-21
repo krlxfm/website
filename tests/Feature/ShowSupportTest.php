@@ -61,6 +61,22 @@ class ShowSupportTest extends TestCase
     }
 
     /**
+     * Test that "All DJs" shows *all* DJs -- invitees and hosts -- who are a
+     * part of any shows.
+     *
+     * @return void
+     */
+    public function testAllDJsReturnsAllUsers()
+    {
+        $user = factory(User::class)->create();
+        $this->show->invitees()->attach($user);
+
+        $request = $this->get('/shows/djs');
+        $request->assertOk();
+        $request->assertSeeInOrder(User::get()->sortBy('email')->pluck('name')->all());
+    }
+
+    /**
      * Test that "All Shows" sorts by track order first, then priority, then
      * submission time.
      *

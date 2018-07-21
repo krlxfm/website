@@ -40,4 +40,15 @@ class Priority
     {
         return str_replace(' | ', ' &bull; ', $this->display());
     }
+
+    /**
+     * Get the zone letter corresponding to this priority's terms.
+     *
+     * @return string
+     */
+    public function zone()
+    {
+        $letters = range('J', 'A');
+        return $this->terms < count($letters) ? $letters[$this->terms] : 'A';
+    }
 }
