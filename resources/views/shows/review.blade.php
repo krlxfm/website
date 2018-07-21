@@ -33,8 +33,8 @@
                         <td></td>
                     </tr>
 
-                    @include('shows.tr', ['title' => 'Hosts', 'value' => $show->hosts->pluck('name')->all(), 'path' => 'hosts'])
-                    @include('shows.tr', ['title' => 'Invitees', 'value' => $show->invitees->pluck('name')->all(), 'path' => 'hosts'])
+                    @include('shows.tr', ['title' => 'Hosts', 'value' => $show->hosts->pluck('full_name')->all(), 'path' => 'hosts'])
+                    @include('shows.tr', ['title' => 'Invitees', 'value' => $show->invitees->pluck('full_name')->all(), 'path' => 'hosts'])
 
                     @include('shows.tr', ['title' => 'Title', 'value' => $show->title, 'path' => 'content'])
                     @include('shows.tr', ['title' => 'Description', 'value' => $show->description, 'path' => 'content'])

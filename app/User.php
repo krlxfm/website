@@ -31,6 +31,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be added to arrays.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'full_name',
+    ];
+
+    /**
      * The events that should be dispatched.
      *
      * @var array
