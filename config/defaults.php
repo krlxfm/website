@@ -6,6 +6,7 @@ return [
     'salt' => env('OAUTH_SALT', 'krlx'),
     'priority' => [
         'default' => 'A1',
+        'none' => 'J4',
         'terms' => array_merge(range('J', 'B'), ['A3', 'A2', 'A1']),
     ],
     'show_id_length' => 6,
