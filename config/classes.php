@@ -7,7 +7,7 @@ return [
         ['name' => '"L" daily language classes', 'classes' => ['1a-L', '2a-L', '3a-L', '4a-L', '5a-L', '6a-L']],
         ['name' => 'Art classes', 'classes' => ['mw-am-art', 'mw-pm-art', 'tuth-am-art', 'tuth-pm-art']],
         ['name' => 'Morning labs', 'classes' => ['m-am-lab', 'tu-am-lab', 'w-am-lab', 'th-am-lab']],
-        ['name' => 'Afternoon labs', 'classes' => ['m-pm-lab', 'tu-pm-lab', 'w-pm-lab', 'th-pm-lab']]
+        ['name' => 'Afternoon labs', 'classes' => ['m-pm-lab', 'tu-pm-lab', 'w-pm-lab', 'th-pm-lab']],
     ],
     'times' => [
         '1a' => [
@@ -17,7 +17,7 @@ return [
                 ['days' => ['Friday'], 'start' => '08:30', 'end' => '09:30'],
             ],
             'times' => [
-                ['days' => ['Monday', 'Wednesday', 'Friday'], 'start' => '08:00', 'end' => '10:00']
+                ['days' => ['Monday', 'Wednesday', 'Friday'], 'start' => '08:00', 'end' => '10:00'],
             ],
         ],
         '2a' => [
@@ -81,7 +81,7 @@ return [
                 ['days' => ['Tuesday', 'Thursday'], 'start' => '08:15', 'end' => '10:00'],
             ],
             'times' => [
-                ['days' => ['Tuesday', 'Thursday'], 'start' => '08:00', 'end' => '10:30']
+                ['days' => ['Tuesday', 'Thursday'], 'start' => '08:00', 'end' => '10:30'],
             ],
         ],
         '2-3c' => [
@@ -90,7 +90,7 @@ return [
                 ['days' => ['Tuesday', 'Thursday'], 'start' => '10:10', 'end' => '11:55'],
             ],
             'times' => [
-                ['days' => ['Tuesday', 'Thursday'], 'start' => '10:00', 'end' => '12:00']
+                ['days' => ['Tuesday', 'Thursday'], 'start' => '10:00', 'end' => '12:00'],
             ],
         ],
         '4-5c' => [
@@ -99,7 +99,7 @@ return [
                 ['days' => ['Tuesday', 'Thursday'], 'start' => '13:15', 'end' => '15:00'],
             ],
             'times' => [
-                ['days' => ['Tuesday', 'Thursday'], 'start' => '13:00', 'end' => '15:30']
+                ['days' => ['Tuesday', 'Thursday'], 'start' => '13:00', 'end' => '15:30'],
             ],
         ],
         '5-6c' => [
@@ -108,7 +108,7 @@ return [
                 ['days' => ['Tuesday', 'Thursday'], 'start' => '15:10', 'end' => '16:55'],
             ],
             'times' => [
-                ['days' => ['Tuesday', 'Thursday'], 'start' => '15:00', 'end' => '17:00']
+                ['days' => ['Tuesday', 'Thursday'], 'start' => '15:00', 'end' => '17:00'],
             ],
         ],
         '1a-L' => [
@@ -120,7 +120,7 @@ return [
             ],
             'times' => [
                 ['days' => ['Monday', 'Wednesday', 'Friday'], 'start' => '08:00', 'end' => '10:00'],
-                ['days' => ['Tuesday', 'Thursday'], 'start' => '08:00', 'end' => '09:30']
+                ['days' => ['Tuesday', 'Thursday'], 'start' => '08:00', 'end' => '09:30'],
             ],
         ],
         '2a-L' => [
@@ -133,7 +133,7 @@ return [
             'times' => [
                 ['days' => ['Monday', 'Wednesday'], 'start' => '09:30', 'end' => '11:30'],
                 ['days' => ['Tuesday', 'Thursday'], 'start' => '09:00', 'end' => '11:00'],
-                ['days' => ['Friday'], 'start' => '09:30', 'end' => '11:00']
+                ['days' => ['Friday'], 'start' => '09:30', 'end' => '11:00'],
             ],
         ],
         '3a-L' => [

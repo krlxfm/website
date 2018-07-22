@@ -29,7 +29,7 @@ class UserTest extends TestCase
         $faker = $this->faker();
         $user = factory(User::class)->create([
             'email' => $faker->username.'@carleton.edu',
-            'year' => date('Y')
+            'year' => date('Y'),
         ]);
 
         $this->assertFalse(ends_with($this->user->email, '@carleton.edu'));
