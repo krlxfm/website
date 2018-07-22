@@ -34,7 +34,7 @@
                             <div class="col-md-8">
                                 <div class="list-group-flush">
                                     @foreach($shows->where('submitted', true) as $show)
-                                        <a class="list-group-item text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
+                                        <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
                                             <div>
                                                 <h5 class="head-sans-serif mb-0">
                                                     <strong>{{ $show->title }}</strong>
@@ -62,7 +62,7 @@
                             <div class="col-md-8">
                                 <div class="list-group-flush">
                                     @foreach($shows->where('submitted', false) as $show)
-                                        <a class="list-group-item text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
+                                        <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
                                             <div>
                                                 <h5 class="head-sans-serif mb-0">
                                                     <strong>{{ $show->title }}</strong>
