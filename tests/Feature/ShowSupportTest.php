@@ -71,9 +71,13 @@ class ShowSupportTest extends TestCase
         $user = factory(User::class)->create();
         $this->show->invitees()->attach($user);
 
+        $names = User::get()->sortBy('email')->pluck('name')->map(function($user) {
+            return e($user);
+        });
+
         $request = $this->get('/shows/djs');
         $request->assertOk();
-        $request->assertSeeInOrder(User::get()->sortBy('email')->pluck('name')->all());
+        $request->assertSeeInOrder($names->all());
     }
 
     /**
