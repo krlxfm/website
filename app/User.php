@@ -115,6 +115,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Gets the user's "public name", seen by folks who aren't logged in.
+     * TODO: Implement last-name splits.
+     *
+     * @return string
+     */
+    public function getPublicNameAttribute()
+    {
+        return $this->nickname ?? $this->name;
+    }
+
+    /**
      * Send a password reset notification.
      *
      * @param  string  $token
