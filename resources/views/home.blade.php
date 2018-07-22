@@ -25,14 +25,14 @@
                         </a>
                     </div>
                 </div>
-                <div class="card-body py-0">
+                <div class="card-body p-0">
                     @if($shows->where('submitted', true)->count() > 0)
                         <div class="row">
-                            <div class="col col-md-4">
-                                <h4 class="mb-0 py-3">Completed shows</h4>
+                            <div class="col-md-4">
+                                <h4 class="mb-0 ml-3 py-3">Completed shows</h4>
                             </div>
-                            <div class="col col-md-8">
-                                <div class="list-group list-group-flush">
+                            <div class="col-md-8">
+                                <div class="list-group-flush">
                                     @foreach($shows->where('submitted', true) as $show)
                                         <a class="list-group-item text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
                                             <div>
@@ -56,11 +56,11 @@
                     @endif
                     @if($shows->where('submitted', false)->count() > 0)
                         <div class="row">
-                            <div class="col col-md-4">
-                                <h4 class="mb-0 py-3">Incomplete shows</h4>
+                            <div class="col-md-4">
+                                <h4 class="mb-0 ml-3 py-3">Incomplete shows</h4>
                             </div>
-                            <div class="col col-md-8">
-                                <div class="list-group list-group-flush">
+                            <div class="col-md-8">
+                                <div class="list-group-flush">
                                     @foreach($shows->where('submitted', false) as $show)
                                         <a class="list-group-item text-dark d-flex align-items-center" href="{{ route('shows.review', $show) }}">
                                             <div>
