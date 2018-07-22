@@ -29,7 +29,7 @@
 <script>
 var showID = "{{ $show->id }}";
 var userID = {{ Auth::user()->id }};
-var participants = {!! json_encode($show->hosts->merge($show->invitees)) !!};
+var participants = {!! json_encode($show->hosts->merge($show->invitees)->unique()) !!};
 </script>
 <script src="/js/pages/shows/hosts.js" defer></script>
 @endpush

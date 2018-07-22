@@ -7,7 +7,7 @@
             <div class="list-group">
                 <div class="list-group-item d-flex align-items-center" v-for="(dj, index) in suggestions">
                     <div>
-                        {{ dj.name }}
+                        {{ dj.full_name }}
                         <br>
                         <small class="text-muted">{{ dj.email }}</small>
                     </div>

@@ -117,4 +117,61 @@ class ShowController extends Controller
     {
         return view('shows.review', compact('show'));
     }
+
+    /**
+     * Display the master list of shows.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Term|null  $term
+     * @return Illuminate\Http\Response
+     */
+    public function all(Request $request, Term $term = null)
+    {
+        $terms = Term::orderByDesc('on_air')->get();
+        if ($term == null) {
+            $term = $terms->first();
+        }
+
+        $shows = $term->shows->sort(function ($a, $b) {
+            $boost_diff = ($b->boost == 'S') <=> ($a->boost == 'S');
+            $track_diff = $a->track->order <=> $b->track->order;
+            $priority_diff = $a->priority <=> $b->priority;
+            $updated_at_diff = $a->updated_at <=> $b->updated_at;
+            $id_diff = $a->id <=> $b->id;
+
+            $diffs = [$boost_diff, $track_diff, $priority_diff, $updated_at_diff, $id_diff];
+
+            foreach ($diffs as $diff) {
+                if ($diff != 0) {
+                    return $diff;
+                }
+            }
+        });
+
+        return view('shows.all', compact('shows', 'terms', 'term'));
+    }
+
+    /**
+     * Display the list of all DJs involved in at least one show.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Term|null  $term
+     * @return Illuminate\Http\Response
+     */
+    public function djs(Request $request, Term $term = null)
+    {
+        $terms = Term::orderByDesc('on_air')->get();
+        if ($term == null) {
+            $term = $terms->first();
+        }
+
+        $hosts = $term->shows->pluck('hosts')->flatten();
+        $invitees = $term->shows->pluck('invitees')->flatten();
+
+        $users = $hosts->concat($invitees)->unique(function ($user) {
+            return $user['id'];
+        })->sortBy('email');
+
+        return view('shows.djs', compact('term', 'terms', 'users'));
+    }
 }

@@ -133,4 +133,83 @@ class Show extends Model
 
         return false;
     }
+
+    /**
+     * Compute how much of a priority boost the show should get. Returns "Z+N"
+     * if the show is entitled to an N-zone boost, "S" if the show is titled to
+     * skipping track order, or "A" if the priority should be set to A1 within
+     * the track.
+     *
+     * @return string|null
+     */
+    public function getBoostAttribute()
+    {
+        if (! $this->boosted) {
+            return;
+        }
+
+        $string = '';
+        foreach ($this->hosts as $host) {
+            if ($host->membership->boost == 'S') {
+                $string = 'S';
+                break;
+            } elseif ($host->membership->boost == 'A1') {
+                $string = 'A1';
+            } elseif ($host->membership->boost[0] == '+' and $string != 'A1') {
+                $zones = intval(substr($host->membership->boost));
+                $current_zones = ($string[0] == 'Z' ? intval(substr($string, 2)) : 0);
+                if ($zones > $current_zones) {
+                    $string = 'Z+'.$zones;
+                }
+            }
+        }
+
+        return $string;
+    }
+
+    /**
+     * Generate the show's priority string.
+     *
+     * @return string
+     */
+    public function getPriorityAttribute()
+    {
+        $priorities = $this->hosts->pluck('priority');
+        $zone = '';
+        $group = '';
+
+        $terms = $priorities->max->terms ?? 0;
+        if ($this->boosted and $this->boost[0] == 'Z') {
+            $terms += intval(substr($this->boost, 2));
+        } elseif ($this->boosted and $this->boost == 'A1') {
+            return 'A1';
+        }
+
+        if ($this->track->zone) {
+            $zone = $this->track->zone;
+        } elseif ($terms >= count(config('defaults.priority.terms'))) {
+            $zone = config('defaults.priority.default');
+        } else {
+            $zone = config('defaults.priority.terms')[$terms];
+        }
+
+        $year = $priorities->min->year;
+        if ($this->track->group !== null) {
+            $group = $this->track->group;
+        } elseif ($year == 0) {
+            $zone = config('defaults.priority.none');
+        } elseif ($year >= count(config('defaults.status_codes')) and $year < 1000) {
+            $zone = config('defaults.priority.default');
+        } elseif (strlen($zone) == 2) {
+            $group = '';
+        } else {
+            $group = $year - $this->term->year + ($this->term->boosted ? 1 : 0);
+            if ($group <= 0) {
+                $group = '';
+                $zone = config('defaults.priority.default');
+            }
+        }
+
+        return $zone.$group;
+    }
 }

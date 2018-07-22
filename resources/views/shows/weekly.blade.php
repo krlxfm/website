@@ -7,7 +7,7 @@
         <div class="col-sm-10">
             <div class="custom-control custom-radio">
                 <input type="radio" id="length-30" name="preferred_length" class="custom-control-input" value="30" {{ $show->preferred_length == 30 ? 'checked' : '' }}>
-                <label class="custom-control-label" for="length-30">30 minutes</label>
+                <label class="custom-control-label" for="length-30">30 minutes (&frac12; hour)</label>
             </div>
             <div class="custom-control custom-radio">
                 <input type="radio" id="length-60" name="preferred_length" class="custom-control-input" value="60" {{ $show->preferred_length == 60 ? 'checked' : '' }}>
@@ -46,16 +46,23 @@
     @endforeach
 </div>
 <h2>Classes</h2>
-<p>You can add lab, art, PE, and other class sections in the "Other conflicts" section. We'll automatically round class times to the nearest half hour.</p>
+<p>Most common class times are listed here. PE classes, comps, and St. Olaf class times will need to be entered manually.</p>
 <div class="row mb-3">
     @foreach(config('classes.groups') as $group)
-        <div class="col-sm">
-            <p class="mb-1">{{ $group['name'] }}</p>
+        <div class="col-sm-6 col-md-4 mb-3">
+            <p class="mb-1"><strong>{{ $group['name'] }}</strong></p>
             @foreach($group['classes'] as $block)
+                @php
+                    $dispTimes = array_map(function($time) {
+                        $start = Carbon\Carbon::parse($time['start']);
+                        $end = Carbon\Carbon::parse($time['end']);
+                        return implode(', ', $time['days']).' '.$start->format('g:i a').' - '.$end->format('g:i a');
+                    }, config("classes.times.$block.displayTimes"));
+                @endphp
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" id="classes-{{ $block }}" name="classes" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
-                    <label class="custom-control-label" for="classes-{{ $block }}">
-                        {{ $block }}
+                    <label class="custom-control-label" for="classes-{{ $block }}" data-toggle="tooltip" data-placement="bottom" title="{{ implode('; ', $dispTimes) }}">
+                        {{ config("classes.times.$block.name") }}
                     </label>
                 </div>
             @endforeach

@@ -31,12 +31,30 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be added to arrays.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'full_name',
+    ];
+
+    /**
      * The events that should be dispatched.
      *
      * @var array
      */
     protected $dispatchesEvents = [
         'creating' => UserCreating::class,
+    ];
+
+    /**
+     * The attributes that should be type-cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'xp' => 'array',
     ];
 
     /**
@@ -65,6 +83,46 @@ class User extends Authenticatable
                     ->wherePivot('accepted', false)
                     ->withTimestamps()
                     ->as('membership');
+    }
+
+    /**
+     * Generate the Priority object corresponding to this user.
+     *
+     * @return KRLX\Priority
+     */
+    public function getPriorityAttribute()
+    {
+        $priority = new Priority;
+        $priority->terms = collect($this->xp)->unique()->count();
+        $priority->year = $this->year;
+
+        return $priority;
+    }
+
+    /**
+     * Gets the user's "full name". For Carls and alumni, this appends the class
+     * name onto the end of the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        if ($this->year >= 1000) {
+            return $this->name." '".substr($this->year, -2);
+        } else {
+            return $this->name;
+        }
+    }
+
+    /**
+     * Gets the user's "public name", seen by folks who aren't logged in.
+     * TODO: Implement last-name splits.
+     *
+     * @return string
+     */
+    public function getPublicNameAttribute()
+    {
+        return $this->nickname ?? $this->name;
     }
 
     /**

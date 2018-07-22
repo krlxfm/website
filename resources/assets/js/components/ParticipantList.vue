@@ -10,7 +10,7 @@
     <tbody>
         <tr v-for="(dj, index) in allDJs" v-bind:id="'dj-row' + index">
             <td class="align-middle">
-                {{ dj.name }}
+                {{ dj.full_name }}
                 <br>
                 <small class="text-muted">{{ dj.email }}</small>
             </td>
