@@ -71,7 +71,7 @@ class ShowSupportTest extends TestCase
         $user = factory(User::class)->create();
         $this->show->invitees()->attach($user);
 
-        $names = User::get()->sortBy('email')->pluck('name')->map(function($user) {
+        $names = User::get()->sortBy('email')->pluck('name')->map(function ($user) {
             return e($user);
         });
 
