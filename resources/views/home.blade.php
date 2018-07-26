@@ -85,5 +85,5 @@
             </div>
         </div>
     </div>
-    <p>You are testing on Beta 1, version 0.6.0 "Lincoln". <a href="https://github.com/krlxfm/website/releases/tag/v0.6.0">View the change log.</a></p>
+    <p>You are testing on Beta 1, version 0.6.1 "Lincoln II". <a href="https://github.com/krlxfm/website/releases/tag/v0.6.1">View the change log.</a></p>
 @endsection
