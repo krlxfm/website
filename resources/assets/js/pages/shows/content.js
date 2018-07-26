@@ -4,19 +4,20 @@ function setListeners() {
 }
 
 function submitForm() {
-    var data = $("#content-form").serializeArray();
+    var field = $(this);
     var requestData = {};
-    data.forEach((item) => {
-        if(item.name.indexOf('.') == -1) {
-            requestData[item.name] = item.value
-        } else {
-            var components = item.name.split('.');
-            if (components[0] in requestData === false) requestData[components[0]] = {};
-            requestData[components[0]][components[1]] = item.value;
-        }
-    });
-    delete requestData._method;
-    delete requestData._token;
+    var components = field.attr('name').split('.');
+    if (components.length == 1) {
+        requestData[field.attr('name')] = field.val();
+    } else if (components.length == 2) {
+        var data = $('[name^="'+components[0]+'."]');
+        requestData[components[0]] = {};
+        data.each(function(index, item) {
+            var itemName = $(item).attr('name').split('.')[1];
+            console.log($(item).attr('name').split('.')[1]);
+            requestData[components[0]][itemName] = $(item).val();
+        })
+    }
 
     axios.patch('/api/v1/shows/'+showID, requestData)
     .then((response) => {
@@ -41,8 +42,10 @@ function showValidationErrors(rawErrors) {
         var message = error[1][0];
         var field = $('[name="'+key+'"]');
 
-        field.addClass('is-invalid');
-        field.after('<div class="invalid-feedback">'+message+'</div>');
+        if(field.val().length > 0) {
+            field.addClass('is-invalid');
+            field.after('<div class="invalid-feedback">'+message+'</div>');
+        }
     })
 }
 

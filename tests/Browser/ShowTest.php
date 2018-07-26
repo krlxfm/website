@@ -7,13 +7,12 @@ use KRLX\Term;
 use KRLX\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Browser\Pages\Shows\Create as CreatePage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ShowTest extends DuskTestCase
 {
-    use DatabaseMigrations, WithFaker;
+    use DatabaseMigrations;
 
     public $track;
     public $term;
@@ -65,8 +64,6 @@ class ShowTest extends DuskTestCase
      */
     public function testValidationOnlyRunsOnCurrentField()
     {
-        $faker = $this->faker();
-        $title = $faker->regexify('[A-Z]{12}');
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit("/shows/{$this->show->id}/content")
@@ -75,12 +72,13 @@ class ShowTest extends DuskTestCase
                     ->pause(500)
                     ->assertSee('The title must be at least')
                     ->assertDontSee('The description must be at least')
-                    ->type('title', $title)
+                    ->type('title', 'Amazing Show Title')
                     ->click('#description')
                     ->pause(500)
-                    ->assertDontSee('The title must be at least');
-
-            $this->assertEquals($title, $this->show->title);
+                    ->assertDontSee('The title must be at least')
+                    ->assertSee('Changes saved');
         });
+        $show = Show::find($this->show->id);
+        $this->assertEquals('Amazing Show Title', $show->title);
     }
 }
