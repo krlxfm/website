@@ -8,28 +8,33 @@ function removeConflict(index) {
 
 function editConflict(index) {
     var conflict = conflicts[index];
-    $('[name="conflict-days"]').prop('checked', false);
-    conflict.days.forEach((day) => {
-        $('#conflict-days-'+day).prop('checked', true);
-    });
-    $("#conflict-start").val(conflict.start);
-    setConflictEndTime();
-    $("#conflict-end").val(conflict.end);
-    $("#conflict-index").val(index);
-    $("#conflict-manager").modal('show');
+    editItem(conflict, 'conflict');
 }
 
 function editPreference(index) {
     var preference = preferences[index];
-    $('[name="preference-days"]').prop('checked', false);
-    preference.days.forEach((day) => {
-        $('#preference-days-'+day).prop('checked', true);
+    $("#preference-strength").val(preference.strength);
+    editItem(preference, 'preference');
+}
+
+function editItem(item, type) {
+    $('[name="'+type+'-days"]').prop('checked', false);
+    item.days.forEach((day) => {
+        $('#'+type+'-days-'+day).prop('checked', true);
     });
-    $("#preference-start").val(preference.start);
-    setPreferenceEndTime();
-    $("#preference-end").val(preference.end);
-    $("#preference-index").val(index);
-    $("#preference-manager").modal('show');
+    $("#"+type+"-start").val(item.start);
+    setEndTime(type);
+    $("#"+type+"-end").val(item.end);
+    $("#"+type+"-index").val(index);
+    $("#"+type+"-manager").modal('show');
+}
+
+function setEndTime(type) {
+    if(type == 'conflict') {
+        setConflictEndTime();
+    } else {
+        setPreferenceEndTime();
+    }
 }
 
 function removeSlot(group, singular, index) {
@@ -66,26 +71,24 @@ function conflictOrPrefToText(item) {
 }
 
 function setConflictEndTime() {
-    var start = moment($("#conflict-start").val(), 'HH:mm');
-    var time = moment(start);
-    $("#conflict-end").empty();
-    for(var i = 0; i < 48; i++) {
-        time.add(30, 'm');
-        $("#conflict-end").append('<option value="'+time.format('HH:mm')+'">'+time.format('h:mm a')+(time.day() == start.day() ? '' : ' (next day)')+'</option>');
-    }
+    populateEndDropdown('conflict');
 }
 
 function setPreferenceEndTime() {
-    var start = moment($("#preference-start").val(), 'HH:mm');
-    var time = moment(start);
-    $("#preference-end").empty();
-    for(var i = 0; i < 48; i++) {
-        time.add(30, 'm');
-        $("#preference-end").append('<option value="'+time.format('HH:mm')+'">'+time.format('h:mm a')+(time.day() == start.day() ? '' : ' (next day)')+'</option>');
-    }
+    populateEndDropdown('preference');
     var slotLength = parseInt($('[name="preferred_length"]:checked').val());
     time = moment(start).add(slotLength, 'm');
     $("#preference-end").val(time.format('HH:mm'));
+}
+
+function populateEndDropdown(menu) {
+    var start = moment($("#"+menu+"-start").val(), 'HH:mm');
+    var time = moment(start);
+    $("#"+menu+"-end").empty();
+    for(var i = 0; i < 48; i++) {
+        time.add(30, 'm');
+        $("#"+menu+"-end").append('<option value="'+time.format('HH:mm')+'">'+time.format('h:mm a')+(time.day() == start.day() ? '' : ' (next day)')+'</option>');
+    }
 }
 
 function showNewConflictModal() {
@@ -136,9 +139,6 @@ function storeScheduleItem(group, list) {
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
-    })
-    .catch((error) => {
-        console.error(error.response.data.errors);
     });
 }
 
