@@ -3,9 +3,9 @@
 namespace Tests\Browser;
 
 use KRLX\Show;
-use KRLX\Track;
 use KRLX\Term;
 use KRLX\User;
+use KRLX\Track;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Shows\Create as CreatePage;
@@ -113,12 +113,12 @@ class ShowTest extends DuskTestCase
         $track = factory(Track::class)->create([
             'active' => true,
             'content' => [
-                ['title' => 'Sponsor', 'db' => 'sponsor', 'type' => 'shorttext', 'helptext' => null, 'rules' => ['required', 'min:3']]
-            ]
+                ['title' => 'Sponsor', 'db' => 'sponsor', 'type' => 'shorttext', 'helptext' => null, 'rules' => ['required', 'min:3']],
+            ],
         ]);
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
-            'track_id' => $track->id
+            'track_id' => $track->id,
         ]);
         $this->user->shows()->attach($show, ['accepted' => true]);
 
