@@ -118,17 +118,21 @@ function storeScheduleItem(group, list) {
     };
     if (group == 'preference') item.strength = $("#"+group+"-strength").val();
 
+    $("#"+group+"-manager").modal('hide');
+    if(item.days.length == 0) {
+        return true;
+    }
+
     var index = $("#"+group+"-index").val();
     if(index == -1) {
         list.push(item);
     } else {
         list.splice(index, 1, item);
     }
+    var apiData = {};
+    apiData[group+'s'] = list;
 
-    axios.patch('/api/v1/shows/'+showID, {
-        conflicts: window.conflicts,
-        preferences: window.preferences
-    })
+    axios.patch('/api/v1/shows/'+showID, apiData)
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
@@ -136,7 +140,6 @@ function storeScheduleItem(group, list) {
     .catch((error) => {
         console.error(error.response.data.errors);
     });
-    $("#"+group+"-manager").modal('hide');
 }
 
 function savePreference() {

@@ -72,7 +72,7 @@
 </div>
 <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button">
+    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button" dusk="add-conflict-button">
         <i class="fas fa-plus"></i> Add conflict
     </button>
 </div>
