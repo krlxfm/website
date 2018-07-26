@@ -132,4 +132,34 @@ class ShowTest extends DuskTestCase
                     ->assertDontSee('The content.sponsor must be at least');
         });
     }
+
+    /**
+     * Test that conflicts/preferences without any days selected don't save.
+     *
+     * @return void
+     */
+    public function testConflictsAndPreferencesWithoutDaysDontSave()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/schedule")
+                    ->mouseover('@schedule-standard-return')
+                    ->click('@add-conflict-button')
+                    ->waitFor('@conflict-manager-modal')
+                    ->select('conflict-start', '13:00')
+                    ->select('conflict-end', '14:00')
+                    ->click('@save-conflict')
+                    ->waitUntilMissing('@conflict-manager-modal')
+                    ->assertDontSee('1:00 pm - 2:00 pm')
+
+                    ->mouseover('@schedule-standard-return')
+                    ->click('@add-preference-button')
+                    ->waitFor('@preference-manager-modal')
+                    ->select('preference-start', '13:00')
+                    ->select('preference-strength', 3)
+                    ->click('@save-preference')
+                    ->waitUntilMissing('@preference-manager-modal')
+                    ->assertDontSee('First Choice');
+        });
+    }
 }
