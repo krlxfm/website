@@ -110,5 +110,6 @@ class ShowTest extends DuskTestCase
                     ->pause(500)
                     ->assertSee('The sponsor must be at least')
                     ->assertDontSee('The content.sponsor must be at least');
+        });
     }
 }
