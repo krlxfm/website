@@ -132,6 +132,9 @@ function storeScheduleItem(group, list) {
     .then((response) => {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
+    })
+    .catch((error) => {
+        console.error(error.response.data.errors);
     });
     $("#"+group+"-manager").modal('hide');
 }

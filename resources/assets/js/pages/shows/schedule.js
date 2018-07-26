@@ -25,4 +25,7 @@ function saveData() {
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
     })
+    .catch((error) => {
+        console.error(error.response.data.errors);
+    });
 }
