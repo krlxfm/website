@@ -94,6 +94,7 @@ class ShowTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->loginAs($this->user)
                     ->visit("/shows/{$this->show->id}/schedule")
+                    ->mouseover('@schedule-standard-return')
                     ->click('@add-preference-button')
                     ->waitFor('@preference-manager-modal')
                     ->select('preference-start', '13:00')

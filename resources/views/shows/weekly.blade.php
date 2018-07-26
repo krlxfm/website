@@ -80,7 +80,7 @@
 <conflict-list></conflict-list>
 <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Preferences</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button">
+    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button">
         <i class="fas fa-plus"></i> Add preference
     </button>
 </div>

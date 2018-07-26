@@ -83,6 +83,9 @@ function setPreferenceEndTime() {
         time.add(30, 'm');
         $("#preference-end").append('<option value="'+time.format('HH:mm')+'">'+time.format('h:mm a')+(time.day() == start.day() ? '' : ' (next day)')+'</option>');
     }
+    var slotLength = parseInt($('[name="preferred_length"]:checked').val());
+    time = moment(start).add(slotLength, 'm');
+    $("#preference-end").val(time.format('HH:mm'));
 }
 
 function showNewConflictModal() {
@@ -100,7 +103,6 @@ function showNewPreferenceModal() {
     setPreferenceEndTime();
     $("#preference-index").val(-1);
     $("#preference-strength").val(1);
-    $("#preference-end").val("12:30");
     $("#preference-manager").modal('show');
 }
 
