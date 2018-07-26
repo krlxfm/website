@@ -51,7 +51,7 @@ class TrackUdpateRequest extends FormRequest
         return [
             $type => ($this->isMethod('PUT') ? 'present|' : '').'nullable|array|min:0',
             "$type.*.title" => 'required|string',
-            "$type.*.db" => 'required|string|regex:[a-z-_]+',
+            "$type.*.db" => 'required|string|regex:/[a-z-_]+/',
             "$type.*.helptext" => 'present|nullable|string',
             "$type.*.type" => 'required|in:'.implode(',', array_keys(config('fields'))),
             "$type.*.rules" => 'present|array|min:0',
