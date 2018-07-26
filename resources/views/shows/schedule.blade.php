@@ -10,7 +10,7 @@
                 @if($show->track->weekly)
                     @include('shows.weekly')
                 @endif
-                <h2>Additional details</h2>
+                <h2 dusk="schedule-standard-return">Additional details</h2>
                 <div id="scheduling-extras">
                     @foreach($show->track->scheduling as $field)
                         @include('fields.'.$field['type'], ['category' => 'scheduling', 'value' => $show->scheduling[$field['db']]])
@@ -32,5 +32,6 @@
 <script>
 var showID = "{{ $show->id }}";
 </script>
+<script src="/js/pages/shows/submitform.js" defer></script>
 <script src="/js/pages/shows/schedule.js" defer></script>
 @endpush

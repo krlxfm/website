@@ -46,7 +46,7 @@
     @endforeach
 </div>
 <h2>Classes</h2>
-<p>Most common class times are listed here. PE classes, comps, and St. Olaf class times will need to be entered manually.</p>
+<p>Most common class times are listed here. Hover over a class time for details. If you have other classes that don't fit neatly in the standard schedule, add them as conflicts below.</p>
 <div class="row mb-3">
     @foreach(config('classes.groups') as $group)
         <div class="col-sm-6 col-md-4 mb-3">
@@ -56,12 +56,13 @@
                     $dispTimes = array_map(function($time) {
                         $start = Carbon\Carbon::parse($time['start']);
                         $end = Carbon\Carbon::parse($time['end']);
-                        return implode(', ', $time['days']).' '.$start->format('g:i a').' - '.$end->format('g:i a');
+                        $days = array_map(function($day) { return substr($day, 0, $day[0] == 'T' ? 2 : 1); }, $time['days']);
+                        return implode(', ', $days).' '.$start->format('g:i a').' - '.$end->format('g:i a');
                     }, config("classes.times.$block.displayTimes"));
                 @endphp
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" id="classes-{{ $block }}" name="classes" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
-                    <label class="custom-control-label" for="classes-{{ $block }}" data-toggle="tooltip" data-placement="bottom" title="{{ implode('; ', $dispTimes) }}">
+                    <label class="custom-control-label" for="classes-{{ $block }}" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ implode('<br>', $dispTimes) }}">
                         {{ config("classes.times.$block.name") }}
                     </label>
                 </div>
@@ -71,7 +72,7 @@
 </div>
 <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button">
+    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button" dusk="add-conflict-button">
         <i class="fas fa-plus"></i> Add conflict
     </button>
 </div>
@@ -80,7 +81,7 @@
 <conflict-list></conflict-list>
 <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Preferences</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button">
+    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button">
         <i class="fas fa-plus"></i> Add preference
     </button>
 </div>
