@@ -42,6 +42,11 @@ function showValidationErrors(rawErrors) {
         var message = error[1][0];
         var field = $('[name="'+key+'"]');
 
+        if(key.indexOf('.') != -1) {
+            var components = key.split('.');
+            message = message.replace(components[0] + '.', '');
+        }
+
         if(field.val().length > 0) {
             field.addClass('is-invalid');
             field.after('<div class="invalid-feedback">'+message+'</div>');

@@ -93,7 +93,7 @@ class ShowTest extends DuskTestCase
         $track = factory(Track::class)->create([
             'active' => true,
             'content' => [
-                ['name' => 'Sponsor', 'db' => 'sponsor', 'type' => 'shorttext', 'helptext' => null, 'rules' => ['required', 'min:3']]
+                ['title' => 'Sponsor', 'db' => 'sponsor', 'type' => 'shorttext', 'helptext' => null, 'rules' => ['required', 'min:3']]
             ]
         ]);
         $show = factory(Show::class)->create([
@@ -102,10 +102,10 @@ class ShowTest extends DuskTestCase
         ]);
         $this->user->shows()->attach($show, ['accepted' => true]);
 
-        $this->browse(function (Browser $browser) {
+        $this->browse(function (Browser $browser) use ($show) {
             $browser->loginAs($this->user)
-                    ->visit("/shows/{$this->show->id}/content")
-                    ->type('content.sponsor', 'A')
+                    ->visit("/shows/{$show->id}/content")
+                    ->type('#sponsor', 'A')
                     ->click('#title')
                     ->pause(500)
                     ->assertSee('The sponsor must be at least')
