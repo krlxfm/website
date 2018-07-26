@@ -53,7 +53,27 @@ class ShowTest extends DuskTestCase
                     ->click('@create-show');
 
             $show = Show::where('title', 'Example Show')->first();
-            $browser->assertRouteIs('shows.participants', $show->id);
+            $browser->assertRouteIs('shows.hosts', $show->id);
+        });
+    }
+
+    /**
+     * Test that validation only runs on the affected field.
+     *
+     * @return void
+     */
+    public function testValidationOnlyRunsOnCurrentField()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->assertCount(1, Term::all());
+
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/content")
+                    ->type('title', 'A')
+                    ->click('#description')
+                    ->pause(500)
+                    ->assertSee('The title must be at least')
+                    ->assertDontSee('The description must be at least');
         });
     }
 }
