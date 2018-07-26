@@ -53,7 +53,7 @@ class ShowUpdateRequest extends FormRequest
             'content' => ['array'],
             'scheduling' => ['array'],
             'conflicts' => ['array', 'min:0'],
-            'preferences' => ['array', 'min:1'],
+            'preferences' => ['array'],
             'etc' => ['array'],
             'special_times' => ['array', 'size:'.count(config('defaults.special_times'))],
             'classes' => ['array'],
