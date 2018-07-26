@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use KRLX\Show;
+use KRLX\Track;
 use KRLX\Term;
 use KRLX\User;
 use Tests\DuskTestCase;
@@ -80,5 +81,34 @@ class ShowTest extends DuskTestCase
         });
         $show = Show::find($this->show->id);
         $this->assertEquals('Amazing Show Title', $show->title);
+    }
+
+    /**
+     * Test that the "content" prefix doesn't appear in error messages.
+     *
+     * @return void
+     */
+    public function testCustomFieldsDontIncludeParent()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'content' => [
+                ['name' => 'Sponsor', 'db' => 'sponsor', 'type' => 'shorttext', 'helptext' => null, 'rules' => ['required', 'min:3']]
+            ]
+        ]);
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $track->id
+        ]);
+        $this->user->shows()->attach($show, ['accepted' => true]);
+
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/content")
+                    ->type('content.sponsor', 'A')
+                    ->click('#title')
+                    ->pause(500)
+                    ->assertSee('The sponsor must be at least')
+                    ->assertDontSee('The content.sponsor must be at least');
     }
 }
