@@ -84,6 +84,25 @@ class ShowTest extends DuskTestCase
     }
 
     /**
+     * Test that the preferred show times box updates the end time to be offset
+     * by the preferred show length whenever the start time is changed.
+     *
+     * @return void
+     */
+    public function testPreferredEndTimeOffsetToSetLength()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/schedule")
+                    ->click('@add-preference-button')
+                    ->waitFor('@preference-manager-modal')
+                    ->select('preference-start', '13:00')
+                    ->pause(500)
+                    ->assertSelected('preference-end', '14:00');
+        });
+    }
+
+    /**
      * Test that the "content" prefix doesn't appear in error messages.
      *
      * @return void
