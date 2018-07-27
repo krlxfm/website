@@ -21,3 +21,10 @@ $factory->define(KRLX\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->state(KRLX\User::class, 'carleton', function($faker) {
+    return [
+        'email' => $faker->username.'@carleton.edu',
+        'year' => date('Y') + $faker->numberBetween(1, 3)
+    ];
+});

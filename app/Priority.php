@@ -15,17 +15,17 @@ class Priority
     public function display()
     {
         $terms = '';
-        if ($this->terms >= count(config('defaults.priority.terms'))) {
+        if (($this->terms ?? 0) >= count(config('defaults.priority.terms'))) {
             $terms = config('defaults.priority.default');
         } else {
-            $terms = config('defaults.priority.terms')[$this->terms];
+            $terms = config('defaults.priority.terms')[($this->terms ?? 0)];
         }
 
         $year = '';
-        if ($this->year >= count(config('defaults.status_codes'))) {
+        if (($this->year ?? 0) >= count(config('defaults.status_codes'))) {
             $year = $this->year;
         } else {
-            $year = config('defaults.status_codes')[$this->year];
+            $year = config('defaults.status_codes')[($this->year ?? 0)];
         }
 
         return $terms.' | '.$year;
