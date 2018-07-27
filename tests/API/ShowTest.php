@@ -204,4 +204,33 @@ class ShowTest extends APITestCase
         $add_request->assertOk();
         $this->assertNotContains($new_host->id, $this->show->invitees->pluck('id'));
     }
+
+    /**
+     * Test the ability to modify custom fields.
+     *
+     * @return void
+     */
+    public function testModificationOfCustomFields()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'content' => [
+                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']],
+            ],
+        ]);
+        $show = factory(Show::class)->create([
+            'track_id' => $track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'content' => [
+                'sponsor' => 'asdf',
+            ],
+        ]);
+        $request->assertOk();
+        $testShow = Show::find($show->id);
+        $this->assertEquals('asdf', $testShow->content['sponsor']);
+    }
 }

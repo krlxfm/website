@@ -149,7 +149,8 @@ class ShowTest extends TestCase
         $request = $this->get("/shows/{$this->show->id}");
 
         $request->assertOk()
-                ->assertViewIs('shows.review');
+                ->assertViewIs('shows.review')
+                ->assertSee($this->show->term->name);
     }
 
     /**

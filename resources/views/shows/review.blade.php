@@ -32,6 +32,11 @@
                         <td>{{ $show->updated_at->toDayDateTimeString() }}</td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td>Track and term</td>
+                        <td>{{ $show->track->name }}, {{ $show->term->name }}</td>
+                        <td></td>
+                    </tr>
 
                     @include('shows.tr', ['title' => 'Hosts', 'value' => $show->hosts->pluck('full_name')->all(), 'path' => 'hosts'])
                     @include('shows.tr', ['title' => 'Invitees', 'value' => $show->invitees->pluck('full_name')->all(), 'path' => 'hosts'])
