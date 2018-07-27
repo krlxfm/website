@@ -76,6 +76,7 @@ class ShowSupportTest extends TestCase
 
         $this->show->submitted = true;
         $this->show->invitees()->attach($user);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
         $this->show->save();
 
         $request = $this->get('/shows/djs');
