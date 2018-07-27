@@ -150,6 +150,6 @@ function savePreference() {
 $(document).ready(function() {
     $("#conflict-start").change(setConflictEndTime);
     $("#preference-start").change(setPreferenceEndTime);
-    $("#add-conflict-button").click(showNewConflictModal);
-    $("#add-preference-button").click(showNewPreferenceModal);
+    $('button[data-toggle="add-conflict"]').click(showNewConflictModal);
+    $('button[data-toggle="add-pref"]').click(showNewPreferenceModal);
 });

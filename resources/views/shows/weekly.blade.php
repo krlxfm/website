@@ -72,20 +72,26 @@
 </div>
 <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
     <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-conflict-button" dusk="add-conflict-button">
+    <button type="button" class="btn btn-info ml-auto" id="add-conflict-button" dusk="add-conflict-button" data-toggle="add-conflict">
         <i class="fas fa-plus"></i> Add conflict
     </button>
 </div>
 <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation. If you're an RA, be sure to declare standard duty hours.</p>
 <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box below</strong> to ensure it gets honored.</p>
 <conflict-list></conflict-list>
-<div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
+<p><button type="button" class="btn btn-info btn-block" id="add-conflict-btn-bottom" dusk="add-conflict-btn-bottom" data-toggle="add-conflict">
+    <i class="fas fa-plus"></i> Add conflict
+</button></p>
+<div class="d-flex mb-2 mt-5 align-items-center flex-wrap">
     <h2>Preferences</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button">
+    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button" data-toggle="add-pref">
         <i class="fas fa-plus"></i> Add preference
     </button>
 </div>
 <preference-list></preference-list>
+<p><button type="button" class="btn btn-primary btn-block" id="add-preference-btn-bottom" dusk="add-preference-btn-bottom" data-toggle="add-pref">
+    <i class="fas fa-plus"></i> Add preference
+</button></p>
 
 @push('modals')
     @component('components.modal')
