@@ -220,13 +220,13 @@ class ShowTest extends APITestCase
         ]);
         $show = factory(Show::class)->create([
             'track_id' => $track->id,
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
         ]);
         $show->hosts()->attach($this->user, ['accepted' => true]);
 
         $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
             'content' => [
-                'sponsor' => 'asdf'
+                'sponsor' => 'asdf',
             ],
         ]);
         $request->assertOk();

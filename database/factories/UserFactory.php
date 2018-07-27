@@ -22,9 +22,9 @@ $factory->define(KRLX\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(KRLX\User::class, 'carleton', function($faker) {
+$factory->state(KRLX\User::class, 'carleton', function ($faker) {
     return [
         'email' => $faker->username.'@carleton.edu',
-        'year' => date('Y') + $faker->numberBetween(1, 3)
+        'year' => date('Y') + $faker->numberBetween(1, 3),
     ];
 });

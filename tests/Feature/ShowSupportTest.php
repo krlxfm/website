@@ -71,7 +71,7 @@ class ShowSupportTest extends TestCase
         $show = factory(Show::class)->create([
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
-            'submitted' => false
+            'submitted' => false,
         ]);
 
         $this->show->submitted = true;

@@ -50,7 +50,7 @@ class CarletonAuthController extends Controller
                 'photo' => config('defaults.directory').$netid,
                 'password' => Hash::make($googleUser->getId().config('defaults.salt')),
             ]);
-        } else if (! $user->password or strlen($user->password) == 0) {
+        } elseif (! $user->password or strlen($user->password) == 0) {
             $user->password = Hash::make($googleUser->getId().config('defaults.salt'));
             $user->save();
         }
