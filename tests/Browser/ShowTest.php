@@ -120,6 +120,7 @@ class ShowTest extends DuskTestCase
         });
         $show = Show::find($this->show->id);
         $this->assertNotEmpty($show->classes);
+        $this->assertContains('1a', $show->classes);
     }
 
     /**

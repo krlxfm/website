@@ -61,7 +61,7 @@
                     }, config("classes.times.$block.displayTimes"));
                 @endphp
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="classes-{{ $block }}" name="classes" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
+                    <input type="checkbox" id="classes-{{ $block }}" name="classes" data-cast="array" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
                     <label class="custom-control-label" for="classes-{{ $block }}" dusk="classes-{{ $block }}-label" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ implode('<br>', $dispTimes) }}">
                         {{ config("classes.times.$block.name") }}
                     </label>
