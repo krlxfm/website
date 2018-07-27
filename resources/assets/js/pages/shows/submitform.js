@@ -2,14 +2,20 @@ function submitForm() {
     var field = $(this);
     var requestData = {};
     var components = field.attr('name').split('.');
-    if (components.length == 1) {
+    if (field.data('cast') && field.data('cast') == 'array') {
+        var data = $('[name="'+components[0]+'"]:checked');
+        requestData[components[0]] = [];
+        data.each(function(index, item) {
+            var itemName = $(item).val();
+            requestData[components[0]].push(itemName);
+        })
+    } else if (components.length == 1) {
         requestData[field.attr('name')] = field.val();
     } else if (components.length == 2) {
         var data = $('[name^="'+components[0]+'."]');
         requestData[components[0]] = {};
         data.each(function(index, item) {
             var itemName = $(item).attr('name').split('.')[1];
-            console.log($(item).attr('name').split('.')[1]);
             requestData[components[0]][itemName] = $(item).val();
         })
     }

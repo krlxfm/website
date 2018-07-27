@@ -127,6 +127,32 @@ class ShowTest extends TestCase
     }
 
     /**
+     * Test that we have access to the schedule view after creating a show.
+     *
+     * @return void
+     */
+    public function testScheduleViewRenders()
+    {
+        $request = $this->get("/shows/{$this->show->id}/schedule");
+
+        $request->assertOk()
+                ->assertViewIs('shows.schedule');
+    }
+
+    /**
+     * Test that we have access to the review view after creating a show.
+     *
+     * @return void
+     */
+    public function testReviewScreenRenders()
+    {
+        $request = $this->get("/shows/{$this->show->id}");
+
+        $request->assertOk()
+                ->assertViewIs('shows.review');
+    }
+
+    /**
      * Test that tracks with custom fields can still render okay.
      *
      * @return void
