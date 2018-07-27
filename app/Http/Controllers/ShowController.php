@@ -165,10 +165,9 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $hosts = $term->shows->pluck('hosts')->flatten();
-        $invitees = $term->shows->pluck('invitees')->flatten();
+        $hosts = $term->shows()->where('submitted', true)->get()->pluck('hosts')->flatten();
 
-        $users = $hosts->concat($invitees)->unique(function ($user) {
+        $users = $hosts->unique(function ($user) {
             return $user['id'];
         })->sortBy('email');
 

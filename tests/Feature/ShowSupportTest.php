@@ -61,23 +61,21 @@ class ShowSupportTest extends TestCase
     }
 
     /**
-     * Test that "All DJs" shows *all* DJs -- invitees and hosts -- who are a
-     * part of any shows.
+     * Test that "All DJs" shows all hosts on submitted shows.
      *
      * @return void
      */
     public function testAllDJsReturnsAllUsers()
     {
         $user = factory(User::class)->create();
+        $this->show->submitted = true;
         $this->show->invitees()->attach($user);
-
-        $names = User::get()->sortBy('email')->pluck('name')->map(function ($user) {
-            return e($user);
-        });
+        $this->show->save();
 
         $request = $this->get('/shows/djs');
-        $request->assertOk();
-        $request->assertSeeInOrder($names->all());
+        $request->assertOk()
+                ->assertSee(e($this->user->name))
+                ->assertDontSee(e($user->name));
     }
 
     /**
