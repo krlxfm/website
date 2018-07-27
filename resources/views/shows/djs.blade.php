@@ -41,10 +41,9 @@
                                 <h5 class="mb-1">{{ $user->full_name }}</h5>
                                 <ul class="mb-0">
                                     @foreach($user->shows as $show)
-                                        <li><a href="{{ route('shows.review', $show) }}">{{ $show->title }}</li>
-                                    @endforeach
-                                    @foreach($user->invitations as $show)
-                                        <li><a href="{{ route('shows.review', $show) }}">{{ $show->title }}</a> <small class="text-muted">(invitation pending)</small></li>
+                                        <li>
+                                            <a href="{{ route('shows.review', $show) }}">{{ $show->title }}</a>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </td>
