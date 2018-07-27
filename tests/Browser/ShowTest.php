@@ -104,6 +104,25 @@ class ShowTest extends DuskTestCase
     }
 
     /**
+     * Test that class selections do, in fact, save.
+     *
+     * @return void
+     */
+    public function testClassTimesSave()
+    {
+        $this->assertEmpty($this->show->classes);
+        $this->browse(function (Browser $browser) {
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/schedule")
+                    ->mouseover('#classes-6a')
+                    ->click('@classes-1a-label')
+                    ->waitForText('Changes saved');
+        });
+        $show = Show::find($this->show->id);
+        $this->assertNotEmpty($show->classes);
+    }
+
+    /**
      * Test that the "content" prefix doesn't appear in error messages.
      *
      * @return void
