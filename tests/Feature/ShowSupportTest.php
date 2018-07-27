@@ -68,6 +68,12 @@ class ShowSupportTest extends TestCase
     public function testAllDJsReturnsAllUsers()
     {
         $user = factory(User::class)->create();
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+            'submitted' => false
+        ]);
+
         $this->show->submitted = true;
         $this->show->invitees()->attach($user);
         $this->show->save();
@@ -75,7 +81,8 @@ class ShowSupportTest extends TestCase
         $request = $this->get('/shows/djs');
         $request->assertOk()
                 ->assertSee(e($this->user->name))
-                ->assertDontSee(e($user->name));
+                ->assertDontSee(e($user->name))
+                ->assertDontSee($show->title);
     }
 
     /**
