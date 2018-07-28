@@ -1,6 +1,23 @@
 <?php
 
 return [
+    'banned_words' => [
+        /**
+         * The following words are not allowed in show titles, or any other
+         * custom validation field that has a "profanity" flag on it. This list
+         * is adapted from the UK Office of Communications' 2010 study on
+         * acceptable language to use in broadcasting. Presence of any of these
+         * strings, even in longer words, will throw a validation fault.
+         */
+        'partial' => ['shit', 'piss', 'fuck', 'cunt', 'cock', 'tit', 'bitch', 'bastard'],
+
+        /**
+         * These words must be present in isolation to trigger a fault (usually
+         * because there are "safe" words that include these strings, such as
+         * "pass" being a safe word)
+         */
+        'full' => ['ass', 'asshole', 'pussy'],
+    ],
     'directory' => 'https://apps.carleton.edu/stock/ldapimage.php?id=',
     'title' => 'KRLX Community',
     'salt' => env('OAUTH_SALT', 'krlx'),
