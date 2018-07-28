@@ -32,7 +32,8 @@ class Profanity implements Rule
      */
     public function passes($attribute, $value)
     {
-        $words = explode(' ', strtolower($value));
+        $target = preg_replace('/[@#\$%\^]/', '*', strtolower($value));
+        $words = explode(' ', $target);
         foreach (array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
             if (in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
                 $this->word = $bad_word;
@@ -41,7 +42,7 @@ class Profanity implements Rule
             }
         }
 
-        return $this->partialWordsPass($value);
+        return $this->partialWordsPass($target);
     }
 
     /**
@@ -53,9 +54,7 @@ class Profanity implements Rule
      */
     protected function partialWordsPass($value)
     {
-        $bad_words = $this->assembleDerivatives();
-        $target = preg_replace('/[@#\$%\^]/', '*', strtolower($value));
-        foreach ($bad_words as $word => $derivatives) {
+        foreach ($this->assembleDerivatives() as $word => $derivatives) {
             foreach ($derivatives as $derivative) {
                 if (strpos($target, $derivative) !== false) {
                     $this->word = $word;
