@@ -83,6 +83,7 @@ class Profanity implements Rule
                 $bad_word[0].str_repeat('*', strlen($bad_word) - 2).$bad_word[-1],
             ];
         }
+
         return $bad_words;
     }
 
