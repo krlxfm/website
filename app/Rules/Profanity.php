@@ -33,27 +33,29 @@ class Profanity implements Rule
     public function passes($attribute, $value)
     {
         $words = explode(' ', strtolower($value));
-        foreach(array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
-            if(in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
+        foreach (array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
+            if (in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
                 $this->word = $bad_word;
+
                 return false;
             }
         }
 
         $bad_words = [];
-        foreach(config('defaults.banned_words.partial') as $bad_word) {
+        foreach (config('defaults.banned_words.partial') as $bad_word) {
             $bad_words[$bad_word] = [
                 $bad_word,
                 str_plural($bad_word),
-                $bad_word[0].str_repeat('*', strlen($bad_word)-1),
-                $bad_word[0].str_repeat('*', strlen($bad_word)-2).$bad_word[-1]
+                $bad_word[0].str_repeat('*', strlen($bad_word) - 1),
+                $bad_word[0].str_repeat('*', strlen($bad_word) - 2).$bad_word[-1],
             ];
         }
         $target = preg_replace('/[@#\$%\^]/', '*', strtolower($value));
-        foreach($bad_words as $word => $derivatives) {
-            foreach($derivatives as $derivative) {
-                if(strpos($target, $derivative) !== false) {
+        foreach ($bad_words as $word => $derivatives) {
+            foreach ($derivatives as $derivative) {
+                if (strpos($target, $derivative) !== false) {
                     $this->word = $word;
+
                     return false;
                 }
             }
