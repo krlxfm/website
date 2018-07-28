@@ -62,6 +62,8 @@ class CustomRuleTest extends TestCase
             $full,
             str_plural($full),
             'F***',
+            'F**k',
+            'F@$#',
         ];
         $good_words = [
             'prefix'.$full,

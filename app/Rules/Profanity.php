@@ -46,12 +46,13 @@ class Profanity implements Rule
                 $bad_word,
                 str_plural($bad_word),
                 $bad_word[0].str_repeat('*', strlen($bad_word)-1),
-                $bad_word[0].str_repeat('*', strlen($bad_word)-1).$bad_word[-1]
+                $bad_word[0].str_repeat('*', strlen($bad_word)-2).$bad_word[-1]
             ];
         }
+        $target = preg_replace('/[!@#\$%\^]/', '*', strtolower($value));
         foreach($bad_words as $word => $derivatives) {
             foreach($derivatives as $derivative) {
-                if(strpos(strtolower($value), $derivative) !== false) {
+                if(strpos($target, $derivative) !== false) {
                     $this->word = $word;
                     return false;
                 }
