@@ -54,13 +54,31 @@ class Profanity implements Rule
      */
     protected function partialWordsPass($value)
     {
-        foreach ($this->assembleDerivatives() as $word => $derivatives) {
-            foreach ($derivatives as $derivative) {
-                if (strpos($target, $derivative) !== false) {
-                    $this->word = $word;
+        $bad_words = $this->assembleDerivatives();
+        foreach ($bad_words as $word => $derivatives) {
+            if (! singleWordDerivativesPass($word, $derivatives, $value)) {
+                return false;
+            }
+        }
 
-                    return false;
-                }
+        return true;
+    }
+
+    /**
+     * Check if a single word's derivatives show up.
+     *
+     * @param  string  $word
+     * @param  array  $derivatives
+     * @param  string  $value
+     * @return bool
+     */
+    private function singleWordDerivativesPass($word, $derivatives, $value)
+    {
+        foreach ($derivatives as $derivative) {
+            if (strpos($value, $derivative) !== false) {
+                $this->word = $word;
+
+                return false;
             }
         }
 
