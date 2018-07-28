@@ -56,7 +56,7 @@ class Profanity implements Rule
     {
         $bad_words = $this->assembleDerivatives();
         foreach ($bad_words as $word => $derivatives) {
-            if (! singleWordDerivativesPass($word, $derivatives, $value)) {
+            if (! $this->singleWordDerivativesPass($word, $derivatives, $value)) {
                 return false;
             }
         }
