@@ -33,16 +33,18 @@ class Profanity implements Rule
     public function passes($attribute, $value)
     {
         $words = explode(' ', strtolower($value));
-        foreach(array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
-            if(in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
+        foreach (array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
+            if (in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
                 $this->word = $bad_word;
+
                 return false;
             }
         }
 
-        foreach(config('defaults.banned_words.partial') as $bad_word) {
-            if(strpos(strtolower($value), $bad_word) !== false or strpos(strtolower($value), str_plural($bad_word)) !== false) {
+        foreach (config('defaults.banned_words.partial') as $bad_word) {
+            if (strpos(strtolower($value), $bad_word) !== false or strpos(strtolower($value), str_plural($bad_word)) !== false) {
                 $this->word = $bad_word;
+
                 return false;
             }
         }

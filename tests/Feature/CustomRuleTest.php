@@ -60,21 +60,21 @@ class CustomRuleTest extends TestCase
             $partial.'hole',
             str_plural($partial),
             $full,
-            str_plural($full)
+            str_plural($full),
         ];
         $good_words = [
             'prefix'.$full,
-            'hole'
+            'hole',
         ];
-        foreach($good_words as $word) {
+        foreach ($good_words as $word) {
             $request = $this->actingAs($user, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
-                'title' => $word
+                'title' => $word,
             ]);
             $this->assertEquals(200, $request->status(), "Did not receive HTTP 200 with word $word.");
         }
-        foreach($bad_words as $word) {
+        foreach ($bad_words as $word) {
             $request = $this->actingAs($user, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
-                'title' => $word
+                'title' => $word,
             ]);
             $this->assertEquals(422, $request->status(), "Did not receive HTTP 422 with word $word.");
             $this->assertNotEquals('The word  can\'t appear in the title', array_get($request->json(), 'errors.title.0'));
