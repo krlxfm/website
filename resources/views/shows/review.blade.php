@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <td>Last updated</td>
-                        <td>{{ $show->updated_at->toDayDateTimeString() }}</td>
+                        <td>{{ $show->updated_at->format('F j, Y, g:i:s a') }}</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -60,6 +60,9 @@
                         @include('shows.tr', ['title' => 'Classes', 'value' => implode(', ', $show->classes), 'path' => 'schedule'])
                         @include('shows.schedule-tr', ['title' => 'Conflicts', 'list' => $show->conflicts, 'path' => 'schedule'])
                         @include('shows.schedule-tr', ['title' => 'Preferences', 'list' => $show->preferences, 'path' => 'schedule'])
+                    @else
+                        @include('shows.tr', ['title' => 'Conflicts', 'value' => implode(', ', array_map(function($conflict) { return Carbon\Carbon::parse($conflict)->format('F j'); }, $show->conflicts)), 'path' => 'schedule'])
+                        @include('shows.tr', ['title' => 'Preferences', 'value' => implode(', ', array_map(function($preference) { return Carbon\Carbon::parse($preference)->format('F j'); }, $show->preferences)), 'path' => 'schedule'])
                     @endif
                     @foreach($show->track->scheduling as $field)
                         @include('shows.tr', ['title' => $field['title'], 'value' => $show->scheduling[$field['db']], 'path' => 'schedule'])
