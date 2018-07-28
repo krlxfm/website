@@ -74,7 +74,7 @@ class CustomRuleTest extends TestCase
             $request = $this->actingAs($user, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
                 'title' => $word,
             ]);
-            if($request->status() == 500) {
+            if ($request->status() == 500) {
                 dump($request->json());
             }
             $this->assertEquals(200, $request->status(), "Did not receive HTTP 200 with word $word.");
