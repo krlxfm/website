@@ -53,15 +53,7 @@ class Profanity implements Rule
      */
     protected function partialWordsPass($value)
     {
-        $bad_words = [];
-        foreach (config('defaults.banned_words.partial') as $bad_word) {
-            $bad_words[$bad_word] = [
-                $bad_word,
-                str_plural($bad_word),
-                $bad_word[0].str_repeat('*', strlen($bad_word) - 1),
-                $bad_word[0].str_repeat('*', strlen($bad_word) - 2).$bad_word[-1],
-            ];
-        }
+        $bad_words = $this->assembleDerivatives();
         $target = preg_replace('/[@#\$%\^]/', '*', strtolower($value));
         foreach ($bad_words as $word => $derivatives) {
             foreach ($derivatives as $derivative) {
@@ -74,6 +66,25 @@ class Profanity implements Rule
         }
 
         return true;
+    }
+
+    /**
+     * Assemble the derivatives list used in partial word validation.
+     *
+     * @return array
+     */
+    protected function assembleDerivatives()
+    {
+        $bad_words = [];
+        foreach (config('defaults.banned_words.partial') as $bad_word) {
+            $bad_words[$bad_word] = [
+                $bad_word,
+                str_plural($bad_word),
+                $bad_word[0].str_repeat('*', strlen($bad_word) - 1),
+                $bad_word[0].str_repeat('*', strlen($bad_word) - 2).$bad_word[-1],
+            ];
+        }
+        return $bad_words;
     }
 
     /**
