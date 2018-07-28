@@ -233,4 +233,32 @@ class ShowTest extends APITestCase
         $testShow = Show::find($show->id);
         $this->assertEquals('asdf', $testShow->content['sponsor']);
     }
+
+    /**
+     * Test that single-occurrence shows can't simultaneously declare a day as
+     * both a conflict and a preference.
+     *
+     * @return void
+     */
+    public function testOneOffShowsCantHaveSameDayAsConflictAndPreference()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'weekly' => false,
+            'start_day' => $this->term->on_air->format('l'),
+            'start_time' => $this->term->on_air->format('h:i'),
+            'end_time' => $this->term->on_air->copy()->addHour()->format('h:i'),
+        ]);
+        $show = factory(Show::class)->create([
+            'track_id' => $track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+    }
 }
