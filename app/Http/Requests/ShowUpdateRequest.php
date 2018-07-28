@@ -3,6 +3,7 @@
 namespace KRLX\Http\Requests;
 
 use KRLX\Track;
+use KRLX\Rules\Profanity;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowUpdateRequest extends FormRequest
@@ -49,7 +50,7 @@ class ShowUpdateRequest extends FormRequest
     {
         $baseRules = [
             'submitted' => ['boolean'],
-            'title' => ['string', 'min:3', 'max:200'],
+            'title' => ['string', 'min:3', 'max:200', new Profanity],
             'content' => ['array'],
             'scheduling' => ['array'],
             'conflicts' => ['array', 'min:0'],
