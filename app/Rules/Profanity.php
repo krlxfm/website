@@ -41,6 +41,18 @@ class Profanity implements Rule
             }
         }
 
+        return $this->partialWordsPass($value);
+    }
+
+    /**
+     * Check the partial words - these are words which could appear as they
+     * normally are, or in any number of creative derivatives.
+     *
+     * @param  mixed  $value
+     * @return bool
+     */
+    protected function partialWordsPass($value)
+    {
         $bad_words = [];
         foreach (config('defaults.banned_words.partial') as $bad_word) {
             $bad_words[$bad_word] = [
