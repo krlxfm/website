@@ -10,7 +10,7 @@
                 </div>
             </div>
             <p>
-                <button class="btn btn-block btn-lg btn-dark" data-toggle="modal" data-target="#participant-add">
+                <button class="btn btn-block btn-lg btn-dark" data-toggle="modal" data-target="#participant-add" dusk="add-host">
                     <i class="fas fa-user-plus"></i> Invite a host
                 </button>
             </p>

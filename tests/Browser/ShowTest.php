@@ -74,8 +74,8 @@ class ShowTest extends DuskTestCase
                     ->click('@add-host')
                     ->waitFor('@participant-add-modal')
                     ->type('search', $user->email)
-                    ->pause(2000)
-                    ->click('@invite-host[email="'.$user->email.'"]')
+                    ->waitForText(e($user->name))
+                    ->click('[data-email="'.$user->email.'"]')
                     ->waitUntilMissing('@participant-add-modal')
                     ->assertSee(e($user->name));
         });

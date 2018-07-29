@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-group">
-            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email">
+            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email" name="search">
         </div>
         <div v-if="suggestions.length > 0" class="new-participant-suggestions">
             <div class="list-group">
@@ -11,7 +11,7 @@
                         <br>
                         <small class="text-muted">{{ dj.email }}</small>
                     </div>
-                    <button type="button" class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1" v-on:click="invite(index)">
+                    <button type="button" class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1" v-on:click="invite(index)" v-bind:data-email="dj.email">
                         <i class="fas fa-user-plus"></i> Invite
                     </button>
                     <button class="ml-auto btn btn-light" v-else disabled>
