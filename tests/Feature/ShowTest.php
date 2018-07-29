@@ -189,11 +189,11 @@ class ShowTest extends TestCase
         $show = factory(Show::class)->create([
              'track_id' => $this->track->id,
              'term_id' => $this->term->id,
-         ]);
-        $request = $this->get("/shows/{$show->id}/join");
+        ]);
+        $request = $this->get("/shows/join/{$show->id}");
 
         $request->assertOk()
-                 ->assertViewIs('shows.join')
-                 ->assertSee($this->show->title);
+                ->assertViewIs('shows.join')
+                ->assertSee($this->show->title);
     }
 }
