@@ -44,6 +44,8 @@ class ShowSubmitted extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new ShowSubmittedMailTemplate($this->show))->to($notifiable->email);
+        return (new ShowSubmittedMailTemplate($this->show))
+                    ->to($notifiable->email)
+                    ->subject("{$this->show} Application Submitted");
     }
 }
