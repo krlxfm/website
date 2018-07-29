@@ -1,4 +1,4 @@
-<tr>
+<tr data-field="{{ $field }}">
     <td class="align-middle">{{ $title }}</td>
     @if(is_array($value))
         <td class="align-middle">{!! implode('<br>', $value) !!}</td>
