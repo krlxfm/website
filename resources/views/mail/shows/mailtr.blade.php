@@ -7,10 +7,10 @@ foreach($list as $item) {
     $end = Carbon\Carbon::createFromTimeString($item['end']);
     $item_string = implode(', ', $item['days']).' '.$start->format('g:i a').' - '.$end->format('g:i a');
     if($end->lte($start)) {
-        $item_string .= '<small class="text-info"><em>NEXT DAY</em></small>';
+        $item_string .= ' <small><em>NEXT DAY</em></small>';
     }
     if(isset($item['strength'])) {
-        $item_string .= '('.$strengths[$item['strength']].')';
+        $item_string .= ' ('.$strengths[$item['strength']].')';
     }
     $final_list[] = $item_string;
 }
