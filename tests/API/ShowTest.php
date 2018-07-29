@@ -246,8 +246,8 @@ class ShowTest extends APITestCase
             'active' => true,
             'weekly' => false,
             'start_day' => $this->term->on_air->format('l'),
-            'start_time' => $this->term->on_air->format('h:i'),
-            'end_time' => $this->term->on_air->copy()->addHour()->format('h:i'),
+            'start_time' => $this->term->on_air->format('H:i'),
+            'end_time' => $this->term->on_air->copy()->addHour()->format('H:i'),
         ]);
         $show = factory(Show::class)->create([
             'track_id' => $track->id,
