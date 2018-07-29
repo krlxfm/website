@@ -29,11 +29,12 @@ function sendUpdateRequest(showID, data) {
         removeValidationErrors(data);
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
+        if(showValidationErrors) {
+            $("#next-button").prop('disabled', $(".is-invalid").length > 0);
+        }
     })
     .catch((error) => {
-        if (error.response && showValidationErrors) {
-            showValidationErrors(error.response.data.errors);
-        }
+        showErrors(error.response.data.errors);
     });
 }
 
@@ -48,9 +49,17 @@ function removeValidationErrors(data, prefix = '') {
     });
 }
 
-$(document).ready(function() {
-    if(window.validationErrors) {
-        console.log(window.validationErrors);
-        showValidationErrors(window.validationErrors);
+function showErrors(errors) {
+    if(errors && errors.length > 0 && showValidationErrors) {
+        $("#next-button").prop('disabled', true);
+        showValidationErrors(errors);
     }
+}
+
+function clickNextButton(target) {
+    window.location.href = $(target).data('destination');
+}
+
+$(document).ready(function() {
+    showErrors(window.validationErrors);
 })
