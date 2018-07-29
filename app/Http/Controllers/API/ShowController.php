@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Notifications\ShowSubmitted;
 use KRLX\Http\Requests\ShowUpdateRequest;
 
 class ShowController extends Controller
@@ -136,11 +137,13 @@ class ShowController extends Controller
      */
     public function submit(Request $request, Show $show)
     {
-        if ($request->input('submitted')) {
+        if ($request->input('submitted') and ! $show->submitted) {
             $ruleset = new ShowRuleset($show, $request->all());
             $rules = $ruleset->rules(true);
 
             Validator::make($show->toArray(), $rules)->validate();
+
+            $request->user()->notify(new ShowSubmitted($show));
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();
