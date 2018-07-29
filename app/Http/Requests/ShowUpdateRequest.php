@@ -50,7 +50,6 @@ class ShowUpdateRequest extends FormRequest
     protected function baseRules()
     {
         $baseRules = [
-            'submitted' => ['boolean'],
             'title' => ['string', 'min:3', 'max:200', new Profanity],
             'content' => ['array'],
             'scheduling' => ['array'],
