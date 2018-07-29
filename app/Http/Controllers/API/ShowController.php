@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Controllers\API;
 
+use Validator;
 use KRLX\Show;
 use KRLX\User;
 use Illuminate\Http\Request;
@@ -135,6 +136,15 @@ class ShowController extends Controller
      */
     public function submit(Request $request, Show $show)
     {
-        $ruleset = new ShowRuleset($show, $request->all());
+        if ($request->input('submitted')) {
+            $ruleset = new ShowRuleset($show, $request->all());
+            $rules = $ruleset->rules(true);
+
+            Validator::make($show->toArray(), $rules)->validate();
+        }
+        $show->submitted = $request->input('submitted') ?? false;
+        $show->save();
+
+        return $show;
     }
 }

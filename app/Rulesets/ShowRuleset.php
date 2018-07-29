@@ -36,7 +36,7 @@ class ShowRuleset
 
         if ($mandatory) {
             foreach ($rules as $field => &$ruleset) {
-                $ruleset = array_prepend($ruleset, (head($ruleset) == 'nullable' or in_array('min:0', $ruleset)) ? 'present' : 'required');
+                $ruleset = array_prepend($ruleset, (head($ruleset) == 'nullable' or in_array('min:0', $ruleset) or in_array('size:0', $ruleset)) ? 'present' : 'required');
             }
         }
 
@@ -52,13 +52,10 @@ class ShowRuleset
     {
         $baseRules = [
             'title' => ['string', 'min:3', 'max:200', new Profanity],
-            'content' => ['array'],
-            'scheduling' => ['array'],
             'conflicts' => ['array', 'min:0'],
-            'preferences' => ['array'],
-            'etc' => ['array'],
+            'preferences' => ['array', 'min:0'],
             'special_times' => ['array', 'size:'.count(config('defaults.special_times'))],
-            'classes' => ['array'],
+            'classes' => ['array', 'min:0'],
             'classes.*' => ['string'],
             'tags.*' => ['string'],
             'preferred_length' => ['integer', 'min:0', 'max:240'],
@@ -86,6 +83,9 @@ class ShowRuleset
     protected function trackDependentRules(Track $track)
     {
         $trackDepRules = [
+            'content' => ['array', 'size:'.count($track->content)],
+            'scheduling' => ['array', 'size:'.count($track->scheduling)],
+            'etc' => ['array', 'size:'.count($track->etc)],
             'description' => ['min:'.$track->description_min_length, 'max:65000'],
             'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input['preferences'] ?? $this->show->preferences))]),
             'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input['conflicts'] ?? $this->show->conflicts))]),
