@@ -22,6 +22,8 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @include('shows.tr', ['title' => $show->track->title_label ?? 'Title', 'value' => $show->title, 'path' => 'content'])
+
                     <tr>
                         <td>Status</td>
                         <td>
@@ -50,7 +52,6 @@
                     @include('shows.tr', ['title' => 'Hosts', 'value' => $show->hosts->pluck('full_name')->all(), 'path' => 'hosts'])
                     @include('shows.tr', ['title' => 'Invitees', 'value' => $show->invitees->pluck('full_name')->all(), 'path' => 'hosts'])
 
-                    @include('shows.tr', ['title' => 'Title', 'value' => $show->title, 'path' => 'content'])
                     @include('shows.tr', ['title' => 'Description', 'value' => $show->description, 'path' => 'content'])
                     @foreach($show->track->content as $field)
                         @include('shows.tr', ['title' => $field['title'], 'value' => $show->content[$field['db']], 'path' => 'content'])
