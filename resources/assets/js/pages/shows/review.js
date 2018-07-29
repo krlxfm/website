@@ -10,13 +10,14 @@ function reviewAndSubmit() {
     })
     .then((choice) => {
         if(!choice) throw new Error();
-    })
-    .then(() => {
         axios.put('/api/v1/shows/'+showID+'/submitted', {
             submitted: true
         })
         .then((response) => {
-            console.log(response);
+            return successAlert();
+        })
+        .then(() => {
+            window.location.href = '/shows';
         })
         .catch((err) => {
             showErrors(err.response.data.errors);
@@ -25,9 +26,19 @@ function reviewAndSubmit() {
     .catch((err) => {});
 }
 
+function successAlert() {
+    return swal({
+        title: "Done!",
+        icon: "success",
+        text: "The show has been successfully submitted! You can continue to edit this application if needed. A confirmation email is on its way as well."
+    })
+}
+
 function showErrors(errors) {
+    $("tr").removeClass('table-danger');
     var list = document.createElement('ul');
     for(var field in errors) {
+        $('tr[data-field="'+field+'"]').addClass('table-danger');
         var errMessage = errors[field][0];
         if(field.indexOf('.') != -1) {
             var components = field.split('.');
