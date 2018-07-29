@@ -285,6 +285,7 @@ class ShowTest extends APITestCase
     {
         $show = Show::find($this->show->id);
         $this->assertFalse($show->submitted, 'The show was submitted to begin with.');
+
         $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
             'description' => 'This is a show description',
             'submitted' => true,
@@ -293,9 +294,11 @@ class ShowTest extends APITestCase
         $show = Show::find($this->show->id);
         $this->assertEquals('This is a show description', $show->description, 'The description was not updated.');
         $this->assertFalse($show->submitted, 'The show was successfully submitted when it should not have been.');
+
         $request = $this->json('PUT', "/api/v1/shows/{$this->show->id}/submitted", [
             'submitted' => true,
         ]);
+        $request->assertStatus(200);
         $show = Show::find($this->show->id);
         $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
     }

@@ -5,6 +5,7 @@ namespace KRLX\Http\Controllers\API;
 use KRLX\Show;
 use KRLX\User;
 use Illuminate\Http\Request;
+use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Http\Requests\ShowUpdateRequest;
@@ -123,5 +124,17 @@ class ShowController extends Controller
         }
 
         return $show;
+    }
+
+    /**
+     * Validate a show and submit it, or remove submission status.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function submit(Request $request, Show $show)
+    {
+        $ruleset = new ShowRuleset($show, $request->all());
     }
 }
