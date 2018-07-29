@@ -2,21 +2,24 @@
 
 @section('head')
     @parent
+    <p>Please fill in the following information about your show. Required fields are marked with a red asterisk (<span class="text-danger">*</span>) and must be filled in to continue. Some of this information may be published in programming catalogs and other locations.</p>
     <div class="row">
         <div class="col">
             <form method="post" action="/shows/{{ $show->id }}" id="content-form">
                 @method('patch')
                 @csrf
                 <div class="form-group row">
-                    <label for="title" class="col-sm-3 col-md-2 col-form-label">{{ $show->track->title_label ?? 'Title' }}</label>
+                    <label for="title" class="col-sm-3 col-md-2 col-form-label">{{ $show->track->title_label ?? 'Title' }} <span class="text-danger">*</span></label>
                     <div class="col-sm-9 col-md-10">
                         <input type="text" name="title" class="form-control" id="title" required value="{{ old('title') ?? $show->title }}">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description" class="col-sm-3 col-md-2 col-form-label">{{ $show->track->description_label ?? 'Description' }}</label>
+                    <label for="description" class="col-sm-3 col-md-2 col-form-label">
+                        {{ $show->track->description_label ?? 'Description' }} <span class="text-danger">*</span>
+                    </label>
                     <div class="col-sm-9 col-md-10">
-                        <textarea id="description" class="form-control" rows="3" name="description" placeholder="Describe your show! What can listeners expect to hear?">{{ old('description') ?? $show->description }}</textarea>
+                        <textarea id="description" class="form-control" rows="3" name="description" placeholder="Show description, to be used in the program catalog and other locations.">{{ old('description') ?? $show->description }}</textarea>
                     </div>
                 </div>
                 @foreach($show->track->content as $field)
