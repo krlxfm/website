@@ -126,7 +126,7 @@ class ShowTest extends TestCase
         $this->assertEquals(0, strlen($this->show->description ?? ''));
         $request->assertOk()
                 ->assertViewIs('shows.content')
-                ->assertSee('The description is required.');
+                ->assertSee('The description field is required.');
     }
 
     /**
