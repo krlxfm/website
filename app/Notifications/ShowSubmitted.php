@@ -5,8 +5,6 @@ namespace KRLX\Notifications;
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use KRLX\Mail\ShowSubmitted as ShowSubmittedMailTemplate;
 
 class ShowSubmitted extends Notification

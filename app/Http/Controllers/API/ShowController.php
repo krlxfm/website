@@ -8,8 +8,8 @@ use Validator;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
-use KRLX\Notifications\ShowSubmitted;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Notifications\ShowSubmitted;
 use KRLX\Http\Requests\ShowUpdateRequest;
 
 class ShowController extends Controller
