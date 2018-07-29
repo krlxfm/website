@@ -17,7 +17,7 @@
         <div class="container d-flex">
             <div class="d-flex">
                 @isset($back)
-                    <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="next-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
+                    <a href="{{ route("shows.$back", $show) }}" class="btn btn-primary" id="back-button" dusk="next"><i class="fas fa-chevron-left"></i> Back: {{ ucwords($back) }}</a>
                 @endisset
                 @yield('back')
             </div>
@@ -28,7 +28,7 @@
                 </span>
                 @yield('next')
                 @isset($next)
-                    <a href="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></a>
+                    <button type="button" data-destination="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next" onclick="window.location.href = $(this).data('destination')">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></button>
                 @endisset
             </div>
         </div>

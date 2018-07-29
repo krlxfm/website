@@ -1,4 +1,4 @@
-<tr>
+<tr data-field="{{ $field }}">
     <td>{{ $title }}</td>
     <td>
         @foreach($list as $item)

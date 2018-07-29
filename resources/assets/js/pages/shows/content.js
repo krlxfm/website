@@ -15,10 +15,9 @@ function showValidationErrors(rawErrors) {
             message = message.replace(components[0] + '.', '');
         }
 
-        if(field.val().length > 0) {
-            field.addClass('is-invalid');
-            field.after('<div class="invalid-feedback">'+message+'</div>');
-        }
+        field.addClass('is-invalid');
+        field.siblings('div.invalid-feedback').remove();
+        field.after('<div class="invalid-feedback">'+message+'</div>');
     })
 }
 

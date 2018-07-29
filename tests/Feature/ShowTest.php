@@ -114,7 +114,8 @@ class ShowTest extends TestCase
     }
 
     /**
-     * Test that we have access to the content view after creating a show.
+     * Test that we have access to the content view after creating a show, and
+     * that the view marks the "description" field as required.
      *
      * @return void
      */
@@ -122,8 +123,10 @@ class ShowTest extends TestCase
     {
         $request = $this->get("/shows/{$this->show->id}/content");
 
+        $this->assertEquals(0, strlen($this->show->description ?? ''));
         $request->assertOk()
-                ->assertViewIs('shows.content');
+                ->assertViewIs('shows.content')
+                ->assertSee('The description field is required.');
     }
 
     /**

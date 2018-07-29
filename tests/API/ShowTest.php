@@ -274,4 +274,32 @@ class ShowTest extends APITestCase
         ]);
         $request->assertStatus(200);
     }
+
+    /**
+     * Test that "submitted" can't be edited directly via PATCH, but can be
+     * when all validation rules pass and a request is sent to the submit route.
+     *
+     * @return void
+     */
+    public function testSubmissionStatusCantBeEditedWithPatch()
+    {
+        $show = Show::find($this->show->id);
+        $this->assertFalse($show->submitted, 'The show was submitted to begin with.');
+
+        $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is a show description',
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertEquals('This is a show description', $show->description, 'The description was not updated.');
+        $this->assertFalse($show->submitted, 'The show was successfully submitted when it should not have been.');
+
+        $request = $this->json('PUT', "/api/v1/shows/{$this->show->id}/submitted", [
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
+    }
 }
