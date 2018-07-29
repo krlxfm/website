@@ -9,6 +9,8 @@
                 @csrf
                 @if($show->track->weekly)
                     @include('shows.weekly')
+                @else
+                    @include('shows.single')
                 @endif
                 <h2 dusk="schedule-standard-return">Additional details</h2>
                 <div id="scheduling-extras">

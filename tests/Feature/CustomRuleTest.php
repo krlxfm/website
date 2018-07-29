@@ -69,6 +69,7 @@ class CustomRuleTest extends TestCase
             'prefix'.$full,
             'hole',
             'pals!!!',
+            'title',
         ];
         foreach ($good_words as $word) {
             $request = $this->actingAs($user, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [

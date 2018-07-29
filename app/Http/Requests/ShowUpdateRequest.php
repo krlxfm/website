@@ -4,6 +4,7 @@ namespace KRLX\Http\Requests;
 
 use KRLX\Track;
 use KRLX\Rules\Profanity;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowUpdateRequest extends FormRequest
@@ -76,8 +77,8 @@ class ShowUpdateRequest extends FormRequest
     }
 
     /**
-     * Returns the basic which change based on the track settings.
-     * (These aren't the custom fields.).
+     * Returns the basic which change based on the track settings - note that
+     * these are NOT the custom fields.
      *
      * @param  KRLX\Track  $track
      * @return array
@@ -86,8 +87,8 @@ class ShowUpdateRequest extends FormRequest
     {
         $trackDepRules = [
             'description' => ['min:'.$track->description_min_length, 'max:65000'],
-            'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
-            'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct']),
+            'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input('preferences') ?? $this->show->preferences))]),
+            'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input('conflicts') ?? $this->show->conflicts))]),
             'tags' => ['array', ($track->taggable ? 'min:0' : 'max:0')],
         ];
 
