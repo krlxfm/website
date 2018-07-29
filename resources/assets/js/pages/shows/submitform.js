@@ -26,7 +26,6 @@ function submitForm() {
 function sendUpdateRequest(showID, data) {
     axios.patch('/api/v1/shows/'+showID, data)
     .then((response) => {
-        console.log(data);
         removeValidationErrors(data);
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
@@ -43,7 +42,7 @@ function removeValidationErrors(data, prefix = '') {
         if(typeof data[field] === 'object') {
             removeValidationErrors(data[field], field+'.');
         } else {
-            $('[name="'+prefix+field+'"] > div.invalid-feedback').remove();
+            $('[name="'+prefix+field+'"] ~ div.invalid-feedback').remove();
             $('[name="'+prefix+field+'"]').removeClass('is-invalid');
         }
     });
