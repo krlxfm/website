@@ -287,7 +287,7 @@ class ShowTest extends APITestCase
         $this->assertFalse($show->submitted, 'The show was submitted to begin with.');
         $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
             'description' => 'This is a show description',
-            'submitted' => true
+            'submitted' => true,
         ]);
         $request->assertStatus(200);
         $show = Show::find($this->show->id);
