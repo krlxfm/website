@@ -50,7 +50,8 @@ function removeValidationErrors(data, prefix = '') {
 }
 
 function showErrors(errors) {
-    if(errors && errors.length > 0 && showValidationErrors) {
+    console.error(JSON.stringify(errors));
+    if(errors && Object.keys(errors).length > 0 && showValidationErrors) {
         $("#next-button").prop('disabled', true);
         showValidationErrors(errors);
     }
