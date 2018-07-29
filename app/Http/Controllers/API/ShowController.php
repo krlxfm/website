@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use Validator;
 use KRLX\Show;
 use KRLX\User;
+use Validator;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;

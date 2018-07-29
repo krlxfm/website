@@ -3,9 +3,7 @@
 namespace KRLX\Http\Requests;
 
 use KRLX\Track;
-use KRLX\Rules\Profanity;
 use KRLX\Rulesets\ShowRuleset;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowUpdateRequest extends FormRequest
