@@ -71,7 +71,7 @@
 @push('js')
 <script>
 @isset($initialErrors)
-var validationErrors = {!! $initialErrors !!};
+var validationErrors = {!! json_encode($initialErrors) !!};
 @endisset
 var showID = "{{ $show->id }}";
 </script>

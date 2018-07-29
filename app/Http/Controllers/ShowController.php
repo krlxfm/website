@@ -4,8 +4,10 @@ namespace KRLX\Http\Controllers;
 
 use KRLX\Show;
 use KRLX\Term;
+use Validator;
 use KRLX\Track;
 use Illuminate\Http\Request;
+use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 
 class ShowController extends Controller
@@ -93,7 +95,15 @@ class ShowController extends Controller
      */
     public function content(Show $show)
     {
-        return view('shows.content', compact('show'));
+        $ruleset = new ShowRuleset($show, []);
+        $rules = collect($ruleset->rules(true));
+        $keys = array_merge(['title', 'description', 'content'], $rules->filter(function($value, $key) {
+            return starts_with($key, 'content.');
+        })->keys()->all());
+
+        $validator = Validator::make($show->toArray(), $rules->only($keys)->all());
+        $initialErrors = $validator->errors()->messages();
+        return view('shows.content', compact('show', 'initialErrors'));
     }
 
     /**
