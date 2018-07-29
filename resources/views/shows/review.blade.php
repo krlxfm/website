@@ -24,7 +24,16 @@
                 <tbody>
                     <tr>
                         <td>Status</td>
-                        <td>{{ $show->submitted ? 'Submitted' : 'Pending' }}</td>
+                        <td>
+                            @if($show->submitted)
+                                Submitted &mdash; priority {{ $show->priority }}
+                                @if($show->boosted)
+                                    <span class="badge badge-danger"><i class="fas fa-rocket"></i> PRIORITY BOOST</span>
+                                @endif
+                            @else
+                                Submission pending
+                            @endif
+                        </td>
                         <td></td>
                     </tr>
                     <tr>
