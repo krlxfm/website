@@ -10,7 +10,7 @@
                     <a href="#" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
-            @include('components.term-selector', ['root' => route('shows.my')])
+            @include('components.term-selector', ['root' => route('shows.my.other')])
         </div>
     </div>
     <div class="row">
