@@ -10,19 +10,7 @@
                     <a href="#" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
-            <div class="card my-3">
-                <div class="card-body py-2">
-                    <form class="form-inline">
-                        <label class="my-1 mr-2" for="switchTerm">Switch to term:</label>
-                        <select class="custom-select my-1 mr-sm-2" id="switchTerm" name="newTerm">
-                            @foreach($terms as $new_term)
-                                <option value="{{ $new_term->id }}" {{ $new_term->id == $term->id ? 'selected' : '' }}>{{ $new_term->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-primary my-1">Go</button>
-                    </form>
-                </div>
-            </div>
+            @include('components.term-selector', ['root' => route('shows.my')])
         </div>
     </div>
     <div class="row">
