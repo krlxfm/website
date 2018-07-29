@@ -78,7 +78,7 @@ class ShowUpdateRequest extends FormRequest
 
     /**
      * Returns the basic which change based on the track settings.
-     * (These aren't the custom fields.)
+     * (These aren't the custom fields.).
      *
      * @param  KRLX\Track  $track
      * @return array
