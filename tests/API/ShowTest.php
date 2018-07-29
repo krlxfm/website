@@ -260,5 +260,18 @@ class ShowTest extends APITestCase
             'preferences' => [$this->term->on_air->format('Y-m-d')],
         ]);
         $request->assertStatus(422);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
     }
 }
