@@ -97,12 +97,13 @@ class ShowController extends Controller
     {
         $ruleset = new ShowRuleset($show, []);
         $rules = collect($ruleset->rules(true));
-        $keys = array_merge(['title', 'description', 'content'], $rules->filter(function($value, $key) {
+        $keys = array_merge(['title', 'description', 'content'], $rules->filter(function ($value, $key) {
             return starts_with($key, 'content.');
         })->keys()->all());
 
         $validator = Validator::make($show->toArray(), $rules->only($keys)->all());
         $initialErrors = $validator->errors()->messages();
+
         return view('shows.content', compact('show', 'initialErrors'));
     }
 
