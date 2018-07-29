@@ -177,4 +177,23 @@ class ShowTest extends TestCase
                 ->assertViewIs('shows.content')
                 ->assertSee('Sponsor');
     }
+
+    /**
+     * Test that we have access to the join view, assuming we're not a host of
+     * the show we're trying to join.
+     *
+     * @return void
+     */
+     public function testJoinShowViewRenders()
+     {
+         $show = factory(Show::class)->create([
+             'track_id' => $this->track->id,
+             'term_id' => $this->term->id,
+         ]);
+         $request = $this->get("/shows/{$show->id}/join");
+
+         $request->assertOk()
+                 ->assertViewIs('shows.join')
+                 ->assertSee($this->show->title);
+     }
 }
