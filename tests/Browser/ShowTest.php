@@ -77,6 +77,7 @@ class ShowTest extends DuskTestCase
                     ->waitForText(e($user->name))
                     ->click('[data-email="'.$user->email.'"]')
                     ->waitUntilMissing('@participant-add-modal')
+                    ->assertSee('Cancel invitation')
                     ->assertSee(e($user->name));
         });
     }

@@ -69,13 +69,13 @@ module.exports = {
             .then(() => {
                 window.participants.push({
                     id: this.suggestions[index].id,
-                    name: this.suggestions[index].name,
+                    full_name: this.suggestions[index].full_name,
                     email: this.suggestions[index].email,
                     membership: {
                         accepted: false
                     }
                 });
-                $("#add-participant-modal").modal('hide');
+                $("#participant-add").modal('hide');
                 this.value = '';
             })
         }
