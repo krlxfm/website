@@ -39,3 +39,9 @@ function sendUpdateRequest(showID, data) {
         }
     });
 }
+
+$(document).ready(function() {
+    if(window.validationErrors && window.validationErrors.length > 0) {
+        showValidationErrors(window.validationErrors);
+    }
+})

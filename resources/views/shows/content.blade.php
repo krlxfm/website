@@ -70,6 +70,9 @@
 
 @push('js')
 <script>
+@isset($initialErrors)
+var validationErrors = {!! $initialErrors !!};
+@endisset
 var showID = "{{ $show->id }}";
 </script>
 <script src="/js/pages/shows/submitform.js" defer></script>
