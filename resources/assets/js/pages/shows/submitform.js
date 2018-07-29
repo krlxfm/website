@@ -56,10 +56,6 @@ function showErrors(errors) {
     }
 }
 
-function clickNextButton(target) {
-    window.location.href = $(target).data('destination');
-}
-
 $(document).ready(function() {
     showErrors(window.validationErrors);
 })

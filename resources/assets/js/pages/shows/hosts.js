@@ -46,7 +46,3 @@ function removeCompleteAlert(name) {
 $(function() {
     $("#changes-saved-item").hide();
 });
-
-function clickNextButton(target) {
-    window.location.href = $(target).data('destination');
-}

@@ -28,7 +28,7 @@
                 </span>
                 @yield('next')
                 @isset($next)
-                    <button type="button" data-destination="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next" onclick="clickNextButton(this)">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></button>
+                    <button type="button" data-destination="{{ route("shows.$next", $show) }}" class="btn btn-primary" id="next-button" dusk="next" onclick="window.location.href = $(this).data('destination')">Next: {{ ucwords($next) }} <i class="fas fa-chevron-right"></i></button>
                 @endisset
             </div>
         </div>
