@@ -190,6 +190,7 @@ class ShowTest extends TestCase
              'track_id' => $this->track->id,
              'term_id' => $this->term->id,
         ]);
+        $show->invitees()->attach($this->user);
         $request = $this->get("/shows/join/{$show->id}");
 
         $request->assertOk()

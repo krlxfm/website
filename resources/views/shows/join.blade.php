@@ -26,7 +26,7 @@
                             @case(2)
                                 {{ $show->hosts->first()->full_name }} and {{ $show->hosts->last()->full_name }}?
                                 @break
-                            @case(3)
+                            @default
                                 {{ $show->hosts->first()->full_name }} and {{ $show->hosts->count() - 1 }} others?
                                 @break
                         @endswitch
