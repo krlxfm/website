@@ -157,6 +157,7 @@ class ShowController extends Controller
         // show being joined. This request is therefore authorized and we can
         // now make the connection.
         $show->invitees()->detach($request->user()->id);
+        $show->hosts()->detach($request->user()->id);
         $show->hosts()->attach($request->user()->id, ['accepted' => true]);
 
         return $show;
