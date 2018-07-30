@@ -313,7 +313,7 @@ class ShowTest extends APITestCase
         $this->assertNotContains($this->user->id, $show->invitees->pluck('id'));
         $this->assertContains($this->user->id, $show->hosts->pluck('id'));
     }
-    
+
     /**
      * Test that "submitted" can't be edited directly via PATCH, but can be
      * when all validation rules pass and a request is sent to the submit route.
