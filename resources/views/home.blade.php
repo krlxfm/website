@@ -20,7 +20,7 @@
                         <a href="{{ route('shows.my') }}" class="d-none d-md-block btn btn-outline-primary btn-sm">
                             <i class="fas fa-calendar-alt"></i> Past terms
                         </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ route('shows.join') }}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-user-plus"></i> Join show
                         </a>
                     </div>

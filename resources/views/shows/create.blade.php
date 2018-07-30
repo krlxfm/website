@@ -7,7 +7,7 @@
                 <h1>Create New Show</h1>
                 <div class="btn-group ml-auto">
                     <a href="{{ route('shows.my') }}" class="btn btn-outline-secondary"><i class="fas fa-chevron-left"></i> Back to My Shows</a>
-                    <a href="#" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Join Show</a>
+                    <a href="{{ route('shows.join') }}" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
             <div class="card my-3">
