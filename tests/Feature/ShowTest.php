@@ -197,4 +197,24 @@ class ShowTest extends TestCase
                 ->assertViewIs('shows.join')
                 ->assertSee($show->title);
     }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->put("/shows/join/{$show->id}", [
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email])
+        ]);
+        $request->assertRedirect(route('shows.schedule', $show))
+                ->assertSessionHas('success');
+    }
 }
