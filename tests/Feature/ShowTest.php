@@ -192,7 +192,6 @@ class ShowTest extends TestCase
         ]);
         $request = $this->get("/shows/join/{$show->id}");
 
-        dump($request->json());
         $request->assertOk()
                 ->assertViewIs('shows.join')
                 ->assertSee($show->title);
