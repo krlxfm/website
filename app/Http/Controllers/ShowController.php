@@ -173,4 +173,20 @@ class ShowController extends Controller
 
         return view('shows.djs', compact('term', 'terms', 'users'));
     }
+
+    /**
+     * Display the "Join Show" view.
+     *
+     * @param  KRLX\Show|null  $show
+     * @return Illuminate\Http\Response
+     */
+    public function join(Show $show = null)
+    {
+        if($show == null) {
+            $term = Term::orderByDesc('on_air')->get()->first();
+            return view('shows.find', compact('term'));
+        } else {
+            return view('shows.join', compact('show'));
+        }
+    }
 }

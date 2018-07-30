@@ -194,6 +194,6 @@ class ShowTest extends TestCase
 
         $request->assertOk()
                 ->assertViewIs('shows.join')
-                ->assertSee($this->show->title);
+                ->assertSee($show->title);
     }
 }
