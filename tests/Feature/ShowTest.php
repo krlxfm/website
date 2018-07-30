@@ -179,6 +179,19 @@ class ShowTest extends TestCase
     }
 
     /**
+     * Test that we have access to the Join Shows screen without an ID.
+     *
+     * @return void
+     */
+    public function testFindShowViewRenders()
+    {
+        $request = $this->get("/shows/join");
+
+        $request->assertOk()
+                ->assertViewIs('shows.find');
+    }
+
+    /**
      * Test that we have access to the join view, assuming we're not a host of
      * the show we're trying to join.
      *
