@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Http\Requests\ShowUpdateRequest;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
 {
@@ -121,6 +122,42 @@ class ShowController extends Controller
             $show->hosts()->detach($host->id);
             $show->invitees()->detach($host->id);
         }
+
+        return $show;
+    }
+
+    /**
+     * Respond to a join invitation.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function join(Request $request, Show $show)
+    {
+        $request->validate(['token' => 'required|string']); // (1)
+        try {
+            $data = decrypt($request->input('token')); // (2)
+            if (! is_array($data)) { // (3)
+                throw new DecryptException('The given token is not an array.');
+            } else if (! array_key_exists('show', $data) or ! array_key_exists('user', $data)) { // (4)
+                throw new DecryptException('The token does not have the required components.');
+            } else if ($data['user'] != $request->user()->email) { // (5)
+                throw new DecryptException('The token does not belong to you.');
+            } else if ($data['show'] != $show->id) { // (6)
+                throw new DecryptException('The token does not belong to this show.');
+            }
+        } catch (DecryptException $e) {
+            abort(400, 'The token is invalid.');
+        }
+
+        // We now know that: (1) the token is present, (2) it is encrypted,
+        // (3) the decrypted form is an array, (4) it has the required
+        // components, (5) it belongs to the user, and (6) it belongs to the
+        // show being joined. This request is therefore authorized and we can
+        // now make the connection.
+        $show->invitees()->detach($request->user()->id);
+        $show->hosts()->attach($request->user()->id, ['accepted' => true]);
 
         return $show;
     }
