@@ -274,4 +274,25 @@ class ShowTest extends APITestCase
         ]);
         $request->assertStatus(200);
     }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+            'accept' => true
+        ]);
+        $request->assertStatus(200);
+        $this->assertNotContains($this->user, $show->invitees());
+        $this->assertContains($this->user, $show->hosts());
+    }
 }
