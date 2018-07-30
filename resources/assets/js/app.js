@@ -18,6 +18,7 @@ window.swal = require('sweetalert');
  */
 
 Vue.component('conflict-list', require('./components/ConflictList.vue'));
+Vue.component('term-selector', require('./components/TermSelector.vue'));
 Vue.component('preference-list', require('./components/PreferenceList.vue'));
 Vue.component('participant-list', require('./components/ParticipantList.vue'));
 Vue.component('participant-search', require('./components/ParticipantSearch.vue'));

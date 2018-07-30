@@ -49,6 +49,15 @@ class Term extends Model
     ];
 
     /**
+     * The attributes that should be added to arrays.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'name',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array

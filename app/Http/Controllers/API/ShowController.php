@@ -4,10 +4,13 @@ namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
 use KRLX\User;
+use Validator;
 use Illuminate\Http\Request;
+use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Notifications\ShowInvitation;
+use KRLX\Notifications\ShowSubmitted;
 use KRLX\Http\Requests\ShowUpdateRequest;
 use KRLX\Notifications\NewUserShowInvitation;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -191,6 +194,29 @@ class ShowController extends Controller
         $show->invitees()->detach($request->user()->id);
         $show->hosts()->detach($request->user()->id);
         $show->hosts()->attach($request->user()->id, ['accepted' => true]);
+        return $show;
+    }
+  
+    /**
+     * Respond to a join invitation.
+     * Validate a show and submit it, or remove submission status.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function submit(Request $request, Show $show)
+    {
+        if ($request->input('submitted') and ! $show->submitted) {
+            $ruleset = new ShowRuleset($show, $request->all());
+            $rules = $ruleset->rules(true);
+
+            Validator::make($show->toArray(), $rules)->validate();
+
+            $request->user()->notify(new ShowSubmitted($show));
+        }
+        $show->submitted = $request->input('submitted') ?? false;
+        $show->save();
 
         return $show;
     }

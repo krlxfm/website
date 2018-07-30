@@ -3,7 +3,12 @@ $currentValue = old("${category}[{$field['db']}]") ?? $value;
 @endphp
 <fieldset class="form-group">
     <div class="row">
-        <legend class="col-form-label col-sm-3 col-md-2 pt-0">{{ $field['title'] }}</legend>
+        <legend class="col-form-label col-sm-3 col-md-2 pt-0">
+            {{ $field['title'] }}
+            @if(in_array('required', $field['rules']))
+                <span class="text-danger">*</span>
+            @endif
+        </legend>
         <div class="col-sm-9 col-md-10">
             @if($field['helptext'])
                 <p>{{ $field['helptext'] }}</p>

@@ -18,7 +18,8 @@ Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
         Route::patch('shows/{show}/hosts', 'ShowController@changeHosts');
         Route::patch('shows/{show}/invite', 'ShowController@inviteHostWithoutUserAccount');
         Route::put('shows/{show}/join', 'ShowController@join');
-
+        Route::put('shows/{show}/submitted', 'ShowController@submit');
+        
         Route::get('users', 'UserController@search');
     });
     Route::apiResource('terms', 'TermController');
