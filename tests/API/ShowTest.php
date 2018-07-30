@@ -289,7 +289,7 @@ class ShowTest extends APITestCase
         $show->hosts()->attach($this->user, ['accepted' => true]);
 
         $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
-            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email])
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
         ]);
         $request->assertStatus(200);
         $this->assertNotContains($this->user->id, $show->invitees->pluck('id'));

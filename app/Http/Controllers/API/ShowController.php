@@ -140,11 +140,11 @@ class ShowController extends Controller
             $data = decrypt($request->input('token')); // (2)
             if (! is_array($data)) { // (3)
                 throw new DecryptException('The given token is not an array.');
-            } else if (! array_key_exists('show', $data) or ! array_key_exists('user', $data)) { // (4)
+            } elseif (! array_key_exists('show', $data) or ! array_key_exists('user', $data)) { // (4)
                 throw new DecryptException('The token does not have the required components.');
-            } else if ($data['user'] != $request->user()->email) { // (5)
+            } elseif ($data['user'] != $request->user()->email) { // (5)
                 throw new DecryptException('The token does not belong to you.');
-            } else if ($data['show'] != $show->id) { // (6)
+            } elseif ($data['show'] != $show->id) { // (6)
                 throw new DecryptException('The token does not belong to this show.');
             }
         } catch (DecryptException $e) {

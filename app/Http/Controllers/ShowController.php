@@ -207,6 +207,7 @@ class ShowController extends Controller
         $controller->join($request, $show);
 
         $request->session()->flash('success', "You have successfully joined {$show->title}! Please carefully review the schedule below and add your details if necessary.");
+
         return redirect()->route('shows.schedule', $show);
     }
 }
