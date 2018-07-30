@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-group">
-            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email" name="search">
+            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email" name="search" id="add-host-search">
         </div>
         <div v-if="suggestions.length > 0" class="new-participant-suggestions">
             <div class="list-group">
@@ -42,7 +42,8 @@ module.exports = {
             value: '',
             timer: null,
             noResults: false,
-            suggestions: []
+            suggestions: [],
+            currentDJs: window.participants.map((dj) => { return dj.id; })
         }
     },
     methods: {
@@ -76,8 +77,10 @@ module.exports = {
                         accepted: false
                     }
                 });
+                this.currentDJs = window.participants.map((dj) => { return dj.id; });
                 $("#participant-add").modal('hide');
                 this.value = '';
+                $("#add-host-search").val('');
             })
         }
     },
@@ -91,9 +94,6 @@ module.exports = {
             } else {
                 return this.value.toLowerCase() + "@carleton.edu";
             }
-        },
-        currentDJs: function () {
-            return window.participants.map((dj) => { return dj.id; });
         }
     }
 }
