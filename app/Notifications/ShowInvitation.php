@@ -45,13 +45,12 @@ class ShowInvitation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.shows.invitation')
-                ->subject('Invitation to join '.$this->show->title)
-                ->with([
+        return (new MailMessage)->markdown('mail.shows.invitation', [
                     'show' => $this->show,
                     'sender' => $this->sender,
                     'recipient' => $notifiable,
-                ]);
+                ])
+                ->subject('Invitation to join '.$this->show->title);
     }
 
     /**

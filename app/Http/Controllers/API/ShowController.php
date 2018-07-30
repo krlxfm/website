@@ -7,6 +7,7 @@ use KRLX\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
 use Illuminate\Contracts\Encryption\DecryptException;
 
@@ -113,6 +114,7 @@ class ShowController extends Controller
 
             if (! ($show->hosts->contains($host) or $show->invitees->contains($host))) {
                 $show->invitees()->attach($host->id);
+                $host->notify(new ShowInvitation($show, $request->user()));
             }
         }
 
