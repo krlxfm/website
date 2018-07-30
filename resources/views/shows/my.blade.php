@@ -106,7 +106,7 @@
                     </h4>
                     <div class="list-group list-group-flush">
                         @foreach($invitations as $show)
-                            <div class="list-group-item d-flex align-items-center">
+                            <a class="list-group-item d-flex align-items-center text-dark" href="{{ route('shows.join', $show) }}">
                                 <div>
                                     @if($show->boosted)
                                         <span class="badge badge-danger mb-2">
@@ -121,7 +121,7 @@
                                 <div class="ml-auto">
                                     <i class="fas fa-chevron-right fa-2x text-muted"></i>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
