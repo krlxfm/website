@@ -11,11 +11,11 @@
                         <br>
                         <small class="text-muted">{{ dj.email }}</small>
                     </div>
-                    <button type="button" class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1" v-on:click="invite(index)" v-bind:data-email="dj.email">
-                        <i class="fas fa-user-plus"></i> Invite
-                    </button>
-                    <button class="ml-auto btn btn-light" v-else disabled>
+                    <button class="ml-auto btn btn-light" v-if="djInShow(dj.id)" disabled>
                         <i class="fas fa-check"></i> Invited
+                    </button>
+                    <button type="button" class="ml-auto btn btn-success" v-else v-on:click="invite(index)" v-bind:data-email="dj.email">
+                        <i class="fas fa-user-plus"></i> Invite
                     </button>
                 </div>
             </div>
@@ -43,10 +43,17 @@ module.exports = {
             timer: null,
             noResults: false,
             suggestions: [],
-            currentDJs: window.participants.map((dj) => { return dj.id; })
+            currentDJs: window.participants
         }
     },
     methods: {
+        djInShow: function(id) {
+            var found = false;
+            this.currentDJs.forEach((dj) => {
+                if(dj.id == id) found = true;
+            });
+            return found;
+        },
         search: function() {
             this.value = event.target.value;
             clearTimeout(this.timer);
@@ -77,10 +84,11 @@ module.exports = {
                         accepted: false
                     }
                 });
-                this.currentDJs = window.participants.map((dj) => { return dj.id; });
                 $("#participant-add").modal('hide');
-                this.value = '';
                 $("#add-host-search").val('');
+                this.value = '';
+                this.noResults = false;
+                this.suggestions = [];
             })
         }
     },
