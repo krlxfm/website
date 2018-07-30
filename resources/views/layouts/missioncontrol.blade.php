@@ -47,6 +47,13 @@
             </div>
         </div>
     @endif
+    @if (session('success'))
+        <div class="container my-4">
+            <div class="alert alert-success">
+                <i class="fas fa-check"></i> {{ session('success') }}
+            </div>
+        </div>
+    @endif
     <div id="app">
         <div class="container mt-4">
             @yield('head')

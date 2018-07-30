@@ -180,4 +180,57 @@ class ShowTest extends TestCase
                 ->assertViewIs('shows.content')
                 ->assertSee('Sponsor');
     }
+
+    /**
+     * Test that we have access to the Join Shows screen without an ID.
+     *
+     * @return void
+     */
+    public function testFindShowViewRenders()
+    {
+        $request = $this->get('/shows/join');
+
+        $request->assertOk()
+                ->assertViewIs('shows.find');
+    }
+
+    /**
+     * Test that we have access to the join view, assuming we're not a host of
+     * the show we're trying to join.
+     *
+     * @return void
+     */
+    public function testJoinShowViewRenders()
+    {
+        $show = factory(Show::class)->create([
+             'track_id' => $this->track->id,
+             'term_id' => $this->term->id,
+        ]);
+        $show->invitees()->attach($this->user);
+        $request = $this->get("/shows/join/{$show->id}");
+
+        $request->assertOk()
+                ->assertViewIs('shows.join')
+                ->assertSee($show->title);
+    }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->put("/shows/join/{$show->id}", [
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
+        ]);
+        $request->assertRedirect(route('shows.schedule', $show))
+                ->assertSessionHas('success');
+    }
 }

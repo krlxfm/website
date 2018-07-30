@@ -6,11 +6,12 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends APITestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     public $show;
     public $term;
@@ -189,6 +190,23 @@ class ShowTest extends APITestCase
     }
 
     /**
+     * Test the ability to invite a host who doesn't have an account.
+     *
+     * @return void
+     */
+    public function testAddingHostWithoutExistingAccount()
+    {
+        $faker = $this->faker();
+        $email = $faker->safeEmail;
+
+        $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/invite", [
+            'invite' => [$email],
+        ]);
+        $add_request->assertOk();
+        $this->assertNotContains($email, $this->show->invitees->pluck('email'));
+    }
+
+    /**
      * Test the ability to remove a host.
      *
      * @return void
@@ -273,6 +291,27 @@ class ShowTest extends APITestCase
             'preferences' => [$this->term->on_air->format('Y-m-d')],
         ]);
         $request->assertStatus(200);
+    }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
+        ]);
+        $request->assertStatus(200);
+        $this->assertNotContains($this->user->id, $show->invitees->pluck('id'));
+        $this->assertContains($this->user->id, $show->hosts->pluck('id'));
     }
 
     /**
