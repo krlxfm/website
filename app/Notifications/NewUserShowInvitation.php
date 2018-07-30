@@ -2,6 +2,8 @@
 
 namespace KRLX\Notifications;
 
+use KRLX\User;
+use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;

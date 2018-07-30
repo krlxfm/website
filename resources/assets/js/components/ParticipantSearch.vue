@@ -78,8 +78,8 @@ module.exports = {
             this.suggestions = [];
         },
         inviteByEmail: function(email) {
-            axios.patch('/api/v1/shows/'+window.showID+'/hosts', {
-                "add": [email]
+            axios.patch('/api/v1/shows/'+window.showID+'/invite', {
+                "invite": [email]
             })
             .then(() => {
                 return swal({
