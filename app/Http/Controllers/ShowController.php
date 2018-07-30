@@ -182,8 +182,9 @@ class ShowController extends Controller
      */
     public function join(Show $show = null)
     {
-        if($show == null) {
+        if ($show == null) {
             $term = Term::orderByDesc('on_air')->get()->first();
+
             return view('shows.find', compact('term'));
         } else {
             return view('shows.join', compact('show'));
