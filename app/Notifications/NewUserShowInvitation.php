@@ -2,13 +2,12 @@
 
 namespace KRLX\Notifications;
 
-use KRLX\Show;
-use KRLX\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ShowInvitation extends Notification
+class NewUserShowInvitation extends Notification
 {
     use Queueable;
 
@@ -45,10 +44,9 @@ class ShowInvitation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.shows.invitation', [
+        return (new MailMessage)->markdown('mail.shows.new-invite', [
                     'show' => $this->show,
                     'sender' => $this->sender,
-                    'recipient' => $notifiable,
                 ])
                 ->subject('Invitation to join '.$this->show->title);
     }

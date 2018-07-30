@@ -1,7 +1,7 @@
 @component('mail::message')
 # You've been invited to join a show!
 
-Hey {{ $recipient->first_name }}! Today's your lucky day - {{ $sender->name }} has just invited you to join the {{ $show->track->name }} KRLX radio show _{{ $show->title }}_.
+Hi there! Today's your lucky day - {{ $sender->name }} has just invited you to join the {{ $show->track->name }} KRLX radio show _{{ $show->title }}_.
 
 Sound good? You can join up by clicking the button below!
 

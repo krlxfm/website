@@ -194,7 +194,7 @@ class ShowTest extends APITestCase
      *
      * @return void
      */
-    public function testAddingHost()
+    public function testAddingHostWithoutExistingAccount()
     {
         $faker = $this->faker();
         $email = $faker->safeEmail;

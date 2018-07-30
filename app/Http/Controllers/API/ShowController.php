@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
+use KRLX\Notifications\NewUserShowInvitation;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
@@ -111,8 +112,8 @@ class ShowController extends Controller
             $host = User::where('email', $new_email)->first();
 
             if(! $host) {
-                $host = User::create(['email' => $new_email]);
-                $host->notify(new NewUserShowInvitation($show));
+                $host = User::create(['email' => $new_email, 'name' => 'Temporary User']);
+                $host->notify(new NewUserShowInvitation($show, $request->user()));
                 $host->delete(); // Just to be safe.
             }
         }
