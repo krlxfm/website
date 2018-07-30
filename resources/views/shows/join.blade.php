@@ -20,6 +20,9 @@
                     </h3>
                     <p class="mb-1">with
                         @switch($show->hosts->count())
+                            @case(0)
+                                literally nobody else?
+                                @break
                             @case(1)
                                 {{ $show->hosts->first()->full_name }}?
                                 @break
@@ -28,7 +31,6 @@
                                 @break
                             @default
                                 {{ $show->hosts->first()->full_name }} and {{ $show->hosts->count() - 1 }} others?
-                                @break
                         @endswitch
                     </p>
                     You'll have the opportunity to review and edit the full application, including schedule, after you accept.
