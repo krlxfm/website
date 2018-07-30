@@ -112,9 +112,11 @@ class ShowController extends Controller
             $host = User::where('email', $new_email)->first();
 
             if (! $host) {
-                $host = User::create(['email' => $new_email, 'name' => 'Temporary User']);
+                // Create a temporary user so that we can send the email.
+                // This user will be deleted in about 3 seconds anyway.
+                $host = User::create(['email' => $new_email, 'name' => 'Temporary User', 'password' => '']);
                 $host->notify(new NewUserShowInvitation($show, $request->user()));
-                $host->delete(); // Just to be safe.
+                $host->delete();
             }
         }
 
