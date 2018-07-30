@@ -212,7 +212,7 @@ class ShowTest extends TestCase
         $show->hosts()->attach($this->user, ['accepted' => true]);
 
         $request = $this->put("/shows/join/{$show->id}", [
-            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email])
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
         ]);
         $request->assertRedirect(route('shows.schedule', $show))
                 ->assertSessionHas('success');
