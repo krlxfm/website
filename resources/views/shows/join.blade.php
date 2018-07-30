@@ -35,10 +35,15 @@
                     </p>
                     You'll have the opportunity to review and edit the full application, including schedule, after you accept.
 
-                    <div class="mt-5 mb-2">
-                        <button type="button" class="btn btn-lg btn-outline-danger">Decline invitation</button>
-                        <button type="button" class="btn btn-lg btn-success">Accept invitation</button>
-                    </div>
+                    <form action="{{ route('shows.join', $show) }}" method="post">
+                        @csrf
+                        @method('put')
+                        <input type="hidden" name="token" value="{{ encrypt(['show' => $show->id, 'user' => Auth::user()->email]) }}">
+                        <div class="mt-5 mb-2">
+                            <button type="button" class="btn btn-lg btn-outline-danger">Decline invitation</button>
+                            <button type="submit" class="btn btn-lg btn-success">Accept invitation</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

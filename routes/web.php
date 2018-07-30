@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('shows/all', 'ShowController@all')->name('shows.all');
     Route::get('shows/djs', 'ShowController@djs')->name('shows.djs');
     Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
+    Route::put('shows/join/{show}', 'ShowController@processJoinRequest')->name('shows.join');
     Route::get('shows/create', 'ShowController@create')->name('shows.create');
     Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
     Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
