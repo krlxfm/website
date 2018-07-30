@@ -40,7 +40,7 @@
                         @method('put')
                         <input type="hidden" name="token" value="{{ encrypt(['show' => $show->id, 'user' => Auth::user()->email]) }}">
                         <div class="mt-5 mb-2">
-                            <button type="button" class="btn btn-lg btn-outline-danger">Decline invitation</button>
+                            <a class="btn btn-lg btn-outline-secondary" href="/shows">Not now</a>
                             <button type="submit" class="btn btn-lg btn-success">Accept invitation</button>
                         </div>
                     </form>
