@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="form-group">
-            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email">
+            <input type="text" class="form-control" v-on:input="search" placeholder="Name, username, or email" name="search" id="add-host-search">
         </div>
         <div v-if="suggestions.length > 0" class="new-participant-suggestions">
             <div class="list-group">
@@ -11,11 +11,11 @@
                         <br>
                         <small class="text-muted">{{ dj.email }}</small>
                     </div>
-                    <button type="button" class="ml-auto btn btn-success" v-if="currentDJs.indexOf(dj.id) == -1" v-on:click="invite(index)">
-                        <i class="fas fa-user-plus"></i> Invite
-                    </button>
-                    <button class="ml-auto btn btn-light" v-else disabled>
+                    <button class="ml-auto btn btn-light" v-if="djInShow(dj.id)" disabled>
                         <i class="fas fa-check"></i> Invited
+                    </button>
+                    <button type="button" class="ml-auto btn btn-success" v-else v-on:click="invite(index)" v-bind:data-email="dj.email">
+                        <i class="fas fa-user-plus"></i> Invite
                     </button>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="alert alert-warning" v-if="value.indexOf(' ') >= 0">
                     We've attempted to guess {{ value }}'s Carleton email as <strong>{{ email}}</strong>. If this is incorrect (most common if the email ends in a number), please enter the correct address above.
                 </div>
-                <button class="btn btn-success">
+                <button type="button" class="btn btn-success" v-on:click="inviteByEmail(email)">
                     Invite {{ email }} by email
                 </button>
             </div>
@@ -42,10 +42,18 @@ module.exports = {
             value: '',
             timer: null,
             noResults: false,
-            suggestions: []
+            suggestions: [],
+            currentDJs: window.participants
         }
     },
     methods: {
+        djInShow: function(id) {
+            var found = false;
+            this.currentDJs.forEach((dj) => {
+                if(dj.id == id) found = true;
+            });
+            return found;
+        },
         search: function() {
             this.value = event.target.value;
             clearTimeout(this.timer);
@@ -62,6 +70,28 @@ module.exports = {
                 this.noResults = false;
             })
         },
+        cleanup: function() {
+            $("#participant-add").modal('hide');
+            $("#add-host-search").val('');
+            this.value = '';
+            this.noResults = false;
+            this.suggestions = [];
+        },
+        inviteByEmail: function(email) {
+            axios.patch('/api/v1/shows/'+window.showID+'/invite', {
+                "invite": [email]
+            })
+            .then(() => {
+                return swal({
+                    title: "Invitation Sent!",
+                    text: "An invitation has been sent to "+email+".",
+                    icon: "success"
+                })
+            })
+            .then(() => {
+                this.cleanup();
+            })
+        },
         invite: function(index, event) {
             axios.patch('/api/v1/shows/'+window.showID+'/hosts', {
                 "add": [this.suggestions[index].email]
@@ -70,13 +100,13 @@ module.exports = {
                 window.participants.push({
                     id: this.suggestions[index].id,
                     name: this.suggestions[index].name,
+                    full_name: this.suggestions[index].full_name,
                     email: this.suggestions[index].email,
                     membership: {
                         accepted: false
                     }
                 });
-                $("#add-participant-modal").modal('hide');
-                this.value = '';
+                this.cleanup();
             })
         }
     },
@@ -90,9 +120,6 @@ module.exports = {
             } else {
                 return this.value.toLowerCase() + "@carleton.edu";
             }
-        },
-        currentDJs: function () {
-            return window.participants.map((dj) => { return dj.id; });
         }
     }
 }

@@ -6,11 +6,12 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends APITestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     public $show;
     public $term;
@@ -189,6 +190,23 @@ class ShowTest extends APITestCase
     }
 
     /**
+     * Test the ability to invite a host who doesn't have an account.
+     *
+     * @return void
+     */
+    public function testAddingHostWithoutExistingAccount()
+    {
+        $faker = $this->faker();
+        $email = $faker->safeEmail;
+
+        $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/invite", [
+            'invite' => [$email],
+        ]);
+        $add_request->assertOk();
+        $this->assertNotContains($email, $this->show->invitees->pluck('email'));
+    }
+
+    /**
      * Test the ability to remove a host.
      *
      * @return void
@@ -232,5 +250,95 @@ class ShowTest extends APITestCase
         $request->assertOk();
         $testShow = Show::find($show->id);
         $this->assertEquals('asdf', $testShow->content['sponsor']);
+    }
+
+    /**
+     * Test that single-occurrence shows can't simultaneously declare a day as
+     * both a conflict and a preference.
+     *
+     * @return void
+     */
+    public function testOneOffShowsCantHaveSameDayAsConflictAndPreference()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'weekly' => false,
+            'start_day' => $this->term->on_air->format('l'),
+            'start_time' => $this->term->on_air->format('H:i'),
+            'end_time' => $this->term->on_air->copy()->addHour()->format('H:i'),
+        ]);
+        $show = factory(Show::class)->create([
+            'track_id' => $track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+        $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
+    }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
+        ]);
+        $request->assertStatus(200);
+        $this->assertNotContains($this->user->id, $show->invitees->pluck('id'));
+        $this->assertContains($this->user->id, $show->hosts->pluck('id'));
+    }
+
+    /**
+     * Test that "submitted" can't be edited directly via PATCH, but can be
+     * when all validation rules pass and a request is sent to the submit route.
+     *
+     * @return void
+     */
+    public function testSubmissionStatusCantBeEditedWithPatch()
+    {
+        $show = Show::find($this->show->id);
+        $this->assertFalse($show->submitted, 'The show was submitted to begin with.');
+
+        $request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is a show description',
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertEquals('This is a show description', $show->description, 'The description was not updated.');
+        $this->assertFalse($show->submitted, 'The show was successfully submitted when it should not have been.');
+
+        $request = $this->json('PUT', "/api/v1/shows/{$this->show->id}/submitted", [
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
     }
 }

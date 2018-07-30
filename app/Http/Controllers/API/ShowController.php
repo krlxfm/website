@@ -4,10 +4,16 @@ namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
 use KRLX\User;
+use Validator;
 use Illuminate\Http\Request;
+use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Notifications\ShowSubmitted;
+use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
+use KRLX\Notifications\NewUserShowInvitation;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
 {
@@ -92,6 +98,35 @@ class ShowController extends Controller
     }
 
     /**
+     * Invite a host who does not have a user account.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function inviteHostWithoutUserAccount(Request $request, Show $show)
+    {
+        $request->validate([
+            'invite' => 'array',
+            'invite.*' => 'email|distinct',
+        ]);
+
+        foreach ($request->input('invite') as $new_email) {
+            $host = User::where('email', $new_email)->first();
+
+            if (! $host) {
+                // Create a temporary user so that we can send the email.
+                // This user will be deleted in about 3 seconds anyway.
+                $host = User::create(['email' => $new_email, 'name' => 'Temporary User', 'password' => '']);
+                $host->notify(new NewUserShowInvitation($show, $request->user()));
+                $host->delete();
+            }
+        }
+
+        return $show;
+    }
+
+    /**
      * Manage the hosts of a show.
      *
      * @param  Illuminate\Http\Request  $request
@@ -112,6 +147,7 @@ class ShowController extends Controller
 
             if (! ($show->hosts->contains($host) or $show->invitees->contains($host))) {
                 $show->invitees()->attach($host->id);
+                $host->notify(new ShowInvitation($show, $request->user()));
             }
         }
 
@@ -121,6 +157,67 @@ class ShowController extends Controller
             $show->hosts()->detach($host->id);
             $show->invitees()->detach($host->id);
         }
+
+        return $show;
+    }
+
+    /**
+     * Respond to a join invitation.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function join(Request $request, Show $show)
+    {
+        $request->validate(['token' => 'required|string']); // (1)
+        try {
+            $data = decrypt($request->input('token')); // (2)
+            if (! is_array($data)) { // (3)
+                throw new DecryptException('The given token is not an array.');
+            } elseif (! array_key_exists('show', $data) or ! array_key_exists('user', $data)) { // (4)
+                throw new DecryptException('The token does not have the required components.');
+            } elseif ($data['user'] != $request->user()->email) { // (5)
+                throw new DecryptException('The token does not belong to you.');
+            } elseif ($data['show'] != $show->id) { // (6)
+                throw new DecryptException('The token does not belong to this show.');
+            }
+        } catch (DecryptException $e) {
+            abort(400, 'The token is invalid.');
+        }
+
+        // We now know that: (1) the token is present, (2) it is encrypted,
+        // (3) the decrypted form is an array, (4) it has the required
+        // components, (5) it belongs to the user, and (6) it belongs to the
+        // show being joined. This request is therefore authorized and we can
+        // now make the connection.
+        $show->invitees()->detach($request->user()->id);
+        $show->hosts()->detach($request->user()->id);
+        $show->hosts()->attach($request->user()->id, ['accepted' => true]);
+
+        return $show;
+    }
+
+    /**
+     * Respond to a join invitation.
+     * Validate a show and submit it, or remove submission status.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function submit(Request $request, Show $show)
+    {
+        if ($request->input('submitted') and ! $show->submitted) {
+            $ruleset = new ShowRuleset($show, $request->all());
+            $rules = $ruleset->rules(true);
+
+            Validator::make($show->toArray(), $rules)->validate();
+
+            $request->user()->notify(new ShowSubmitted($show));
+        }
+        $show->submitted = $request->input('submitted') ?? false;
+        $show->save();
 
         return $show;
     }

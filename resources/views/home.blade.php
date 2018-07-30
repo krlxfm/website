@@ -20,7 +20,7 @@
                         <a href="{{ route('shows.my') }}" class="d-none d-md-block btn btn-outline-primary btn-sm">
                             <i class="fas fa-calendar-alt"></i> Past terms
                         </a>
-                        <a href="#" class="btn btn-outline-primary btn-sm">
+                        <a href="{{ route('shows.join') }}" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-user-plus"></i> Join show
                         </a>
                     </div>
@@ -85,5 +85,5 @@
             </div>
         </div>
     </div>
-    <p>You are testing on Beta 1, version 0.6.2 "Lincoln III". <a href="https://github.com/krlxfm/website/releases/tag/v0.6.2">View the change log.</a></p>
+    <p>You are testing on Beta 1, version 0.7.0 "San Luis". <a href="https://github.com/krlxfm/website/releases/">View the change logs</a></p>
 @endsection

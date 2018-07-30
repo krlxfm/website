@@ -26,16 +26,37 @@ function submitForm() {
 function sendUpdateRequest(showID, data) {
     axios.patch('/api/v1/shows/'+showID, data)
     .then((response) => {
-        $("div.invalid-feedback, div.valid-feedback").remove();
-        $(".is-invalid").removeClass('is-invalid');
+        removeValidationErrors(data);
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
+        if(showValidationErrors) {
+            $("#next-button").prop('disabled', $(".is-invalid").length > 0);
+        }
     })
     .catch((error) => {
-        $("div.invalid-feedback, div.valid-feedback").remove();
-        $(".is-invalid").removeClass('is-invalid');
-        if (error.response && showValidationErrors) {
-            showValidationErrors(error.response.data.errors);
+        showErrors(error.response.data.errors);
+    });
+}
+
+function removeValidationErrors(data, prefix = '') {
+    Object.keys(data).forEach((field) => {
+        if(typeof data[field] === 'object') {
+            removeValidationErrors(data[field], field+'.');
+        } else {
+            $('[name="'+prefix+field+'"] ~ div.invalid-feedback').remove();
+            $('[name="'+prefix+field+'"]').removeClass('is-invalid');
         }
     });
 }
+
+function showErrors(errors) {
+    console.error(JSON.stringify(errors));
+    if(errors && Object.keys(errors).length > 0 && showValidationErrors) {
+        $("#next-button").prop('disabled', true);
+        showValidationErrors(errors);
+    }
+}
+
+$(document).ready(function() {
+    showErrors(window.validationErrors);
+})

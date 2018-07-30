@@ -114,7 +114,8 @@ class ShowTest extends TestCase
     }
 
     /**
-     * Test that we have access to the content view after creating a show.
+     * Test that we have access to the content view after creating a show, and
+     * that the view marks the "description" field as required.
      *
      * @return void
      */
@@ -122,8 +123,10 @@ class ShowTest extends TestCase
     {
         $request = $this->get("/shows/{$this->show->id}/content");
 
+        $this->assertEquals(0, strlen($this->show->description ?? ''));
         $request->assertOk()
-                ->assertViewIs('shows.content');
+                ->assertViewIs('shows.content')
+                ->assertSee('The description field is required.');
     }
 
     /**
@@ -176,5 +179,58 @@ class ShowTest extends TestCase
         $request->assertOk()
                 ->assertViewIs('shows.content')
                 ->assertSee('Sponsor');
+    }
+
+    /**
+     * Test that we have access to the Join Shows screen without an ID.
+     *
+     * @return void
+     */
+    public function testFindShowViewRenders()
+    {
+        $request = $this->get('/shows/join');
+
+        $request->assertOk()
+                ->assertViewIs('shows.find');
+    }
+
+    /**
+     * Test that we have access to the join view, assuming we're not a host of
+     * the show we're trying to join.
+     *
+     * @return void
+     */
+    public function testJoinShowViewRenders()
+    {
+        $show = factory(Show::class)->create([
+             'track_id' => $this->track->id,
+             'term_id' => $this->term->id,
+        ]);
+        $show->invitees()->attach($this->user);
+        $request = $this->get("/shows/join/{$show->id}");
+
+        $request->assertOk()
+                ->assertViewIs('shows.join')
+                ->assertSee($show->title);
+    }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->user, ['accepted' => true]);
+
+        $request = $this->put("/shows/join/{$show->id}", [
+            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
+        ]);
+        $request->assertRedirect(route('shows.schedule', $show))
+                ->assertSessionHas('success');
     }
 }

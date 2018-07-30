@@ -4,9 +4,12 @@ namespace KRLX\Http\Controllers;
 
 use KRLX\Show;
 use KRLX\Term;
+use Validator;
 use KRLX\Track;
 use Illuminate\Http\Request;
+use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
+use KRLX\Http\Controllers\API\ShowController as APIController;
 
 class ShowController extends Controller
 {
@@ -93,7 +96,16 @@ class ShowController extends Controller
      */
     public function content(Show $show)
     {
-        return view('shows.content', compact('show'));
+        $ruleset = new ShowRuleset($show, []);
+        $rules = collect($ruleset->rules(true));
+        $keys = array_merge(['title', 'description', 'content'], $rules->filter(function ($value, $key) {
+            return starts_with($key, 'content.');
+        })->keys()->all());
+
+        $validator = Validator::make($show->toArray(), $rules->only($keys)->all());
+        $initialErrors = $validator->errors()->messages();
+
+        return view('shows.content', compact('show', 'initialErrors'));
     }
 
     /**
@@ -172,5 +184,39 @@ class ShowController extends Controller
         })->sortBy('email');
 
         return view('shows.djs', compact('term', 'terms', 'users'));
+    }
+
+    /**
+     * Display the "Join Show" view.
+     *
+     * @param  KRLX\Show|null  $show
+     * @return Illuminate\Http\Response
+     */
+    public function join(Show $show = null)
+    {
+        if ($show == null) {
+            return view('shows.find');
+        } else {
+            return view('shows.join', compact('show'));
+        }
+    }
+
+    /**
+     * Process a join request.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show|null  $show
+     * @return Illuminate\Http\Response
+     */
+    public function processJoinRequest(Request $request, Show $show)
+    {
+        $controller = new APIController();
+
+        // Throws an HTTP 400 if a bad token comes in.
+        $controller->join($request, $show);
+
+        $request->session()->flash('success', "You have successfully joined {$show->title}! Please carefully review the schedule below and add your details if necessary.");
+
+        return redirect()->route('shows.schedule', $show);
     }
 }

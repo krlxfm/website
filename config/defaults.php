@@ -9,14 +9,14 @@ return [
          * acceptable language to use in broadcasting. Presence of any of these
          * strings, even in longer words, will throw a validation fault.
          */
-        'partial' => ['shit', 'piss', 'fuck', 'cunt', 'cock', 'tit', 'bitch', 'bastard'],
+        'partial' => ['shit', 'piss', 'fuck', 'cunt', 'cock', 'bitch', 'bastard'],
 
         /*
          * These words must be present in isolation to trigger a fault (usually
          * because there are "safe" words that include these strings, such as
          * "pass" being a safe word)
          */
-        'full' => ['ass', 'asshole', 'pussy'],
+        'full' => ['ass', 'asshole', 'pussy', 'tit'],
     ],
     'directory' => 'https://apps.carleton.edu/stock/ldapimage.php?id=',
     'title' => 'KRLX Community',

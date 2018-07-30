@@ -14,17 +14,21 @@
     <body>
         <div class="container mt-4">
             <h1>Hello, beta testers!</h1>
-            <p>First of all, <strong>THANK YOU</strong> again for helping test out the site. I'm really excited to hear your feedback, and I'm grateful for your assistance in verifying that the site works as expected. <strong>Welcome to Beta One!</strong></p>
+            <p>First of all, <strong>THANK YOU</strong> again for helping test out the site. I'm really excited to hear your feedback, and I'm grateful for your assistance in verifying that the site works as expected. <strong>Welcome to Beta Two!</strong></p>
 
             <h3>Your mission, should you choose to accept it:</h3>
-            <p>Sign in with your Carleton account, then create and submit at least one application on each of the three weekly tracks: Standard, Featured, and Organization. (Feel free to create more than one if you'd like.)</p>
-            <p>Once you have created your shows, make changes to at least one of them.</p>
+            <p>Sign in with your Carleton account, then:</p>
+            <ul>
+                <li>Create a group show on any track, and invite another beta tester. (Let me know if you need the list.)</li>
+                <li>Accept an invitation to join a show from someone else, then add a conflict or class to the schedule.</li>
+                <li>Join a show by Show ID.</li>
+                <li>Create and submit a Bandemonium show.</li>
+            </ul>
 
             <h3>While testing, keep in mind:</h3>
             <ul>
                 <li><strong>THIS IS A BETA.</strong> It should work reasonably well, but don't expect a flawless experience (especially with regards to cosmetics).</li>
                 <li>The point of this beta is to verify that individual shows can be created and saved correctly and without too much of a hassle. While you are welcome to enter your full schedule into your show applications to test that it all works, don't worry about getting it perfect. <strong>Applications created here will not automatically transfer over to the official set.</strong></li>
-                <li><strong>Group shows sort of work, but not really.</strong> As such, please create your shows as a solo venture. You'll see the group invite process, but please ignore it and carry on directly into content. Group shows should be working much better during Beta 2.</li>
                 <li>There is currently no way to delete show applications. If you need to delete one or withdraw it from "submitted" status, let me know. This should be fixed in a future update.</li>
                 <li>You win if you break something.</li>
             </ul>
@@ -34,10 +38,11 @@
             <p>Anyone who reports a bug will get a shout-out in <a href="https://github.com/krlxfm/website/releases">the release that fixes it.</a></p>
 
             <h3>Entry into A1 priority drawing and Fall 2018 early access</h3>
-            <p>You'll need to do <strong>BOTH</strong> of the following in order to get early access to the Fall 2018 applications, and to get entered into the drawing for A1 priority:</p>
+            <p>You'll need to do <strong>ALL</strong> of the following in order to get early access to the Fall 2018 applications, and to get entered into the drawing for A1 priority:</p>
             <ul>
-                <li>Create and submit at least one Standard show, and one show on a different track.</li>
-                <li>Let me know how it went by <a href="http://go.tatebosler.com/krlx-beta1">filling out the feedback survey.</a></li>
+                <li>Be on at least one group show.</li>
+                <li>Create and submit at least one Bandemonium show.</li>
+                <li>Let me know how it went by <a href="http://go.tatebosler.com/krlx-beta2">filling out the feedback survey.</a> (It's a different link than last time.)</li>
             </ul>
             <p>Of course, if you have any questions or run into problems, please get in touch!</p>
 

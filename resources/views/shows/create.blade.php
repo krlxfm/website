@@ -7,7 +7,7 @@
                 <h1>Create New Show</h1>
                 <div class="btn-group ml-auto">
                     <a href="{{ route('shows.my') }}" class="btn btn-outline-secondary"><i class="fas fa-chevron-left"></i> Back to My Shows</a>
-                    <a href="#" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Join Show</a>
+                    <a href="{{ route('shows.join') }}" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
             <div class="card my-3">
@@ -49,10 +49,10 @@
             @if($terms->count() > 1)
                 choose a term to apply for and
             @endif
-            create a working <span class="title-modal-field">title</span> (which you can change later).
+            create a working title (which you can change later).
         </p>
         <div class="form-group row">
-            <label for="show-title" class="col-sm-4 col-lg-3 col-form-label">Working <span class="title-modal-field">title</span></label>
+            <label for="show-title" class="col-sm-4 col-lg-3 col-form-label">Working title</label>
             <div class="col-sm-8 col-lg-9">
                 <input type="text" class="form-control" id="show-title" dusk="show-title" placeholder="Working title" name="title">
             </div>

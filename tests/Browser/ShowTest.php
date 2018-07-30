@@ -59,6 +59,30 @@ class ShowTest extends DuskTestCase
     }
 
     /**
+     * Test that new hosts' names appear in the list as soon as they're added.
+     *
+     * @return void
+     */
+    public function testNewHostsAppearInList()
+    {
+        $this->browse(function (Browser $browser) {
+            $this->assertCount(1, Term::all());
+            $user = factory(User::class)->create();
+
+            $browser->loginAs($this->user)
+                    ->visit("/shows/{$this->show->id}/hosts")
+                    ->click('@add-host')
+                    ->waitFor('@participant-add-modal')
+                    ->type('search', $user->email)
+                    ->waitForText(e($user->name))
+                    ->click('[data-email="'.$user->email.'"]')
+                    ->waitUntilMissing('@participant-add-modal')
+                    ->assertSee('Cancel invitation')
+                    ->assertSee(e($user->name));
+        });
+    }
+
+    /**
      * Test that validation only runs on the affected field.
      *
      * @return void

@@ -7,22 +7,10 @@
                 <h1>My Shows</h1>
                 <div class="btn-group ml-auto">
                     <a href="{{ route('shows.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> New Show</a>
-                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Join Show</a>
+                    <a href="{{ route('shows.join') }}" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
-            <div class="card my-3">
-                <div class="card-body py-2">
-                    <form class="form-inline">
-                        <label class="my-1 mr-2" for="switchTerm">Switch to term:</label>
-                        <select class="custom-select my-1 mr-sm-2" id="switchTerm" name="newTerm">
-                            @foreach($terms as $new_term)
-                                <option value="{{ $new_term->id }}" {{ $new_term->id == $term->id ? 'selected' : '' }}>{{ $new_term->name }}</option>
-                            @endforeach
-                        </select>
-                        <button type="submit" class="btn btn-primary my-1">Go</button>
-                    </form>
-                </div>
-            </div>
+            @include('components.term-selector', ['root' => route('shows.my.other')])
         </div>
     </div>
     <div class="row">
@@ -106,7 +94,7 @@
                     </h4>
                     <div class="list-group list-group-flush">
                         @foreach($invitations as $show)
-                            <div class="list-group-item d-flex align-items-center">
+                            <a class="list-group-item d-flex align-items-center text-dark" href="{{ route('shows.join', $show) }}">
                                 <div>
                                     @if($show->boosted)
                                         <span class="badge badge-danger mb-2">
@@ -121,7 +109,7 @@
                                 <div class="ml-auto">
                                     <i class="fas fa-chevron-right fa-2x text-muted"></i>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
