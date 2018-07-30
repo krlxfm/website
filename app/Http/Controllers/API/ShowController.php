@@ -111,7 +111,7 @@ class ShowController extends Controller
         foreach ($request->input('invite') as $new_email) {
             $host = User::where('email', $new_email)->first();
 
-            if(! $host) {
+            if (! $host) {
                 $host = User::create(['email' => $new_email, 'name' => 'Temporary User']);
                 $host->notify(new NewUserShowInvitation($show, $request->user()));
                 $host->delete(); // Just to be safe.

@@ -185,7 +185,7 @@ class ShowTest extends TestCase
      */
     public function testFindShowViewRenders()
     {
-        $request = $this->get("/shows/join");
+        $request = $this->get('/shows/join');
 
         $request->assertOk()
                 ->assertViewIs('shows.find');

@@ -2,11 +2,10 @@
 
 namespace KRLX\Notifications;
 
-use KRLX\User;
 use KRLX\Show;
+use KRLX\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 class NewUserShowInvitation extends Notification
