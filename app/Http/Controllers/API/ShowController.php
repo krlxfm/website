@@ -94,6 +94,33 @@ class ShowController extends Controller
     }
 
     /**
+     * Invite a host who does not have a user account.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function inviteHostWithoutUserAccount(Request $request, Show $show)
+    {
+        $request->validate([
+            'invite' => 'array',
+            'invite.*' => 'email|distinct',
+        ]);
+
+        foreach ($request->input('invite') as $new_email) {
+            $host = User::where('email', $new_email)->first();
+
+            if(! $host) {
+                $host = User::create(['email' => $new_email]);
+                $host->notify(new NewUserShowInvitation($show));
+                $host->delete(); // Just to be safe.
+            }
+        }
+
+        return $show;
+    }
+
+    /**
      * Manage the hosts of a show.
      *
      * @param  Illuminate\Http\Request  $request

@@ -26,7 +26,7 @@
                 <div class="alert alert-warning" v-if="value.indexOf(' ') >= 0">
                     We've attempted to guess {{ value }}'s Carleton email as <strong>{{ email}}</strong>. If this is incorrect (most common if the email ends in a number), please enter the correct address above.
                 </div>
-                <button class="btn btn-success">
+                <button type="button" class="btn btn-success" v-on:click="inviteByEmail(email)">
                     Invite {{ email }} by email
                 </button>
             </div>
@@ -70,6 +70,28 @@ module.exports = {
                 this.noResults = false;
             })
         },
+        cleanup: function() {
+            $("#participant-add").modal('hide');
+            $("#add-host-search").val('');
+            this.value = '';
+            this.noResults = false;
+            this.suggestions = [];
+        },
+        inviteByEmail: function(email) {
+            axios.patch('/api/v1/shows/'+window.showID+'/hosts', {
+                "add": [email]
+            })
+            .then(() => {
+                return swal({
+                    title: "Invitation Sent!",
+                    text: "An invitation has been sent to "+email+".",
+                    icon: "success"
+                })
+            })
+            .then(() => {
+                this.cleanup();
+            })
+        },
         invite: function(index, event) {
             axios.patch('/api/v1/shows/'+window.showID+'/hosts', {
                 "add": [this.suggestions[index].email]
@@ -84,11 +106,7 @@ module.exports = {
                         accepted: false
                     }
                 });
-                $("#participant-add").modal('hide');
-                $("#add-host-search").val('');
-                this.value = '';
-                this.noResults = false;
-                this.suggestions = [];
+                this.cleanup();
             })
         }
     },

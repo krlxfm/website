@@ -6,11 +6,12 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends APITestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     public $show;
     public $term;
@@ -186,6 +187,23 @@ class ShowTest extends APITestCase
         ]);
         $add_request->assertOk();
         $this->assertContains($new_host->id, $this->show->invitees->pluck('id'));
+    }
+
+    /**
+     * Test the ability to invite a host who doesn't have an account.
+     *
+     * @return void
+     */
+    public function testAddingHost()
+    {
+        $faker = $this->faker();
+        $email = $faker->safeEmail;
+
+        $add_request = $this->json('PATCH', "/api/v1/shows/{$this->show->id}/invite", [
+            'invite' => [$email],
+        ]);
+        $add_request->assertOk();
+        $this->assertNotContains($email, $this->show->invitees->pluck('email'));
     }
 
     /**
