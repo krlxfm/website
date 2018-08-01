@@ -135,4 +135,23 @@ class ShowSupportTest extends TestCase
         $request->assertOk();
         $request->assertSeeInOrder([$high_track_show->title, $high_priority_show->title, $recent_show->title]);
     }
+
+    /**
+     * Test that shows from old terms don't appear in the All DJs view.
+     *
+     * @return void
+     */
+    public function testOldShowsDontAppearInRoster()
+    {
+        $show = factory(Show::class)->create(['submitted' => true]);
+        $show->hosts()->attach($this->user->id);
+        $this->show->submitted = true;
+        $this->show->save();
+
+        $this->assertNotEquals($show->term->id, $this->show->term->id);
+        $request = $this->get("/shows/djs/{$this->show->term->id}");
+        $request->assertOk()
+                ->assertSee($this->show->title)
+                ->assertDontSee($show->title);
+    }
 }
