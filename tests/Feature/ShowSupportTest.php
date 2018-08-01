@@ -143,7 +143,10 @@ class ShowSupportTest extends TestCase
      */
     public function testOldShowsDontAppearInRoster()
     {
-        $show = factory(Show::class)->create(['submitted' => true]);
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'submitted' => true,
+        ]);
         $show->hosts()->attach($this->user->id);
         $this->show->submitted = true;
         $this->show->save();
