@@ -34,6 +34,6 @@
 <script>
 var showID = "{{ $show->id }}";
 </script>
-<script src="{{ mix("/js/pages/shows/submitform.js") }}" defer></script>
-<script src="{{ mix("/js/pages/shows/schedule.js") }}" defer></script>
+<script src="/js/pages/shows/submitform.js"></script>
+<script src="/js/pages/shows/schedule.js"></script>
 @endpush

@@ -100,5 +100,5 @@
 <script>
 var showID = "{{ $show->id }}";
 </script>
-<script src="{{ mix("/js/pages/shows/review.js") }}" defer></script>
+<script src="/js/pages/shows/review.js"></script>
 @endpush
