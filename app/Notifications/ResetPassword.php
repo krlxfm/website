@@ -3,8 +3,8 @@
 namespace KRLX\Notifications;
 
 use Illuminate\Bus\Queueable;
-use KRLX\Mail\ResetPassword as Mailable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPassword extends Notification
 {
@@ -42,6 +42,8 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new Mailable($this->token))->to($notifiable->email);
+        return (new MailMessage)->markdown('mail.account.password', [
+            'url' => route('password.reset', $this->token)
+        ]);
     }
 }
