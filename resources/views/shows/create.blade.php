@@ -76,5 +76,5 @@
 @endsection
 
 @push('js')
-<script src="/js/pages/shows/create.js" defer></script>
+<script src="{{ mix("/js/pages/shows/create.js") }}" defer></script>
 @endpush

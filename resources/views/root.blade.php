@@ -7,8 +7,10 @@
 
         <title>KRLX BETA TEST</title>
 
-        <link href="/css/app.css" rel="stylesheet">
-        <script src="/js/app.js"></script>
+        <link href="{{ mix("/css/app.css") }}" rel="stylesheet">
+        <script src="{{ mix("/js/manifest.js") }}" defer></script>
+        <script src="{{ mix("/js/vendor.js") }}" defer></script>
+        <script src="{{ mix("/js/app.js") }}" defer></script>
         <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9" crossorigin="anonymous"></script>
     </head>
     <body>

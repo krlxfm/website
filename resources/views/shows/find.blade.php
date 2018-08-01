@@ -34,5 +34,5 @@
 @endsection
 
 @push('js')
-<script src="/js/pages/shows/find.js" defer></script>
+<script src="{{ mix("/js/pages/shows/find.js") }}" defer></script>
 @endpush
