@@ -5,7 +5,7 @@ namespace KRLX\Notifications;
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
-use KRLX\Mail\ShowSubmitted as ShowSubmittedMailTemplate;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ShowSubmitted extends Notification
 {
@@ -42,8 +42,8 @@ class ShowSubmitted extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new ShowSubmittedMailTemplate($this->show))
-                    ->to($notifiable->email)
+        return (new MailMessage)->markdown('mail.shows.submitted', ['show' => $this->show])
+                    ->from("scheduling@krlx.org")
                     ->subject("{$this->show->title} Application Submitted");
     }
 }
