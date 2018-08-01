@@ -43,7 +43,7 @@ class ShowSubmitted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->markdown('mail.shows.submitted', ['show' => $this->show])
-                    ->from("scheduling@krlx.org")
+                    ->from('scheduling@krlx.org')
                     ->subject("{$this->show->title} Application Submitted");
     }
 }

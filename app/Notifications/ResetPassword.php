@@ -43,7 +43,7 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->markdown('mail.account.password', [
-            'url' => route('password.reset', $this->token)
+            'url' => route('password.reset', $this->token),
         ]);
     }
 }
