@@ -76,5 +76,5 @@
 @endsection
 
 @push('js')
-<script src="/js/pages/shows/create.js"></script>
+<script src="/js/pages/shows/create.js" defer></script>
 @endpush

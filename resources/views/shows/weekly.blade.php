@@ -191,5 +191,5 @@ var conflicts = {!! json_encode($show->conflicts) !!};
 var preferences = {!! json_encode($show->preferences) !!};
 var classTimes = {!! json_encode(config('classes.times')) !!};
 </script>
-<script src="/js/pages/shows/weekly.js"></script>
+<script src="/js/pages/shows/weekly.js" defer></script>
 @endpush

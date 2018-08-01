@@ -75,6 +75,6 @@ var validationErrors = {!! json_encode($initialErrors) !!};
 @endisset
 var showID = "{{ $show->id }}";
 </script>
-<script src="/js/pages/shows/submitform.js"></script>
-<script src="/js/pages/shows/content.js"></script>
+<script src="/js/pages/shows/submitform.js" defer></script>
+<script src="/js/pages/shows/content.js" defer></script>
 @endpush
