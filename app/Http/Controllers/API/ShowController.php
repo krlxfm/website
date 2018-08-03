@@ -214,7 +214,7 @@ class ShowController extends Controller
 
             Validator::make($show->toArray(), $rules)->validate();
 
-            $request->user()->notify(new ShowSubmitted($show));
+            $show->notify(new ShowSubmitted($show));
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();
