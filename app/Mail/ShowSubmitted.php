@@ -6,7 +6,6 @@ use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ShowSubmitted extends Mailable
 {
@@ -29,7 +28,7 @@ class ShowSubmitted extends Mailable
     {
         $this->show = $show;
         $this->subject("{$show->title} Application Submitted");
-        $this->from("scheduling@krlx.org");
+        $this->from('scheduling@krlx.org');
     }
 
     /**
