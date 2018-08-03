@@ -4,12 +4,11 @@ namespace KRLX;
 
 use KRLX\Events\ShowCreating;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Show extends Model
 {
-    use SoftDeletes, Notifiable;
+    use SoftDeletes;
 
     /**
      * Attribute overrides to allow for non-integer primary key.
@@ -212,16 +211,5 @@ class Show extends Model
         }
 
         return $zone.$group;
-    }
-
-    /**
-     * Route notifications for the mail channel.
-     *
-     * @param  \Illuminate\Notifications\Notification  $notification
-     * @return string
-     */
-    public function routeNotificationForMail($notification)
-    {
-        return implode(', ', $this->hosts->pluck('email')->all());
     }
 }

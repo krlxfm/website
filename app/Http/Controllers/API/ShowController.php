@@ -5,11 +5,12 @@ namespace KRLX\Http\Controllers\API;
 use KRLX\Show;
 use KRLX\User;
 use Validator;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
-use KRLX\Notifications\ShowSubmitted;
+use KRLX\Mail\ShowSubmitted;
 use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
 use KRLX\Notifications\NewUserShowInvitation;
@@ -214,7 +215,7 @@ class ShowController extends Controller
 
             Validator::make($show->toArray(), $rules)->validate();
 
-            $show->notify(new ShowSubmitted($show));
+            Mail::to($show->hosts)->send(new ShowSubmitted($show));
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();
