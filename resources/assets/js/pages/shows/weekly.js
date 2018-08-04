@@ -17,20 +17,6 @@ function editPreference(index) {
     editItem(preference, index, 'preference');
 }
 
-function updateSchedulePreview() {
-    var sortedPreferences = preferences.slice(0).sort((a, b) => {
-        return a.strength - b.strength;
-    });
-    $("#schedule-preview-main rect").attr('class', '');
-    setSchedulePreviewItems(sortedPreferences, ['s', 'h', 'f', 'd']);
-    setSchedulePreviewItems(conflicts, 'j');
-    var classList = [];
-    $('[name="classes"]:checked').each((index, checkbox) => {
-        classList = classList.concat(classTimes[$(checkbox).val()].times);
-    });
-    setSchedulePreviewItems(classList, 'a');
-}
-
 function editItem(item, index, type) {
     $('[name="'+type+'-days"]').prop('checked', false);
     item.days.forEach((day) => {
