@@ -31,7 +31,25 @@
         <div class="list-group-item row">
             <div class="row">
                 <div class="col-sm-9">
-                    <h4>{{ $zone['name'] }}</h4>
+                    <h4 class="mb-0">{{ $zone['name'] }}</h4>
+                    <p class="mb-0"><small class="text-muted"><strong>
+                        @switch($zone['days'])
+                            @case(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
+                                Daily,
+                                @break
+                            @case(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
+                                Weekdays,
+                                @break
+                            @case(['Sunday', 'Saturday'])
+                                Weekends,
+                                @break
+                            @default
+                                {{ implode(', ', $zone['days']) }},
+                        @endswitch
+                        {{ Carbon\Carbon::parse($zone['start'])->format('g:i a') }}
+                        to
+                        {{ Carbon\Carbon::parse($zone['end'])->format('g:i a') }}
+                    </strong></small></p>
                     {{ $zone['description'] }}
                 </div>
                 <div class="col-sm-3">
@@ -45,53 +63,61 @@
         </div>
     @endforeach
 </div>
-<h2>Classes</h2>
-<p>Most common class times are listed here. Hover over a class time for details. If you have other classes that don't fit neatly in the standard schedule, add them as conflicts below.</p>
-<div class="row mb-3">
-    @foreach(config('classes.groups') as $group)
-        <div class="col-sm-6 col-md-4 mb-3">
-            <p class="mb-1"><strong>{{ $group['name'] }}</strong></p>
-            @foreach($group['classes'] as $block)
-                @php
-                    $dispTimes = array_map(function($time) {
-                        $start = Carbon\Carbon::parse($time['start']);
-                        $end = Carbon\Carbon::parse($time['end']);
-                        $days = array_map(function($day) { return substr($day, 0, $day[0] == 'T' ? 2 : 1); }, $time['days']);
-                        return implode(', ', $days).' '.$start->format('g:i a').' - '.$end->format('g:i a');
-                    }, config("classes.times.$block.displayTimes"));
-                @endphp
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="classes-{{ $block }}" name="classes" data-cast="array" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
-                    <label class="custom-control-label" for="classes-{{ $block }}" dusk="classes-{{ $block }}-label" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ implode('<br>', $dispTimes) }}">
-                        {{ config("classes.times.$block.name") }}
-                    </label>
+<div class="row">
+    <div class="col col-md-9 col-lg-10">
+        <h2>Classes</h2>
+        <p>Most common class times are listed here. Hover over a class time for details. If you have other classes that don't fit neatly in the standard schedule, add them as conflicts below.</p>
+        <div class="row mb-3">
+            @foreach(config('classes.groups') as $group)
+                <div class="col-sm-6 col-md-4 mb-3">
+                    <p class="mb-1"><strong>{{ $group['name'] }}</strong></p>
+                    @foreach($group['classes'] as $block)
+                        @php
+                            $dispTimes = array_map(function($time) {
+                                $start = Carbon\Carbon::parse($time['start']);
+                                $end = Carbon\Carbon::parse($time['end']);
+                                $days = array_map(function($day) { return substr($day, 0, $day[0] == 'T' ? 2 : 1); }, $time['days']);
+                                return implode(', ', $days).' '.$start->format('g:i a').' - '.$end->format('g:i a');
+                            }, config("classes.times.$block.displayTimes"));
+                        @endphp
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" id="classes-{{ $block }}" name="classes" data-cast="array" class="custom-control-input" value="{{ $block }}" {{ in_array($block, $show->classes) ? 'checked' : '' }}>
+                            <label class="custom-control-label" for="classes-{{ $block }}" dusk="classes-{{ $block }}-label" data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ implode('<br>', $dispTimes) }}">
+                                {{ config("classes.times.$block.name") }}
+                            </label>
+                        </div>
+                    @endforeach
                 </div>
             @endforeach
         </div>
-    @endforeach
+        <div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
+            <h2>Other conflicts</h2>
+            <button type="button" class="btn btn-info ml-auto" id="add-conflict-button" dusk="add-conflict-button" data-toggle="add-conflict">
+                <i class="fas fa-plus"></i> Add conflict
+            </button>
+        </div>
+        <p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation. If you're an RA, be sure to declare standard duty hours.</p>
+        <p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box below</strong> to ensure it gets honored.</p>
+        <conflict-list></conflict-list>
+        <p><button type="button" class="btn btn-info btn-block" id="add-conflict-btn-bottom" dusk="add-conflict-btn-bottom" data-toggle="add-conflict">
+            <i class="fas fa-plus"></i> Add conflict
+        </button></p>
+        <div class="d-flex mb-2 mt-5 align-items-center flex-wrap">
+            <h2>Preferences</h2>
+            <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button" data-toggle="add-pref">
+                <i class="fas fa-plus"></i> Add preference
+            </button>
+        </div>
+        <preference-list></preference-list>
+        <p><button type="button" class="btn btn-primary btn-block" id="add-preference-btn-bottom" dusk="add-preference-btn-bottom" data-toggle="add-pref">
+            <i class="fas fa-plus"></i> Add preference
+        </button></p>
+    </div>
+    <div class="d-none d-md-block col-md-3 col-lg-2">
+        <h2>Preview</h2>
+        <schedule-preview></schedule-preview>
+    </div>
 </div>
-<div class="d-flex mb-2 mt-4 align-items-center flex-wrap">
-    <h2>Other conflicts</h2>
-    <button type="button" class="btn btn-info ml-auto" id="add-conflict-button" dusk="add-conflict-button" data-toggle="add-conflict">
-        <i class="fas fa-plus"></i> Add conflict
-    </button>
-</div>
-<p>Add any times that you absolutely cannot miss, and we won't schedule you during these times. Good things to declare include non-standard class times, employment (on or off campus), sports, or club meetings where you have a significant obligation. If you're an RA, be sure to declare standard duty hours.</p>
-<p><strong class="text-danger">If you are declaring an overnight conflict, please state the reasons for it in the notes box below</strong> to ensure it gets honored.</p>
-<conflict-list></conflict-list>
-<p><button type="button" class="btn btn-info btn-block" id="add-conflict-btn-bottom" dusk="add-conflict-btn-bottom" data-toggle="add-conflict">
-    <i class="fas fa-plus"></i> Add conflict
-</button></p>
-<div class="d-flex mb-2 mt-5 align-items-center flex-wrap">
-    <h2>Preferences</h2>
-    <button type="button" class="btn btn-primary ml-auto" id="add-preference-button" dusk="add-preference-button" data-toggle="add-pref">
-        <i class="fas fa-plus"></i> Add preference
-    </button>
-</div>
-<preference-list></preference-list>
-<p><button type="button" class="btn btn-primary btn-block" id="add-preference-btn-bottom" dusk="add-preference-btn-bottom" data-toggle="add-pref">
-    <i class="fas fa-plus"></i> Add preference
-</button></p>
 
 @push('modals')
     @component('components.modal')
@@ -191,5 +217,6 @@ var conflicts = {!! json_encode($show->conflicts) !!};
 var preferences = {!! json_encode($show->preferences) !!};
 var classTimes = {!! json_encode(config('classes.times')) !!};
 </script>
+<script src="/js/pages/shows/preview.js" defer></script>
 <script src="/js/pages/shows/weekly.js" defer></script>
 @endpush

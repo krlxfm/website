@@ -13,6 +13,13 @@
                     <strong>This application has not yet been submitted for scheduling.</strong>
                 </div>
             @endif
+            @if($show->track->weekly)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-9 col-lg-10">
+            <h2 class="d-none d-md-block mb-3">Application</h2>
+            @endif
             <table class="table table-responsive-sm">
                 <thead>
                     <tr>
@@ -80,6 +87,12 @@
                     @include('shows.tr', ['field' => 'notes', 'title' => 'Scheduling notes', 'value' => $show->notes, 'path' => 'schedule'])
                 </tbody>
             </table>
+            @if($show->track->weekly)
+            </div>
+            <div class="d-none d-md-block col-md-3 col-lg-2">
+                <h2>Schedule</h2>
+                <schedule-preview></schedule-preview>
+            @endif
         </div>
     </div>
 @endsection
@@ -97,8 +110,18 @@
 @endsection
 
 @push('js')
+
 <script>
 var showID = "{{ $show->id }}";
+@if($show->track->weekly)
+var conflicts = {!! json_encode($show->conflicts) !!};
+var preferences = {!! json_encode($show->preferences) !!};
+var classes = {!! json_encode($show->classes) !!};
+var classTimes = {!! json_encode(config('classes.times')) !!};
+@endif
 </script>
+@if($show->track->weekly)
+<script src="/js/pages/shows/preview.js" defer></script>
+@endif
 <script src="/js/pages/shows/review.js" defer></script>
 @endpush

@@ -85,5 +85,5 @@
             </div>
         </div>
     </div>
-    <p>You are testing on Beta 2, version 0.7.1 "San Luis II". <a href="https://github.com/krlxfm/website/releases/">View the change logs</a></p>
+    <p>You are testing on Beta 2, version 0.7.2 "San Luis III". <a href="https://github.com/krlxfm/website/releases/">View the change logs</a></p>
 @endsection
