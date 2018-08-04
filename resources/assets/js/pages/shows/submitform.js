@@ -1,5 +1,9 @@
-function submitForm() {
-    var field = $(this);
+function submitField() {
+    submitForm($(this));
+}
+
+function submitForm(field) {
+    clearTimeout(window.submitTimeout);
     var requestData = {};
     var components = field.attr('name').split('.');
     if (field.data('cast') && field.data('cast') == 'array') {
@@ -50,11 +54,18 @@ function removeValidationErrors(data, prefix = '') {
 }
 
 function showErrors(errors) {
-    console.error(JSON.stringify(errors));
     if(errors && Object.keys(errors).length > 0 && showValidationErrors) {
         $("#next-button").prop('disabled', true);
         showValidationErrors(errors);
     }
+}
+
+function submitAfterTimeout() {
+    var field = $(this);
+    clearTimeout(window.submitTimeout);
+    window.submitTimeout = setTimeout(function() {
+        submitForm(field);
+    }, 1000);
 }
 
 $(document).ready(function() {
