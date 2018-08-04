@@ -101,6 +101,24 @@ class ShowTest extends TestCase
     }
 
     /**
+     * Test that we can't create a show with expletives in the title.
+     *
+     * @return void
+     */
+    public function testWebShowCreationWithExpletives()
+    {
+        $title = config('defaults.banned_words.full')[0]." except this time it's a radio show";
+        $request = $this->post('/shows', [
+            'title' => $title,
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+
+        $show = Show::where('title', $title)->first();
+        $this->assertNull($show);
+    }
+
+    /**
      * Test that we have access to the hosts view after creating a show.
      *
      * @return void

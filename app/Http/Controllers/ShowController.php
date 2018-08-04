@@ -6,6 +6,7 @@ use KRLX\Show;
 use KRLX\Term;
 use Validator;
 use KRLX\Track;
+use KRLX\Rules\Profanity;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
@@ -68,7 +69,7 @@ class ShowController extends Controller
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
                 $query->where('accepting_applications', true);
             })],
-            'title' => 'required|string|min:3',
+            'title' => ['required', 'string', 'min:3', new Profanity],
         ]);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
