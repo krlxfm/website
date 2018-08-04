@@ -139,6 +139,9 @@ span.text-smallcaps {
 }
 
 @each $zone, $bgcolor in $priority {
+    .svg-bg-priority-#{$zone} {
+        fill: $bgcolor;
+    }
     .bg-priority-#{$zone} {
         background: $bgcolor;
         @if index($light-priorities, $zone) {

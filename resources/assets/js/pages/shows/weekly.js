@@ -8,16 +8,30 @@ function removeConflict(index) {
 
 function editConflict(index) {
     var conflict = conflicts[index];
-    editItem(conflict, 'conflict');
+    editItem(conflict, index, 'conflict');
 }
 
 function editPreference(index) {
     var preference = preferences[index];
     $("#preference-strength").val(preference.strength);
-    editItem(preference, 'preference');
+    editItem(preference, index, 'preference');
 }
 
-function editItem(item, type) {
+function updateSchedulePreview() {
+    var sortedPreferences = preferences.slice(0).sort((a, b) => {
+        return a.strength - b.strength;
+    });
+    $("#schedule-preview-main rect").attr('class', '');
+    setSchedulePreviewItems(sortedPreferences, ['s', 'h', 'f', 'd']);
+    setSchedulePreviewItems(conflicts, 'j');
+    var classList = [];
+    $('[name="classes"]:checked').each((index, checkbox) => {
+        classList = classList.concat(classTimes[$(checkbox).val()].times);
+    });
+    setSchedulePreviewItems(classList, 'a');
+}
+
+function editItem(item, index, type) {
     $('[name="'+type+'-days"]').prop('checked', false);
     item.days.forEach((day) => {
         $('#'+type+'-days-'+day).prop('checked', true);
@@ -44,6 +58,7 @@ function removeSlot(group, singular, index) {
     })
     .then(() => {
         group.splice(index, 1);
+        updateSchedulePreview();
         return axios.patch('/api/v1/shows/'+showID, {
             conflicts: window.conflicts,
             preferences: window.preferences
@@ -138,6 +153,7 @@ function storeScheduleItem(group, list) {
 
     axios.patch('/api/v1/shows/'+showID, apiData)
     .then((response) => {
+        updateSchedulePreview();
         $("#changes-saved-item").show();
         $("#changes-saved-item").fadeOut(2000);
     });
@@ -148,8 +164,10 @@ function savePreference() {
 }
 
 $(document).ready(function() {
+    $('[name="classes"]').change(updateSchedulePreview);
     $("#conflict-start").change(setConflictEndTime);
     $("#preference-start").change(setPreferenceEndTime);
     $('button[data-toggle="add-conflict"]').click(showNewConflictModal);
     $('button[data-toggle="add-pref"]').click(showNewPreferenceModal);
+    updateSchedulePreview();
 });
