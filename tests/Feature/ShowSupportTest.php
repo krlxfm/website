@@ -167,7 +167,7 @@ class ShowSupportTest extends TestCase
 
         $request = $this->get("/shows/all/{$this->show->term->id}");
         $request->assertOk()
-                ->assertSeeInOrder([$show->title, $one_off_track->name, $one_off_show->title, "Incomplete Shows", $this->show->title]);
+                ->assertSeeInOrder([$show->title, $one_off_track->name, $one_off_show->title, 'Incomplete Shows', $this->show->title]);
     }
 
     /**

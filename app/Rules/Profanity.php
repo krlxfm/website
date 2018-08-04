@@ -101,9 +101,9 @@ class Profanity implements Rule
                 $bad_word[0].str_repeat('*', strlen($bad_word) - 2).$bad_word[-1],
             ];
 
-            for($i = 0; $i < strlen($bad_word); $i++) {
+            for ($i = 0; $i < strlen($bad_word); $i++) {
                 $test_word = substr($bad_word, 0);
-                $test_word[$i] = "*";
+                $test_word[$i] = '*';
                 $bad_words[$bad_word][] = $test_word;
             }
         }

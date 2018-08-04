@@ -357,7 +357,7 @@ class ShowTest extends APITestCase
             ['user' => $this->user->id, 'show' => '-_-_-_'],
         ];
 
-        foreach($tokens as $token) {
+        foreach ($tokens as $token) {
             $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
                 'token' => encrypt($token),
             ]);
@@ -379,7 +379,7 @@ class ShowTest extends APITestCase
         $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'));
 
         $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
-            'token' => encrypt(["user" => $this->user->email, "show" => $show->id]),
+            'token' => encrypt(['user' => $this->user->email, 'show' => $show->id]),
             'cancel' => true,
         ]);
         $request->assertOk();

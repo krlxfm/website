@@ -144,16 +144,16 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows()->with('track')->whereHas('track', function($query) {
+        $shows = $term->shows()->with('track')->whereHas('track', function ($query) {
             $query->where('order', '>', 0);
-        })->get()->sort(function($a, $b) {
+        })->get()->sort(function ($a, $b) {
             return $this->sortShows($a, $b);
         });
 
-        $one_off_shows = $term->shows()->with('track')->whereHas('track', function($query) {
+        $one_off_shows = $term->shows()->with('track')->whereHas('track', function ($query) {
             $query->where('order', 0);
-        })->get()->groupBy('track.id')->each(function($track) {
-            $track->sort(function($a, $b) {
+        })->get()->groupBy('track.id')->each(function ($track) {
+            $track->sort(function ($a, $b) {
                 return $this->sortShows($a, $b);
             });
         });
