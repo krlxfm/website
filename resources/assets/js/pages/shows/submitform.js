@@ -2,6 +2,11 @@ function submitField() {
     submitForm($(this));
 }
 
+function setStandardListeners(query) {
+    $(query).change(submitField);
+    $(query).keyup(submitAfterTimeout);
+}
+
 function submitForm(field) {
     clearTimeout(window.submitTimeout);
     var requestData = {};

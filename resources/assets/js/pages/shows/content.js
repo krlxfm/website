@@ -1,7 +1,6 @@
 function setListeners() {
     $("#changes-saved-item").hide();
-    $("input, textarea").change(submitField);
-    $("input, textarea").keyup(submitAfterTimeout);
+    setStandardListeners('input, textarea');
 }
 
 function showValidationErrors(rawErrors) {
