@@ -24,9 +24,9 @@ Auth::routes();
 Route::get('/login/password', 'Auth\LoginController@password')->name('login.password');
 Route::get('/login/carleton', 'Auth\CarletonAuthController@redirect')->name('login.carleton');
 Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::get('shows', 'ShowController@my')->name('shows.my');
 
     Route::get('shows/all', 'ShowController@all')->name('shows.all');

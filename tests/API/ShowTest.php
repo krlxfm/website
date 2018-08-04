@@ -341,4 +341,49 @@ class ShowTest extends APITestCase
         $show = Show::find($this->show->id);
         $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
     }
+
+    /**
+     * Test joining with bad tokens.
+     *
+     * @return void
+     */
+    public function testJoiningWithBadTokens()
+    {
+        $show = factory(Show::class)->create();
+        $tokens = [
+            'this is not an array',
+            ['data' => 'this array is missing at least one key'],
+            ['user' => 'potato', 'show' => -1],
+            ['user' => $this->user->id, 'show' => '-_-_-_'],
+        ];
+
+        foreach ($tokens as $token) {
+            $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+                'token' => encrypt($token),
+            ]);
+            $request->assertStatus(400);
+        }
+    }
+
+    /**
+     * Test that adding a "cancel" parameter to the join message removes the
+     * invitation altogether.
+     *
+     * @return void
+     */
+    public function testCancellingInvitation()
+    {
+        $show = factory(Show::class)->create();
+        $show->invitees()->attach($this->user->id);
+        $this->assertContains($this->user->id, $show->invitees()->pluck('id'));
+        $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'));
+
+        $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+            'token' => encrypt(['user' => $this->user->email, 'show' => $show->id]),
+            'cancel' => true,
+        ]);
+        $request->assertOk();
+        $this->assertNotContains($this->user->id, $show->invitees()->pluck('id'), 'The user was not removed from the invitee list.');
+        $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'), 'The user was added to the host list when they should not have been.');
+    }
 }

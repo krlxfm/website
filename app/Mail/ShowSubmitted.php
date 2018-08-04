@@ -11,16 +11,24 @@ class ShowSubmitted extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * The order instance.
+     *
+     * @var Show
+     */
     public $show;
 
     /**
      * Create a new message instance.
      *
+     * @param  Show  $show
      * @return void
      */
     public function __construct(Show $show)
     {
         $this->show = $show;
+        $this->subject("{$show->title} Application Submitted");
+        $this->from('scheduling@krlx.org');
     }
 
     /**
@@ -30,7 +38,6 @@ class ShowSubmitted extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.shows.submitted')
-                    ->with(['show' => $this->show]);
+        return $this->markdown('mail.shows.submitted');
     }
 }

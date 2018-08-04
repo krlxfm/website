@@ -1,4 +1,5 @@
 $(document).ready(function() {
     $("#changes-saved-item").hide();
-    $("#scheduling-form input, #scheduling-form textarea, #scheduling-form select").change(submitForm);
+    setStandardListeners('#scheduling-form input, #scheduling-form textarea');
+    $("#scheduling-form select").change(submitField);
 })

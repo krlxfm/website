@@ -1,6 +1,6 @@
 function setListeners() {
     $("#changes-saved-item").hide();
-    $("input, textarea").change(submitForm)
+    setStandardListeners('input, textarea');
 }
 
 function showValidationErrors(rawErrors) {

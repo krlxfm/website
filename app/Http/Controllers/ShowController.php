@@ -6,6 +6,7 @@ use KRLX\Show;
 use KRLX\Term;
 use Validator;
 use KRLX\Track;
+use KRLX\Rules\Profanity;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
@@ -68,7 +69,7 @@ class ShowController extends Controller
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
                 $query->where('accepting_applications', true);
             })],
-            'title' => 'required|string|min:3',
+            'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
@@ -144,23 +145,46 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows->sort(function ($a, $b) {
-            $boost_diff = ($b->boost == 'S') <=> ($a->boost == 'S');
-            $track_diff = $a->track->order <=> $b->track->order;
-            $priority_diff = $a->priority <=> $b->priority;
-            $updated_at_diff = $a->updated_at <=> $b->updated_at;
-            $id_diff = $a->id <=> $b->id;
-
-            $diffs = [$boost_diff, $track_diff, $priority_diff, $updated_at_diff, $id_diff];
-
-            foreach ($diffs as $diff) {
-                if ($diff != 0) {
-                    return $diff;
-                }
-            }
+        $shows = $term->shows()->with('track')->whereHas('track', function ($query) {
+            $query->where('order', '>', 0);
+        })->get()->sort(function ($a, $b) {
+            return $this->sortShows($a, $b);
         });
 
-        return view('shows.all', compact('shows', 'terms', 'term'));
+        $one_off_shows = $term->shows()->with('track')->whereHas('track', function ($query) {
+            $query->where('order', 0);
+        })->get()->groupBy('track.id')->each(function ($track) {
+            $track->sort(function ($a, $b) {
+                return $this->sortShows($a, $b);
+            });
+        });
+
+        return view('shows.all', compact('shows', 'terms', 'term', 'one_off_shows'));
+    }
+
+    /**
+     * Function to sort two shows by priority.
+     *
+     * @param  KRLX\Show  $show_a
+     * @param  KRLX\Show  $show_b
+     * @return int
+     */
+    private function sortShows(Show $show_a, Show $show_b)
+    {
+        $boost_diff = ($show_b->boost == 'S') <=> ($show_a->boost == 'S');
+        $track_diff = $show_a->track->order <=> $show_b->track->order;
+        $priority_diff = $show_a->priority <=> $show_b->priority;
+        $completed_diff = $show_b->submitted <=> $show_a->submitted;
+        $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
+        $id_diff = $show_a->id <=> $show_b->id;
+
+        $diffs = [$boost_diff, $track_diff, $priority_diff, $completed_diff, $updated_at_diff, $id_diff];
+
+        foreach ($diffs as $diff) {
+            if ($diff != 0) {
+                return $diff;
+            }
+        }
     }
 
     /**

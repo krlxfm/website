@@ -135,4 +135,60 @@ class ShowSupportTest extends TestCase
         $request->assertOk();
         $request->assertSeeInOrder([$high_track_show->title, $high_priority_show->title, $recent_show->title]);
     }
+
+    /**
+     * Test that shows on tracks with an order of 0 appear in the All Shows view
+     * after the submitted shows, but before incomplete ones.
+     *
+     * @return void
+     */
+    public function testShowsOnZeroOrderTracksDontAppearInRoster()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+            'submitted' => true,
+        ]);
+        $show->hosts()->attach($this->user->id);
+        $one_off_track = factory(Track::class)->create([
+            'active' => true,
+            'weekly' => false,
+            'order' => 0,
+            'start_day' => 'Sunday',
+            'start_time' => '17:00',
+            'end_time' => '19:00',
+        ]);
+        $one_off_show = factory(Show::class)->create([
+            'track_id' => $one_off_track->id,
+            'term_id' => $this->term->id,
+            'submitted' => true,
+        ]);
+        $one_off_show->hosts()->attach($this->user->id);
+
+        $request = $this->get("/shows/all/{$this->show->term->id}");
+        $request->assertOk()
+                ->assertSeeInOrder([$show->title, $one_off_track->name, $one_off_show->title, 'Incomplete Shows', $this->show->title]);
+    }
+
+    /**
+     * Test that shows from old terms don't appear in the All DJs view.
+     *
+     * @return void
+     */
+    public function testOldShowsDontAppearInRoster()
+    {
+        $show = factory(Show::class)->create([
+            'track_id' => $this->track->id,
+            'submitted' => true,
+        ]);
+        $show->hosts()->attach($this->user->id);
+        $this->show->submitted = true;
+        $this->show->save();
+
+        $this->assertNotEquals($show->term->id, $this->show->term->id);
+        $request = $this->get("/shows/djs/{$this->show->term->id}");
+        $request->assertOk()
+                ->assertSee($this->show->title)
+                ->assertDontSee($show->title);
+    }
 }

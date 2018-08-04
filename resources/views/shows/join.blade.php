@@ -39,13 +39,21 @@
                         @csrf
                         @method('put')
                         <input type="hidden" name="token" value="{{ encrypt(['show' => $show->id, 'user' => Auth::user()->email]) }}">
-                        <div class="mt-5 mb-2">
+                        <div class="mt-5">
                             <a class="btn btn-lg btn-outline-secondary" href="/shows">Not now</a>
                             <button type="submit" class="btn btn-lg btn-success">Accept invitation</button>
                         </div>
+                        <p class="my-2"><a class="text-danger" href="#" id="decline-invitation">Decline invitation</a></p>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+var showID = "{{ $show->id }}";
+</script>
+<script src="/js/pages/shows/join.js" defer></script>
+@endpush
