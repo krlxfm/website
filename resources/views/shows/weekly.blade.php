@@ -31,7 +31,25 @@
         <div class="list-group-item row">
             <div class="row">
                 <div class="col-sm-9">
-                    <h4>{{ $zone['name'] }}</h4>
+                    <h4 class="mb-0">{{ $zone['name'] }}</h4>
+                    <p class="mb-0"><small class="text-muted"><strong>
+                        @switch($zone['days'])
+                            @case(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])
+                                Daily,
+                                @break
+                            @case(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
+                                Weekdays,
+                                @break
+                            @case(['Sunday', 'Saturday'])
+                                Weekends,
+                                @break
+                            @default
+                                {{ implode(', ', $zone['days']) }},
+                        @endswitch
+                        {{ Carbon\Carbon::parse($zone['start'])->format('g:i a') }}
+                        to
+                        {{ Carbon\Carbon::parse($zone['end'])->format('g:i a') }}
+                    </strong></small></p>
                     {{ $zone['description'] }}
                 </div>
                 <div class="col-sm-3">
