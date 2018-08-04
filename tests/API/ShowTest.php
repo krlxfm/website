@@ -364,4 +364,26 @@ class ShowTest extends APITestCase
             $request->assertStatus(400);
         }
     }
+
+    /**
+     * Test that adding a "cancel" parameter to the join message removes the
+     * invitation altogether.
+     *
+     * @return void
+     */
+    public function testCancellingInvitation()
+    {
+        $show = factory(Show::class)->create();
+        $show->invitees()->attach($this->user->id);
+        $this->assertContains($this->user->id, $show->invitees()->pluck('id'));
+        $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'));
+
+        $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+            'token' => encrypt(["user" => $this->user->email, "show" => $show->id]),
+            'cancel' => true,
+        ]);
+        $request->assertOk();
+        $this->assertNotContains($this->user->id, $show->invitees()->pluck('id'), 'The user was not removed from the invitee list.');
+        $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'), 'The user was added to the host list when they should not have been.');
+    }
 }
