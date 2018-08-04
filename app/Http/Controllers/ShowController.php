@@ -69,7 +69,7 @@ class ShowController extends Controller
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
                 $query->where('accepting_applications', true);
             })],
-            'title' => ['required', 'string', 'min:3', new Profanity],
+            'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
