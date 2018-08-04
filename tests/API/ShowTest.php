@@ -341,4 +341,27 @@ class ShowTest extends APITestCase
         $show = Show::find($this->show->id);
         $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
     }
+
+    /**
+     * Test joining with bad tokens.
+     *
+     * @return void
+     */
+    public function testJoiningWithBadTokens()
+    {
+        $show = factory(Show::class)->create();
+        $tokens = [
+            'this is not an array',
+            ['data' => 'this array is missing at least one key'],
+            ['user' => 'potato', 'show' => -1],
+            ['user' => $this->user->id, 'show' => '-_-_-_'],
+        ];
+
+        foreach($tokens as $token) {
+            $request = $this->json('PUT', "/api/v1/shows/{$show->id}/join", [
+                'token' => encrypt($token),
+            ]);
+            $request->assertStatus(400);
+        }
+    }
 }
