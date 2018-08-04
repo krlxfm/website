@@ -22,6 +22,7 @@ Vue.component('term-selector', require('./components/TermSelector.vue'));
 Vue.component('preference-list', require('./components/PreferenceList.vue'));
 Vue.component('participant-list', require('./components/ParticipantList.vue'));
 Vue.component('participant-search', require('./components/ParticipantSearch.vue'));
+Vue.component('schedule-preview', require('./components/SchedulePreview.vue'));
 
 window.to12Hour = function(time) {
     var components = time.split(':');
