@@ -35,8 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
 
     Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
-    Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
-    Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
+    Route::middleware('contract')->group(function() {
+        Route::get('shows/all', 'ShowController@all');
+        Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
+        Route::get('shows/djs', 'ShowController@djs');
+        Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
+    });
 
     Route::get('shows/create', 'ShowController@create')->name('shows.create');
     Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
