@@ -67,7 +67,7 @@ class User extends Authenticatable
      *
      * @return Eloquent\Collection<KRLX\Point>
      */
-    public function shows()
+    public function points()
     {
         return $this->belongsToMany('KRLX\Point');
     }
