@@ -45,5 +45,5 @@ Route::middleware('auth')->group(function () {
         Route::post('shows', 'ShowController@store')->name('shows.store');
     });
 
-    Route::get('legal/contract', 'PointController@contract')->name('legal.contract');
+    Route::get('contract', 'PointController@contract')->name('legal.contract');
 });
