@@ -23,13 +23,13 @@ class ShowTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
         $this->track = factory(Track::class)->create([
             'active' => true,
         ]);
         $this->term = factory(Term::class)->create([
             'accepting_applications' => true,
         ]);
+        $this->user = factory(User::class)->states('contract_ok')->create();
         $this->show = factory(Show::class)->create([
             'id' => 'SHOW01',
             'track_id' => $this->track->id,

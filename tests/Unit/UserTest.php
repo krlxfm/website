@@ -17,7 +17,7 @@ class UserTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->states('contract_ok')->create();
     }
 
     /**
@@ -28,7 +28,7 @@ class UserTest extends TestCase
     public function testFullNameAttribute()
     {
         $faker = $this->faker();
-        $user = factory(User::class)->create([
+        $user = factory(User::class)->states('contract_ok')->create([
             'email' => $faker->username.'@carleton.edu',
             'year' => date('Y'),
         ]);
