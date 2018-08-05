@@ -2,7 +2,6 @@
 
 namespace KRLX;
 
-use KRLX\Term;
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
 use KRLX\Notifications\ResetPassword;
@@ -19,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'first_name', 'photo', 'year'
+        'name', 'email', 'password', 'first_name', 'photo', 'year',
     ];
 
     /**
@@ -111,12 +110,12 @@ class User extends Authenticatable
     {
         $term = Term::find($termID);
         $priority = $this->priority;
-        if(!$term) {
+        if (! $term) {
             return $priority;
         }
 
         $priority->terms = $this->points()
-                                ->whereHas('term', function($query) use ($term) {
+                                ->whereHas('term', function ($query) use ($term) {
                                     $query->where('on_air', '<', $term->on_air);
                                 })
                                 ->where('status', 'issued')

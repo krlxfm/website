@@ -28,6 +28,7 @@ class MembershipContract
         if (! $request->user()->points()->where([['status', '!=', 'none'], ['term_id', $term->id]])->first()) {
             $request->session()->put('url.intended', $request->path());
             $request->session()->put('term', $term->id);
+
             return redirect()->route('legal.contract');
         }
 
