@@ -94,7 +94,7 @@ class User extends Authenticatable
     public function getPriorityAttribute()
     {
         $priority = new Priority;
-        $priority->terms = $this->points()->where('status', 'issued')->get()->unique()->count();
+        $priority->terms = $this->points()->where('status', 'issued')->get()->count();
         $priority->year = $this->year;
 
         return $priority;
