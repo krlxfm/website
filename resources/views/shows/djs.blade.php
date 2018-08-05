@@ -19,12 +19,16 @@
                     <tr>
                         <th class="w-50">Name and shows</th>
                         <th>Contact information</th>
-                        <th class="d-none d-md-table-cell" style="width: 200px">XP as of {{ $term->id }}</th>
-                        <th style="width: 90px">XP Now</th>
+                        <th class="d-none d-md-table-cell" style="width: 150px">XP before term</th>
+                        <th style="width: 90px">XP now</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($users as $user)
+                        @php
+                            $oldPriority = $user->priorityAsOf($term->id);
+                            $priorityNow = $user->priority;
+                        @endphp
                         <tr>
                             <td class="align-middle">
                                 <h5 class="mb-1">{{ $user->full_name }}</h5>
@@ -37,8 +41,8 @@
                                 </ul>
                             </td>
                             <td class="align-middle">{{ $user->email }}</td>
-                            <td class="align-middle text-center bg-priority-{{ strtolower($user->priorityAsOf($term->id)->zone()) }}" style="font-size: x-large;">{{ $user->priorityAsOf($term->id)->terms }}</td>
-                            <td class="align-middle text-center bg-priority-{{ strtolower($user->priority->zone()) }}" style="font-size: x-large;">{{ $user->priority->terms }}</td>
+                            <td class="align-middle text-center bg-priority-{{ strtolower($oldPriority->zone()) }}" style="font-size: x-large;">{{ $oldPriority->terms }}</td>
+                            <td class="align-middle text-center bg-priority-{{ strtolower($priorityNow->zone()) }}" style="font-size: x-large;">{{ $priorityNow->terms }}</td>
                         </tr>
                     @endforeach
                 </tbody>
