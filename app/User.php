@@ -2,6 +2,7 @@
 
 namespace KRLX;
 
+use KRLX\Term;
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
 use KRLX\Notifications\ResetPassword;
@@ -94,8 +95,32 @@ class User extends Authenticatable
     public function getPriorityAttribute()
     {
         $priority = new Priority;
-        $priority->terms = $this->points()->where('status', 'issued')->get()->count();
+        $priority->terms = $this->points()->where('status', 'issued')->count();
         $priority->year = $this->year;
+
+        return $priority;
+    }
+
+    /**
+     * Computes what the user's priority was before the specified term began.
+     *
+     * @param  string  $term
+     * @return KRLX\Priority
+     */
+    public function priorityAsOf(string $termID)
+    {
+        $term = Term::find($termID);
+        $priority = $this->priority;
+        if(!$term) {
+            return $priority;
+        }
+
+        $priority->terms = $this->points()
+                                ->whereHas('term', function($query) use ($term) {
+                                    $query->where('on_air', '<', $term->on_air);
+                                })
+                                ->where('status', 'issued')
+                                ->count();
 
         return $priority;
     }

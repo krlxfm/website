@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use KRLX\Term;
 use KRLX\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -37,5 +38,19 @@ class UserTest extends TestCase
 
         $this->assertEquals($this->user->name, $this->user->full_name);
         $this->assertEquals($user->name." '".date('y'), $user->full_name);
+    }
+
+    /**
+     * Test the "Priority - As Of" function. This determines what a user's
+     * priority should have been before the specified term.
+     *
+     * @return void
+     */
+    public function testPriorityAsOf()
+    {
+        $term = factory(Term::class)->create();
+        $this->assertCount(0, $this->user->points);
+        $this->assertEquals(0, $this->user->priorityAsOf($term->id)->terms);
+        $this->assertEquals(0, $this->user->priorityAsOf('ASDF')->terms);
     }
 }

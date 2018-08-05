@@ -19,7 +19,8 @@
                     <tr>
                         <th class="w-50">Name and shows</th>
                         <th>Contact information</th>
-                        <th>XP</th>
+                        <th class="d-none d-md-table-cell" style="width: 200px">XP as of {{ $term->id }}</th>
+                        <th style="width: 90px">XP Now</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,7 @@
                                 </ul>
                             </td>
                             <td class="align-middle">{{ $user->email }}</td>
+                            <td class="align-middle text-center bg-priority-{{ strtolower($user->priorityAsOf($term->id)->zone()) }}" style="font-size: x-large;">{{ $user->priorityAsOf($term->id)->terms }}</td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($user->priority->zone()) }}" style="font-size: x-large;">{{ $user->priority->terms }}</td>
                         </tr>
                     @endforeach
