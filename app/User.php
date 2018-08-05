@@ -49,15 +49,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be type-cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'xp' => 'array',
-    ];
-
-    /**
      * Returns the shows that the user is a member of.
      *
      * @return Eloquent\Collection<KRLX\Show>
@@ -69,6 +60,16 @@ class User extends Authenticatable
                     ->wherePivot('accepted', true)
                     ->withTimestamps()
                     ->as('membership');
+    }
+
+    /**
+     * Returns the experience points that belong to the user.
+     *
+     * @return Eloquent\Collection<KRLX\Point>
+     */
+    public function shows()
+    {
+        return $this->belongsToMany('KRLX\Point');
     }
 
     /**
@@ -93,7 +94,7 @@ class User extends Authenticatable
     public function getPriorityAttribute()
     {
         $priority = new Priority;
-        $priority->terms = collect($this->xp)->unique()->count();
+        $priority->terms = $this->points()->where('status', 'issued')->get()->unique()->count();
         $priority->year = $this->year;
 
         return $priority;

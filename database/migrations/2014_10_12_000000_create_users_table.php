@@ -38,9 +38,6 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->text('favorite_music')->nullable();
             $table->text('favorite_shows')->nullable();
-
-            // XP
-            $table->text('xp');
         });
     }
 
