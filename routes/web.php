@@ -44,4 +44,6 @@ Route::middleware('auth')->group(function () {
     Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
     Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
     Route::post('shows', 'ShowController@store')->name('shows.store');
+
+    Route::get('legal/contract', 'PointController@contract')->name('legal.contract');
 });
