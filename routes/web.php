@@ -46,4 +46,5 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('contract', 'PointController@contract')->name('legal.contract');
+    Route::post('contract', 'PointController@sign');
 });

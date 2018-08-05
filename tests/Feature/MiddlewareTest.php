@@ -63,4 +63,22 @@ class MiddlewareTest extends TestCase
                         ->assertSessionHas('url.intended', $route);
         }
     }
+
+    /**
+     * Test that, after redirection and signing the contract, the user can
+     * proceed to their intended destination.
+     *
+     * @return void
+     */
+    public function testSigningContract()
+    {
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id
+        ]);
+        $show->hosts()->attach($this->user->id, ['accepted' => true]);
+        $first_request = $this->get("/shows/{$show->id}");
+        $second_request = $this->post("/contract", ['term' => $this->term->id, 'contract' => true]);
+        $second_request->assertRedirect("/shows/{$show->id}");
+        $this->assertContains($this->term->id, $this->user->points()->where('status', 'provisioned')->get()->pluck('term_id'));
+    }
 }
