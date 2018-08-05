@@ -28,7 +28,7 @@ Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
-    Route::middleware('contract')->group(function() {
+    Route::middleware('contract')->group(function () {
         Route::get('shows', 'ShowController@my')->name('shows.my');
         Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
 

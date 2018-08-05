@@ -2,8 +2,8 @@
 
 namespace KRLX\Http\Controllers;
 
-use Parsedown;
 use KRLX\Term;
+use Parsedown;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
@@ -19,7 +19,7 @@ class PointController extends Controller
         $parsedown = new Parsedown();
         $contract = $parsedown->text(file_get_contents(resource_path('assets/markdown/contract.md')));
 
-        if($request->session()->has('term')) {
+        if ($request->session()->has('term')) {
             $term = Term::find($request->session()->get('term'));
         } else {
             $term = Term::orderByDesc('on_air')->get()->first();
@@ -38,13 +38,13 @@ class PointController extends Controller
     {
         $request->validate([
             'contract' => 'accepted',
-            'term' => 'required|string|exists:terms,id'
+            'term' => 'required|string|exists:terms,id',
         ]);
 
         if ($request->user()->points()->where('term_id', $request->input('term'))->count() == 0) {
             $request->user()->points()->create([
                 'term_id' => $request->input('term'),
-                'status' => 'provisioned'
+                'status' => 'provisioned',
             ]);
         }
 

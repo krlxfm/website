@@ -95,10 +95,10 @@ class ShowSupportTest extends TestCase
     public function testAllShowsSortOrder()
     {
         $high_priority_user = factory(User::class)->create([
-            'year' => date('Y') + 2
+            'year' => date('Y') + 2,
         ]);
         $mid_priority_user = factory(User::class)->create([
-            'year' => date('Y') + 1
+            'year' => date('Y') + 1,
         ]);
         $high_priority_track = factory(Track::class)->create([
             'active' => true,

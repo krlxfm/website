@@ -6,7 +6,6 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContractTest extends TestCase
@@ -25,7 +24,7 @@ class ContractTest extends TestCase
         $this->term = factory(Term::class)->create();
         $this->user = factory(User::class)->create();
         $this->show = factory(Show::class)->create([
-            'term_id' => $this->term->id
+            'term_id' => $this->term->id,
         ]);
         $this->session = $this->actingAs($this->user);
     }
@@ -38,7 +37,7 @@ class ContractTest extends TestCase
      */
     public function testDirectContractViewing()
     {
-        $request = $this->get("/contract");
+        $request = $this->get('/contract');
 
         $request->assertSessionMissing('term')
                 ->assertOk()
