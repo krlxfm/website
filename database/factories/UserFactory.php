@@ -36,6 +36,6 @@ $factory->state(KRLX\User::class, 'contract_ok', function ($faker) {
 
 $factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $faker) {
     foreach(Term::all() as $term) {
-        $user->points()->create(['term_id' => $term, 'status' => 'provisioned']);
+        $user->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
     }
 });

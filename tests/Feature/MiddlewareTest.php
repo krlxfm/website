@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use Tests\TestCase;
@@ -33,14 +34,33 @@ class MiddlewareTest extends TestCase
      *
      * @return void
      */
-    public function testMembershipContractMiddleware()
+    public function testMembershipContractMiddlewareWithGoodUser()
     {
         $goodUser = factory(User::class)->states('contract_ok')->create();
 
         $ok_request = $this->actingAs($goodUser)->get("/shows/my/{$this->term->id}");
-        $bad_request = $this->actingAs($this->user)->get("/shows/my/{$this->term->id}");
 
+        $this->assertContains($this->term->id, $goodUser->points->pluck('term_id'));
         $ok_request->assertOk()->assertViewIs('shows.my');
-        $bad_request->assertRedirect(route('legal.contract'));
+    }
+
+    /**
+     * Test the MembershipContract middleware on various routes with a bad user.
+     * This user should be redirected to sign the contract before proceeding.
+     *
+     * @return void
+     */
+    public function testMembershipContractMiddlewareWithBadUser()
+    {
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id
+        ]);
+        $routes = ["shows/my/{$this->term->id}", "shows", "shows/{$show->id}"];
+        foreach($routes as $route) {
+            $bad_request = $this->get($route);
+            $this->assertEquals(302, $bad_request->status(), "The request to $route got through.");
+            $bad_request->assertRedirect(route('legal.contract'))
+                        ->assertSessionHas('url.intended', $route);
+        }
     }
 }

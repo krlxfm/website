@@ -27,27 +27,23 @@ Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('shows', 'ShowController@my')->name('shows.my');
 
-    Route::get('shows/all', 'ShowController@all')->name('shows.all');
-    Route::get('shows/djs', 'ShowController@djs')->name('shows.djs');
-    Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
-    Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
-
-    Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
     Route::middleware('contract')->group(function() {
-        Route::get('shows/all', 'ShowController@all');
-        Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
-        Route::get('shows/djs', 'ShowController@djs');
-        Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
-    });
+        Route::get('shows', 'ShowController@my')->name('shows.my');
+        Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
 
-    Route::get('shows/create', 'ShowController@create')->name('shows.create');
-    Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
-    Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
-    Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
-    Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
-    Route::post('shows', 'ShowController@store')->name('shows.store');
+        Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
+        Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
+        Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
+        Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
+
+        Route::get('shows/create', 'ShowController@create')->name('shows.create');
+        Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
+        Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
+        Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
+        Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
+        Route::post('shows', 'ShowController@store')->name('shows.store');
+    });
 
     Route::get('legal/contract', 'PointController@contract')->name('legal.contract');
 });
