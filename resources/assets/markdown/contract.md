@@ -137,8 +137,8 @@ Controlled substances, including alcohol, tobacco, or other drugs, are not allow
 We reserve the right to record and archive shows.
 We may, at our discretion, make your tapes available to you.
 
-DJs must be trained by the Compliance Director at the start of their career, and after one year of inactivity.
-If major equipment such as the console is replaced, _all_ DJs must be re-trained.
+All DJs must be trained by the Compliance Director at the start of their career.
+DJs must be re-trained if they have been inactive for one year or longer, or if directed by the Board.
 
 You are required to have an accurate phone number on file with KRLX, and we reserve the right to verify its accuracy.
 If your number changes, you need to update your account on the website as soon as possible.
