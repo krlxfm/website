@@ -16,6 +16,7 @@ class CreateShowsTable extends Migration
         Schema::create('shows', function (Blueprint $table) {
             // Technical administration
             $table->string('id', 40)->primary();
+            $table->string('priority')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

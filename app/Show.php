@@ -172,8 +172,9 @@ class Show extends Model
      *
      * @return string
      */
-    public function getPriorityAttribute()
+    public function getPriorityAttribute($value)
     {
+        if($value) return $value;
         $priorities = $this->hosts->pluck('priority');
         $zone = '';
         $group = '';
