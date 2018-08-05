@@ -69,7 +69,7 @@ class User extends Authenticatable
      */
     public function points()
     {
-        return $this->belongsToMany('KRLX\Point');
+        return $this->hasMany('KRLX\Point');
     }
 
     /**
