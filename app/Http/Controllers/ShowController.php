@@ -153,8 +153,8 @@ class ShowController extends Controller
 
         $one_off_shows = $term->shows()->with('track')->whereHas('track', function ($query) {
             $query->where('order', 0);
-        })->get()->groupBy('track.id')->each(function ($track) {
-            $track->sort(function ($a, $b) {
+        })->get()->groupBy('track.id')->transform(function ($track) {
+            return $track->sort(function ($a, $b) {
                 return $this->sortShows($a, $b);
             });
         });
