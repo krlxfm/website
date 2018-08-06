@@ -1,5 +1,8 @@
 @php
 $special_indicators = ['y' => 'Yes, please try to schedule me here', 'n' => 'No thanks, please avoid scheduling me here', 'm' => 'Meh, doesn\'t matter'];
+function md_replace($str) {
+    return str_replace(['\\', '*', '_', '~'], ['\\\\', '\*', '\_', '<span>~</span>'], e($str));
+}
 @endphp
 @component('mail::message')
 # Congratulations - you've submitted your show!
@@ -23,9 +26,9 @@ We will **not** email you copies of any changes, so you'll want to [check your s
 | ----- | ----- |
 | Show ID | {{ $show->id }} |
 | Track and term | {{ $show->track->name }}, {{ $show->term->name }} |
-| Hosts | {{ implode(', ', $show->hosts->pluck('full_name')->all()) }} |
-| Title | {{ $show->title }} |
-| Description | {{ $show->description }} |
+| Hosts | {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!} |
+| Title | {!! md_replace($show->title) !!} |
+| Description | {!! md_replace($show->description) !!} |
 @foreach($show->track->content as $field)
 | {{ $field['title'] }} | {!! implode('<br>', array_wrap($show->content[$field['db']])) !!} |
 @endforeach
@@ -44,7 +47,7 @@ We will **not** email you copies of any changes, so you'll want to [check your s
 @foreach($show->track->scheduling as $field)
 | {{ $field['title'] }} | {!! implode('<br>', array_wrap($show->scheduling[$field['db']])) !!} |
 @endforeach
-| Scheduling notes | {{ $show->notes }} |
+| Scheduling notes | {!! md_replace($show->notes) !!} |
 @endcomponent
 
 ## What happens next?
