@@ -17,7 +17,7 @@ class APITestCase extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->states('contract_ok')->create();
         $this->session = $this->actingAs($this->user, 'api');
     }
 }

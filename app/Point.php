@@ -12,7 +12,7 @@ class Point extends Model
      * @var array
      */
     protected $fillable = [
-        'term_id', 'user_id',
+        'term_id', 'user_id', 'status',
     ];
 
     /**

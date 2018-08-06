@@ -19,7 +19,7 @@ class ShowTest extends TestCase
         parent::setUp();
 
         $this->show = factory(Show::class)->create();
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->states('contract_ok')->create();
     }
 
     /**
