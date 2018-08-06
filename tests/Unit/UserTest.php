@@ -6,8 +6,8 @@ use KRLX\Term;
 use KRLX\User;
 use Tests\TestCase;
 use KRLX\Notifications\ResetPassword;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
