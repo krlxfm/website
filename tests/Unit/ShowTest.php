@@ -23,6 +23,22 @@ class ShowTest extends TestCase
     }
 
     /**
+     * Test that changing the ID length doesn't break things.
+     *
+     * @return void
+     */
+    public function testDifferentIdLength()
+    {
+        $current_id_length = config('defaults.show_id_length');
+        config(['defaults.show_id_length' => $current_id_length + 1]);
+
+        $show = factory(Show::class)->create();
+        $this->assertEquals($current_id_length + 1, strlen($show->id));
+
+        config(['defaults.show_id_length' => $current_id_length]);
+    }
+
+    /**
      * Test that adding hosts without explicitly marking their invitation as
      * accepted, marks them as invitees rather than hosts.
      *
