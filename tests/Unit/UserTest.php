@@ -5,9 +5,7 @@ namespace Tests\Unit;
 use KRLX\Term;
 use KRLX\User;
 use Tests\TestCase;
-use KRLX\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
@@ -20,18 +18,6 @@ class UserTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->states('contract_ok')->create();
-    }
-
-    /**
-     * Test that users can request a password reset.
-     *
-     * @return void
-     */
-    public function testPasswordResetRequest()
-    {
-        Notification::fake();
-        $this->withSession(['email', $this->user->email])->get('/password/reset');
-        Notification::assertSentTo($this->user, ResetPassword::class);
     }
 
     /**
