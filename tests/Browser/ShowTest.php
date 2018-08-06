@@ -27,7 +27,7 @@ class ShowTest extends DuskTestCase
         $this->show = factory(Show::class)->create();
         $this->track = $this->show->track;
         $this->term = $this->show->term;
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->states('contract_ok')->create();
         $this->user->shows()->attach($this->show, ['accepted' => true]);
     }
 
