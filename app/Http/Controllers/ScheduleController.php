@@ -17,8 +17,7 @@ class ScheduleController extends Controller
         if($term == null) {
             $term = Term::orderByDesc('on_air')->first();
         }
-        $shows = $term->showsInPriorityOrder(true);
 
-        return view('schedule.build', compact('term', 'shows'));
+        return view('schedule.build', compact('term'));
     }
 }
