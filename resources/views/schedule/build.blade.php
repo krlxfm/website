@@ -14,6 +14,8 @@
 
 @push('js')
 <script>
-var shows = {!! json_encode($shows) !!};
+var showIDs = {!! json_encode(array_keys($shows)) !!};
+var showList = {!! json_encode($shows) !!};
+var shows = showIDs.map(show => showList[show]);
 </script>
 @endpush

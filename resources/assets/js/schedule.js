@@ -15,10 +15,6 @@ $(document).ready(function() {
     enableDragging();
 });
 
-function dropEvent() {
-    $(this).remove();
-}
-
 function setupCalendar() {
     $("#calendar").fullCalendar({
         header: false,
@@ -30,17 +26,18 @@ function setupCalendar() {
         defaultDate: moment(),
         height: function() { return window.innerHeight - 100; },
         editable: true,
-        droppable: true,
-        drop: dropEvent()
+        droppable: true
     });
 }
 
 function enableDragging() {
     $('.schedule-queue-item').each(function() {
+        const showID = $(this).data('showId');
         // store data so the calendar knows to render an event upon drop
         $(this).data('event', {
-            title: $.trim($(this).text()), // use the element's text as the event title
-            stick: true // maintain when user navigates (see docs on the renderEvent method)
+            id: showID,
+            title: shows[showID].title,
+            stick: true
         });
 
         // make the event draggable using jQuery UI
