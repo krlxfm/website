@@ -1,11 +1,13 @@
+require('./bootstrap');
+
 window.Vue = require('vue');
 
 Vue.component('schedule-builder', require('./components/schedule/Builder.vue'));
 Vue.component('schedule-queue', require('./components/schedule/Queue.vue'));
 Vue.component('schedule-inspector', require('./components/schedule/Inspector.vue'));
 
-const app = new Vue({
-    el: '#app'
+const schedule = new Vue({
+    el: '#fluid-sector'
 });
 
 $(document).ready(function() {

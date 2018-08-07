@@ -13,6 +13,7 @@
     <!-- Scripts -->
     <script src="{{ mix('/js/manifest.js') }}" defer></script>
     <script src="{{ mix('/js/vendor.js') }}" defer></script>
+    @stack('topjs')
     <script src="{{ mix('/js/app.js') }}" defer></script>
 
     <!-- Styles -->
@@ -61,7 +62,7 @@
         <div class="container mt-4">
             @yield('head')
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid" id="fluid-sector">
             @yield('mid')
         </div>
         <div class="container">
