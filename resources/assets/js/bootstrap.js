@@ -11,6 +11,7 @@ window.Popper = require('popper.js').default;
 try {
     window.$ = window.jQuery = require('jquery');
 
+    require('jquery-ui');
     require('bootstrap');
     require('fullcalendar');
 } catch (e) {}

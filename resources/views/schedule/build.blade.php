@@ -14,7 +14,6 @@
 
 @push('js')
 <script>
-var shows = {!! json_encode(array_values($term->showsInPriorityOrder(true)->all())) !!};
-console.log(showsFromBlade);
+var shows = {!! json_encode($shows) !!};
 </script>
 @endpush
