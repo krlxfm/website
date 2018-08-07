@@ -140,7 +140,8 @@ span.text-smallcaps {
 
 .schedule-full-height {
     height: calc(100vh - 100px);
-    &.card > .card-body {
+    &.card > .card-body,
+    &.card > .list-group-flush {
         overflow-y: scroll;
     }
 }

@@ -5,7 +5,7 @@
 @endpush
 
 @section('mid')
-<schedule-builder v-bind:shows="shows"></schedule-builder>
+<schedule-builder></schedule-builder>
 @endsection
 
 @push('topjs')
@@ -14,6 +14,6 @@
 
 @push('js')
 <script>
-const shows = {!! json_encode($shows) !!};
+var shows = {!! json_encode($shows) !!};
 </script>
 @endpush

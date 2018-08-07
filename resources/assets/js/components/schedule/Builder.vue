@@ -1,7 +1,7 @@
 <template>
 <div class="form-row">
     <div class="col-md-3 d-none d-md-block">
-        <schedule-queue></schedule-queue>
+        <schedule-queue v-bind:shows="shows"></schedule-queue>
     </div>
     <div class="col-md-6">
         <div class="card" style="border: 0">
@@ -23,6 +23,10 @@
 
 <script>
 module.exports = {
-    props: ['shows']
+    data: function() {
+        return {
+            shows: window.shows
+        }
+    }
 }
 </script>
