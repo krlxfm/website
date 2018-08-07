@@ -23,6 +23,6 @@
 
 <script>
 module.exports = {
-
+    props: ['shows']
 }
 </script>
