@@ -3,7 +3,6 @@
 namespace KRLX\Http\Controllers;
 
 use KRLX\Term;
-use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
@@ -14,7 +13,7 @@ class ScheduleController extends Controller
      */
     public function build(Term $term = null)
     {
-        if($term == null) {
+        if ($term == null) {
             $term = Term::orderByDesc('on_air')->first();
         }
 

@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use KRLX\User;
 use KRLX\Term;
+use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ScheduleTest extends TestCase
