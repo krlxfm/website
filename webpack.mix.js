@@ -12,6 +12,7 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
+   .js('resources/assets/js/schedule.js', 'public/js')
    .extract(['vue', 'sweetalert', 'moment', 'bootstrap', 'lodash', 'jquery', 'popper.js', 'axios', 'fullcalendar'])
    .sass('resources/assets/sass/app.scss', 'public/css')
    .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')

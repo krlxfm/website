@@ -81,5 +81,5 @@
 @endsection
 
 @push('js')
-<script src="/js/pages/schedule/build.js" defer></script>
+<script src="/js/schedule.js" defer></script>
 @endpush
