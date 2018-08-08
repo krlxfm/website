@@ -49,7 +49,7 @@ function setCurrentShow(show) {
 }
 
 function selectEvent(calEvent) {
-    console.log(calEvent.id);
+    app.showID = calEvent.id
 }
 
 function dropEvent(date) {
