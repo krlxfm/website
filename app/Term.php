@@ -116,12 +116,12 @@ class Term extends Model
             $query->where('order', ($weekly ? '>' : '='), 0);
         })->get();
 
-        if($weekly) {
+        if ($weekly) {
             return $shows->sort(function ($a, $b) {
                 return $this->sortShowsByPriority($a, $b);
             });
         } else {
-            return $shows->groupBy('track.id')->transform(function($track) {
+            return $shows->groupBy('track.id')->transform(function ($track) {
                 return $track->sort(function ($a, $b) {
                     return $this->sortShowsByPriority($a, $b);
                 });
