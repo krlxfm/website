@@ -37,8 +37,19 @@ function setupCalendar() {
         height: function() { return window.innerHeight - 100; },
         editable: true,
         droppable: true,
-        drop: dropEvent
+        drop: dropEvent,
+        eventClick: selectEvent,
+        eventDragStart: selectEvent,
+        eventResizeStart: selectEvent
     });
+}
+
+function setCurrentShow(show) {
+    console.log(show);
+}
+
+function selectEvent(calEvent) {
+    console.log(calEvent.id);
 }
 
 function dropEvent(date) {
@@ -47,6 +58,17 @@ function dropEvent(date) {
     show.day = date.format('dddd');
     show.start = date.format('HH:mm');
     show.end = moment(date).add(show.preferred_length, 'm').format('HH:mm');
+}
+
+window.vueData = {
+    data: {
+        showID: ''
+    },
+    methods: {
+        setCurrentShow: function(show) {
+            this.showID = show;
+        }
+    }
 }
 
 window.enableDragging = function() {

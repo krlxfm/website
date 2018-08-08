@@ -1,7 +1,7 @@
 <template>
 <div class="form-row">
     <div class="col-md-3 d-none d-md-block">
-        <schedule-queue v-bind:shows="shows" v-bind:length-colors="lengthColors" v-on:current-show="setCurrentShow"></schedule-queue>
+        <schedule-queue v-bind:shows="shows" v-bind:length-colors="lengthColors" v-on:current-show="$emit('current-show', $event)"></schedule-queue>
     </div>
     <div class="col-md-6">
         <div class="card" style="border: 0">
@@ -23,21 +23,18 @@
 
 <script>
 module.exports = {
+    props: {
+        currentShowId: String
+    },
     data: function() {
         return {
             lengthColors: ['badge-light', 'badge-primary', 'badge-success', 'badge-warning', 'badge-danger'],
-            shows: window.shows,
-            currentShowID: ''
+            shows: window.shows
         }
     },
     computed: {
         currentShow: function() {
-            return this.shows[window.showIDs.indexOf(this.currentShowID)];
-        }
-    },
-    methods: {
-        setCurrentShow: function(show) {
-            this.currentShowID = show;
+            return this.shows[window.showIDs.indexOf(this.currentShowId)];
         }
     }
 }
