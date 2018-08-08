@@ -69,8 +69,11 @@
             </div>
             <a v-bind:href="'/shows/' + show.id" target="_blank" class="btn btn-primary btn-block mt-3"><i class="fas fa-external-link-alt"></i> Full application</a>
         </div>
-        <div class="card-body d-flex" v-else>
-            No show selected
+        <div class="card-body d-flex align-items-center justify-content-center" v-else>
+            <p class="mb-0 text-center">
+                <strong>No show selected</strong><br>
+                (Click or start dragging a show to view its details here.)
+            </p>
         </div>
     </div>
 </template>
