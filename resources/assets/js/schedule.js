@@ -43,7 +43,10 @@ function setupCalendar() {
 
 function dropEvent(date) {
     const showID = $(this).data('event').id;
-    shows[showIDs.indexOf(showID)].title = 'asdf';
+    var show = showList[showID];
+    show.day = date.format('dddd');
+    show.start = date.format('HH:mm');
+    show.end = moment(date).add(show.preferred_length, 'm').format('HH:mm');
 }
 
 window.enableDragging = function() {

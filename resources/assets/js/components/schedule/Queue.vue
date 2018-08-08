@@ -2,7 +2,7 @@
     <div class="card schedule-full-height">
         <h5 class="card-header">Queue</h5>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item schedule-queue-item" v-for="show in showsWithoutTimes" v-bind:data-show-id="show.id">
+            <li class="list-group-item schedule-queue-item" v-for="show in showsWithoutTimes" v-bind:data-show-id="show.id" v-bind:key="show.id">
                 <h5 class="head-sans-serif mb-0">{{ show.title }}</h5>
                 <p class="mb-0">
                     <span class="badge" v-bind:class="'bg-priority-'+show.priority.charAt(0).toLowerCase()">
