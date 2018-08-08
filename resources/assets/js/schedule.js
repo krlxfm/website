@@ -36,8 +36,14 @@ function setupCalendar() {
         defaultDate: moment(),
         height: function() { return window.innerHeight - 100; },
         editable: true,
-        droppable: true
+        droppable: true,
+        drop: dropEvent
     });
+}
+
+function dropEvent(date) {
+    const showID = $(this).data('event').id;
+    shows[showIDs.indexOf(showID)].title = 'asdf';
 }
 
 window.enableDragging = function() {
@@ -60,7 +66,3 @@ window.enableDragging = function() {
         });
     });
 }
-
-const schedule = new Vue({
-    el: '#fluid-sector'
-});
