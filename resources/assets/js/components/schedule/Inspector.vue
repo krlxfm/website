@@ -1,6 +1,13 @@
 <template>
     <div class="card schedule-short-height" style="line-height: 1.3rem">
-        <h5 class="card-header" v-if="show">{{ show.title }}</h5>
+        <div class="card-header py-2 pl-3 pr-2" v-if="show">
+            <div class="d-flex align-items-center">
+                <h5 class="mb-0 mr-2">{{ show.title }}</h5>
+                <button type="button" class="ml-auto btn btn-sm btn-outline-danger">
+                    <i class="fas fa-calendar-times"></i>
+                </button>
+            </div>
+        </div>
         <h5 class="card-header" v-else>Show Information</h5>
 
         <div class="card-body pt-2" v-if="show">
@@ -35,24 +42,32 @@
                 {{ show.classes.join(', ') }}
             </div>
             <div class="mb-2">
-                <small><strong>CONFLICTS</strong></small><br>
+                <small><strong>OTHER CONFLICTS</strong></small><br>
                 <span v-if="show.conflicts.length == 0">
                     No conflicts declared
                 </span>
-                <span v-else-if="show.conflicts.length == 1">
-                    One conflict declared
-                </span>
-                <span v-else>
-                    {{ show.conflicts.length }} conflicts declared
-                </span>
+                <ul class="pl-4 mb-0" v-else>
+                    <li v-for="conflict in show.conflicts">
+                        {{ conflict.days.join(', ')}}, {{ conflict.start}} - {{ conflict.end}}
+                    </li>
+                </ul>
             </div>
             <div class="mb-2">
-                <small><strong>PREFERENCES</strong></small><br>
-                {{ show.preferences.filter(preference => preference.strength == 1).length }} preferred times<br>
-                {{ show.preferences.filter(preference => preference.strength == 2).length }} strongly preferred times<br>
-                {{ show.preferences.filter(preference => preference.strength == 3).length }} first-choice times
+                <small><strong>PREFERENCES</strong></small>
+                <span v-if="show.preferences.length == 0">No preferences provided</span>
+                <ul class="pl-4 mb-0" v-else>
+                    <li v-for="preference in show.preferences.filter(preference => preference.strength == 3)">
+                        {{ preference.days.join(', ')}}, {{ preference.start}} - {{ preference.end}} (first choice)
+                    </li>
+                    <li v-for="preference in show.preferences.filter(preference => preference.strength == 2)">
+                        {{ preference.days.join(', ')}}, {{ preference.start}} - {{ preference.end}} (strongly preferred)
+                    </li>
+                    <li v-for="preference in show.preferences.filter(preference => preference.strength == 1)">
+                        {{ preference.days.join(', ')}}, {{ preference.start}} - {{ preference.end}} (preferred)
+                    </li>
+                </ul>
             </div>
-            <a href="#" class="btn btn-primary btn-block mt-3"><i class="fas fa-external-link-alt"></i> Full application</a>
+            <a v-bind:href="'/shows/' + show.id" target="_blank" class="btn btn-primary btn-block mt-3"><i class="fas fa-external-link-alt"></i> Full application</a>
         </div>
         <div class="card-body d-flex" v-else>
             No show selected
