@@ -1,7 +1,7 @@
 <template>
 <div class="form-row">
     <div class="col-md-3 d-none d-md-block">
-        <schedule-queue v-bind:shows="shows"></schedule-queue>
+        <schedule-queue v-bind:shows="shows" v-bind:length-colors="lengthColors"></schedule-queue>
     </div>
     <div class="col-md-6">
         <div class="card" style="border: 0">
@@ -16,7 +16,7 @@
                 <strong class="text-success"><i class="fas fa-check"></i> No errors here!</strong>
             </div>
         </div>
-        <schedule-inspector></schedule-inspector>
+        <schedule-inspector v-bind:show="currentShow" v-bind:length-colors="lengthColors"></schedule-inspector>
     </div>
 </div>
 </template>
@@ -25,7 +25,14 @@
 module.exports = {
     data: function() {
         return {
-            shows: window.shows
+            lengthColors: ['badge-light', 'badge-primary', 'badge-success', 'badge-warning', 'badge-danger'],
+            shows: window.shows,
+            currentShowID: 'U2MCQG'
+        }
+    },
+    computed: {
+        currentShow: function() {
+            return this.shows[window.showIDs.indexOf(this.currentShowID)];
         }
     }
 }

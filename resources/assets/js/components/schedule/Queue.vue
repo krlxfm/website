@@ -24,12 +24,8 @@
 
 <script>
 module.exports = {
-    data: function() {
-        return {
-            lengthColors: ['badge-light', 'badge-primary', 'badge-success', 'badge-warning', 'badge-danger']
-        }
-    },
     props: {
+        lengthColors: Array,
         shows: Array
     },
     mounted: function () {
