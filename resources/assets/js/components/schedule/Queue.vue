@@ -32,6 +32,12 @@ module.exports = {
     props: {
         shows: Array
     },
+    mounted: function () {
+        window.enableDragging();
+    },
+    updated: function () {
+        window.enableDragging();
+    },
     computed: {
         showsWithoutTimes: function() {
             return this.shows.filter((show) => {

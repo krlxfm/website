@@ -6,10 +6,6 @@ Vue.component('schedule-builder', require('./components/schedule/Builder.vue'));
 Vue.component('schedule-queue', require('./components/schedule/Queue.vue'));
 Vue.component('schedule-inspector', require('./components/schedule/Inspector.vue'));
 
-const schedule = new Vue({
-    el: '#fluid-sector'
-});
-
 $(document).ready(function() {
     setupCalendar();
     enableDragging();
@@ -30,13 +26,13 @@ function setupCalendar() {
     });
 }
 
-function enableDragging() {
+window.enableDragging = function() {
     $('.schedule-queue-item').each(function() {
         const showID = $(this).data('showId');
         // store data so the calendar knows to render an event upon drop
         $(this).data('event', {
             id: showID,
-            title: shows[showID].title,
+            title: showList[showID].title,
             stick: true
         });
 
@@ -48,3 +44,7 @@ function enableDragging() {
         });
     });
 }
+
+const schedule = new Vue({
+    el: '#fluid-sector'
+});

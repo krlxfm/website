@@ -143,6 +143,7 @@ span.text-smallcaps {
     &.card > .card-body,
     &.card > .list-group-flush {
         overflow-y: scroll;
+        height: 100%;
     }
 }
 
