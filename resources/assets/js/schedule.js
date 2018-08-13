@@ -43,8 +43,6 @@ function setupCalendar() {
         eventDragStart: selectEvent,
         eventResizeStart: selectEvent
     });
-
-    console.log(getEvents());
 }
 
 function parseTime(time) {
