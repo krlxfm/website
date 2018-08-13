@@ -38,7 +38,7 @@ function setupCalendar() {
         editable: true,
         droppable: true,
         drop: dropEvent,
-        events: getEvents(),
+        eventSources: [{ id: 'shows', events: getEvents() }],
         eventClick: selectEvent,
         eventDragStart: selectEvent,
         eventResizeStart: selectEvent
