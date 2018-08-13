@@ -5,7 +5,7 @@
     </div>
     <div class="col-md-6">
         <div class="card" style="border: 0">
-            <div class="card-body p-0">
+            <div class="card-body p-0" id="schedule-builder-parent">
                 <div id="calendar"></div>
             </div>
         </div>

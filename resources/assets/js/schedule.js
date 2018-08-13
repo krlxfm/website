@@ -38,14 +38,47 @@ function setupCalendar() {
         editable: true,
         droppable: true,
         drop: dropEvent,
+        events: getEvents(),
         eventClick: selectEvent,
         eventDragStart: selectEvent,
         eventResizeStart: selectEvent
     });
+
+    console.log(getEvents());
 }
 
-function setCurrentShow(show) {
-    console.log(show);
+function parseTime(time) {
+    const components = time.split(':');
+    return {
+        'hour': parseInt(components[0]),
+        'minute': parseInt(components[1])
+    }
+}
+
+function getEvents() {
+    var showList = [];
+    const weekdayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    window.shows.forEach(show => {
+        if(!show.day || !show.start || !show.end) return true;
+        var showStart = moment().day(0).startOf('day');
+        showStart.add(weekdayMapping.indexOf(show.day), 'days');
+        showStart.set(parseTime(show.start));
+        var showEnd = moment(showStart);
+        showEnd.set(parseTime(show.end));
+        if(showEnd.isSameOrBefore(showStart)) {
+            showEnd.add(1, 'day');
+        }
+        var showData = {
+            id: show.id,
+            title: show.title,
+            color: priorityColors[show.priority.charAt(0).toLowerCase()],
+            textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
+            start: showStart,
+            end: showEnd
+        }
+        showList.push(showData);
+    });
+    return showList;
 }
 
 function selectEvent(calEvent) {

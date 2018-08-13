@@ -158,6 +158,10 @@ span.text-smallcaps {
     }
 }
 
+#schedule-builder-parent {
+    font-size: 13px;
+}
+
 @each $zone, $bgcolor in $priority {
     .svg-bg-priority-#{$zone} {
         fill: $bgcolor;
