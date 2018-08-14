@@ -72,7 +72,10 @@ function selectAndDisplayEvent(calEvent) {
 function displaySchedule(showID) {
     var source = {id: 'base', rendering: 'background', events: []};
     const show = showList[showID];
-    source.events = source.events.concat(calendar.transformConflicts(show));
+    source.events = source.events.concat(calendar.transformConflicts(show.conflicts));
+    source.events = source.events.concat(calendar.transformPreferences(show.preferences));
+
+    console.log(source.events);
 
     $("#calendar").fullCalendar('addEventSource', source);
 }
@@ -99,7 +102,7 @@ window.vueData = {
     methods: {
         setCurrentShow: function(show) {
             this.showID = show;
-            displayShowSchedule(show);
+            displaySchedule(show);
         },
         removeShow: function() {
             if(this.showID) {

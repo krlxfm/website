@@ -38,16 +38,35 @@ exports.transformConflicts = function(set) {
     return transformScheduleIntoEvents(set, 'j');
 }
 
+exports.transformPreferences = function(set) {
+    var events = [];
+    const prefStrengthMap = ['j', 'h', 'f', 'd'];
+    prefStrengthMap.forEach((zone, index) => {
+        events = events.concat(transformScheduleIntoEvents(set.filter(item => item.strength == index), zone));
+    });
+    return events;
+}
+
 function transformScheduleIntoEvents(set, zone) {
     var eventList = [];
     set.forEach(item => {
-        eventList.push({
+        const newEvent = {
             color: priorityColors[zone],
             start: item.start,
             end: endTime(item.start, item.end),
             dow: item.days.map(day => weekdayMapping.indexOf(day))
-        });
+        };
+        eventList.push(newEvent);
+        if(parseInt(newEvent.end.split(':')[0]) >= 24 && newEvent.dow.includes(6)) {
+            eventList.push({
+                color: priorityColors[zone],
+                start: '00:00',
+                end: item.end,
+                dow: [0]
+            });
+        }
     });
+    return eventList;
 };
 
 exports.parseTime = parseTime;
