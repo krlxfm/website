@@ -12,25 +12,13 @@ $(document).ready(function() {
     enableDragging();
 });
 
-const priorityColors = {
-    "a": '#1b1c1d',
-    "b": '#767676',
-    "c": '#6435c9',
-    "d": '#2185d0',
-    "e": '#00b5ad',
-    "f": '#21ba45',
-    "g": '#b5cc18',
-    "h": '#fbbd08',
-    "i": '#f2711c',
-    "j": '#db2828',
-    "s": '#e8e8e8'
-};
+const weekdayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function setupCalendar() {
     $("#calendar").fullCalendar({
         header: false,
         defaultView: 'agendaWeek',
-        columnHeaderFormat: 'dddd',
+        columnHeaderFormat: 'ddd',
         allDaySlot: false,
         businessHours: {dow: [0, 1, 2, 3, 4, 5, 6], start: '06:00', end: '22:00'},
         now: moment().subtract(7, 'd'),
@@ -38,6 +26,7 @@ function setupCalendar() {
         height: function() { return window.innerHeight - 100; },
         editable: true,
         droppable: true,
+        themeSystem: 'bootstrap4',
         drop: dropEvent,
         eventSources: [{ id: 'shows', events: getEvents() }],
         eventClick: selectEvent,
@@ -56,7 +45,6 @@ function parseTime(time) {
 
 function getEvents() {
     var showList = [];
-    const weekdayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     window.shows.forEach(show => {
         if(!show.day || !show.start || !show.end) return true;
         var showStart = moment().day(0).startOf('day');
@@ -70,7 +58,7 @@ function getEvents() {
         var showData = {
             id: show.id,
             title: show.title,
-            color: priorityColors[show.priority.charAt(0).toLowerCase()],
+            color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
             start: showStart,
             end: showEnd
@@ -90,10 +78,20 @@ function displayShowSchedule(showID) {
     var sources = calendar.baseEventSources();
     const show = showList[showID];
     const calendarStart = moment().day(0).startOf('day');
-    const strengthMap = ['none', 'preferred', 'strongly_preferred', 'first_choice'];
     show.preferences.forEach(preference => {
-        console.log(preference);
+        preference.days.forEach(day => {
+            var prefStart = moment().day(weekdayMapping.indexOf(day)).set(parseTime(preference.start));
+            var prefEnd = moment(prefStart).set(parseTime(preference.end));
+            if(prefEnd.isSameOrBefore(prefStart)) prefEnd.add(1, 'day');
+            sources[parseInt(preference.strength) + 1].events.push({
+                start: prefStart,
+                end: prefEnd
+            });
+        })
+    })
 
+    sources.forEach(source => {
+        $("#calendar").fullCalendar('addEventSource', source);
     })
 }
 
@@ -125,7 +123,7 @@ window.enableDragging = function() {
         $(this).data('event', {
             id: showID,
             title: show.title,
-            color: priorityColors[show.priority.charAt(0).toLowerCase()],
+            color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
             duration: '0'+Math.floor(show.preferred_length / 60)+':'+((show.preferred_length % 60) / 10)+'0'
         });
