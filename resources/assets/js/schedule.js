@@ -43,26 +43,32 @@ function parseTime(time) {
     }
 }
 
+function endTime(startTime, endTime) {
+    const rightNow = moment();
+    const parsedEnd = parseTime(endTime);
+    const start = moment(rightNow).set(parseTime(startTime));
+    const end = moment(rightNow).set(parsedEnd);
+    if(end.isSameOrBefore(start)) {
+        return (parsedEnd.hour + 24) + ':' + endTime.split(':')[1];
+    } else {
+        return endTime;
+    }
+}
+
 function getEvents() {
     var showList = [];
     window.shows.forEach(show => {
         if(!show.day || !show.start || !show.end) return true;
-        var showStart = moment().day(0).startOf('day');
-        showStart.add(weekdayMapping.indexOf(show.day), 'days');
-        showStart.set(parseTime(show.start));
-        var showEnd = moment(showStart);
-        showEnd.set(parseTime(show.end));
-        if(showEnd.isSameOrBefore(showStart)) {
-            showEnd.add(1, 'day');
-        }
         var showData = {
             id: show.id,
             title: show.title,
             color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
-            start: showStart,
-            end: showEnd
-        }
+            start: show.start,
+            end: endTime(show.start, show.end),
+            dow: [weekdayMapping.indexOf(show.day)]
+        };
+        console.log(showData.end);
         showList.push(showData);
     });
     return showList;
@@ -81,7 +87,7 @@ function displayShowSchedule(showID) {
     show.preferences.forEach(preference => {
         sources[parseInt(preference.strength) + 1].events.push({
             start: preference.start,
-            end: preference.end,
+            end: endTime(preference.start, preference.end),
             dow: preference.days.map(day => weekdayMapping.indexOf(day))
         });
     })
