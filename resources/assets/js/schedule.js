@@ -72,10 +72,9 @@ function displaySchedule(showID) {
     $("#calendar").fullCalendar('removeEventSource', 'base');
     var source = {id: 'base', rendering: 'background', events: []};
     const show = showList[showID];
-    source.events = source.events.concat(calendar.transformConflicts(show.conflicts));
     source.events = source.events.concat(calendar.transformPreferences(show.preferences));
-
-    console.log(source.events);
+    source.events = source.events.concat(calendar.transformConflicts(show.conflicts));
+    source.events = source.events.concat(calendar.transformClasses(show.classes));
 
     $("#calendar").fullCalendar('addEventSource', source);
 }

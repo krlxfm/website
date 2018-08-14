@@ -18,5 +18,6 @@ var showIDs = {!! json_encode(array_keys($shows)) !!};
 var showList = {!! json_encode($shows) !!};
 var specials = {!! json_encode(config('defaults.special_times')) !!};
 var shows = showIDs.map(show => showList[show]);
+var classTimes = {!! json_encode(config('classes.times')) !!};
 </script>
 @endpush

@@ -34,11 +34,19 @@ function parseTime(time) {
     }
 }
 
-exports.transformConflicts = function(set) {
+exports.transformClasses = function (set) {
+    var eventList = [];
+    set.map(item => window.classTimes[item].times).forEach(classTime => {
+        eventList = eventList.concat(transformScheduleIntoEvents(classTime, 'a'));
+    });
+    return eventList;
+};
+
+exports.transformConflicts = function (set) {
     return transformScheduleIntoEvents(set, 'j');
 }
 
-exports.transformPreferences = function(set) {
+exports.transformPreferences = function (set) {
     var events = [];
     const prefStrengthMap = ['j', 'h', 'f', 'd'];
     prefStrengthMap.forEach((zone, index) => {
