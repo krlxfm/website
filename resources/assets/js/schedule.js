@@ -79,15 +79,11 @@ function displayShowSchedule(showID) {
     const show = showList[showID];
     const calendarStart = moment().day(0).startOf('day');
     show.preferences.forEach(preference => {
-        preference.days.forEach(day => {
-            var prefStart = moment().day(weekdayMapping.indexOf(day)).set(parseTime(preference.start));
-            var prefEnd = moment(prefStart).set(parseTime(preference.end));
-            if(prefEnd.isSameOrBefore(prefStart)) prefEnd.add(1, 'day');
-            sources[parseInt(preference.strength) + 1].events.push({
-                start: prefStart,
-                end: prefEnd
-            });
-        })
+        sources[parseInt(preference.strength) + 1].events.push({
+            start: preference.start,
+            end: preference.end,
+            dow: preference.days.map(day => weekdayMapping.indexOf(day))
+        });
     })
 
     sources.forEach(source => {
