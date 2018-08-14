@@ -61,7 +61,6 @@ function getEvents() {
 
 function selectEvent(calEvent) {
     app.showID = calEvent.id;
-    $("#calendar").fullCalendar('removeEventSource', 'base');
 }
 
 function selectAndDisplayEvent(calEvent) {
@@ -70,6 +69,7 @@ function selectAndDisplayEvent(calEvent) {
 }
 
 function displaySchedule(showID) {
+    $("#calendar").fullCalendar('removeEventSource', 'base');
     var source = {id: 'base', rendering: 'background', events: []};
     const show = showList[showID];
     source.events = source.events.concat(calendar.transformConflicts(show.conflicts));
