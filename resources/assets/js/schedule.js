@@ -29,9 +29,11 @@ function setupCalendar() {
         themeSystem: 'bootstrap4',
         drop: dropEvent,
         eventSources: [{ id: 'shows', events: getEvents() }],
-        eventClick: selectEvent,
+        eventDrop: modifyEvent,
+        eventClick: selectAndDisplayEvent,
+        eventDragStop: selectAndDisplayEvent,
         eventDragStart: selectEvent,
-        eventResizeStart: selectEvent
+        eventResizeStart: selectEvent,
     });
 }
 
@@ -59,16 +61,22 @@ function getEvents() {
     var showList = [];
     window.shows.forEach(show => {
         if(!show.day || !show.start || !show.end) return true;
+        var showStart = moment().day(0).startOf('day');
+        showStart.add(weekdayMapping.indexOf(show.day), 'days');
+        showStart.set(parseTime(show.start));
+        var showEnd = moment(showStart);
+        showEnd.set(parseTime(show.end));
+        if(showEnd.isSameOrBefore(showStart)) {
+            showEnd.add(1, 'day');
+        }
         var showData = {
             id: show.id,
             title: show.title,
             color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
-            start: show.start,
-            end: endTime(show.start, show.end),
-            dow: [weekdayMapping.indexOf(show.day)]
+            start: showStart,
+            end: showEnd
         };
-        console.log(showData.end);
         showList.push(showData);
     });
     return showList;
@@ -76,13 +84,12 @@ function getEvents() {
 
 function selectEvent(calEvent) {
     app.showID = calEvent.id;
-    displayShowSchedule(calEvent.id);
 }
 
-function displayShowSchedule(showID) {
+function selectAndDisplayEvent(calEvent) {
     $("#calendar").fullCalendar('removeEventSources', ['classes', 'conflicts', 'preferred', 'strongly_preferred', 'first_choice']);
     var sources = calendar.baseEventSources();
-    const show = showList[showID];
+    const show = showList[calEvent.id];
     const calendarStart = moment().day(0).startOf('day');
     show.preferences.forEach(preference => {
         sources[parseInt(preference.strength) + 1].events.push({
@@ -103,6 +110,13 @@ function dropEvent(date) {
     show.day = date.format('dddd');
     show.start = date.format('HH:mm');
     show.end = moment(date).add(show.preferred_length, 'm').format('HH:mm');
+}
+
+function modifyEvent(calEvent) {
+    var show = showList[calEvent.id];
+    show.day = calEvent.start.format('dddd');
+    show.start = calEvent.start.format('HH:mm');
+    show.end = calEvent.end).format('HH:mm');
 }
 
 window.vueData = {
