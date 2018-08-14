@@ -12,26 +12,40 @@ const priorityColors = {
     "s": '#e8e8e8'
 };
 
-function createEventSource(id, zone) {
-    return {
-        id: id,
-        rendering: 'background',
-        color: priorityColors[zone],
-        events: []
+const weekdayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function endTime(startTime, endTime) {
+    const rightNow = moment();
+    const parsedEnd = parseTime(endTime);
+    const start = moment(rightNow).set(parseTime(startTime));
+    const end = moment(rightNow).set(parsedEnd);
+    if(end.isSameOrBefore(start)) {
+        return (parsedEnd.hour + 24) + ':' + endTime.split(':')[1];
+    } else {
+        return endTime;
     }
 }
 
-exports.priorityColors = priorityColors;
-
-exports.baseEventSources = function () {
-    const eventTypes = [
-        {name: 'classes', zone: 'a'},
-        {name: 'conflicts', zone: 'j'},
-        {name: 'preferred', zone: 'h'},
-        {name: 'strongly_preferred', zone: 'f'},
-        {name: 'first_choice', zone: 'd'}
-    ];
-    return eventTypes.map(type => {
-        return createEventSource(type.name, type.zone);
-    })
+function parseTime(time) {
+    const components = time.split(':');
+    return {
+        'hour': parseInt(components[0]),
+        'minute': parseInt(components[1])
+    }
 }
+
+exports.transformScheduleIntoEvents = function (set, zone) {
+    var eventList = [];
+    set.forEach(item => {
+        eventList.push({
+            color: priorityColors[zone],
+            start: item.start,
+            end: endTime(item.start, item.end),
+            dow: item.days.map(day => weekdayMapping.indexOf(day))
+        });
+    });
+};
+
+exports.parseTime = parseTime;
+exports.priorityColors = priorityColors;
+exports.weekdayMapping = weekdayMapping;

@@ -12,8 +12,6 @@ $(document).ready(function() {
     enableDragging();
 });
 
-const weekdayMapping = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 function setupCalendar() {
     $("#calendar").fullCalendar({
         header: false,
@@ -31,30 +29,9 @@ function setupCalendar() {
         eventSources: [{ id: 'shows', events: getEvents() }],
         eventDrop: modifyEvent,
         eventClick: selectAndDisplayEvent,
-        eventDragStop: selectAndDisplayEvent,
         eventDragStart: selectEvent,
         eventResizeStart: selectEvent,
     });
-}
-
-function parseTime(time) {
-    const components = time.split(':');
-    return {
-        'hour': parseInt(components[0]),
-        'minute': parseInt(components[1])
-    }
-}
-
-function endTime(startTime, endTime) {
-    const rightNow = moment();
-    const parsedEnd = parseTime(endTime);
-    const start = moment(rightNow).set(parseTime(startTime));
-    const end = moment(rightNow).set(parsedEnd);
-    if(end.isSameOrBefore(start)) {
-        return (parsedEnd.hour + 24) + ':' + endTime.split(':')[1];
-    } else {
-        return endTime;
-    }
 }
 
 function getEvents() {
@@ -62,10 +39,10 @@ function getEvents() {
     window.shows.forEach(show => {
         if(!show.day || !show.start || !show.end) return true;
         var showStart = moment().day(0).startOf('day');
-        showStart.add(weekdayMapping.indexOf(show.day), 'days');
-        showStart.set(parseTime(show.start));
+        showStart.add(calendar.weekdayMapping.indexOf(show.day), 'days');
+        showStart.set(calendar.parseTime(show.start));
         var showEnd = moment(showStart);
-        showEnd.set(parseTime(show.end));
+        showEnd.set(calendar.parseTime(show.end));
         if(showEnd.isSameOrBefore(showStart)) {
             showEnd.add(1, 'day');
         }
@@ -84,24 +61,20 @@ function getEvents() {
 
 function selectEvent(calEvent) {
     app.showID = calEvent.id;
+    $("#calendar").fullCalendar('removeEventSource', 'base');
 }
 
 function selectAndDisplayEvent(calEvent) {
-    $("#calendar").fullCalendar('removeEventSources', ['classes', 'conflicts', 'preferred', 'strongly_preferred', 'first_choice']);
-    var sources = calendar.baseEventSources();
-    const show = showList[calEvent.id];
-    const calendarStart = moment().day(0).startOf('day');
-    show.preferences.forEach(preference => {
-        sources[parseInt(preference.strength) + 1].events.push({
-            start: preference.start,
-            end: endTime(preference.start, preference.end),
-            dow: preference.days.map(day => weekdayMapping.indexOf(day))
-        });
-    })
+    selectEvent(calEvent);
+    displaySchedule(calEvent.id);
+}
 
-    sources.forEach(source => {
-        $("#calendar").fullCalendar('addEventSource', source);
-    })
+function displaySchedule(showID) {
+    var source = {id: 'base', rendering: 'background', events: []};
+    const show = showList[showID];
+    source.events = source.events.concat(calendar.transformScheduleIntoEvents(show.conflicts, 'j'));
+
+    $("#calendar").fullCalendar('addEventSource', source);
 }
 
 function dropEvent(date) {
@@ -116,7 +89,7 @@ function modifyEvent(calEvent) {
     var show = showList[calEvent.id];
     show.day = calEvent.start.format('dddd');
     show.start = calEvent.start.format('HH:mm');
-    show.end = calEvent.end).format('HH:mm');
+    show.end = calEvent.end.format('HH:mm');
 }
 
 window.vueData = {
@@ -127,6 +100,15 @@ window.vueData = {
         setCurrentShow: function(show) {
             this.showID = show;
             displayShowSchedule(show);
+        },
+        removeShow: function() {
+            if(this.showID) {
+                $("#calendar").fullCalendar('removeEvents', this.showID);
+                window.showList[this.showID].day = null;
+                window.showList[this.showID].start = null;
+                window.showList[this.showID].end = null;
+                this.showID = '';
+            }
         }
     }
 }

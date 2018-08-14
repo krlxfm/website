@@ -16,7 +16,7 @@
                 <strong class="text-success"><i class="fas fa-check"></i> No errors here!</strong>
             </div>
         </div>
-        <schedule-inspector v-bind:show="currentShow" v-bind:length-colors="lengthColors"></schedule-inspector>
+        <schedule-inspector v-bind:show="currentShow" v-bind:length-colors="lengthColors" v-on:remove-show="$emit('remove-show')"></schedule-inspector>
     </div>
 </div>
 </template>

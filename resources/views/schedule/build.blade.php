@@ -5,7 +5,7 @@
 @endpush
 
 @section('mid')
-<schedule-builder v-bind:current-show-id="showID" v-on:current-show="setCurrentShow"></schedule-builder>
+<schedule-builder v-bind:current-show-id="showID" v-on:current-show="setCurrentShow" v-on:remove-show="removeShow"></schedule-builder>
 @endsection
 
 @push('topjs')
