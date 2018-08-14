@@ -1,4 +1,5 @@
 require('./bootstrap');
+const calendar = require('./calendar');
 
 window.Vue = require('vue');
 
@@ -80,7 +81,20 @@ function getEvents() {
 }
 
 function selectEvent(calEvent) {
-    app.showID = calEvent.id
+    app.showID = calEvent.id;
+    displayShowSchedule(calEvent.id);
+}
+
+function displayShowSchedule(showID) {
+    $("#calendar").fullCalendar('removeEventSources', ['classes', 'conflicts', 'preferred', 'strongly_preferred', 'first_choice']);
+    var sources = calendar.baseEventSources();
+    const show = showList[showID];
+    const calendarStart = moment().day(0).startOf('day');
+    const strengthMap = ['none', 'preferred', 'strongly_preferred', 'first_choice'];
+    show.preferences.forEach(preference => {
+        console.log(preference);
+
+    })
 }
 
 function dropEvent(date) {
@@ -98,6 +112,7 @@ window.vueData = {
     methods: {
         setCurrentShow: function(show) {
             this.showID = show;
+            displayShowSchedule(show);
         }
     }
 }
