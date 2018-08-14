@@ -34,7 +34,11 @@ function parseTime(time) {
     }
 }
 
-exports.transformScheduleIntoEvents = function (set, zone) {
+exports.transformConflicts = function(set) {
+    return transformScheduleIntoEvents(set, 'j');
+}
+
+function transformScheduleIntoEvents(set, zone) {
     var eventList = [];
     set.forEach(item => {
         eventList.push({

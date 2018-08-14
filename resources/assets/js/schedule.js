@@ -72,24 +72,24 @@ function selectAndDisplayEvent(calEvent) {
 function displaySchedule(showID) {
     var source = {id: 'base', rendering: 'background', events: []};
     const show = showList[showID];
-    source.events = source.events.concat(calendar.transformScheduleIntoEvents(show.conflicts, 'j'));
+    source.events = source.events.concat(calendar.transformConflicts(show));
 
     $("#calendar").fullCalendar('addEventSource', source);
 }
 
 function dropEvent(date) {
-    const showID = $(this).data('event').id;
-    var show = showList[showID];
-    show.day = date.format('dddd');
-    show.start = date.format('HH:mm');
-    show.end = moment(date).add(show.preferred_length, 'm').format('HH:mm');
+    var show = showList[$(this).data('event').id];
+    setShowTime(show, date, moment(date).add(show.preferred_length, 'm'));
 }
 
 function modifyEvent(calEvent) {
-    var show = showList[calEvent.id];
-    show.day = calEvent.start.format('dddd');
-    show.start = calEvent.start.format('HH:mm');
-    show.end = calEvent.end.format('HH:mm');
+    setShowTime(showList[calEvent.id], calEvent.start, calEvent.end);
+}
+
+function setShowTime(show, start, end) {
+    show.day = start.format('dddd');
+    show.start = start.format('HH:mm');
+    show.end = end.format('HH:mm');
 }
 
 window.vueData = {
