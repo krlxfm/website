@@ -116,9 +116,16 @@ function checkNoLongShows(shows) {
 }
 
 function checkNoWeekendTransition(grid) {
-    console.log(grid);
     if(grid[0]["00:00"] && grid[6]["23:30"] && grid[0]["00:00"] == grid[6]["23:30"]) {
         throwSchedulingFault("Shows should change at midnight between Saturday and Sunday", 'warning');
+    }
+}
+
+function checkNoSpringForwardShenanigans(grid) {
+    if(!moment(term.on_air).isDST() && moment(term.off_air).isDST()) {
+        if(grid[0]["02:00"] != grid[0]["02:30"]) {
+            throwSchedulingFault("Due to Spring Forward, don't schedule a change at 2:30 am Sunday", 'warning');
+        }
     }
 }
 
@@ -134,6 +141,7 @@ exports.checkForErrors = function () {
     checkNoConflictOverlaps(calendarShows, 'conflicts');
     checkNoLongShows(calendarShows);
     checkNoWeekendTransition(grid);
+    checkNoSpringForwardShenanigans(grid);
 };
 
 exports.transformClasses = function (set) {
