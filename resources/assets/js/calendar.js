@@ -68,6 +68,7 @@ function checkNoOverlaps(shows) {
             time.add(30, 'm');
         }
     })
+    return grid;
 }
 
 function checkNoConflictOverlaps(shows, field) {
@@ -80,7 +81,7 @@ function checkNoConflictOverlaps(shows, field) {
         }
         var fault = checkConflictSetAgainstShow(conflicts, show);
         if(fault) {
-            throwSchedulingFault("A show is scheduled during a declared " + (field == 'classes' ? 'class' : 'conflict') + " at " + fault.format('dddd hh:mm a'), (field == 'classes' ? 'error' : 'warning'));
+            throwSchedulingFault("A show is scheduled during a declared " + (field == 'classes' ? 'class' : 'conflict') + " at " + fault.format('dddd h:mm a'), (field == 'classes' ? 'error' : 'warning'));
         }
     });
 }
@@ -105,16 +106,26 @@ function checkConflictSetAgainstShow(conflicts, show) {
     return fault;
 }
 
+function checkNoLongShows(shows) {
+    shows.forEach(show => {
+        var diff = show.end.diff(show.start);
+        if(diff > moment.duration(2, 'hours').asMilliseconds()) {
+            throwSchedulingFault("The show starting at " + show.start.format('dddd h:mm a') + " is over two hours long", 'warning');
+        }
+    })
+}
+
 exports.checkForErrors = function () {
     app.controlMessages = {errors: [], warnings: [], suggestions: []};
     var calendarShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
 
     // Errors - these are "show-stoppers" and block publishing.
-    checkNoOverlaps(calendarShows);
+    var grid = checkNoOverlaps(calendarShows);
     checkNoConflictOverlaps(calendarShows, 'classes');
 
     // Warnings - these allow a schedule to publish, but warn you of potentially bad ideas.
     checkNoConflictOverlaps(calendarShows, 'conflicts');
+    checkNoLongShows(calendarShows);
 };
 
 exports.transformClasses = function (set) {
