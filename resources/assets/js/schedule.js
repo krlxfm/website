@@ -98,7 +98,7 @@ function setShowTime(show, start, end) {
 window.vueData = {
     data: {
         showID: '',
-        controlMessages: {errors: [], warnings: [], suggestions: [{message: "First-choice time available"}]}
+        controlMessages: {errors: [], warnings: [], suggestions: []}
     },
     methods: {
         setCurrentShow: function(show) {
