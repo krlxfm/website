@@ -17,8 +17,8 @@ function weeklyGrid() {
     for(var i = 0; i < 7; i++) {
         var dayGrid = {};
         for(var h = 0; h < 24; h++) {
-            dayGrid[h.toString().padStart(2, '0')+':00'] = '';
-            dayGrid[h.toString().padStart(2, '0')+':30'] = '';
+            dayGrid[h.toString().padStart(2, '0')+':00'] = null;
+            dayGrid[h.toString().padStart(2, '0')+':30'] = null;
         }
         grid.push(dayGrid);
     }
@@ -60,7 +60,7 @@ function checkNoOverlaps(shows) {
     shows.forEach(show => {
         var time = moment(show.start);
         while(time.isBefore(show.end)) {
-            if(grid[time.day()][time.format('HH:mm')].length != 0) {
+            if(grid[time.day()][time.format('HH:mm')]) {
                 throwSchedulingFault("Two shows are scheduled simultaneously at "+time.format('dddd h:mm a'), 'error');
             } else {
                 grid[time.day()][time.format('HH:mm')] = show.id;
@@ -115,6 +115,13 @@ function checkNoLongShows(shows) {
     })
 }
 
+function checkNoWeekendTransition(grid) {
+    console.log(grid);
+    if(grid[0]["00:00"] && grid[6]["23:30"] && grid[0]["00:00"] == grid[6]["23:30"]) {
+        throwSchedulingFault("Shows should change at midnight between Saturday and Sunday", 'warning');
+    }
+}
+
 exports.checkForErrors = function () {
     app.controlMessages = {errors: [], warnings: [], suggestions: []};
     var calendarShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
@@ -126,6 +133,7 @@ exports.checkForErrors = function () {
     // Warnings - these allow a schedule to publish, but warn you of potentially bad ideas.
     checkNoConflictOverlaps(calendarShows, 'conflicts');
     checkNoLongShows(calendarShows);
+    checkNoWeekendTransition(grid);
 };
 
 exports.transformClasses = function (set) {
