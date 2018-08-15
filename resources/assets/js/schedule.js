@@ -3,6 +3,7 @@ const calendar = require('./calendar');
 
 window.Vue = require('vue');
 
+Vue.component('schedule-control-panel', require('./components/schedule/ControlPanel.vue'));
 Vue.component('schedule-builder', require('./components/schedule/Builder.vue'));
 Vue.component('schedule-queue', require('./components/schedule/Queue.vue'));
 Vue.component('schedule-inspector', require('./components/schedule/Inspector.vue'));
@@ -96,7 +97,8 @@ function setShowTime(show, start, end) {
 
 window.vueData = {
     data: {
-        showID: ''
+        showID: '',
+        controlMessages: {errors: [], warnings: [], suggestions: [{message: "First-choice time available"}]}
     },
     methods: {
         setCurrentShow: function(show) {

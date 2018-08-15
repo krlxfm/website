@@ -11,11 +11,7 @@
         </div>
     </div>
     <div class="col-md-3 d-none d-md-block">
-        <div class="card mb-3 schedule-control-panel">
-            <div class="card-body">
-                <strong class="text-success"><i class="fas fa-check"></i> No errors here!</strong>
-            </div>
-        </div>
+        <schedule-control-panel v-bind:messages="controlMessages"></schedule-control-panel>
         <schedule-inspector v-bind:show="currentShow" v-bind:length-colors="lengthColors" v-on:remove-show="$emit('remove-show')"></schedule-inspector>
     </div>
 </div>
@@ -24,7 +20,8 @@
 <script>
 module.exports = {
     props: {
-        currentShowId: String
+        currentShowId: String,
+        controlMessages: Object
     },
     data: function() {
         return {

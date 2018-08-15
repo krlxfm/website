@@ -3,7 +3,7 @@
         <div class="card-header py-2 pl-3 pr-2" v-if="show">
             <div class="d-flex align-items-center">
                 <h5 class="mb-0 mr-2">{{ show.title }}</h5>
-                <button type="button" class="ml-auto btn btn-sm btn-outline-danger" v-on:click="$emit('remove-show')">
+                <button type="button" class="ml-auto btn btn-sm btn-outline-danger" v-on:click="$emit('remove-show')" v-if="show.day && show.start && show.end">
                     <i class="fas fa-calendar-times"></i>
                 </button>
             </div>
