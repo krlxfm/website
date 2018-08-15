@@ -93,6 +93,7 @@ function setShowTime(show, start, end) {
     show.day = start.format('dddd');
     show.start = start.format('HH:mm');
     show.end = end.format('HH:mm');
+    calendar.checkForErrors();
 }
 
 window.vueData = {
@@ -112,6 +113,7 @@ window.vueData = {
                 window.showList[this.showID].start = null;
                 window.showList[this.showID].end = null;
                 this.showID = '';
+                calendar.checkForErrors();
             }
         }
     }
