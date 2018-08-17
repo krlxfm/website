@@ -1,3 +1,6 @@
+const unique = require('array-unique');
+const flatten = require('flatten');
+
 const priorityColors = {
     "a": '#1b1c1d',
     "b": '#767676',
@@ -129,6 +132,24 @@ function checkNoSpringForwardShenanigans(grid) {
     }
 }
 
+function check1aMercyRule(shows) {
+    const showsWithEarlyClasses = shows.filter(show => showList[show.id].classes.filter(i => earlyClasses.includes(i)).length > 0);
+    const ecShowsWithEarlyStart = showsWithEarlyClasses.filter(show => show.start.hours() >= 1 && show.end.hours() < 8);
+
+    /*
+     * We now have a list of shows that could be subjected to the 1a Mercy Rule.
+     * For each of these shows, check if their starting day of the week matches
+     * with their early classes. If these match, flag the show.
+     */
+    ecShowsWithEarlyStart.forEach(show => {
+        const myEarlyClasses = showList[show.id].classes.filter(i => earlyClasses.includes(i));
+        const myEarlyDays = myEarlyClasses.map(i => classTimes[i].times.map(t => t.days));
+        if(unique(flatten(myEarlyDays)).includes(show.start.format('dddd'))) {
+            throwSchedulingFault("Due to a same-day early morning class, try to move the " + show.start.format('dddd h:mm a') + " show to a different day or time.", 'warning');
+        }
+    });
+}
+
 exports.checkForErrors = function () {
     app.controlMessages = {errors: [], warnings: [], suggestions: []};
     var calendarShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
@@ -142,6 +163,7 @@ exports.checkForErrors = function () {
     checkNoLongShows(calendarShows);
     checkNoWeekendTransition(grid);
     checkNoSpringForwardShenanigans(grid);
+    check1aMercyRule(calendarShows);
 };
 
 exports.transformClasses = function (set) {
