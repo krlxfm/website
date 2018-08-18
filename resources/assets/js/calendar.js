@@ -150,6 +150,22 @@ function check1aMercyRule(shows) {
     });
 }
 
+function computeDiffs() {
+    var diffs = {};
+    shows.forEach(show => {
+        if(show.start == show.published_start && show.end == show.published_end && show.day == show.published_day) {
+            return true;
+        } else if (!show.start || !show.end || !show.day) {
+            diffs[show.id] = "rm";
+        } else if (!show.published_start || !show.published_end || !show.published_day) {
+            diffs[show.id] = "new";
+        } else {
+            diffs[show.id] = "mv";
+        }
+    });
+    app.diffs = diffs;
+}
+
 exports.checkForErrors = function () {
     app.controlMessages = {errors: [], warnings: [], suggestions: []};
     var allShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
@@ -165,6 +181,8 @@ exports.checkForErrors = function () {
     checkNoWeekendTransition(grid);
     checkNoSpringForwardShenanigans(grid);
     check1aMercyRule(recurringShows);
+
+    computeDiffs();
 };
 
 exports.transformClasses = function (set) {

@@ -3,13 +3,18 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="publish-label">Ready to publish?</h5>
+                <h5 class="modal-title" id="publish-label">Publish Schedule</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Modal Body.
+                <p>Would you like to publish the following changes?</p>
+                <ul>
+                    <li v-for="(action, show) in diffs">
+                        {{ showMessage(show, action) }}
+                    </li>
+                </ul>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -24,3 +29,17 @@
     </div>
 </div>
 </template>
+
+<script>
+module.exports = {
+    props: {
+        diffs: Object
+    },
+    methods: {
+        showMessage: function(show, action) {
+            console.log(window.shows);
+                return "asdf";
+        }
+    }
+}
+</script>

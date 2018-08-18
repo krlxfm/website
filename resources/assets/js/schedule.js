@@ -126,6 +126,7 @@ function setShowTime(show, start, end) {
 window.vueData = {
     data: {
         showID: '',
+        diffs: {},
         controlMessages: {errors: [], warnings: [], suggestions: []}
     },
     methods: {
