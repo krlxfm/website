@@ -7,6 +7,7 @@ window.Vue = require('vue');
 Vue.component('schedule-control-panel', require('./components/schedule/ControlPanel.vue'));
 Vue.component('schedule-builder', require('./components/schedule/Builder.vue'));
 Vue.component('schedule-queue', require('./components/schedule/Queue.vue'));
+Vue.component('schedule-publisher', require('./components/schedule/Publisher.vue'));
 Vue.component('schedule-inspector', require('./components/schedule/Inspector.vue'));
 
 $(document).ready(function() {
