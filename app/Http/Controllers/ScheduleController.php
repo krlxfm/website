@@ -23,7 +23,7 @@ class ScheduleController extends Controller
 
         $times = collect(config('classes.times'));
         $early_classes = $times->filter(function ($value, $key) {
-            return collect($value['times'])->pluck('start')->map(function($value) {
+            return collect($value['times'])->pluck('start')->map(function ($value) {
                 return Carbon::parse($value);
             })->contains(function ($value, $key) {
                 return $value->hour < 9;
