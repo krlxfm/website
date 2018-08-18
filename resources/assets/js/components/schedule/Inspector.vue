@@ -1,6 +1,7 @@
 <template>
     <div class="card schedule-short-height" style="line-height: 1.3rem">
-        <div class="card-header py-2 pl-3 pr-2" v-if="show">
+        <h5 class="card-header" v-if="show && show.name">{{ show.name }}</h5>
+        <div class="card-header py-2 pl-3 pr-2" v-else-if="show">
             <div class="d-flex align-items-center">
                 <h5 class="mb-0 mr-2">{{ show.title }}</h5>
                 <button type="button" class="ml-auto btn btn-sm btn-outline-danger" v-on:click="$emit('remove-show')" v-if="show.day && show.start && show.end">
@@ -10,7 +11,10 @@
         </div>
         <h5 class="card-header" v-else>Show Information</h5>
 
-        <div class="card-body pt-2" v-if="show">
+        <div class="card-body pt-2" v-if="show && show.name">
+            <p class="mb-1"><small class="text-muted">Reserved slots, scheduled separately</small></p>
+        </div>
+        <div class="card-body pt-2" v-else-if="show">
             <p class="mb-1"><small class="text-muted">{{ show.track.name }} | {{ show.id }}</small></p>
             <div class="d-flex align-items-start mb-2">
                 <span class="badge" v-bind:class="'bg-priority-'+show.priority.charAt(0).toLowerCase()" style="margin-top: 2px">

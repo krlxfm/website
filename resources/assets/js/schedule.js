@@ -93,6 +93,8 @@ function selectAndDisplayEvent(calEvent) {
 
 function displaySchedule(showID) {
     $("#calendar").fullCalendar('removeEventSource', 'base');
+
+    if(showID.includes('-')) return true;
     var source = {id: 'base', rendering: 'background', events: []};
     const show = showList[showID];
     source.events = source.events.concat(calendar.transformPreferences(show.preferences));

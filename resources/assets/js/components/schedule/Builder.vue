@@ -26,12 +26,18 @@ module.exports = {
     data: function() {
         return {
             lengthColors: ['badge-light', 'badge-primary', 'badge-success', 'badge-warning', 'badge-danger'],
-            shows: window.shows
+            shows: window.shows,
+            tracks: window.tracks
         }
     },
     computed: {
         currentShow: function() {
-            return this.shows[window.showIDs.indexOf(this.currentShowId)];
+            if(this.currentShowId.includes('-')) {
+                const realTrackID = parseInt(this.currentShowId.split('-')[1]);
+                return this.tracks[window.trackList.indexOf(realTrackID)];
+            } else {
+                return this.shows[window.showIDs.indexOf(this.currentShowId)];
+            }
         }
     }
 }
