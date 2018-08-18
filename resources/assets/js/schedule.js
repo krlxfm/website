@@ -74,7 +74,8 @@ function transformTracks() {
             color: calendar.priorityColors['s'],
             textColor: 'black',
             start: trackStart,
-            end: trackEnd
+            end: trackEnd,
+            editable: false
         }
     });
 }

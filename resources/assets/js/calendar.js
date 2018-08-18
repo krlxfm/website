@@ -152,18 +152,19 @@ function check1aMercyRule(shows) {
 
 exports.checkForErrors = function () {
     app.controlMessages = {errors: [], warnings: [], suggestions: []};
-    var calendarShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
+    var allShows = $("#calendar").fullCalendar('clientEvents', calEvent => calEvent.id != null);
+    var recurringShows = $("#calendar").fullCalendar('clientEvents', calEvent => (calEvent.id != null && !calEvent.id.includes('-')));
 
     // Errors - these are "show-stoppers" and block publishing.
-    var grid = checkNoOverlaps(calendarShows);
-    checkNoConflictOverlaps(calendarShows, 'classes');
+    var grid = checkNoOverlaps(allShows);
+    checkNoConflictOverlaps(recurringShows, 'classes');
 
     // Warnings - these allow a schedule to publish, but warn you of potentially bad ideas.
-    checkNoConflictOverlaps(calendarShows, 'conflicts');
-    checkNoLongShows(calendarShows);
+    checkNoConflictOverlaps(recurringShows, 'conflicts');
+    checkNoLongShows(recurringShows);
     checkNoWeekendTransition(grid);
     checkNoSpringForwardShenanigans(grid);
-    check1aMercyRule(calendarShows);
+    check1aMercyRule(recurringShows);
 };
 
 exports.transformClasses = function (set) {
