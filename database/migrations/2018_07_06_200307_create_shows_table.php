@@ -54,6 +54,15 @@ class CreateShowsTable extends Migration
             // but the date needs to be set.
             $table->date('date')->nullable();
 
+            // Schedule publication: additional information is needed to keep
+            // track of what data has been sent out to Google Calendar, versus
+            // what is being worked on right now.
+            $table->enum('published_day', ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])->nullable();
+            $table->date('published_date')->nullable();
+            $table->string('published_start')->nullable();
+            $table->string('published_end')->nullable();
+            $table->string('gc_show_id')->nullable();
+
             // Additional questions
             $table->text('etc');
         });
