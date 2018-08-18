@@ -32,9 +32,24 @@
             </div>
             <a href="#" class="btn btn-primary btn-block mt-3"><i class="fas fa-external-link-alt"></i> Schedule these shows</a>
         </div>
-        <div class="card-body pt-2" v-else-if="show">
-            <p class="mb-1"><small class="text-muted">{{ show.track.name }} | {{ show.id }}</small></p>
-            <div class="d-flex align-items-start mb-2">
+        <div class="card-body pt-3" v-else-if="show">
+            <p class="mb-0 text-muted">{{ show.track.name }} | {{ show.id }}</p>
+            <p class="mb-0" v-if="!show.day && !show.start && !show.end && !show.published_day && !show.published_start && !show.published_end"></p>
+            <p class="mb-0" v-if="(show.day && show.start && show.end) && !(show.published_day && show.published_start && show.published_end)">
+                <strong class="text-success">New:</strong> {{ showTime(show.day, show.start, show.end) }}
+            </p>
+            <p class="mb-0" v-else-if="!(show.day && show.start && show.end) && (show.published_day && show.published_start && show.published_end)">
+                <strong class="text-danger">Was:</strong> {{ showTime(show.published_day, show.published_start, show.published_end) }}
+            </p>
+            <p class="mb-0" v-else-if="show.day == show.published_day && show.start == show.published_start && show.end == show.published_end">
+                {{ showTime(show.published_day, show.published_start, show.published_end) }}
+            </p>
+            <p class="mb-0" v-else>
+                <strong class="text-primary">Was:</strong> {{ showTime(show.published_day, show.published_start, show.published_end) }}<br>
+                <strong class="text-primary">Now:</strong> {{ showTime(show.day, show.start, show.end) }}
+            </p>
+            <hr>
+            <div class="d-flex align-items-start my-2">
                 <span class="badge" v-bind:class="'bg-priority-'+show.priority.charAt(0).toLowerCase()" style="margin-top: 2px">
                     {{ show.priority }}
                 </span>
@@ -106,6 +121,12 @@ module.exports = {
         return {
             specials: window.specials,
             specialBadges: {y: {color: "success", text: "YES"}, m: {color: "warning", text: "MEH"}, n: {color: "danger", text: "NO"}}
+        }
+    },
+    methods: {
+        showTime(day, start, end) {
+            const today = moment().format('YYYY-MM-DD');
+            return day + ', ' + moment(today + ' ' + start).format('h:mm a') + ' - ' + moment(today + ' ' + end).format('h:mm a');
         }
     },
     props: {
