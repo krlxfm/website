@@ -12,7 +12,25 @@
         <h5 class="card-header" v-else>Show Information</h5>
 
         <div class="card-body pt-2" v-if="show && show.name">
-            <p class="mb-1"><small class="text-muted">Reserved slots, scheduled separately</small></p>
+            <p class="mb-1"><small class="text-muted">Reserved slot, scheduled separately</small></p>
+            <div class="d-flex mb-2 align-items-center">
+                <span>Grants XP</span>
+                <span class="badge badge-success ml-auto" v-if="show.awards_xp">
+                    YES
+                </span>
+                <span class="badge badge-danger ml-auto" v-else>
+                    NO
+                </span>
+            </div>
+            <div class="mb-2">
+                <small><strong>DESCRIPTION</strong></small><br>
+                {{ show.description }}
+            </div>
+            <div class="mb-2">
+                <small><strong>DEFINITION</strong></small><br>
+                {{ show.start_day }}, {{ show.start_time }} - {{ show.end_time }}
+            </div>
+            <a href="#" class="btn btn-primary btn-block mt-3"><i class="fas fa-external-link-alt"></i> Schedule these shows</a>
         </div>
         <div class="card-body pt-2" v-else-if="show">
             <p class="mb-1"><small class="text-muted">{{ show.track.name }} | {{ show.id }}</small></p>
