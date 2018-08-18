@@ -19,7 +19,7 @@
                         </button>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-warning btn-block mt-auto">
+                        <button type="button" class="btn btn-warning btn-block mt-auto" v-on:click="$emit('publish')">
                             <i class="fas fa-cloud-upload-alt"></i> Publish anyway
                         </button>
                     </div>
@@ -34,7 +34,7 @@
                         </button>
                     </div>
                     <div class="col">
-                        <button type="button" class="btn btn-info btn-block mt-auto">
+                        <button type="button" class="btn btn-info btn-block mt-auto" v-on:click="$emit('publish')">
                             <i class="fas fa-cloud-upload-alt"></i> Publish
                         </button>
                     </div>
@@ -42,7 +42,7 @@
             </template>
             <template v-else>
                 <p class="mb-0"><strong class="text-success"><i class="fas fa-check"></i> All good!</strong> Ready to publish.</p>
-                <button type="button" class="btn btn-success btn-block mt-auto">
+                <button type="button" class="btn btn-success btn-block mt-auto" v-on:click="$emit('publish')">
                     <i class="fas fa-cloud-upload-alt"></i> Publish
                 </button>
             </template>

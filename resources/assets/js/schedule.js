@@ -1,5 +1,6 @@
 require('./bootstrap');
 const calendar = require('./calendar');
+const publish = require('./publish');
 
 window.Vue = require('vue');
 
@@ -127,6 +128,9 @@ window.vueData = {
         controlMessages: {errors: [], warnings: [], suggestions: []}
     },
     methods: {
+        publish: function() {
+            publish.publish();
+        },
         setCurrentShow: function(show) {
             this.showID = show;
             displaySchedule(show);
