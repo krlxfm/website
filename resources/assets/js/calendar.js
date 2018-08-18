@@ -98,7 +98,7 @@ function checkConflictSetAgainstShow(conflicts, show) {
             var time = moment().day(day).set(parseTime(conflict.start)).seconds(0);
             var endTime = moment(time).set(parseTime(conflict.end)).seconds(0);
             while(time.isBefore(endTime)) {
-                if(time.isSameOrAfter(show.start.format('YYYY-MM-DD hh:mm')) && time.isBefore(show.end.format('YYYY-MM-DD hh:mm'))) {
+                if(time.isSameOrAfter(show.start.format('YYYY-MM-DD HH:mm')) && time.isBefore(show.end.format('YYYY-MM-DD HH:mm'))) {
                     fault = time;
                     break;
                 }
