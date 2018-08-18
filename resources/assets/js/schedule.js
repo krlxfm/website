@@ -40,41 +40,43 @@ function getEvents() {
     var showList = [];
     window.shows.forEach(show => {
         if(!show.day || !show.start || !show.end) return true;
-        var showStart = moment().day(0).startOf('day');
-        showStart.add(calendar.weekdayMapping.indexOf(show.day), 'days');
-        showStart.set(calendar.parseTime(show.start));
-        var showEnd = moment(showStart);
-        showEnd.set(calendar.parseTime(show.end));
-        if(showEnd.isSameOrBefore(showStart)) {
-            showEnd.add(1, 'day');
-        }
+        const showTimes = parseStartAndEnd(show.day, show.start, show.end);
         var showData = {
             id: show.id,
             title: show.title,
             color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
-            start: showStart,
-            end: showEnd
+            start: showTimes.start,
+            end: showTimes.end
         };
         showList.push(showData);
     });
     return showList.concat(transformTracks());
 }
 
+function parseStartAndEnd(day, start, end) {
+    var startMoment = moment().day(0).startOf('day');
+    startMoment.add(calendar.weekdayMapping.indexOf(day), 'days');
+    startMoment.set(calendar.parseTime(start));
+    var endMoment = moment(startMoment);
+    endMoment.set(calendar.parseTime(end));
+    if(endMoment.isSameOrBefore(startMoment)) {
+        endMoment.add(1, 'day');
+    }
+
+    return {start: startMoment, end: endMoment};
+}
+
 function transformTracks() {
     return tracks.map(track => {
-        var trackStart = moment().day(0).startOf('day');
-        trackStart.add(calendar.weekdayMapping.indexOf(track.start_day), 'days');
-        trackStart.set(calendar.parseTime(track.start_time));
-        var trackEnd = moment(trackStart);
-        trackEnd.set(calendar.parseTime(track.end_time));
+        const trackTimes = parseStartAndEnd(track.start_day, track.start_time, track.end_time);
         return {
             id: 'HOLD-' + track.id,
             title: track.name,
             color: calendar.priorityColors['s'],
             textColor: 'black',
-            start: trackStart,
-            end: trackEnd,
+            start: trackTimes.start,
+            end: trackTimes.end,
             editable: false
         }
     });
