@@ -34,6 +34,7 @@ function setupCalendar() {
         eventDragStart: selectEvent,
         eventResizeStart: selectEvent,
     });
+    calendar.checkForErrors();
 }
 
 function getEvents() {
