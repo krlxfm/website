@@ -3,6 +3,7 @@
 namespace KRLX\Http\Controllers;
 
 use KRLX\Term;
+use KRLX\Track;
 use Carbon\Carbon;
 
 class ScheduleController extends Controller
@@ -29,6 +30,8 @@ class ScheduleController extends Controller
             });
         })->keys();
 
-        return view('schedule.build', compact('term', 'shows', 'early_classes'));
+        $tracks = Track::where([['active', true], ['weekly', false]])->get();
+
+        return view('schedule.build', compact('term', 'shows', 'early_classes', 'tracks'));
     }
 }

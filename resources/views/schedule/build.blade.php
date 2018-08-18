@@ -19,6 +19,7 @@ var showList = {!! json_encode($shows) !!};
 var specials = {!! json_encode(config('defaults.special_times')) !!};
 var shows = showIDs.map(show => showList[show]);
 var classTimes = {!! json_encode(config('classes.times')) !!};
+var tracks = {!! json_encode($tracks) !!};
 var earlyClasses = {!! json_encode($early_classes) !!};
 var term = {
     on_air: "{{ $term->on_air->format('Y-m-d H:i:s') }}",

@@ -58,7 +58,25 @@ function getEvents() {
         };
         showList.push(showData);
     });
-    return showList;
+    return showList.concat(transformTracks());
+}
+
+function transformTracks() {
+    return tracks.map(track => {
+        var trackStart = moment().day(0).startOf('day');
+        trackStart.add(calendar.weekdayMapping.indexOf(track.start_day), 'days');
+        trackStart.set(calendar.parseTime(track.start_time));
+        var trackEnd = moment(trackStart);
+        trackEnd.set(calendar.parseTime(track.end_time));
+        return {
+            id: 'HOLD-' + track.id,
+            title: track.name,
+            color: calendar.priorityColors['s'],
+            textColor: 'black',
+            start: trackStart,
+            end: trackEnd
+        }
+    });
 }
 
 function selectEvent(calEvent) {
