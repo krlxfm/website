@@ -27,8 +27,9 @@ class ScheduleTest extends APITestCase
 
         $request->assertOk();
         $show_updated = Show::find($show->id);
-        $this->assertEquals('Sunday', $show_updated->day)
-             ->assertEquals('12:00', $show_updated->start)
-             ->assertEquals('13:00', $show_updated->end);
+
+        $this->assertEquals('Sunday', $show_updated->day);
+        $this->assertEquals('12:00', $show_updated->start);
+        $this->assertEquals('13:00', $show_updated->end);
     }
 }

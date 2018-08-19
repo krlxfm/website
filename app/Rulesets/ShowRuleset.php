@@ -60,7 +60,6 @@ class ShowRuleset
             'tags.*' => ['string'],
             'preferred_length' => ['integer', 'min:0', 'max:240'],
             'notes' => ['nullable', 'string', 'max:65000'],
-            'date' => ['nullable', 'date'],
         ];
 
         foreach (config('defaults.special_times') as $time => $details) {
