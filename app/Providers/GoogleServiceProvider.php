@@ -9,14 +9,11 @@ use Illuminate\Support\ServiceProvider;
 class GoogleServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap services.
+     * Indicates if loading of the provider is deferred.
      *
-     * @return void
+     * @var bool
      */
-    public function boot()
-    {
-        //
-    }
+    protected $defer = true;
 
     /**
      * Register services.
