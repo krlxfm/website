@@ -35,7 +35,7 @@
         <div class="card-body pt-3" v-else-if="show">
             <p class="mb-0 text-muted">{{ show.track.name }} | {{ show.id }}</p>
             <p class="mb-0" v-if="!show.day && !show.start && !show.end && !show.published_day && !show.published_start && !show.published_end"></p>
-            <p class="mb-0" v-if="(show.day && show.start && show.end) && !(show.published_day && show.published_start && show.published_end)">
+            <p class="mb-0" v-else-if="(show.day && show.start && show.end) && !(show.published_day && show.published_start && show.published_end)">
                 <strong class="text-success">New:</strong> {{ showTime(show.day, show.start, show.end) }}
             </p>
             <p class="mb-0" v-else-if="!(show.day && show.start && show.end) && (show.published_day && show.published_start && show.published_end)">
@@ -126,7 +126,7 @@ module.exports = {
     methods: {
         showTime(day, start, end) {
             const today = moment().format('YYYY-MM-DD');
-            return day + ', ' + moment(today + ' ' + start).format('h:mm a') + ' - ' + moment(today + ' ' + end).format('h:mm a');
+            return day + ', ' + moment(today + ' ' + start + ':00').format('h:mm a') + ' - ' + moment(today + ' ' + end + ':00').format('h:mm a');
         }
     },
     props: {

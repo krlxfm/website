@@ -12,7 +12,19 @@
                 <p>Would you like to publish the following changes?</p>
                 <ul>
                     <li v-for="(action, show) in diffs">
-                        {{ showMessage(show, action) }}
+                        {{ getTitle(show) }}:
+                        <span v-if="action == 'new'">
+                            <strong class="text-success">Publish</strong> on {{ getWorkingTime(show) }}
+                        </span>
+                        <span v-else-if="action == 'rm'">
+                            <strong class="text-danger">Remove</strong> from {{ getPublishedTime(show) }}
+                        </span>
+                        <span v-else-if="action == 'mv'">
+                            <strong class="text-primary">Time change</strong> from {{ getPublishedTime(show) }} to {{ getWorkingTime(show) }}
+                        </span>
+                        <span v-else>
+                            <strong>Do other things</strong> (hey, this is a bug, please open an issue)
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -36,9 +48,23 @@ module.exports = {
         diffs: Object
     },
     methods: {
-        showMessage: function(show, action) {
-            console.log(window.shows);
-                return "asdf";
+        getShow: function(show) {
+            return window.showList[show];
+        },
+        getTitle: function(show) {
+            return this.getShow(show).title;
+        },
+        getWorkingTime: function(show) {
+            const data = this.getShow(show);
+            return this.showTime(data.day, data.start, data.end);
+        },
+        getPublishedTime: function(show) {
+            const data = this.getShow(show);
+            return this.showTime(data.published_day, data.published_start, data.published_end);
+        },
+        showTime(day, start, end) {
+            const today = moment().format('YYYY-MM-DD');
+            return day + ', ' + moment(today + ' ' + start + ':00').format('h:mm a') + ' - ' + moment(today + ' ' + end + ':00').format('h:mm a');
         }
     }
 }
