@@ -3,7 +3,9 @@
 namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
+use KRLX\Jobs\PublishShow;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
 
 class ScheduleController extends Controller
@@ -29,5 +31,32 @@ class ScheduleController extends Controller
         $show->save();
 
         return $show;
+    }
+
+    /**
+     * Dispatch schedule publication jobs to the queue. Returns a response with
+     * HTTP 202 and a pointer to the monitoring route.
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function publish(Request $request)
+    {
+        $request->validate([
+            'publish' => 'required|array|min:1',
+            'publish.*' => ['string', Rule::exists('shows', 'id')->where(function ($query) {
+                $query->where('submitted', true);
+            })]
+        ]);
+
+        foreach($request->input('publish') as $show_id) {
+            $show = Show::find($show_id);
+            // PublishShow::dispatch($show);
+        }
+
+        return response([
+            'job_status' => 'queued',
+            'tasks' => count($request->input('publish')),
+            'monitor' => '/api/v1/schedule/publish'
+        ], 202);
     }
 }
