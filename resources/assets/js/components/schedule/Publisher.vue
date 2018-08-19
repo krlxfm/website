@@ -58,7 +58,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Your schedule changes are currently being published.</p>
+                    <p>{{ currentItem }}</p>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" v-bind:style="{ width: (100 * progress / Object.keys(diffs).length) + '%' }" v-bind:aria-valuenow="progress" aria-valuemin="0" v-bind:aria-valuemax="Object.keys(diffs).length"></div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -72,7 +75,9 @@
 <script>
 module.exports = {
     props: {
-        diffs: Object
+        diffs: Object,
+        currentItem: String,
+        progress: Number
     },
     computed: {
         diffsToPublish: function() {

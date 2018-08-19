@@ -125,6 +125,8 @@ function setShowTime(show, start, end) {
 
 window.vueData = {
     data: {
+        currentItem: '',
+        progress: 0,
         showID: '',
         diffs: {},
         controlMessages: {errors: [], warnings: [], suggestions: []}

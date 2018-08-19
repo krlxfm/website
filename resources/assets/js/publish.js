@@ -4,6 +4,8 @@ exports.showModal = function () {
 
 exports.publishDraft = function () {
     $("#publish").modal('hide');
+    app.progress = 0;
+    app.currentItem = 'Connecting to Google Calendar...';
     $("#publishStatus").modal('show');
 };
 
