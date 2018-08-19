@@ -3,6 +3,7 @@
 /public/hot
 /public/js
 /public/storage
+/storage/google.json
 /storage/*.key
 /vendor
 /.idea

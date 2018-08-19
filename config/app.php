@@ -158,6 +158,7 @@ return [
         KRLX\Providers\AuthServiceProvider::class,
         // KRLX\Providers\BroadcastServiceProvider::class,
         KRLX\Providers\EventServiceProvider::class,
+        KRLX\Providers\GoogleServiceProvider::class,
         KRLX\Providers\RouteServiceProvider::class,
 
     ],
