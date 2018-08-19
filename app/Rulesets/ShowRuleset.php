@@ -61,9 +61,6 @@ class ShowRuleset
             'preferred_length' => ['integer', 'min:0', 'max:240'],
             'notes' => ['nullable', 'string', 'max:65000'],
             'date' => ['nullable', 'date'],
-            'day' => ['nullable', 'string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'],
-            'start' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]'],
-            'end' => ['nullable', 'string', 'regex:([01][0-9]|2[0-3]):[0-5][0-9]'],
         ];
 
         foreach (config('defaults.special_times') as $time => $details) {
