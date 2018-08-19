@@ -130,9 +130,9 @@ window.vueData = {
         controlMessages: {errors: [], warnings: [], suggestions: []}
     },
     methods: {
-        publish: function() {
-            publish.publish();
-        },
+        publish: publish.showModal,
+        publishDraft: publish.publishDraft,
+        publishFinal: publish.publishFinal,
         setCurrentShow: function(show) {
             this.showID = show;
             displaySchedule(show);

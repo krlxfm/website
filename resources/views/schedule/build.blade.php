@@ -6,7 +6,7 @@
 
 @section('mid')
 <schedule-builder v-bind:current-show-id="showID" v-bind:control-messages="controlMessages" v-on:current-show="setCurrentShow" v-on:remove-show="removeShow" v-on:publish="publish"></schedule-builder>
-<schedule-publisher v-bind:diffs="diffs"></schedule-publisher>
+<schedule-publisher v-bind:diffs="diffs" v-on:draft="publishDraft" v-on:final="publishFinal"></schedule-publisher>
 @endsection
 
 @push('topjs')

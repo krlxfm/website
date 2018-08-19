@@ -1,48 +1,68 @@
 <template>
-<div class="modal fade" id="publish" dusk="publish-modal" tabindex="-1" role="dialog" aria-labelledby="publish-label" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="publish-label">Publish Schedule</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div>
+    <div class="modal fade" id="publish" dusk="publish-modal" tabindex="-1" role="dialog" aria-labelledby="publish-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="publish-label">Publish Schedule</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" v-if="diffsToPublish">
+                    <p>Would you like to publish the following changes?</p>
+                    <ul>
+                        <li v-for="(action, show) in diffs">
+                            {{ getTitle(show) }}:
+                            <span v-if="action == 'new'">
+                                <strong class="text-success">Publish</strong> on {{ getWorkingTime(show) }}
+                            </span>
+                            <span v-else-if="action == 'rm'">
+                                <strong class="text-danger">Remove</strong> from {{ getPublishedTime(show) }}
+                            </span>
+                            <span v-else-if="action == 'mv'">
+                                <strong class="text-primary">Time change</strong> from {{ getPublishedTime(show) }} to {{ getWorkingTime(show) }}
+                            </span>
+                            <span v-else>
+                                <strong>Do other things</strong> (hey, this is a bug, please open an issue)
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body" v-else>
+                    <p><strong>The current schedule is up to date and there are no chagnes to publish.</strong></p>
+                    If Google Calendar says differently, you might have accidentally modified an event on Google Calendar. In that case, you can click "Flush" below to reset Google Calendar to match the schedule shown here.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary ml-auto" v-on:click="$emit('draft')" v-if="diffsToPublish">
+                        <i class="fas fa-cloud-upload-alt"></i> Publish Draft
+                    </button>
+                    <button type="button" class="btn btn-danger" v-on:click="$emit('final')" v-if="diffsToPublish">
+                        <i class="fas fa-lock"></i> Publish &amp; Lock
+                    </button>
+                    <button type="button" class="btn btn-danger ml-auto" v-on:click="$emit('flush')" v-else>
+                        <i class="fas fa-sync-alt"></i> Flush
+                    </button>
+                </div>
             </div>
-            <div class="modal-body" v-if="diffsToPublish">
-                <p>Would you like to publish the following changes?</p>
-                <ul>
-                    <li v-for="(action, show) in diffs">
-                        {{ getTitle(show) }}:
-                        <span v-if="action == 'new'">
-                            <strong class="text-success">Publish</strong> on {{ getWorkingTime(show) }}
-                        </span>
-                        <span v-else-if="action == 'rm'">
-                            <strong class="text-danger">Remove</strong> from {{ getPublishedTime(show) }}
-                        </span>
-                        <span v-else-if="action == 'mv'">
-                            <strong class="text-primary">Time change</strong> from {{ getPublishedTime(show) }} to {{ getWorkingTime(show) }}
-                        </span>
-                        <span v-else>
-                            <strong>Do other things</strong> (hey, this is a bug, please open an issue)
-                        </span>
-                    </li>
-                </ul>
-            </div>
-            <div class="modal-body" v-else>
-                <p><strong>The current schedule is up to date and there are no chagnes to publish.</strong></p>
-                If Google Calendar says differently, you might have accidentally modified an event on Google Calendar. In that case, you can click "Flush" below to reset Google Calendar to match the schedule shown here.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary ml-auto" v-on:click="$emit('draft')" v-if="diffsToPublish">
-                    <i class="fas fa-cloud-upload-alt"></i> Publish Draft
-                </button>
-                <button type="button" class="btn btn-danger" v-on:click="$emit('final')" v-if="diffsToPublish">
-                    <i class="fas fa-lock"></i> Publish &amp; Lock
-                </button>
-                <button type="button" class="btn btn-danger ml-auto" v-on:click="$emit('flush')" v-else>
-                    <i class="fas fa-sync-alt"></i> Flush
-                </button>
+        </div>
+    </div>
+    <div class="modal fade" id="publishStatus" dusk="publishStatus-modal" tabindex="-1" role="dialog" aria-labelledby="publishStatus-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="publishStatus-label">Publication in progress</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your schedule changes are currently being published.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
