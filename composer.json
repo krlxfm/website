@@ -9,6 +9,7 @@
         "erusev/parsedown": "^1.7",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.4",
+        "google/apiclient": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "jdenticon/jdenticon": "^0.9.0",
         "laravel/framework": "5.6.*",
