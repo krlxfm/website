@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" v-if="diffsToPublish">
                 <p>Would you like to publish the following changes?</p>
                 <ul>
                     <li v-for="(action, show) in diffs">
@@ -28,13 +28,20 @@
                     </li>
                 </ul>
             </div>
+            <div class="modal-body" v-else>
+                <p><strong>The current schedule is up to date and there are no chagnes to publish.</strong></p>
+                If Google Calendar says differently, you might have accidentally modified an event on Google Calendar. In that case, you can click "Flush" below to reset Google Calendar to match the schedule shown here.
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary ml-auto" v-on:click="$emit('draft')">
+                <button type="button" class="btn btn-primary ml-auto" v-on:click="$emit('draft')" v-if="diffsToPublish">
                     <i class="fas fa-cloud-upload-alt"></i> Publish Draft
                 </button>
-                <button type="button" class="btn btn-danger" v-on:click="$emit('final')">
+                <button type="button" class="btn btn-danger" v-on:click="$emit('final')" v-if="diffsToPublish">
                     <i class="fas fa-lock"></i> Publish &amp; Lock
+                </button>
+                <button type="button" class="btn btn-danger ml-auto" v-on:click="$emit('flush')" v-else>
+                    <i class="fas fa-sync-alt"></i> Flush
                 </button>
             </div>
         </div>
@@ -46,6 +53,11 @@
 module.exports = {
     props: {
         diffs: Object
+    },
+    computed: {
+        diffsToPublish: function() {
+            return Object.keys(this.diffs).length > 0;
+        }
     },
     methods: {
         getShow: function(show) {
