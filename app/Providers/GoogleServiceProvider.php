@@ -37,7 +37,7 @@ class GoogleServiceProvider extends ServiceProvider
             if ($client->isAccessTokenExpired()) {
                 $refreshToken = $client->getRefreshToken();
                 $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                $accessToken["refresh_token"] = $refreshToken;
+                $accessToken['refresh_token'] = $refreshToken;
                 file_put_contents($credentialsPath, json_encode($accessToken));
             }
         }
