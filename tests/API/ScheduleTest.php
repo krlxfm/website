@@ -3,7 +3,6 @@
 namespace Tests\API;
 
 use KRLX\Show;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ScheduleTest extends APITestCase
@@ -22,7 +21,7 @@ class ScheduleTest extends APITestCase
         $request = $this->json('PATCH', "/api/v1/schedule/{$show->id}", [
             'day' => 'Sunday',
             'start' => '12:00',
-            'end' => '13:00'
+            'end' => '13:00',
         ]);
 
         $request->assertOk();

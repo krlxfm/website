@@ -23,10 +23,11 @@ class ScheduleController extends Controller
             'end' => ['sometimes', 'string', 'regex:/([01][0-9]|2[0-3]):[0-5][0-9]/'],
         ]);
 
-        foreach($request->only('date', 'day', 'start', 'end') as $key => $value) {
+        foreach ($request->only('date', 'day', 'start', 'end') as $key => $value) {
             $show->{$key} = $value;
         }
         $show->save();
+
         return $show;
     }
 }
