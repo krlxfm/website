@@ -50,7 +50,7 @@ class ScheduleController extends Controller
 
         foreach($request->input('publish') as $show_id) {
             $show = Show::find($show_id);
-            // PublishShow::dispatch($show);
+            PublishShow::dispatch($show);
         }
 
         return response([

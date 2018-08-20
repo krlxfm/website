@@ -50,6 +50,7 @@ class ScheduleTest extends APITestCase
         $term = factory(Term::class)->create(['accepting_applications' => true]);
         $shows = factory(Show::class, 10)->create([
             'term_id' => $term->id,
+            'submitted' => true,
             'start' => $faker->time('H:i'),
             'end' => $faker->time('H:i'),
             'day' => $faker->date('l'),
@@ -57,7 +58,7 @@ class ScheduleTest extends APITestCase
 
         $publish_array = ['publish' => $shows->pluck('id')->all()];
         $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
-        $request->assertOk();
+        $request->assertStatus(202);
 
         Queue::assertPushed(PublishShow::class, 10);
         foreach($shows as $show) {

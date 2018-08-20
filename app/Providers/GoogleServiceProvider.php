@@ -39,9 +39,13 @@ class GoogleServiceProvider extends ServiceProvider
                 $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
                 $accessToken['refresh_token'] = $refreshToken;
                 file_put_contents($credentialsPath, json_encode($accessToken));
+                $client->setAccessToken($accessToken);
             }
         }
 
+        $service = new Google_Service_Calendar($client);
+
         $this->app->instance('Google_Client', $client);
+        $this->app->instance('Google_Service_Calendar', $service);
     }
 }
