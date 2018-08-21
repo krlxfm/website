@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "krlxfm/website",
+    "description": "The KRLX Website",
+    "keywords": ["krlxfm"],
     "license": "MIT",
     "type": "project",
     "require": {
