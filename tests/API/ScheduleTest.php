@@ -95,7 +95,7 @@ class ScheduleTest extends APITestCase
         $request->assertStatus(202);
 
         $contents = file_get_contents(storage_path('app/publish'));
-        file_put_contents(storage_path('app/publish'), json_encode(['position' => 1, 'job' => $show->id]));
+        file_put_contents(storage_path('app/publish'), json_encode(['position' => 1, 'show' => $show->id]));
 
         $request = $this->json('GET', '/api/v1/schedule/publish');
         file_put_contents(storage_path('app/publish'), $contents);
