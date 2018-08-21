@@ -5,6 +5,7 @@ namespace KRLX\Jobs;
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Google_Service_Calendar_Event;
+use Google_Service_Calendar_EventDateTime;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -50,6 +51,25 @@ class PublishShow implements ShouldQueue
     private function publishNewShow()
     {
         $calendar = resolve('Google_Service_Calendar');
+        $event = new Google_Service_Calendar_Event([
+            'summary' => $this->show->title,
+            'description' => implode(', ', $this->show->hosts->pluck('full_name')->all()),
+        ]);
+
+        $this->setEventTimeDetails($event);
+
+        $this->show->gc_show_id = $calendar->events->insert('primary', $event)->id;
+        $this->syncShowTimes();
+    }
+
+    /**
+     * Sets a Google Calendar Event's start, end, and recurrence based on the
+     * show being saved.
+     *
+     * @return void
+     */
+    private function setEventTimeDetails($event)
+    {
         $start = $this->show->term->on_air->copy()
                                           ->subDay()
                                           ->modify('next '.$this->show->day)
@@ -65,16 +85,18 @@ class PublishShow implements ShouldQueue
         if($recurrence_end->copy()->setTimeFromTimeString($this->show->start) >= $recurrence_end) {
             $recurrence_end->subDay();
         }
-        $event = new Google_Service_Calendar_Event([
-            'summary' => $this->show->title,
-            'description' => implode(', ', $this->show->hosts->pluck('full_name')->all()),
-            'start' => ['dateTime' => $start->toRfc3339String(), 'timeZone' => config('app.timezone')],
-            'end' => ['dateTime' => $end->toRfc3339String(), 'timeZone' => config('app.timezone')],
-            'recurrence' => ['RRULE:FREQ=WEEKLY;UNTIL='.$recurrence_end->format('Ymd\THis\Z')]
-        ]);
 
-        $this->show->gc_show_id = $calendar->events->insert('primary', $event)->id;
-        $this->syncShowTimes();
+        $event_start = new Google_Service_Calendar_EventDateTime;
+        $event_start->setDateTime($start->toRfc3339String());
+        $event_start->setTimeZone(config('app.timezone'));
+        $event->setStart($event_start);
+
+        $event_end = new Google_Service_Calendar_EventDateTime;
+        $event_end->setDateTime($end->toRfc3339String());
+        $event_end->setTimeZone(config('app.timezone'));
+        $event->setEnd($event_end);
+
+        $event->setRecurrence(['RRULE:FREQ=WEEKLY;UNTIL='.$recurrence_end->format('Ymd\THis\Z')]);
     }
 
     /**
@@ -84,6 +106,23 @@ class PublishShow implements ShouldQueue
      */
     private function removeShow()
     {
+        $calendar = resolve('Google_Service_Calendar');
+        $calendar->events->delete('primary', $this->show->gc_show_id);
+        $this->show->gc_show_id = null;
+        $this->syncShowTimes();
+    }
+
+    /**
+     * Updates a calendar event with new details.
+     *
+     * @return void
+     */
+    private function updateShow()
+    {
+        $calendar = resolve('Google_Service_Calendar');
+        $event = $calendar->events->get('primary', $this->show->gc_show_id);
+        $this->setEventTimeDetails($event);
+        $calendar->events->update('primary', $this->show->gc_show_id, $event);
         $this->syncShowTimes();
     }
 
