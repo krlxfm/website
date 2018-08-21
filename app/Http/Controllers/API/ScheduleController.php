@@ -34,6 +34,21 @@ class ScheduleController extends Controller
     }
 
     /**
+     * Get the status of an ongoing publish.
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function status()
+    {
+        $data = array_wrap(json_decode(file_get_contents(storage_path('app/publish')), true));
+        if(!isset($data['show']) or !isset($data['position']) or $data['position'] == 0) {
+            return response(null, 204);
+        } else {
+            return response($data);
+        }
+    }
+
+    /**
      * Dispatch schedule publication jobs to the queue. Returns a response with
      * HTTP 202 and a pointer to the monitoring route.
      *
@@ -48,7 +63,7 @@ class ScheduleController extends Controller
             })]
         ]);
 
-        file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')) + 1, 'job' => '']));
+        file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')), 'job' => '']));
 
         foreach($request->input('publish') as $show_id) {
             $show = Show::find($show_id);

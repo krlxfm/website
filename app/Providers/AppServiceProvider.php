@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             $body = unserialize($event->job->payload()['data']['command']);
             if($event->job->resolveName() == 'KRLX\Jobs\PublishShow') {
                 $data = array_wrap(json_decode(file_get_contents(storage_path('app/publish')), true));
-                $data['job'] = $body->show->id;
+                $data['show'] = $body->show->id;
                 if(array_key_exists('position', $data)) {
                     $data['position'] += 1;
                 } else {
