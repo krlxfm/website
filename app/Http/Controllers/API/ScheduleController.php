@@ -48,6 +48,8 @@ class ScheduleController extends Controller
             })]
         ]);
 
+        file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')) + 1, 'job' => '']));
+
         foreach($request->input('publish') as $show_id) {
             $show = Show::find($show_id);
             PublishShow::dispatch($show);

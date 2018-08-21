@@ -67,4 +67,35 @@ class ScheduleTest extends APITestCase
             });
         }
     }
+
+    /**
+     * Test the responses from the publication progress monitor.
+     *
+     * @return void
+     */
+    public function testSchedulePublishMonitorProgress()
+    {
+        Queue::fake();
+        $faker = $this->faker();
+
+        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $show = factory(Show::class)->create([
+            'term_id' => $term->id,
+            'submitted' => true,
+            'start' => $faker->time('H:i'),
+            'end' => $faker->time('H:i'),
+            'day' => $faker->date('l'),
+        ]);
+
+        $request = $this->json('GET', '/api/v1/schedule/publish');
+        $request->assertStatus(204);
+
+        $publish_array = ['publish' => [$show->id]];
+        $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
+        $request->assertStatus(202);
+
+        $request = $this->json('GET', '/api/v1/schedule/publish');
+        $request->assertStatus(200)
+                ->assertJson(['show' => $show->id]);
+    }
 }
