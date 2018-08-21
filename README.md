@@ -30,6 +30,9 @@ npm install
 npm run dev
 ```
 
+If you are upgrading an existing installation, you should also run `php artisan clear-compiled` after an upgrade.
+Some of the Google services in particular like to cache themselves a little too aggressively.
+
 Note that this is a PHP/Laravel project, not Node.
 Node/npm are required to compile assets, but not run the site itself.
 

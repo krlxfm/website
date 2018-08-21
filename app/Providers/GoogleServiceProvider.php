@@ -9,43 +9,41 @@ use Illuminate\Support\ServiceProvider;
 class GoogleServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
      * Register services.
      *
      * @return void
      */
     public function register()
     {
-        $client = new Google_Client();
-        $client->setApplicationName(config('app.name'));
-        $client->setScopes(implode(' ', [Google_Service_Calendar::CALENDAR]));
-        $client->setClientId(config('services.google_calendar.client_id'));
-        $client->setClientSecret(config('services.google_calendar.client_secret'));
-        $client->setRedirectUri(config('services.google_calendar.redirect'));
-        $client->setAccessType('offline');
+        $this->app->bind('Google_Client', function($app) {
+            $config = [
+                'application_name' => config('app.name'),
+                'client_id' => config('services.google_calendar.client_id'),
+                'client_secret' => config('services.google_calendar.client_secret'),
+                'redirect_uri' => config('services.google_calendar.redirect'),
+                'access_type' => 'offline',
+            ];
+            $client = new Google_Client($config);
+            $client->setScopes(implode(' ', [Google_Service_Calendar::CALENDAR]));
 
-        $credentialsPath = storage_path('google.json');
-        if (file_exists($credentialsPath)) {
-            $accessToken = json_decode(file_get_contents($credentialsPath), true);
-            $client->setAccessToken($accessToken);
-            if ($client->isAccessTokenExpired()) {
-                $refreshToken = $client->getRefreshToken();
-                $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
-                $accessToken['refresh_token'] = $refreshToken;
-                file_put_contents($credentialsPath, json_encode($accessToken));
+            $credentialsPath = storage_path('google.json');
+            if (file_exists($credentialsPath)) {
+                $accessToken = json_decode(file_get_contents($credentialsPath), true);
                 $client->setAccessToken($accessToken);
+                if ($client->isAccessTokenExpired()) {
+                    $refreshToken = $client->getRefreshToken();
+                    $accessToken = $client->fetchAccessTokenWithRefreshToken($refreshToken);
+                    $accessToken['refresh_token'] = $refreshToken;
+                    file_put_contents($credentialsPath, json_encode($accessToken));
+                    $client->setAccessToken($accessToken);
+                }
             }
-        }
 
-        $service = new Google_Service_Calendar($client);
+            return $client;
+        });
 
-        $this->app->instance('Google_Client', $client);
-        $this->app->instance('Google_Service_Calendar', $service);
+        $this->app->bind('Google_Service_Calendar', function($app) {
+            return new Google_Service_Calendar($app->make('Google_Client'));
+        });
     }
 }

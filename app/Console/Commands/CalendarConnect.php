@@ -38,8 +38,10 @@ class CalendarConnect extends Command
      */
     public function handle(Google_Client $client)
     {
-        if (! env('GOOGLE_CLIENT_ID') or ! env('GOOGLE_CLIENT_SECRET') or ! env('GOOGLE_REDIRECT_URL')) {
-            $this->error('Google credentials are missing! Please check your .env and ensure that GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REDIRECT_URL have all been populated.');
+        $client = resolve('Google_Client');
+
+        if (! env('GOOGLE_CALENDAR_CLIENT_ID') or ! env('GOOGLE_CALENDAR_CLIENT_SECRET') or ! env('GOOGLE_CALENDAR_REDIRECT_URL')) {
+            $this->error('Google credentials are missing! Please check your .env and ensure that GOOGLE_CALENDAR_CLIENT_ID, GOOGLE_CALENDAR_CLIENT_SECRET, and GOOGLE_CALENDAR_REDIRECT_URL have all been populated.');
 
             return 40;
         }

@@ -15,7 +15,6 @@ class PublishShow implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $show;
-    public $calendar;
 
     /**
      * Create a new job instance.
@@ -24,7 +23,6 @@ class PublishShow implements ShouldQueue
      */
     public function __construct(Show $show)
     {
-        $this->calendar = resolve('Google_Service_Calendar');
         $this->show = $show;
     }
 
@@ -51,10 +49,11 @@ class PublishShow implements ShouldQueue
      */
     private function publishNewShow()
     {
+        $calendar = resolve('Google_Service_Calendar');
         $start = $this->show->term->on_air->copy()
-                                          ->setTimeFromTimeString($this->show->start)
                                           ->subDay()
-                                          ->modify('next '.$this->show->day);
+                                          ->modify('next '.$this->show->day)
+                                          ->setTimeFromTimeString($this->show->start);
         if($start <= $this->show->term->on_air) {
             $start->addWeek();
         }
@@ -62,15 +61,20 @@ class PublishShow implements ShouldQueue
         if($end <= $start) {
             $end->addDay();
         }
+        $recurrence_end = $this->show->term->off_air->copy()->addDay();
+        if($recurrence_end->copy()->setTimeFromTimeString($this->show->start) >= $recurrence_end) {
+            $recurrence_end->subDay();
+        }
         $event = new Google_Service_Calendar_Event([
             'summary' => $this->show->title,
             'description' => implode(', ', $this->show->hosts->pluck('full_name')->all()),
-            'start' => ['dateTime' => $start->toRfc3339String()],
-            'end' => ['dateTime' => $end->toRfc3339String()],
+            'start' => ['dateTime' => $start->toRfc3339String(), 'timeZone' => config('app.timezone')],
+            'end' => ['dateTime' => $end->toRfc3339String(), 'timeZone' => config('app.timezone')],
+            'recurrence' => ['RRULE:FREQ=WEEKLY;UNTIL='.$recurrence_end->format('Ymd\THis\Z')]
         ]);
 
-        $result = $this->calendar->events->insert('primary', $event);
-        dump($result);
+        $this->show->gc_show_id = $calendar->events->insert('primary', $event)->id;
+        $this->syncShowTimes();
     }
 
     /**
@@ -80,9 +84,19 @@ class PublishShow implements ShouldQueue
      */
     private function removeShow()
     {
-        $this->show->published_day = null;
-        $this->show->published_start = null;
-        $this->show->published_end = null;
+        $this->syncShowTimes();
+    }
+
+    /**
+     * Sync a show's "published" times to its "working" times.
+     *
+     * @return void
+     */
+    private function syncShowTimes()
+    {
+        $this->show->published_day = $this->show->day;
+        $this->show->published_start = $this->show->start;
+        $this->show->published_end = $this->show->end;
         $this->show->save();
     }
 }
