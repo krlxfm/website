@@ -5,9 +5,9 @@ namespace KRLX\Jobs;
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Google_Service_Calendar_Event;
-use Google_Service_Calendar_EventDateTime;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Google_Service_Calendar_EventDateTime;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
@@ -34,9 +34,9 @@ class PublishShow implements ShouldQueue
      */
     public function handle()
     {
-        if(!$this->show->gc_show_id) {
+        if (! $this->show->gc_show_id) {
             $this->publishNewShow();
-        } else if (!$this->show->day or !$this->show->start or !$this->show->end) {
+        } elseif (! $this->show->day or ! $this->show->start or ! $this->show->end) {
             $this->removeShow();
         } else {
             $this->updateShow();
@@ -74,15 +74,15 @@ class PublishShow implements ShouldQueue
                                           ->subDay()
                                           ->modify('next '.$this->show->day)
                                           ->setTimeFromTimeString($this->show->start);
-        if($start <= $this->show->term->on_air) {
+        if ($start <= $this->show->term->on_air) {
             $start->addWeek();
         }
         $end = $start->copy()->setTimeFromTimeString($this->show->end);
-        if($end <= $start) {
+        if ($end <= $start) {
             $end->addDay();
         }
         $recurrence_end = $this->show->term->off_air->copy()->addDay();
-        if($recurrence_end->copy()->setTimeFromTimeString($this->show->start) >= $recurrence_end) {
+        if ($recurrence_end->copy()->setTimeFromTimeString($this->show->start) >= $recurrence_end) {
             $recurrence_end->subDay();
         }
 

@@ -21,10 +21,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Queue::before(function (JobProcessing $event) {
             $body = unserialize($event->job->payload()['data']['command']);
-            if($event->job->resolveName() == 'KRLX\Jobs\PublishShow') {
+            if ($event->job->resolveName() == 'KRLX\Jobs\PublishShow') {
                 $data = array_wrap(json_decode(file_get_contents(storage_path('app/publish')), true));
                 $data['show'] = $body->show->id;
-                if(array_key_exists('position', $data)) {
+                if (array_key_exists('position', $data)) {
                     $data['position'] += 1;
                 } else {
                     $data['position'] = 1;
@@ -34,9 +34,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Queue::after(function (JobProcessed $event) {
-            if($event->job->resolveName() == 'KRLX\Jobs\PublishShow') {
+            if ($event->job->resolveName() == 'KRLX\Jobs\PublishShow') {
                 $data = array_wrap(json_decode(file_get_contents(storage_path('app/publish')), true));
-                if(isset($data['position']) and isset($data['max']) and $data['position'] == $data['max']) {
+                if (isset($data['position']) and isset($data['max']) and $data['position'] == $data['max']) {
                     file_put_contents(storage_path('app/publish'), json_encode([]));
                 }
             }

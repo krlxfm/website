@@ -41,7 +41,7 @@ class ScheduleController extends Controller
     public function status()
     {
         $data = array_wrap(json_decode(file_get_contents(storage_path('app/publish')), true));
-        if(!isset($data['show']) or !isset($data['position']) or $data['position'] == 0) {
+        if (! isset($data['show']) or ! isset($data['position']) or $data['position'] == 0) {
             return response(null, 204);
         } else {
             return response($data);
@@ -60,12 +60,12 @@ class ScheduleController extends Controller
             'publish' => 'required|array|min:1',
             'publish.*' => ['string', Rule::exists('shows', 'id')->where(function ($query) {
                 $query->where('submitted', true);
-            })]
+            })],
         ]);
 
         file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')), 'job' => '']));
 
-        foreach($request->input('publish') as $show_id) {
+        foreach ($request->input('publish') as $show_id) {
             $show = Show::find($show_id);
             PublishShow::dispatch($show);
         }
@@ -73,7 +73,7 @@ class ScheduleController extends Controller
         return response([
             'job_status' => 'queued',
             'tasks' => count($request->input('publish')),
-            'monitor' => '/api/v1/schedule/publish'
+            'monitor' => '/api/v1/schedule/publish',
         ], 202);
     }
 }

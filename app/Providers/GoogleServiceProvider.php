@@ -15,7 +15,7 @@ class GoogleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('Google_Client', function($app) {
+        $this->app->bind('Google_Client', function ($app) {
             $config = [
                 'application_name' => config('app.name'),
                 'client_id' => config('services.google_calendar.client_id'),
@@ -42,7 +42,7 @@ class GoogleServiceProvider extends ServiceProvider
             return $client;
         });
 
-        $this->app->bind('Google_Service_Calendar', function($app) {
+        $this->app->bind('Google_Service_Calendar', function ($app) {
             return new Google_Service_Calendar($app->make('Google_Client'));
         });
     }

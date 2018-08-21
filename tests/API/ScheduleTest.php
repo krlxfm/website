@@ -2,8 +2,8 @@
 
 namespace Tests\API;
 
-use KRLX\Term;
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\Jobs\PublishShow;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -61,7 +61,7 @@ class ScheduleTest extends APITestCase
         $request->assertStatus(202);
 
         Queue::assertPushed(PublishShow::class, 10);
-        foreach($shows as $show) {
+        foreach ($shows as $show) {
             Queue::assertPushed(PublishShow::class, function ($job) use ($show) {
                 return $job->show->id === $show->id;
             });
