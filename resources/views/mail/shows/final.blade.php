@@ -14,9 +14,12 @@ The best way to do this is to email djs@krlx.org a couple days before your show.
 Once you have secured a cover, it is common courtesy to let everyone know by replying to your original message.
 _Note that covers must be active DJs — that is, they have to be a host on at least one show this term. Students who do not have a show this term can't cover for you._
 
-**Policy reminders:** While all of the points in the membership agreement are important, we'd like to remind you of a few pertinent items as you prepare for your first show:
+## Policy reminders
+
+While all of the points in the membership agreement are important, we'd like to remind you of a few pertinent items as you prepare for your first show:
 
 - Please arrive on time, every week. Missing or arriving late to too many shows may be grounds for experience point withholding, suspension from KRLX, or other sanctions.
+- Fill out operations logs as soon as you arrive, and song logs at the beginning of each song you play. These are both legal requirements and you may be charged with a missed show if you fail to complete them accurately.
 - Do not leave the studio unattended at any time, unless the building is being evacuated. This is **ILLEGAL** and will result in immediate termination if caught.
 - No food in the studio, and no controlled substances (including alcohol) in the station.
 - If you notice any equipment malfunctioning, you are required to inform an engineer immediately. If the problem is an emergency (that is, preventing you from legally broadcasting), follow the directions posted in the studio to get in touch with the engineer(s) on call.
@@ -25,6 +28,8 @@ _Note that covers must be active DJs — that is, they have to be a host on at 
   - Apple Music: No streaming from the automated or live radio stations. KRLX pays for a subscription, so please use it as much as you need.
   - YouTube and SoundCloud: Should not be used except as a last resort. If you are streaming from your own device, please ensure that you have an ad blocker or have YouTube Premium.
 - Remember that all material broadcasted on KRLX can be recorded and archived.
+
+## Contact information
 
 **If the show after you is running late:** please try to get a hold of them first before calling the emergency cover line. The phone numbers of the hosts of the show after yours are:
 
@@ -40,6 +45,9 @@ If you can't get a hold of the next show, and it's been at least five minutes si
 - {{ $dj->name }}: {{ $dj->phone_number }}
 @endforeach
 
+Once again, congratulations and welcome aboard!
+Please let us know if you have any questions before we go on air!
+
 Thanks,<br>
-{{ config('app.name') }}
+{{ config('app.name') }} Scheduling Team
 @endcomponent
