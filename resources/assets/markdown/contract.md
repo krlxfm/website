@@ -10,6 +10,10 @@ We recognize that this agreement has a lot of serious-sounding stuff in it, and 
 Most shows have no issues and have a great time on air, and we hope this is the case for you too.
 If you have any questions, please contact the Compliance Director.
 
+While we stress the importance of maintaining legal operations, your safety comes before the radio.
+If at any time you feel unsafe or threatened in the station, call Security or Northfield Police (and put on a long playlist if you can).
+The legal address of the building is posted in the studio in case you need it.
+
 ## Prohibited content
 
 Federal broadcasting guidelines, and the structure of the KRLX broadcasting license, restrict some content from the air.
@@ -136,6 +140,10 @@ Controlled substances, including alcohol, tobacco, or other drugs, are not allow
 
 We reserve the right to record and archive shows.
 We may, at our discretion, make your tapes available to you.
+
+You are responsible for maintaining station security while on the air.
+This means the front door to the station must be kept closed at all times (Board members may prop the door open during maintenance periods, large events, or open houses).
+All Carleton students have 24-hour OneCard access to the station and must tap in for entry.
 
 All DJs must be trained by the Compliance Director at the start of their career.
 DJs must be re-trained if they have been inactive for one year or longer, or if directed by the Board.
