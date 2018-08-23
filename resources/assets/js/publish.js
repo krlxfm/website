@@ -3,16 +3,21 @@ exports.showModal = function () {
 };
 
 exports.publishDraft = function () {
+    startPublication(false);
+};
+
+function startPublication(isFinal) {
     $("#publish").modal('hide');
     $("#publish-progress-bar").removeClass('bg-success');
     app.progress = 0;
     app.currentItem = 'Connecting to Google Calendar...';
     axios.patch('/api/v1/schedule/publish', {
-        'publish': Object.keys(app.diffs)
+        'publish': Object.keys(app.diffs),
+        'final': isFinal
     });
     window.publishStatusTimer = setInterval(app.checkPublishStatus, 1500);
     $("#publishStatus").modal('show');
-};
+}
 
 exports.checkPublishStatus = function () {
     axios.get('/api/v1/schedule/publish')
