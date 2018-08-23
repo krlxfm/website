@@ -3,16 +3,17 @@ exports.showModal = function () {
 };
 
 exports.publishDraft = function () {
-    if(app.controlMessages.warnings.count > 0) {
+    if(app.controlMessages.warnings.length > 0) {
         swal({
             icon: 'warning',
             title: 'Ignore warning?',
-            text: app.controlMessages.warnings[0].message + '. Are you sure you want to publish the schedule as is?',
+            text: 'The schedule currently has ' + app.controlMessages.warnings.length + ' active warning(s). Are you sure you want to publish the schedule with these warnings?',
             buttons: true,
             dangerMode: true
         });
+    } else {
+        startPublication(false);
     }
-    startPublication(false);
 };
 
 function startPublication(isFinal) {
