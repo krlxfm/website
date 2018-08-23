@@ -137,6 +137,7 @@ window.vueData = {
         controlMessages: {errors: [], warnings: [], suggestions: []}
     },
     methods: {
+        checkPublishStatus: publish.checkPublishStatus,
         publish: publish.showModal,
         publishDraft: publish.publishDraft,
         publishFinal: publish.publishFinal,

@@ -60,7 +60,7 @@
                 <div class="modal-body">
                     <p>{{ currentItem }}</p>
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" v-bind:style="{ width: (100 * progress / Object.keys(diffs).length) + '%' }" v-bind:aria-valuenow="progress" aria-valuemin="0" v-bind:aria-valuemax="Object.keys(diffs).length"></div>
+                        <div class="progress-bar" id="publish-progress-bar" role="progressbar" v-bind:style="{ width: (100 * progress / (1 + Object.keys(diffs).length)) + '%' }" v-bind:aria-valuenow="progress" aria-valuemin="0" v-bind:aria-valuemax="1 + Object.keys(diffs).length"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

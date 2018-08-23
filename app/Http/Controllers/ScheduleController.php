@@ -18,7 +18,7 @@ class ScheduleController extends Controller
         if ($term == null) {
             $term = Term::orderByDesc('on_air')->first();
         }
-        $show_data = $term->showsInPriorityOrder(true);
+        $show_data = $term->showsInPriorityOrder(true)->where('submitted', true);
         $shows = array_combine($show_data->pluck('id')->all(), $show_data->all());
 
         $times = collect(config('classes.times'));
