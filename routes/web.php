@@ -27,13 +27,12 @@ Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('shows', 'ShowController@my')->name('shows.my');
+    Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
+    Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
+    Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
 
     Route::middleware('contract')->group(function () {
-        Route::get('shows', 'ShowController@my')->name('shows.my');
-        Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
-
-        Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
-        Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
         Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
         Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
 
@@ -43,9 +42,9 @@ Route::middleware('auth')->group(function () {
         Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
         Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
         Route::post('shows', 'ShowController@store')->name('shows.store');
-
-        Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
     });
+
+    Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
 
     Route::get('contract', 'PointController@contract')->name('legal.contract');
     Route::post('contract', 'PointController@sign');

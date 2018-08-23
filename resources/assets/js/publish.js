@@ -3,6 +3,15 @@ exports.showModal = function () {
 };
 
 exports.publishDraft = function () {
+    if(app.controlMessages.warnings.count > 0) {
+        swal({
+            icon: 'warning',
+            title: 'Ignore warning?',
+            text: app.controlMessages.warnings[0].message + '. Are you sure you want to publish the schedule as is?',
+            buttons: true,
+            dangerMode: true
+        });
+    }
     startPublication(false);
 };
 
