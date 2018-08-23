@@ -10,6 +10,11 @@ exports.publishDraft = function () {
             text: 'The schedule currently has ' + app.controlMessages.warnings.length + ' active warning(s). Are you sure you want to publish the schedule with these warnings?',
             buttons: true,
             dangerMode: true
+        })
+        .then(result => {
+            if(result) {
+                startPublication(false);
+            }
         });
     } else {
         startPublication(false);
@@ -37,7 +42,7 @@ exports.checkPublishStatus = function () {
             const show = window.showList[response.data.show];
             const showActions = {'new': 'Publishing', 'mv': 'Updating', 'rm': 'Removing'};
             app.currentItem = showActions[app.diffs[show.id]] + ' ' + show.title + '...';
-        } else if (app.progress != 0) {
+        } else if (app.progress != 0 || Object.keys(app.diffs).length == 1) {
             app.progress = 1 + Object.keys(app.diffs).length;
             app.currentItem = 'Finished!';
             $("#publish-progress-bar").addClass('bg-success');
