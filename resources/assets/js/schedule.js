@@ -117,9 +117,14 @@ function modifyEvent(calEvent) {
 }
 
 function setShowTime(show, start, end) {
-    show.day = start.format('dddd');
-    show.start = start.format('HH:mm');
-    show.end = end.format('HH:mm');
+    show.day = start ? start.format('dddd') : null;
+    show.start = start ? start.format('HH:mm') : null;
+    show.end = end ? end.format('HH:mm') : null;
+    axios.patch('/api/v1/schedule/' + show.id, {
+        start: show.start,
+        end: show.end,
+        day: show.day
+    });
     calendar.checkForErrors();
 }
 
@@ -142,11 +147,8 @@ window.vueData = {
         removeShow: function() {
             if(this.showID) {
                 $("#calendar").fullCalendar('removeEvents', this.showID);
-                window.showList[this.showID].day = null;
-                window.showList[this.showID].start = null;
-                window.showList[this.showID].end = null;
+                setShowTime(window.showList[this.showID], null, null)
                 this.showID = '';
-                calendar.checkForErrors();
             }
         }
     }

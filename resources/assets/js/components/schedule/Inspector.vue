@@ -90,7 +90,7 @@
                 </ul>
             </div>
             <div class="mb-2">
-                <small><strong>OTHER PREFERENCES</strong></small>
+                <small><strong>OTHER PREFERENCES</strong></small><br>
                 <span v-if="show.preferences.length == 0">No preferences provided</span>
                 <ul class="pl-4 mb-0" v-else>
                     <li v-for="preference in show.preferences.filter(preference => preference.strength == 3)">
