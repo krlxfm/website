@@ -4,7 +4,7 @@
 Thanks for submitting your {{ $show->track->name }} show _{{ $show->title }}_.
 We are pleased to inform you that your show has been assigned a time!
 
-Your **INITIAL** time is **{{ $show->day }}s, {{ $show->start->format('g:i a') }} to {{ $show->end->format('g:i a') }}.** Your first show will be {{ $first_show }}.
+Your **INITIAL** time is **{{ $show->day }}s, {{ \Carbon\Carbon::parse($show->start)->format('g:i a') }} to {{ \Carbon\Carbon::parse($show->end)->format('g:i a') }}.** Your first show will be {{ $first_show->format('l, F j') }}.
 
 Other important dates:
 
