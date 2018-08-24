@@ -1,12 +1,12 @@
 @component('mail::message')
-# Your show time has changed.
+# Your Show Time Has Changed
 
 Hi there,
 
 Your show time for _{{ $show->title }}_ has been changed.
 
-Your new time is **{{ $show->day }}s, {{ $show->start->format('g:i a') }} to {{ $show->end->format('g:i a') }}.**
-Your first show will be {{ $first_show }}.
+Your new time is **{{ $show->day }}s, {{ \Carbon\Carbon::parse($show->start)->format('g:i a') }} to {{ \Carbon\Carbon::parse($show->end)->format('g:i a') }}.**
+Your first show will be {{ $first_show->format('l, F j') }}.
 
 Please double check that this new time works for you.
 If you have a legitimate reason why this new time does not work for you, please reply-all to this email as soon as possible and we can try to get you sorted out.

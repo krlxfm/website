@@ -25,6 +25,7 @@ If your time does change, we'll let you know right away - though we hope (just a
 
 **If you need to change your show time, please reply-all to this email as soon as you can** and we'll see what we can do to get you sorted out.
 Schedule changes MUST be submitted by {{ $schedule_lock->format('g:i a') }} on {{ $schedule_lock->format('l, F j') }}, though the earlier you submit yours, the better our chances are of helping you out.
+Please see the Reschedule and Cancellation Policy for more information on our rescheduling procedures.
 
 **If your show time looks good, you don't need to do anything for now.**
 
