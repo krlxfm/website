@@ -55,9 +55,9 @@ class MiddlewareTest extends TestCase
             'term_id' => $this->term->id,
         ]);
         $bad_request = $this->get("shows/{$show->id}");
-        $this->assertEquals(302, $bad_request->status(), "The request to $route got through.");
+        $this->assertEquals(302, $bad_request->status(), "The request to a show review screen got through without displaying a contract.");
         $bad_request->assertRedirect(route('legal.contract'))
-                    ->assertSessionHas('url.intended', $route);
+                    ->assertSessionHas('url.intended', "shows/{$show->id}");
     }
 
     /**
