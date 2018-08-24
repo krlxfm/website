@@ -6,7 +6,6 @@ use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class InitialTimeAssigned extends Mailable
 {
@@ -35,7 +34,7 @@ class InitialTimeAssigned extends Mailable
 
         // Compute the date of the first episode.
         $first = $this->schedule_lock->copy()->modify('next '.$show->day)->setTimeFromTimeString($show->start);
-        if($first < $show->term->on_air) {
+        if ($first < $show->term->on_air) {
             $first->addDay();
         }
         $this->first_show = $first;

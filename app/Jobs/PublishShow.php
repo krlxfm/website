@@ -4,8 +4,8 @@ namespace KRLX\Jobs;
 
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
-use KRLX\Mail\InitialTimeAssigned;
 use Google_Service_Calendar_Event;
+use KRLX\Mail\InitialTimeAssigned;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
