@@ -24,6 +24,7 @@ var tracks = {!! json_encode($tracks) !!};
 var trackList = {!! json_encode($tracks->pluck('id')) !!};
 var earlyClasses = {!! json_encode($early_classes) !!};
 var term = {
+    id: "{{ $term->id }}",
     on_air: "{{ $term->on_air->format('Y-m-d H:i:s') }}",
     off_air: "{{ $term->off_air->format('Y-m-d H:i:s') }}"
 }

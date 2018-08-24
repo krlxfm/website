@@ -28,7 +28,7 @@ function startPublication(isFinal) {
     app.currentItem = 'Connecting to Google Calendar...';
     axios.patch('/api/v1/schedule/publish', {
         'publish': Object.keys(app.diffs),
-        'final': isFinal
+        'final': isFinal ? window.term.id : null
     });
     window.publishStatusTimer = setInterval(app.checkPublishStatus, 1500);
     $("#publishStatus").modal('show');
@@ -46,10 +46,20 @@ exports.checkPublishStatus = function () {
             app.progress = 1 + Object.keys(app.diffs).length;
             app.currentItem = 'Finished!';
             $("#publish-progress-bar").addClass('bg-success');
+            updateCalendarShows();
             window.publishStatusTimer = null;
         }
     })
 };
+
+function updateCalendarShows() {
+    Object.keys(window.showList).forEach(showID => {
+        var show = window.showList[showID];
+        show.published_start = show.start;
+        show.published_end = show.end;
+        show.published_day = show.day;
+    })
+}
 
 exports.publishFinal = function () {
     swal({
