@@ -4,6 +4,7 @@ namespace KRLX\Jobs;
 
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
+use KRLX\Mail\ScheduleTimeChange;
 use KRLX\Mail\InitialTimeAssigned;
 use Google_Service_Calendar_Event;
 use Illuminate\Support\Facades\Mail;
@@ -126,6 +127,7 @@ class PublishShow implements ShouldQueue
         $event = $calendar->events->get('primary', $this->show->gc_show_id);
         $this->setEventTimeDetails($event);
         $calendar->events->update('primary', $this->show->gc_show_id, $event);
+        Mail::to($this->show->hosts)->queue(new ScheduleTimeChange($this->show));
         $this->syncShowTimes();
     }
 

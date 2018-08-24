@@ -54,7 +54,7 @@ class MiddlewareTest extends TestCase
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
         ]);
-        $routes = ["shows/my/{$this->term->id}", 'shows', "shows/{$show->id}"];
+        $routes = ['shows', "shows/{$show->id}"];
         foreach ($routes as $route) {
             $bad_request = $this->get($route);
             $this->assertEquals(302, $bad_request->status(), "The request to $route got through.");
