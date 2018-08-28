@@ -5,6 +5,7 @@ namespace Tests\API;
 use KRLX\Show;
 use KRLX\Term;
 use KRLX\Jobs\PublishShow;
+use KRLX\Jobs\FinalPublishShow;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -63,6 +64,38 @@ class ScheduleTest extends APITestCase
         Queue::assertPushed(PublishShow::class, 10);
         foreach ($shows as $show) {
             Queue::assertPushed(PublishShow::class, function ($job) use ($show) {
+                return $job->show->id === $show->id;
+            });
+        }
+    }
+
+    /**
+     * Test that when we call the "publish" route for FINAL publication, that
+     * FINAL PUBLICATION jobs are dispatched to the queue for processing.
+     *
+     * @return void
+     */
+    public function testFinalPublishingDispatchesJobs()
+    {
+        Queue::fake();
+        $faker = $this->faker();
+
+        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $shows = factory(Show::class, 10)->create([
+            'term_id' => $term->id,
+            'submitted' => true,
+            'start' => $faker->time('H:i'),
+            'end' => $faker->time('H:i'),
+            'day' => $faker->date('l'),
+        ]);
+
+        $publish_array = ['publish' => $shows->pluck('id')->all(), 'final' => $term->id];
+        $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
+        $request->assertStatus(202);
+
+        Queue::assertPushed(FinalPublishShow::class, 10);
+        foreach ($shows as $show) {
+            Queue::assertPushed(FinalPublishShow::class, function ($job) use ($show) {
                 return $job->show->id === $show->id;
             });
         }
