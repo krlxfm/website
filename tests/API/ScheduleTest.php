@@ -94,6 +94,7 @@ class ScheduleTest extends APITestCase
         $request->assertStatus(202);
 
         Queue::assertPushed(FinalPublishShow::class, 10);
+        Queue::assertNotPushed(PublishShow::class);
         foreach ($shows as $show) {
             Queue::assertPushed(FinalPublishShow::class, function ($job) use ($show) {
                 return $job->show->id === $show->id;

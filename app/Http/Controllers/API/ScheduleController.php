@@ -2,8 +2,10 @@
 
 namespace KRLX\Http\Controllers\API;
 
+use KRLX\Term;
 use KRLX\Show;
 use KRLX\Jobs\PublishShow;
+use KRLX\Jobs\FinalPublishShow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Http\Controllers\Controller;
@@ -57,22 +59,36 @@ class ScheduleController extends Controller
     public function publish(Request $request)
     {
         $request->validate([
-            'publish' => 'required|array|min:1',
+            'publish' => 'sometimes|array',
             'publish.*' => ['string', Rule::exists('shows', 'id')->where(function ($query) {
                 $query->where('submitted', true);
             })],
+            'final' => 'sometimes|nullable|exists:terms,id'
         ]);
+        $count = 0;
 
-        file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')), 'show' => '']));
+        if ($request->has('final') and $request->input('final') != null) {
+            $shows = Term::find($request->input('final'))->first()->shows()->where('submitted', true)->get();
 
-        foreach ($request->input('publish') as $show_id) {
-            $show = Show::find($show_id);
-            PublishShow::dispatch($show);
+            file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => $shows->count(), 'show' => '']));
+            $count = $shows->count();
+
+            foreach ($shows as $show) {
+                FinalPublishShow::dispatch($show);
+            }
+        } else {
+            file_put_contents(storage_path('app/publish'), json_encode(['position' => 0, 'max' => count($request->input('publish')), 'show' => '']));
+            $count = count($request->input('publish'));
+
+            foreach ($request->input('publish') as $show_id) {
+                $show = Show::find($show_id);
+                PublishShow::dispatch($show);
+            }
         }
 
         return response([
             'job_status' => 'queued',
-            'tasks' => count($request->input('publish')),
+            'tasks' => $count,
             'monitor' => '/api/v1/schedule/publish',
         ], 202);
     }

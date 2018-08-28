@@ -6,7 +6,7 @@ Hey DJs!
 The schedule is now finalized and locked, and we are excited to hear {{ $show->title }} on the air in the coming days.
 This email contains important contact and policy information, so please read it carefully and let us know if you have any questions.
 
-**Your final show time for {{ $show->title }} is {{ $show->day }}s, {{ $show->start->format('g:i a') }} - {{ $show->end->format('g:i a') }}, and your first show will be {{ $first_show->format('l, F j') }}.**
+**Your final show time for {{ $show->title }} is {{ $show->day }}s, {{ \Carbon\Carbon::parse($show->start)->format('g:i a') }} - {{ \Carbon\Carbon::parse($show->end)->format('g:i a') }}, and your first show will be {{ $first_show->format('l, F j') }}.**
 Schedule change requests are no longer being accepted, and you are now responsible for finding covers if you can't make this show time in a particular week.
 
 If you can’t make a show, please line up a cover well in advance.
@@ -33,17 +33,13 @@ While all of the points in the membership agreement are important, we'd like to 
 
 **If the show after you is running late:** please try to get a hold of them first before calling the emergency cover line. The phone numbers of the hosts of the show after yours are:
 
-@foreach($next_show_djs as $dj)
+@foreach($show->next->hosts as $dj)
 - {{ $dj->name }}: {{ $dj->phone_number }}
 @endforeach
 
 If you can't get a hold of the next show, and it's been at least five minutes since they were scheduled to start, you can request an emergency cover by following the instructions posted in the studio.
 
-**If _you_ are running late:** Proactively getting in touch with the DJ(s) on air is your best course of action. You can call the studio, or contact the DJs ahead of you at the following numbers:
-
-@foreach($previous_show_djs as $dj)
-- {{ $dj->name }}: {{ $dj->phone_number }}
-@endforeach
+**If _you_ are running late:** Proactively getting in touch with the DJ(s) on air is your best course of action. The best way to do this is call the studio.
 
 Once again, congratulations and welcome aboard!
 Please let us know if you have any questions before we go on air!

@@ -3,7 +3,9 @@
 namespace KRLX\Jobs;
 
 use KRLX\Show;
+use KRLX\Jobs\PublishShow;
 use Illuminate\Bus\Queueable;
+use KRLX\Mail\ScheduleLocked;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,6 +34,12 @@ class FinalPublishShow implements ShouldQueue
      */
     public function handle()
     {
-        $term = $this->show->term;
+        if ($this->show->start != $this->show->published_start or $this->show->start != $this->show->published_start or $this->show->start != $this->show->published_start) {
+            PublishShow::dispatch($show, false);
+        }
+
+        if ($this->show->day and $this->show->start and $this->show->end) {
+            Mail::to($this->show->hosts)->queue(new ScheduleLocked($this->show));
+        }
     }
 }
