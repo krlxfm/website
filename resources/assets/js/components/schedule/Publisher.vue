@@ -30,25 +30,22 @@
                     </ul>
                 </div>
                 <div class="modal-body" v-else>
-                    <p><strong>The current schedule is up to date and there are no chagnes to publish.</strong></p>
-                    If Google Calendar says differently, you might have accidentally modified an event on Google Calendar. In that case, you can click "Flush" below to reset Google Calendar to match the schedule shown here.
+                    <p><strong>The current schedule is up to date and there are no new changes to publish.</strong></p>
+                    You can still lock the schedule if you are ready to stop accepting further changes.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary ml-auto" v-on:click="$emit('draft')" v-if="diffsToPublish">
                         <i class="fas fa-cloud-upload-alt"></i> Publish Draft
                     </button>
-                    <button type="button" class="btn btn-danger" v-on:click="$emit('final')" v-if="diffsToPublish">
+                    <button type="button" class="btn btn-danger" v-on:click="$emit('final')">
                         <i class="fas fa-lock"></i> Publish &amp; Lock
-                    </button>
-                    <button type="button" class="btn btn-danger ml-auto" v-on:click="$emit('flush')" v-else>
-                        <i class="fas fa-sync-alt"></i> Flush
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="publishStatus" dusk="publishStatus-modal" tabindex="-1" role="dialog" aria-labelledby="publishStatus-label" aria-hidden="true">
+    <div class="modal fade" id="publishStatus" dusk="publishStatus-modal" tabindex="-1" role="dialog" aria-labelledby="publishStatus-label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -64,7 +61,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="publisher-pubInProgressButton" class="btn btn-light" disabled>Publishing...</button>
+                    <button type="button" id="publisher-pubDoneButton" class="btn btn-secondary" data-dismiss="modal">Finish</button>
                 </div>
             </div>
         </div>

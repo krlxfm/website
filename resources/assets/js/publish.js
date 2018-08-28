@@ -23,6 +23,8 @@ exports.publishDraft = function () {
 
 function startPublication(isFinal) {
     $("#publish").modal('hide');
+    $("#publisher-pubInProgressButton").show();
+    $("#publisher-pubDoneButton").hide();
     $("#publish-progress-bar").removeClass('bg-success');
     app.progress = 0;
     app.currentItem = 'Connecting to Google Calendar...';
@@ -42,12 +44,15 @@ exports.checkPublishStatus = function () {
             const show = window.showList[response.data.show];
             const showActions = {'new': 'Publishing', 'mv': 'Updating', 'rm': 'Removing'};
             app.currentItem = showActions[app.diffs[show.id]] + ' ' + show.title + '...';
-        } else if (app.progress != 0 || Object.keys(app.diffs).length == 1) {
+        } else {
             app.progress = 1 + Object.keys(app.diffs).length;
             app.currentItem = 'Finished!';
             $("#publish-progress-bar").addClass('bg-success');
+            $("#publisher-pubInProgressButton").hide();
+            $("#publisher-pubDoneButton").show();
             updateCalendarShows();
             window.publishStatusTimer = null;
+            app.diffs = {};
         }
     })
 };
