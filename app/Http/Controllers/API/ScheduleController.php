@@ -2,12 +2,12 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\Term;
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\Jobs\PublishShow;
-use KRLX\Jobs\FinalPublishShow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use KRLX\Jobs\FinalPublishShow;
 use KRLX\Http\Controllers\Controller;
 
 class ScheduleController extends Controller
@@ -63,7 +63,7 @@ class ScheduleController extends Controller
             'publish.*' => ['string', Rule::exists('shows', 'id')->where(function ($query) {
                 $query->where('submitted', true);
             })],
-            'final' => 'sometimes|nullable|exists:terms,id'
+            'final' => 'sometimes|nullable|exists:terms,id',
         ]);
         $count = 0;
 

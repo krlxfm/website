@@ -225,7 +225,7 @@ class Show extends Model
     public function getNextAttribute()
     {
         if (! $this->day or ! $this->start or ! $this->end) {
-            return null;
+            return;
         }
         $start = Carbon::now()->modify('next '.$this->day)
                               ->setTimeFromTimeString($this->start);

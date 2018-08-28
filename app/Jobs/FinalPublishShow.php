@@ -3,7 +3,6 @@
 namespace KRLX\Jobs;
 
 use KRLX\Show;
-use KRLX\Jobs\PublishShow;
 use Illuminate\Bus\Queueable;
 use KRLX\Mail\ScheduleLocked;
 use Illuminate\Queue\SerializesModels;

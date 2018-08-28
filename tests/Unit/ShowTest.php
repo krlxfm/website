@@ -130,7 +130,7 @@ class ShowTest extends TestCase
             'submitted' => true,
             'day' => 'Saturday',
             'start' => '13:00',
-            'end' => '14:00'
+            'end' => '14:00',
         ]);
 
         $this->assertEquals($next_show->id, $this->show->next->id);

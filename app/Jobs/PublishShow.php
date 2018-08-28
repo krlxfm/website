@@ -64,7 +64,7 @@ class PublishShow implements ShouldQueue
         $this->setEventTimeDetails($event);
 
         $this->show->gc_show_id = $calendar->events->insert('primary', $event)->id;
-        if($this->send_emails) {
+        if ($this->send_emails) {
             Mail::to($this->show->hosts)->queue(new InitialTimeAssigned($this->show));
         }
         $this->syncShowTimes();
@@ -131,7 +131,7 @@ class PublishShow implements ShouldQueue
         $event = $calendar->events->get('primary', $this->show->gc_show_id);
         $this->setEventTimeDetails($event);
         $calendar->events->update('primary', $this->show->gc_show_id, $event);
-        if($this->send_emails) {
+        if ($this->send_emails) {
             Mail::to($this->show->hosts)->queue(new ScheduleTimeChange($this->show));
         }
         $this->syncShowTimes();
