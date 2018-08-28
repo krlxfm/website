@@ -89,7 +89,7 @@ class ScheduleTest extends APITestCase
             'day' => $faker->date('l'),
         ]);
 
-        $publish_array = ['publish' => $shows->pluck('id')->all(), 'final' => $term->id];
+        $publish_array = ['publish' => [$shows->first()->id], 'final' => $term->id];
         $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
         $request->assertStatus(202);
 
