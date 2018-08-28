@@ -100,4 +100,39 @@ class ShowTest extends TestCase
         $this->assertCount(1, $this->show->hosts);
         $this->assertTrue($this->show->boosted);
     }
+
+    /**
+     * Test that a show which doesn't appear on the calendar does not have a
+     * next show.
+     *
+     * @return void
+     */
+    public function testUnpublishedShowsDontHaveNext()
+    {
+        $this->assertNull($this->show->day);
+        $this->assertNull($this->show->next);
+    }
+
+    /**
+     * Test that a show can find out when the following show is.
+     *
+     * @return void
+     */
+    public function testShowPrevAndNext()
+    {
+        $this->show->day = 'Saturday';
+        $this->show->start = '12:00';
+        $this->show->end = '13:00';
+
+        $next_show = factory(Show::class)->create([
+            'track_id' => $this->show->track->id,
+            'term_id' => $this->show->term->id,
+            'submitted' => true,
+            'day' => 'Saturday',
+            'start' => '13:00',
+            'end' => '14:00'
+        ]);
+
+        $this->assertEquals($next_show->id, $this->show->next->id);
+    }
 }

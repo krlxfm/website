@@ -2,6 +2,7 @@
 
 namespace KRLX;
 
+use Carbon\Carbon;
 use KRLX\Events\ShowCreating;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -214,5 +215,25 @@ class Show extends Model
         }
 
         return $zone.$group;
+    }
+
+    /**
+     * Determine which show is "next" in the schedule.
+     *
+     * @return null|Show
+     */
+    public function getNextAttribute()
+    {
+        if (! $this->day or ! $this->start or ! $this->end) {
+            return null;
+        }
+        $start = Carbon::now()->modify('next '.$this->day)
+                              ->setTimeFromTimeString($this->start);
+        $end = $start->copy()->setTimeFromTimeString($this->end);
+        if ($end <= $start) {
+            $end->addDay();
+        }
+
+        return $this->term->shows()->where([['day', $end->format('l')], ['start', $this->end]])->first();
     }
 }
