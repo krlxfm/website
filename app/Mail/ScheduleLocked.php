@@ -2,23 +2,14 @@
 
 namespace KRLX\Mail;
 
+use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ScheduleLocked extends Mailable
+class ScheduleLocked extends InitialTimeAssigned
 {
     use Queueable, SerializesModels;
-
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
 
     /**
      * Build the message.

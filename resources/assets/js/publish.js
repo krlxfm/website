@@ -32,6 +32,9 @@ function startPublication(isFinal) {
         'publish': Object.keys(app.diffs),
         'final': isFinal ? window.term.id : null
     });
+    if(isFinal) {
+        app.diffs = app.showList;
+    }
     window.publishStatusTimer = setInterval(app.checkPublishStatus, 1500);
     $("#publishStatus").modal('show');
 }
@@ -44,7 +47,7 @@ exports.checkPublishStatus = function () {
             const show = window.showList[response.data.show];
             const showActions = {'new': 'Publishing', 'mv': 'Updating', 'rm': 'Removing'};
             app.currentItem = showActions[app.diffs[show.id]] + ' ' + show.title + '...';
-        } else {
+        } else if (app.progress > 0) {
             app.progress = 1 + Object.keys(app.diffs).length;
             app.currentItem = 'Finished!';
             $("#publish-progress-bar").addClass('bg-success');
@@ -73,5 +76,8 @@ exports.publishFinal = function () {
         text: 'You are about to publish the final schedule and lock it to further changes. This will email all hosts with their show details and inform them that schedule changes are no longer being accepted.',
         buttons: true,
         dangerMode: true
-    });
+    })
+    .then(action => {
+        if(action) startPublication(true);
+    })
 };

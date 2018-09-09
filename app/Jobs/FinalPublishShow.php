@@ -5,6 +5,7 @@ namespace KRLX\Jobs;
 use KRLX\Show;
 use Illuminate\Bus\Queueable;
 use KRLX\Mail\ScheduleLocked;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
