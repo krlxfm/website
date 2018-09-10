@@ -128,7 +128,9 @@
                         <textarea name="favorite_shows" class="form-control" id="favorite_shows" rows="3">{{ old('favorite_shows') ?? Auth::user()->favorite_shows }}</textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Save and activate</button>
+                <p>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Save and activate</button>
+                </p>
             </form>
         </div>
     </div>
