@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
 
     Route::get('welcome', 'HomeController@onboard')->name('legal.onboard');
-    Route::post('welcome', 'HomeController@onboard');
+    Route::post('welcome', 'HomeController@storeOnboarding');
     Route::get('contract', 'PointController@contract')->name('legal.contract');
     Route::post('contract', 'PointController@sign');
 });

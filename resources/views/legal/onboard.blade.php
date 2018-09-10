@@ -5,7 +5,7 @@
         <div class="col">
             <h1>Welcome aboard!</h1>
             <p>Welcome to KRLX! You're just a few steps away from activating your account and applying for a radio show. Please fill in all fields marked with a red asterisk (<span class="text-danger">*</span>), otherwise you are welcome to fill in as much (or as little) of the other fields as you would like.</p>
-            <form action="/onboard" method="post">
+            <form action="/welcome" method="post">
                 <h2>Required fields</h2>
                 @csrf
                 <div class="form-group row">
