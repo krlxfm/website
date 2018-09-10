@@ -19,6 +19,10 @@ Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
         Route::put('shows/{show}/join', 'ShowController@join');
         Route::put('shows/{show}/submitted', 'ShowController@submit');
 
+        Route::get('schedule/publish', 'ScheduleController@status');
+        Route::patch('schedule/publish', 'ScheduleController@publish');
+        Route::patch('schedule/{show}', 'ScheduleController@update');
+
         Route::get('users', 'UserController@search');
     });
     Route::apiResource('terms', 'TermController');

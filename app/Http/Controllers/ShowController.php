@@ -145,46 +145,10 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows()->with('track')->whereHas('track', function ($query) {
-            $query->where('order', '>', 0);
-        })->get()->sort(function ($a, $b) {
-            return $this->sortShows($a, $b);
-        });
-
-        $one_off_shows = $term->shows()->with('track')->whereHas('track', function ($query) {
-            $query->where('order', 0);
-        })->get()->groupBy('track.id')->transform(function ($track) {
-            return $track->sort(function ($a, $b) {
-                return $this->sortShows($a, $b);
-            });
-        });
+        $shows = $term->showsInPriorityOrder(true);
+        $one_off_shows = $term->showsInPriorityOrder(false);
 
         return view('shows.all', compact('shows', 'terms', 'term', 'one_off_shows'));
-    }
-
-    /**
-     * Function to sort two shows by priority.
-     *
-     * @param  KRLX\Show  $show_a
-     * @param  KRLX\Show  $show_b
-     * @return int
-     */
-    private function sortShows(Show $show_a, Show $show_b)
-    {
-        $boost_diff = ($show_b->boost == 'S') <=> ($show_a->boost == 'S');
-        $track_diff = $show_a->track->order <=> $show_b->track->order;
-        $priority_diff = $show_a->priority <=> $show_b->priority;
-        $completed_diff = $show_b->submitted <=> $show_a->submitted;
-        $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
-        $id_diff = $show_a->id <=> $show_b->id;
-
-        $diffs = [$boost_diff, $track_diff, $priority_diff, $completed_diff, $updated_at_diff, $id_diff];
-
-        foreach ($diffs as $diff) {
-            if ($diff != 0) {
-                return $diff;
-            }
-        }
     }
 
     /**

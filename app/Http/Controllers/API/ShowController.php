@@ -226,7 +226,7 @@ class ShowController extends Controller
 
             Validator::make($show->toArray(), $rules)->validate();
 
-            Mail::to($show->hosts)->send(new ShowSubmitted($show));
+            Mail::to($show->hosts)->queue(new ShowSubmitted($show));
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();

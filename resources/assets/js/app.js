@@ -34,9 +34,7 @@ window.to12Hour = function(time) {
     return hour+":"+components[1]+" "+(pm ? 'pm' : 'am');
 }
 
-const app = new Vue({
-    el: '#app'
-});
+window.app = new Vue(Object.assign({ el: '#app' }, window.vueData));
 
 $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();

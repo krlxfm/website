@@ -13,10 +13,12 @@
     <!-- Scripts -->
     <script src="{{ mix('/js/manifest.js') }}" defer></script>
     <script src="{{ mix('/js/vendor.js') }}" defer></script>
+    @stack('topjs')
     <script src="{{ mix('/js/app.js') }}" defer></script>
 
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    @stack('css')
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body class="bg-gray {{ $body_class ?? '' }}">
@@ -60,7 +62,7 @@
         <div class="container mt-4">
             @yield('head')
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid" id="fluid-sector">
             @yield('mid')
         </div>
         <div class="container">

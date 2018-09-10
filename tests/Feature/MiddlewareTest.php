@@ -54,13 +54,10 @@ class MiddlewareTest extends TestCase
         $show = factory(Show::class)->create([
             'term_id' => $this->term->id,
         ]);
-        $routes = ["shows/my/{$this->term->id}", 'shows', "shows/{$show->id}"];
-        foreach ($routes as $route) {
-            $bad_request = $this->get($route);
-            $this->assertEquals(302, $bad_request->status(), "The request to $route got through.");
-            $bad_request->assertRedirect(route('legal.contract'))
-                        ->assertSessionHas('url.intended', $route);
-        }
+        $bad_request = $this->get("shows/{$show->id}");
+        $this->assertEquals(302, $bad_request->status(), 'The request to a show review screen got through without displaying a contract.');
+        $bad_request->assertRedirect(route('legal.contract'))
+                    ->assertSessionHas('url.intended', "shows/{$show->id}");
     }
 
     /**

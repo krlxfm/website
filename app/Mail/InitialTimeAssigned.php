@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ShowSubmitted extends Mailable
+class InitialTimeAssigned extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,18 +17,27 @@ class ShowSubmitted extends Mailable
      * @var Show
      */
     public $show;
+    public $schedule_lock;
+    public $first_show;
 
     /**
      * Create a new message instance.
      *
-     * @param  Show  $show
      * @return void
      */
     public function __construct(Show $show)
     {
         $this->show = $show;
-        $this->subject("{$show->title} Application Submitted");
+        $this->subject("{$show->title} Time Assigned");
         $this->from('scheduling@krlx.org');
+        $this->schedule_lock = $show->term->on_air->copy()->subDay();
+
+        // Compute the date of the first episode.
+        $first = $this->schedule_lock->copy()->modify('next '.$show->day)->setTimeFromTimeString($show->start);
+        if ($first < $show->term->on_air) {
+            $first->addDay();
+        }
+        $this->first_show = $first;
     }
 
     /**
@@ -38,6 +47,6 @@ class ShowSubmitted extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.shows.submitted');
+        return $this->markdown('mail.shows.initial');
     }
 }
