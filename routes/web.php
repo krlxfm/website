@@ -30,18 +30,6 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
 
-    Route::middleware('contract')->group(function () {
-        Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
-        Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
-
-        Route::get('shows/create', 'ShowController@create')->name('shows.create');
-        Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
-        Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
-        Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
-        Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
-        Route::post('shows', 'ShowController@store')->name('shows.store');
-    });
-
     Route::middleware('permission:see all applications')->group(function () {
         Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
     });
@@ -52,6 +40,18 @@ Route::middleware(['auth', 'onboard'])->group(function () {
 
     Route::middleware('permission:build schedule')->group(function () {
         Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
+    });
+
+    Route::middleware('contract')->group(function () {
+        Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
+        Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
+
+        Route::get('shows/create', 'ShowController@create')->name('shows.create');
+        Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
+        Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
+        Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
+        Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
+        Route::post('shows', 'ShowController@store')->name('shows.store');
     });
 
     Route::get('contract', 'PointController@contract')->name('legal.contract');
