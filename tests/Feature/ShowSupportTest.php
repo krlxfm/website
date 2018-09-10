@@ -31,6 +31,8 @@ class ShowSupportTest extends TestCase
             'status' => 'active',
         ]);
         $this->user = factory(User::class)->states('contract_ok')->create();
+        $this->artisan('db:seed');
+        $this->user->assignRole('board');
         $this->show = factory(Show::class)->create([
             'id' => 'SHOW01',
             'track_id' => $this->track->id,
@@ -54,8 +56,7 @@ class ShowSupportTest extends TestCase
             'term_id' => $this->term->id,
             'submitted' => true,
         ]);
-
-        $request = $this->get('/shows/all');
+        $request = $this->get("/shows/all/{$this->term->id}");
         $request->assertOk();
         $request->assertSeeInOrder([$show->title, $this->show->title]);
     }
@@ -79,7 +80,7 @@ class ShowSupportTest extends TestCase
         $show->hosts()->attach($this->user, ['accepted' => true]);
         $this->show->save();
 
-        $request = $this->get('/shows/djs');
+        $request = $this->get("/shows/djs/{$this->term->id}");
         $request->assertOk()
                 ->assertSee(e($this->user->name))
                 ->assertDontSee(e($user->name))
@@ -130,7 +131,7 @@ class ShowSupportTest extends TestCase
 
         $shows = $this->term->shows()->where('submitted', true)->get();
 
-        $request = $this->get('/shows/all');
+        $request = $this->get("/shows/all/{$this->term->id}");
         $request->assertOk();
         $request->assertSeeInOrder([$high_track_show->title, $high_priority_show->title, $recent_show->title]);
     }

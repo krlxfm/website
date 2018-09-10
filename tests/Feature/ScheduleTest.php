@@ -19,6 +19,8 @@ class ScheduleTest extends TestCase
 
         $this->term = factory(Term::class)->create();
         $this->user = factory(User::class)->states('contract_ok')->create();
+        $this->artisan('db:seed');
+        $this->user->assignRole('board');
     }
 
     /**
