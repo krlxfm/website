@@ -8,7 +8,7 @@ $factory->define(KRLX\Show::class, function (Faker $faker) {
         'source' => 'factory',
         'term_id' => function () {
             return factory(KRLX\Term::class)->create([
-                'accepting_applications' => true,
+                'status' => 'active',
             ])->id;
         },
         'track_id' => function () {

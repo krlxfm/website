@@ -48,7 +48,7 @@ class ScheduleTest extends APITestCase
         Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $term = factory(Term::class)->create(['status' => 'active']);
         $shows = factory(Show::class, 10)->create([
             'term_id' => $term->id,
             'submitted' => true,
@@ -80,7 +80,7 @@ class ScheduleTest extends APITestCase
         Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $term = factory(Term::class)->create(['status' => 'active']);
         $shows = factory(Show::class, 10)->create([
             'term_id' => $term->id,
             'submitted' => true,
@@ -112,7 +112,7 @@ class ScheduleTest extends APITestCase
         Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $term = factory(Term::class)->create(['status' => 'active']);
         $show = factory(Show::class)->create([
             'term_id' => $term->id,
             'submitted' => true,

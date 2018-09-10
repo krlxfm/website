@@ -19,7 +19,7 @@ class CreateTermsTable extends Migration
             $table->dateTime('on_air');
             $table->dateTime('off_air');
             $table->boolean('boosted')->default(false);
-            $table->boolean('accepting_applications')->default(false);
+            $table->enum('status', ['pending', 'early_access', 'active', 'closed', 'scheduled'])->default('pending');
         });
     }
 

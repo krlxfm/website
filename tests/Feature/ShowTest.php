@@ -27,7 +27,7 @@ class ShowTest extends TestCase
             'active' => true,
         ]);
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => true,
+            'status' => 'active',
         ]);
         $this->user = factory(User::class)->states('contract_ok')->create();
         $this->show = factory(Show::class)->create([

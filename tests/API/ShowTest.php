@@ -21,7 +21,7 @@ class ShowTest extends APITestCase
     {
         parent::setUp();
 
-        $this->term = factory(Term::class)->create(['accepting_applications' => true]);
+        $this->term = factory(Term::class)->create(['status' => 'active']);
         $this->track = factory(Track::class)->create(['active' => true]);
         $this->show = factory(Show::class)->create([
             'term_id' => $this->term->id,

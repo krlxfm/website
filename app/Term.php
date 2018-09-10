@@ -45,7 +45,6 @@ class Term extends Model
      */
     protected $casts = [
         'boosted' => 'boolean',
-        'accepting_applications' => 'boolean',
     ];
 
     /**

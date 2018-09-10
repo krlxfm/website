@@ -26,7 +26,7 @@ class TermUpdateRequest extends FormRequest
         return [
             'on_air' => ($this->isMethod('PATCH') ? 'required_with:off_air' : 'required').'|date',
             'off_air' => ($this->isMethod('PATCH') ? 'required_with:on_air' : 'required').'|date|after::on_air',
-            'accepting_applications' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|boolean',
+            'status' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|string|in:pending,early_access,active,closed,scheduled',
             'boosted' => ($this->isMethod('PATCH') ? 'sometimes' : 'required').'|boolean',
         ];
     }

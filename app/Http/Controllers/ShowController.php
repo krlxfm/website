@@ -44,11 +44,19 @@ class ShowController extends Controller
     /**
      * Returns view for users to select a track and create a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $terms = Term::where('accepting_applications', true)->orderByDesc('on_air')->get();
+        $terms = Term::where('status', 'active')->get();
+        if ($request->user()->hasPermissionTo('override pending term')) {
+            $terms = $terms->concat(Term::where('status', 'pending')->get());
+        }
+        if ($request->user()->hasPermissionTo('override closed term')) {
+            $terms = $terms->concat(Term::where('status', 'closed')->get());
+        }
+        $terms = $terms->sortByDesc('on_air');
         $tracks = Track::where('active', true)->get();
 
         return view('shows.create', compact('terms', 'tracks'));
@@ -67,7 +75,7 @@ class ShowController extends Controller
                 $query->where('active', true);
             })],
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
-                $query->where('accepting_applications', true);
+                $query->whereIn('status', ['active', 'early_access', 'closed']);
             })],
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);

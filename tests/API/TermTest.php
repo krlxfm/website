@@ -16,7 +16,7 @@ class TermTest extends TestCase
     {
         parent::setUp();
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => false,
+            'status' => 'pending',
         ]);
     }
 
@@ -94,12 +94,12 @@ class TermTest extends TestCase
     {
         $off_air = $this->term->off_air;
         $request = $this->json('PATCH', "/api/v1/terms/{$this->term->id}", [
-            'accepting_applications' => true,
+            'status' => 'active',
         ]);
 
         $request->assertOk()
                 ->assertJson([
-                    'accepting_applications' => true,
+                    'status' => 'active',
                     'off_air' => $off_air,
                 ]);
     }
@@ -112,10 +112,10 @@ class TermTest extends TestCase
     public function testPutFailsWithMissingAttribute()
     {
         $request = $this->json('PUT', "/api/v1/terms/{$this->term->id}", [
-            'accepting_applications' => true,
+            'status' => 'active',
         ]);
 
         $request->assertStatus(422);
-        $this->assertNotEquals(true, Term::find($this->term->id)->accepting_applications);
+        $this->assertNotEquals('active', Term::find($this->term->id)->status);
     }
 }
