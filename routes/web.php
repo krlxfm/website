@@ -26,7 +26,10 @@ Route::get('/login/carleton', 'Auth\CarletonAuthController@redirect')->name('log
 Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::middleware('onboard')->group(function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    });
+
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
     Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
@@ -46,6 +49,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
 
+    Route::get('welcome', 'HomeController@onboard')->name('legal.onboard');
+    Route::post('welcome', 'HomeController@onboard');
     Route::get('contract', 'PointController@contract')->name('legal.contract');
     Route::post('contract', 'PointController@sign');
 });

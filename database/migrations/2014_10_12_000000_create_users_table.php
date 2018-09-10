@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
 
             // Contact information
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
+            $table->string('phone_number')->nullable();
             $table->text('onecard')->nullable();
 
             // Profile

@@ -33,4 +33,14 @@ class HomeController extends Controller
 
         return view('home', compact('user', 'shows', 'term'));
     }
+
+    /**
+     * Show the screen for onboarding users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function onboard()
+    {
+        return view('legal.onboard');
+    }
 }
