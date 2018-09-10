@@ -25,11 +25,8 @@ Route::get('/login/password', 'Auth\LoginController@password')->name('login.pass
 Route::get('/login/carleton', 'Auth\CarletonAuthController@redirect')->name('login.carleton');
 Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 
-Route::middleware('auth')->group(function () {
-    Route::middleware('onboard')->group(function () {
-        Route::get('/home', 'HomeController@index')->name('home');
-    });
-
+Route::middleware(['auth', 'onboard'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
     Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
@@ -49,8 +46,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
 
-    Route::get('welcome', 'HomeController@onboard')->name('legal.onboard');
-    Route::post('welcome', 'HomeController@storeOnboarding');
     Route::get('contract', 'PointController@contract')->name('legal.contract');
     Route::post('contract', 'PointController@sign');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('welcome', 'HomeController@onboard')->name('legal.onboard');
+    Route::post('welcome', 'HomeController@storeOnboarding');
 });
