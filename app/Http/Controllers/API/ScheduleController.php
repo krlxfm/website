@@ -8,7 +8,6 @@ use KRLX\Jobs\PublishShow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use KRLX\Jobs\FinalPublishShow;
-use Illuminate\Support\Facades\Log;
 use KRLX\Http\Controllers\Controller;
 
 class ScheduleController extends Controller
