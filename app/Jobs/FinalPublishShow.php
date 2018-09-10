@@ -35,7 +35,7 @@ class FinalPublishShow implements ShouldQueue
     public function handle()
     {
         if ($this->show->start != $this->show->published_start or $this->show->start != $this->show->published_start or $this->show->start != $this->show->published_start) {
-            PublishShow::dispatch($show, false);
+            PublishShow::dispatch($this->show, false);
         }
 
         if ($this->show->day and $this->show->start and $this->show->end) {

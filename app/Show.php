@@ -234,6 +234,11 @@ class Show extends Model
             $end->addDay();
         }
 
-        return $this->term->shows()->where([['day', $end->format('l')], ['start', $this->end]])->first();
+        do {
+            $show = $this->term->shows()->where([['day', $end->format('l')], ['start', $end->format('H:i')]])->first();
+            $end->addMinutes(30);
+        } while ($show == null);
+
+        return $show;
     }
 }

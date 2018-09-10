@@ -120,9 +120,14 @@ class ShowTest extends TestCase
      */
     public function testShowPrevAndNext()
     {
-        $this->show->day = 'Saturday';
-        $this->show->start = '12:00';
-        $this->show->end = '13:00';
+        $current_show = factory(Show::class)->create([
+            'track_id' => $this->show->track->id,
+            'term_id' => $this->show->term->id,
+            'submitted' => true,
+            'day' => 'Saturday',
+            'start' => '12:00',
+            'end' => '13:00',
+        ]);
 
         $next_show = factory(Show::class)->create([
             'track_id' => $this->show->track->id,
@@ -133,6 +138,10 @@ class ShowTest extends TestCase
             'end' => '14:00',
         ]);
 
-        $this->assertEquals($next_show->id, $this->show->next->id);
+        $this->assertNotNull($current_show->start);
+        $this->assertNotNull($current_show->end);
+        $this->assertNotNull($current_show->day);
+
+        $this->assertEquals($next_show->id, $current_show->next->id);
     }
 }
