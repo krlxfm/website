@@ -5,12 +5,13 @@ namespace KRLX;
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
 use KRLX\Notifications\ResetPassword;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
