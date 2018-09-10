@@ -73,7 +73,7 @@ class ShowTest extends TestCase
         $track = factory(Track::class)->create([
             'active' => false,
         ]);
-
+        $this->artisan('db:seed');
         $request = $this->get('/shows/create');
 
         $request->assertOk()

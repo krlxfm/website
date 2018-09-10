@@ -40,6 +40,7 @@ class ShowTest extends DuskTestCase
      */
     public function testShowCreation()
     {
+        $this->artisan('db:seed');
         $this->browse(function (Browser $browser) {
             $this->assertCount(1, Term::all());
 
