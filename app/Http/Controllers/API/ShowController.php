@@ -4,6 +4,7 @@ namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
 use KRLX\User;
+use KRLX\Term;
 use Validator;
 use Illuminate\Http\Request;
 use KRLX\Mail\ShowSubmitted;
@@ -48,6 +49,7 @@ class ShowController extends Controller
             ],
             'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+',
         ]);
+        $this->authorize('createShows', Term::find($request->input('term_id')));
 
         $show = $request->user()->shows()->create($request->all(), ['accepted' => true]);
 
@@ -62,6 +64,7 @@ class ShowController extends Controller
      */
     public function show(Show $show)
     {
+        $this->authorize('view', $show);
         return $show->with(['hosts', 'invitees'])->first();
     }
 
@@ -107,6 +110,7 @@ class ShowController extends Controller
      */
     public function inviteHostWithoutUserAccount(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         $request->validate([
             'invite' => 'array',
             'invite.*' => 'email|distinct',
@@ -136,6 +140,7 @@ class ShowController extends Controller
      */
     public function changeHosts(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         $request->validate([
             'add' => 'array',
             'add.*' => 'email|distinct|exists:users,email',
@@ -211,7 +216,6 @@ class ShowController extends Controller
     }
 
     /**
-     * Respond to a join invitation.
      * Validate a show and submit it, or remove submission status.
      *
      * @param  Illuminate\Http\Request  $request
@@ -220,6 +224,7 @@ class ShowController extends Controller
      */
     public function submit(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         if ($request->input('submitted') and ! $show->submitted) {
             $ruleset = new ShowRuleset($show, $request->all());
             $rules = $ruleset->rules(true);

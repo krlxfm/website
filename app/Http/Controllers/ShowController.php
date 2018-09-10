@@ -80,6 +80,8 @@ class ShowController extends Controller
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
 
+        $this->authorize('createShows', Term::find($request->input('term_id')));
+
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
 
@@ -94,6 +96,7 @@ class ShowController extends Controller
      */
     public function hosts(Show $show)
     {
+        $this->authorize('view', $show);
         return view('shows.hosts', compact('show'));
     }
 
@@ -105,6 +108,8 @@ class ShowController extends Controller
      */
     public function content(Show $show)
     {
+        $this->authorize('view', $show);
+
         $ruleset = new ShowRuleset($show, []);
         $rules = collect($ruleset->rules(true));
         $keys = array_merge(['title', 'description', 'content'], $rules->filter(function ($value, $key) {
@@ -125,6 +130,8 @@ class ShowController extends Controller
      */
     public function schedule(Show $show)
     {
+        $this->authorize('view', $show);
+
         return view('shows.schedule', compact('show'));
     }
 
@@ -136,6 +143,8 @@ class ShowController extends Controller
      */
     public function review(Show $show)
     {
+        $this->authorize('view', $show);
+
         return view('shows.review', compact('show'));
     }
 

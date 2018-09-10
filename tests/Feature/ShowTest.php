@@ -191,6 +191,7 @@ class ShowTest extends TestCase
             'term_id' => $this->term->id,
             'track_id' => $track->id,
         ]);
+        $show->hosts()->attach($this->user->id, ['accepted' => true]);
 
         $request = $this->get("/shows/{$show->id}/content");
 

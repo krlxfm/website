@@ -13,6 +13,7 @@ class PermissionSeeder extends Seeder
 
         // Create permissions.
         Permission::create(['name' => 'see all applications']);
+        Permission::create(['name' => 'edit all applications']);
         Permission::create(['name' => 'see all DJs']);
         Permission::create(['name' => 'build schedule']);
         Permission::create(['name' => 'auto-request Zone S']);
@@ -22,6 +23,7 @@ class PermissionSeeder extends Seeder
         // Create roles and assign permissions.
         $board = Role::create(['name' => 'board']);
         $board->givePermissionTo([
+            'edit all applications',
             'see all applications',
             'see all DJs',
             'build schedule',
