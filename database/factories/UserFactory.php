@@ -27,7 +27,7 @@ $factory->state(KRLX\User::class, 'carleton', function ($faker) {
     return [
         'email' => $faker->username.'@carleton.edu',
         'year' => date('Y') + $faker->numberBetween(1, 3),
-        'phone_number' => $faker->regexify('507222[0-9]{4}')
+        'phone_number' => $faker->regexify('507222[0-9]{4}'),
     ];
 });
 
