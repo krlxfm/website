@@ -81,7 +81,7 @@
                         Class year <span class="text-danger">*</span>
                     </label>
                     <div class="col-sm-9 col-md-10">
-                        <input type="number" name="year" class="form-control" id="year" value="{{ old('year') ?? Auth::user()->year }}" min="1900" max="{{ date('Y') + 5 }}">
+                        <input type="number" name="year" class="form-control" id="year" value="{{ old('year') }}" min="1900" max="{{ date('Y') + 5 }}">
                         <small id="phone_number_help" class="form-text text-muted">Enter your Carleton class year. If you are off-phase due to a medical or other leave, enter your original class year.</small>
                     </div>
                 </div>
