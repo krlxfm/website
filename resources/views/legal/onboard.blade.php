@@ -31,7 +31,7 @@
                     </label>
                     <div class="col-sm-9 col-md-10">
                         <input type="tel" name="phone_number" class="form-control" id="phone_number" value="{{ old('phone_number') ?? Auth::user()->phone_number }}" required>
-                        <small id="phone_number_help" class="form-text text-muted">Please enter your cell phone if you have one, otherwise request a campus landline from the Telecommunications Office.</small>
+                        <small id="phone_number_help" class="form-text text-muted">Please enter your cell phone if you have one, otherwise request a campus landline from the Telecommunications Office. <strong>This MUST be a US phone number!</strong></small>
                     </div>
                 </div>
                 <fieldset class="form-group">
