@@ -15,10 +15,6 @@ Route::get('/', function () {
     return view('root');
 });
 
-Route::get('landing', function () {
-    return view('welcome');
-});
-
 Route::get('logout', 'Auth\LoginController@logout');
 Auth::routes();
 Route::get('/login/password', 'Auth\LoginController@password')->name('login.password');
