@@ -19,7 +19,7 @@ class GuestAPITest extends TestCase
     public function testUnauthenticatedCallsNotPermitted()
     {
         $this->assertGuest('api');
-        $term = factory(Term::class)->create(['accepting_applications' => true]);
+        $term = factory(Term::class)->create(['status' => 'active']);
         $track = factory(Track::class)->create(['active' => true]);
 
         $request = $this->json('POST', '/api/v1/shows', [

@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
 
             // Contact information
             $table->string('email')->unique();
-            $table->string('phone')->nullable();
+            $table->string('phone_number')->nullable();
             $table->text('onecard')->nullable();
 
             // Profile
@@ -38,9 +38,6 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->text('favorite_music')->nullable();
             $table->text('favorite_shows')->nullable();
-
-            // XP
-            $table->text('xp');
         });
     }
 

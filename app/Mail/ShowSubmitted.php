@@ -12,7 +12,7 @@ class ShowSubmitted extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * The order instance.
+     * The show instance.
      *
      * @var Show
      */

@@ -44,11 +44,19 @@ class ShowController extends Controller
     /**
      * Returns view for users to select a track and create a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @return Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $terms = Term::where('accepting_applications', true)->orderByDesc('on_air')->get();
+        $terms = Term::where('status', 'active')->get();
+        if ($request->user()->hasPermissionTo('override pending term')) {
+            $terms = $terms->concat(Term::where('status', 'pending')->get());
+        }
+        if ($request->user()->hasPermissionTo('override closed term')) {
+            $terms = $terms->concat(Term::where('status', 'closed')->get());
+        }
+        $terms = $terms->sortByDesc('on_air');
         $tracks = Track::where('active', true)->get();
 
         return view('shows.create', compact('terms', 'tracks'));
@@ -67,10 +75,12 @@ class ShowController extends Controller
                 $query->where('active', true);
             })],
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
-                $query->where('accepting_applications', true);
+                $query->whereIn('status', ['active', 'early_access', 'closed']);
             })],
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
+
+        $this->authorize('createShows', Term::find($request->input('term_id')));
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
@@ -86,6 +96,8 @@ class ShowController extends Controller
      */
     public function hosts(Show $show)
     {
+        $this->authorize('view', $show);
+
         return view('shows.hosts', compact('show'));
     }
 
@@ -97,6 +109,8 @@ class ShowController extends Controller
      */
     public function content(Show $show)
     {
+        $this->authorize('view', $show);
+
         $ruleset = new ShowRuleset($show, []);
         $rules = collect($ruleset->rules(true));
         $keys = array_merge(['title', 'description', 'content'], $rules->filter(function ($value, $key) {
@@ -117,6 +131,8 @@ class ShowController extends Controller
      */
     public function schedule(Show $show)
     {
+        $this->authorize('view', $show);
+
         return view('shows.schedule', compact('show'));
     }
 
@@ -128,6 +144,8 @@ class ShowController extends Controller
      */
     public function review(Show $show)
     {
+        $this->authorize('view', $show);
+
         return view('shows.review', compact('show'));
     }
 
@@ -145,46 +163,10 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $shows = $term->shows()->with('track')->whereHas('track', function ($query) {
-            $query->where('order', '>', 0);
-        })->get()->sort(function ($a, $b) {
-            return $this->sortShows($a, $b);
-        });
-
-        $one_off_shows = $term->shows()->with('track')->whereHas('track', function ($query) {
-            $query->where('order', 0);
-        })->get()->groupBy('track.id')->each(function ($track) {
-            $track->sort(function ($a, $b) {
-                return $this->sortShows($a, $b);
-            });
-        });
+        $shows = $term->showsInPriorityOrder(true);
+        $one_off_shows = $term->showsInPriorityOrder(false);
 
         return view('shows.all', compact('shows', 'terms', 'term', 'one_off_shows'));
-    }
-
-    /**
-     * Function to sort two shows by priority.
-     *
-     * @param  KRLX\Show  $show_a
-     * @param  KRLX\Show  $show_b
-     * @return int
-     */
-    private function sortShows(Show $show_a, Show $show_b)
-    {
-        $boost_diff = ($show_b->boost == 'S') <=> ($show_a->boost == 'S');
-        $track_diff = $show_a->track->order <=> $show_b->track->order;
-        $priority_diff = $show_a->priority <=> $show_b->priority;
-        $completed_diff = $show_b->submitted <=> $show_a->submitted;
-        $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
-        $id_diff = $show_a->id <=> $show_b->id;
-
-        $diffs = [$boost_diff, $track_diff, $priority_diff, $completed_diff, $updated_at_diff, $id_diff];
-
-        foreach ($diffs as $diff) {
-            if ($diff != 0) {
-                return $diff;
-            }
-        }
     }
 
     /**

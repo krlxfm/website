@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'KRLX\Show' => 'KRLX\Policies\ShowPolicy',
+        'KRLX\Term' => 'KRLX\Policies\TermPolicy',
     ];
 
     /**

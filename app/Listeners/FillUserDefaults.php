@@ -36,6 +36,5 @@ class FillUserDefaults
         $user->first_name = $user->first_name ?? $names->first() ?? 'User';
         $user->title = $user->title ?? config('defaults.title', 'KRLX Community');
         $user->photo = $user->photo ?? $icon->getImageDataUri();
-        $user->xp = array_wrap($user->xp) ?? [];
     }
 }

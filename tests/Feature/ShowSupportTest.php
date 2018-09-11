@@ -24,13 +24,15 @@ class ShowSupportTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
         $this->track = factory(Track::class)->create([
             'active' => true,
         ]);
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => true,
+            'status' => 'active',
         ]);
+        $this->user = factory(User::class)->states('contract_ok')->create();
+        $this->artisan('db:seed');
+        $this->user->assignRole('board');
         $this->show = factory(Show::class)->create([
             'id' => 'SHOW01',
             'track_id' => $this->track->id,
@@ -54,8 +56,7 @@ class ShowSupportTest extends TestCase
             'term_id' => $this->term->id,
             'submitted' => true,
         ]);
-
-        $request = $this->get('/shows/all');
+        $request = $this->get("/shows/all/{$this->term->id}");
         $request->assertOk();
         $request->assertSeeInOrder([$show->title, $this->show->title]);
     }
@@ -79,7 +80,7 @@ class ShowSupportTest extends TestCase
         $show->hosts()->attach($this->user, ['accepted' => true]);
         $this->show->save();
 
-        $request = $this->get('/shows/djs');
+        $request = $this->get("/shows/djs/{$this->term->id}");
         $request->assertOk()
                 ->assertSee(e($this->user->name))
                 ->assertDontSee(e($user->name))
@@ -96,11 +97,9 @@ class ShowSupportTest extends TestCase
     {
         $high_priority_user = factory(User::class)->create([
             'year' => date('Y') + 2,
-            'xp' => ['2017-WI', '2017-SP', '2017-FA'],
         ]);
         $mid_priority_user = factory(User::class)->create([
             'year' => date('Y') + 1,
-            'xp' => ['2017-SP', '2017-FA'],
         ]);
         $high_priority_track = factory(Track::class)->create([
             'active' => true,
@@ -109,6 +108,7 @@ class ShowSupportTest extends TestCase
         $high_priority_show = factory(Show::class)->create([
             'track_id' => $this->track->id,
             'term_id' => $this->term->id,
+            'priority' => 'A3',
             'submitted' => true,
             'updated_at' => Carbon::now()->subMinutes(20),
         ]);
@@ -131,7 +131,7 @@ class ShowSupportTest extends TestCase
 
         $shows = $this->term->shows()->where('submitted', true)->get();
 
-        $request = $this->get('/shows/all');
+        $request = $this->get("/shows/all/{$this->term->id}");
         $request->assertOk();
         $request->assertSeeInOrder([$high_track_show->title, $high_priority_show->title, $recent_show->title]);
     }

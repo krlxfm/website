@@ -23,9 +23,9 @@ We will **not** email you copies of any changes, so you'll want to [check your s
 | ----- | ----- |
 | Show ID | {{ $show->id }} |
 | Track and term | {{ $show->track->name }}, {{ $show->term->name }} |
-| Hosts | {{ implode(', ', $show->hosts->pluck('full_name')->all()) }} |
-| Title | {{ $show->title }} |
-| Description | {{ $show->description }} |
+| Hosts | {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!} |
+| Title | {!! str_replace(['\\', '*', '_', '~'], ['\\\\', '\*', '\_', '<span>~</span>'], e($show->title)) !!} |
+| Description | {!! str_replace(['\\', '*', '_', '~'], ['\\\\', '\*', '\_', '<span>~</span>'], e($show->description)) !!} |
 @foreach($show->track->content as $field)
 | {{ $field['title'] }} | {!! implode('<br>', array_wrap($show->content[$field['db']])) !!} |
 @endforeach
@@ -44,7 +44,7 @@ We will **not** email you copies of any changes, so you'll want to [check your s
 @foreach($show->track->scheduling as $field)
 | {{ $field['title'] }} | {!! implode('<br>', array_wrap($show->scheduling[$field['db']])) !!} |
 @endforeach
-| Scheduling notes | {{ $show->notes }} |
+| Scheduling notes | {!! str_replace(['\\', '*', '_', '~'], ['\\\\', '\*', '\_', '<span>~</span>'], e($show->notes)) !!} |
 @endcomponent
 
 ## What happens next?

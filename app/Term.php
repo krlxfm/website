@@ -45,7 +45,6 @@ class Term extends Model
      */
     protected $casts = [
         'boosted' => 'boolean',
-        'accepting_applications' => 'boolean',
     ];
 
     /**
@@ -102,5 +101,55 @@ class Term extends Model
     public function getYearAttribute()
     {
         return intval(explode('-', $this->id)[0]);
+    }
+
+    /**
+     * Returns the list of shows as a part of a term, sorted in priority order.
+     *
+     * @param  bool  $weekly
+     * @return Eloquent\Collection<Show>
+     */
+    public function showsInPriorityOrder(bool $weekly)
+    {
+        $shows = $this->shows()->with('track')->whereHas('track', function ($query) use ($weekly) {
+            $query->where('order', ($weekly ? '>' : '='), 0);
+        })->get();
+
+        if ($weekly) {
+            return $shows->sort(function ($a, $b) {
+                return $this->sortShowsByPriority($a, $b);
+            });
+        } else {
+            return $shows->groupBy('track.id')->transform(function ($track) {
+                return $track->sort(function ($a, $b) {
+                    return $this->sortShowsByPriority($a, $b);
+                });
+            });
+        }
+    }
+
+    /**
+     * Function to sort shows in priority order.
+     *
+     * @param  Show  $show_a
+     * @param  Show  $show_b
+     * @return int
+     */
+    protected function sortShowsByPriority(Show $show_a, Show $show_b)
+    {
+        $boost_diff = ($show_b->boost == 'S') <=> ($show_a->boost == 'S');
+        $track_diff = $show_a->track->order <=> $show_b->track->order;
+        $priority_diff = $show_a->priority <=> $show_b->priority;
+        $completed_diff = $show_b->submitted <=> $show_a->submitted;
+        $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
+        $id_diff = $show_a->id <=> $show_b->id;
+
+        $diffs = [$boost_diff, $track_diff, $priority_diff, $completed_diff, $updated_at_diff, $id_diff];
+
+        foreach ($diffs as $diff) {
+            if ($diff != 0) {
+                return $diff;
+            }
+        }
     }
 }

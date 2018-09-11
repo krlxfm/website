@@ -21,7 +21,7 @@ class ShowTest extends APITestCase
     {
         parent::setUp();
 
-        $this->term = factory(Term::class)->create(['accepting_applications' => true]);
+        $this->term = factory(Term::class)->create(['status' => 'active']);
         $this->track = factory(Track::class)->create(['active' => true]);
         $this->show = factory(Show::class)->create([
             'term_id' => $this->term->id,
@@ -108,13 +108,14 @@ class ShowTest extends APITestCase
     public function testUpdatingSomeoneElsesSingleShow()
     {
         $show = factory(Show::class)->create([
-             'term_id' => $this->term->id,
-             'track_id' => $this->track->id,
-         ]);
+            'term_id' => $this->term->id,
+            'track_id' => $this->track->id,
+        ]);
+        $this->artisan('db:seed');
 
         $request = $this->json('PATCH', "/api/v1/shows/{$show->id}", [
-             'description' => 'This is an example show description. It should be long enough to pass validation.',
-         ]);
+            'description' => 'This is an example show description. It should be long enough to pass validation.',
+        ]);
         $this->assertNotContains($this->user, $show->hosts);
         $request->assertStatus(403);
     }

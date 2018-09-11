@@ -19,7 +19,23 @@ class ShowTest extends TestCase
         parent::setUp();
 
         $this->show = factory(Show::class)->create();
-        $this->user = factory(User::class)->create();
+        $this->user = factory(User::class)->states('contract_ok')->create();
+    }
+
+    /**
+     * Test that changing the ID length doesn't break things.
+     *
+     * @return void
+     */
+    public function testDifferentIdLength()
+    {
+        $current_id_length = config('defaults.show_id_length');
+        config(['defaults.show_id_length' => $current_id_length + 1]);
+
+        $show = factory(Show::class)->create();
+        $this->assertEquals($current_id_length + 1, strlen($show->id));
+
+        config(['defaults.show_id_length' => $current_id_length]);
     }
 
     /**
@@ -83,5 +99,49 @@ class ShowTest extends TestCase
         $this->show->hosts()->attach($this->user, ['accepted' => true, 'boost' => 'S']);
         $this->assertCount(1, $this->show->hosts);
         $this->assertTrue($this->show->boosted);
+    }
+
+    /**
+     * Test that a show which doesn't appear on the calendar does not have a
+     * next show.
+     *
+     * @return void
+     */
+    public function testUnpublishedShowsDontHaveNext()
+    {
+        $this->assertNull($this->show->day);
+        $this->assertNull($this->show->next);
+    }
+
+    /**
+     * Test that a show can find out when the following show is.
+     *
+     * @return void
+     */
+    public function testShowPrevAndNext()
+    {
+        $current_show = factory(Show::class)->create([
+            'track_id' => $this->show->track->id,
+            'term_id' => $this->show->term->id,
+            'submitted' => true,
+            'day' => 'Saturday',
+            'start' => '12:00',
+            'end' => '13:00',
+        ]);
+
+        $next_show = factory(Show::class)->create([
+            'track_id' => $this->show->track->id,
+            'term_id' => $this->show->term->id,
+            'submitted' => true,
+            'day' => 'Saturday',
+            'start' => '13:00',
+            'end' => '14:00',
+        ]);
+
+        $this->assertNotNull($current_show->start);
+        $this->assertNotNull($current_show->end);
+        $this->assertNotNull($current_show->day);
+
+        $this->assertEquals($next_show->id, $current_show->next->id);
     }
 }

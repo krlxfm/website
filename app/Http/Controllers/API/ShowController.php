@@ -3,6 +3,7 @@
 namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
 use Validator;
 use Illuminate\Http\Request;
@@ -43,11 +44,12 @@ class ShowController extends Controller
                 'required',
                 'string',
                 Rule::exists('terms', 'id')->where(function ($query) {
-                    $query->where('accepting_applications', true);
+                    $query->whereIn('status', ['active', 'early_access', 'closed']);
                 }),
             ],
             'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+',
         ]);
+        $this->authorize('createShows', Term::find($request->input('term_id')));
 
         $show = $request->user()->shows()->create($request->all(), ['accepted' => true]);
 
@@ -62,6 +64,8 @@ class ShowController extends Controller
      */
     public function show(Show $show)
     {
+        $this->authorize('view', $show);
+
         return $show->with(['hosts', 'invitees'])->first();
     }
 
@@ -107,6 +111,7 @@ class ShowController extends Controller
      */
     public function inviteHostWithoutUserAccount(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         $request->validate([
             'invite' => 'array',
             'invite.*' => 'email|distinct',
@@ -136,6 +141,7 @@ class ShowController extends Controller
      */
     public function changeHosts(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         $request->validate([
             'add' => 'array',
             'add.*' => 'email|distinct|exists:users,email',
@@ -211,7 +217,6 @@ class ShowController extends Controller
     }
 
     /**
-     * Respond to a join invitation.
      * Validate a show and submit it, or remove submission status.
      *
      * @param  Illuminate\Http\Request  $request
@@ -220,13 +225,14 @@ class ShowController extends Controller
      */
     public function submit(Request $request, Show $show)
     {
+        $this->authorize('update', $show);
         if ($request->input('submitted') and ! $show->submitted) {
             $ruleset = new ShowRuleset($show, $request->all());
             $rules = $ruleset->rules(true);
 
             Validator::make($show->toArray(), $rules)->validate();
 
-            Mail::to($show->hosts)->send(new ShowSubmitted($show));
+            Mail::to($show->hosts)->queue(new ShowSubmitted($show));
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();

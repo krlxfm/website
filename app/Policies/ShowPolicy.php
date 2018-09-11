@@ -3,6 +3,7 @@
 namespace KRLX\Policies;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,18 +20,7 @@ class ShowPolicy
      */
     public function view(User $user, Show $show)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create shows.
-     *
-     * @param  \KRLX\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
-    {
-        //
+        return $show->hosts->contains($user) or $user->can('view all shows');
     }
 
     /**
@@ -42,7 +32,16 @@ class ShowPolicy
      */
     public function update(User $user, Show $show)
     {
-        return $show->hosts->contains($user);
+        $host = $show->hosts->contains($user) or $user->can('edit all applications');
+
+        $term = $show->term->status == 'active';
+        if (! $term and $user->hasAnyPermission(['override pending term', 'override closed term'])) {
+            $pending = $show->term->status == 'pending' and $user->can('override pending term');
+            $closed = $show->term->status == 'closed' and $user->can('override closed term');
+            $term = $pending or $closed;
+        }
+
+        return $host and $term;
     }
 
     /**
@@ -54,6 +53,6 @@ class ShowPolicy
      */
     public function delete(User $user, Show $show)
     {
-        return $show->hosts->contains($user);
+        return $this->update($user, $show);
     }
 }

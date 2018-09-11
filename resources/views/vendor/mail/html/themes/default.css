@@ -181,12 +181,14 @@ img {
 
 .table th {
     border-bottom: 1px solid #EDEFF2;
+    min-width: 200px;
     padding-bottom: 8px;
     margin: 0;
 }
 
 .table td {
     color: #74787E;
+    min-width: 200px;
     font-size: 15px;
     line-height: 18px;
     padding: 10px 2px;

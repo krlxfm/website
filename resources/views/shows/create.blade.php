@@ -10,28 +10,36 @@
                     <a href="{{ route('shows.join') }}" class="btn btn-outline-secondary"><i class="fas fa-user-plus"></i> Join Show</a>
                 </div>
             </div>
-            <div class="card my-3">
-                <div class="card-header">
-                    Start from scratch
+            @if (count($terms) == 0)
+                <div class="card my-3">
+                    <div class="card-body p-5 text-center">
+                        Applications are currently closed for all terms. Check back during first week of term to learn how to get involved. If you believe this is an error, please contact a KRLX IT engineer.
+                    </div>
                 </div>
-                <div class="list-group list-group-flush">
-                    @forelse($tracks as $track)
-                        <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" data-track-name="{{ $track->name }}" data-track-title="{{ $track->title_label ?? 'Title' }}" dusk="track-{{ $track->id }}" href="#">
-                            <div class="pr-3">
-                                <h4 class="card-title mb-1">{{ $track->name }}</h4>
-                                <p class="card-text">
-                                    {{ $track->description }}
-                                    <br><small>
-                                        {{ $track->weekly ? 'Weekly' : 'One-time show'}} | {!! $track->boostable ? '<i class="fas fa-check text-success"></i> Eligible' : '<i class="fas fa-times text-danger"></i> Not eligible' !!} for Priority Boost
-                                    </small>
-                                </p>
-                            </div>
-                            <i class="fas fa-chevron-right fa-2x text-muted ml-auto"></i>
-                        </a>
-                    @empty
-                    @endforelse
+            @else
+                <div class="card my-3">
+                    <div class="card-header">
+                        Start from scratch
+                    </div>
+                    <div class="list-group list-group-flush">
+                        @forelse($tracks as $track)
+                            <a class="list-group-item list-group-item-action d-flex align-items-center" data-track-id="{{ $track->id }}" data-track-name="{{ $track->name }}" data-track-title="{{ $track->title_label ?? 'Title' }}" dusk="track-{{ $track->id }}" href="#">
+                                <div class="pr-3">
+                                    <h4 class="card-title mb-1">{{ $track->name }}</h4>
+                                    <p class="card-text">
+                                        {{ $track->description }}
+                                        <br><small>
+                                            {{ $track->weekly ? 'Weekly' : 'One-time show'}} | {!! $track->boostable ? '<i class="fas fa-check text-success"></i> Eligible' : '<i class="fas fa-times text-danger"></i> Not eligible' !!} for Priority Boost
+                                        </small>
+                                    </p>
+                                </div>
+                                <i class="fas fa-chevron-right fa-2x text-muted ml-auto"></i>
+                            </a>
+                        @empty
+                        @endforelse
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
     @component('components.modal')

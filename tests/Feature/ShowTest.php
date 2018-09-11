@@ -23,13 +23,13 @@ class ShowTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
         $this->track = factory(Track::class)->create([
             'active' => true,
         ]);
         $this->term = factory(Term::class)->create([
-            'accepting_applications' => true,
+            'status' => 'active',
         ]);
+        $this->user = factory(User::class)->states('contract_ok')->create();
         $this->show = factory(Show::class)->create([
             'id' => 'SHOW01',
             'track_id' => $this->track->id,
@@ -73,7 +73,7 @@ class ShowTest extends TestCase
         $track = factory(Track::class)->create([
             'active' => false,
         ]);
-
+        $this->artisan('db:seed');
         $request = $this->get('/shows/create');
 
         $request->assertOk()
@@ -191,6 +191,7 @@ class ShowTest extends TestCase
             'term_id' => $this->term->id,
             'track_id' => $track->id,
         ]);
+        $show->hosts()->attach($this->user->id, ['accepted' => true]);
 
         $request = $this->get("/shows/{$show->id}/content");
 

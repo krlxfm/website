@@ -5,12 +5,13 @@ namespace KRLX;
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
 use KRLX\Notifications\ResetPassword;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'first_name', 'photo',
+        'name', 'email', 'password', 'first_name', 'photo', 'year',
     ];
 
     /**
@@ -49,15 +50,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be type-cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'xp' => 'array',
-    ];
-
-    /**
      * Returns the shows that the user is a member of.
      *
      * @return Eloquent\Collection<KRLX\Show>
@@ -69,6 +61,16 @@ class User extends Authenticatable
                     ->wherePivot('accepted', true)
                     ->withTimestamps()
                     ->as('membership');
+    }
+
+    /**
+     * Returns the experience points that belong to the user.
+     *
+     * @return Eloquent\Collection<KRLX\Point>
+     */
+    public function points()
+    {
+        return $this->hasMany('KRLX\Point');
     }
 
     /**
@@ -93,8 +95,32 @@ class User extends Authenticatable
     public function getPriorityAttribute()
     {
         $priority = new Priority;
-        $priority->terms = collect($this->xp)->unique()->count();
+        $priority->terms = $this->points()->where('status', 'issued')->count();
         $priority->year = $this->year;
+
+        return $priority;
+    }
+
+    /**
+     * Computes what the user's priority was before the specified term began.
+     *
+     * @param  string  $term
+     * @return KRLX\Priority
+     */
+    public function priorityAsOf(string $termID)
+    {
+        $term = Term::find($termID);
+        $priority = $this->priority;
+        if (! $term) {
+            return $priority;
+        }
+
+        $priority->terms = $this->points()
+                                ->whereHas('term', function ($query) use ($term) {
+                                    $query->where('on_air', '<', $term->on_air);
+                                })
+                                ->where('status', 'issued')
+                                ->count();
 
         return $priority;
     }

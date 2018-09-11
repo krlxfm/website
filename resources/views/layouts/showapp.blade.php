@@ -10,6 +10,11 @@
             </div>
         </div>
     </div>
+    @cannot ('update', $show)
+        <div class="alert alert-danger">
+            This application is in read-only mode. Edits will not be saved.
+        </div>
+    @endcannot
 @endsection
 
 @section('bottom')

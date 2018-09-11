@@ -1,5 +1,6 @@
 <?php
 
+use KRLX\Term;
 use Faker\Generator as Faker;
 
 /*
@@ -26,5 +27,16 @@ $factory->state(KRLX\User::class, 'carleton', function ($faker) {
     return [
         'email' => $faker->username.'@carleton.edu',
         'year' => date('Y') + $faker->numberBetween(1, 3),
+        'phone_number' => $faker->regexify('507222[0-9]{4}'),
     ];
+});
+
+$factory->state(KRLX\User::class, 'contract_ok', function ($faker) {
+    return [];
+});
+
+$factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $faker) {
+    foreach (Term::all() as $term) {
+        $user->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
+    }
 });

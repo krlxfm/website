@@ -138,6 +138,30 @@ span.text-smallcaps {
     font-variant: small-caps;
 }
 
+.schedule-full-height {
+    height: calc(100vh - 100px);
+    &.card > .card-body,
+    &.card > .list-group-flush {
+        overflow-y: scroll;
+        height: 100%;
+    }
+}
+
+.schedule-control-panel {
+    height: 134px;
+    p {
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
+
+.schedule-short-height {
+    height: calc(100vh - 250px);
+    &.card > .card-body {
+        overflow-y: scroll;
+    }
+}
+
 @each $zone, $bgcolor in $priority {
     .svg-bg-priority-#{$zone} {
         fill: $bgcolor;
