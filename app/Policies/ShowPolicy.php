@@ -20,7 +20,7 @@ class ShowPolicy
      */
     public function view(User $user, Show $show)
     {
-        return $show->hosts->contains($user) or $user->can('view all shows');
+        return $show->hosts->contains($user) or $user->can('see all applications');
     }
 
     /**
