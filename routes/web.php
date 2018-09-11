@@ -21,6 +21,14 @@ Route::get('/login/password', 'Auth\LoginController@password')->name('login.pass
 Route::get('/login/carleton', 'Auth\CarletonAuthController@redirect')->name('login.carleton');
 Route::get('/login/callback', 'Auth\CarletonAuthController@callback');
 
+Route::get('terms', function () {
+    return view('legal.tos');
+});
+
+Route::get('privacy', function () {
+    return view('legal.privacy');
+});
+
 Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('shows', 'ShowController@my')->name('shows.my');

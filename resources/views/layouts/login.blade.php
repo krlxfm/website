@@ -62,7 +62,7 @@
     @endif
     <div class="container mt-4">
         <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-            <div class="card card-auth">
+            <div class="card card-auth mb-4">
                 <div class="card-body">
                     @yield('content')
                 </div>
