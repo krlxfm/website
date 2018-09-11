@@ -85,5 +85,4 @@
             </div>
         </div>
     </div>
-    <p>You are testing on Beta 3, version 0.8.0 "Sneffels". <a href="https://github.com/krlxfm/website/releases/">View the change logs</a></p>
 @endsection
