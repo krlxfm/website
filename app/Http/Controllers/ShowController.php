@@ -97,6 +97,7 @@ class ShowController extends Controller
     public function hosts(Show $show)
     {
         $this->authorize('view', $show);
+
         return view('shows.hosts', compact('show'));
     }
 

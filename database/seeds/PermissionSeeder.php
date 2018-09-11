@@ -29,12 +29,12 @@ class PermissionSeeder extends Seeder
             'build schedule',
             'auto-request Zone S',
             'override closed term',
-            'override pending term'
+            'override pending term',
         ]);
 
         $tester = Role::create(['name' => 'tester']);
         $tester->givePermissionTo([
-            'override pending term'
+            'override pending term',
         ]);
     }
 }

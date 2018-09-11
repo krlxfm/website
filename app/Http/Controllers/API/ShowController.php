@@ -3,8 +3,8 @@
 namespace KRLX\Http\Controllers\API;
 
 use KRLX\Show;
-use KRLX\User;
 use KRLX\Term;
+use KRLX\User;
 use Validator;
 use Illuminate\Http\Request;
 use KRLX\Mail\ShowSubmitted;
@@ -65,6 +65,7 @@ class ShowController extends Controller
     public function show(Show $show)
     {
         $this->authorize('view', $show);
+
         return $show->with(['hosts', 'invitees'])->first();
     }
 
