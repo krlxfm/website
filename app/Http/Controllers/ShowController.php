@@ -75,7 +75,7 @@ class ShowController extends Controller
                 $query->where('active', true);
             })],
             'term_id' => ['required', 'string', Rule::exists('terms', 'id')->where(function ($query) {
-                $query->whereIn('status', ['active', 'early_access', 'closed']);
+                $query->whereIn('status', ['active', 'pending', 'closed']);
             })],
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
