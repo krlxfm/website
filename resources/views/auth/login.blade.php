@@ -10,8 +10,7 @@
     </div>
     <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="login-terms" name="terms" dusk="login-terms" value="1">
-        <label class="form-check-label" for="login-terms">I acknowledge that <strong>this is a beta</strong> and that <strong>bugs and issues exist within the site.</strong></label>
-        <!-- <label class="form-check-label" for="login-terms">I have read and agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, and I grant KRLX permission to use my personal information as described in the Privacy Policy.</label> -->
+        <label class="form-check-label" for="login-terms">I have read and agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>, and I grant KRLX permission to use my personal information as described in the Privacy Policy.</label>
     </div>
     <button type="submit" class="btn btn-dark btn-lg">Continue</button>
 </form>
