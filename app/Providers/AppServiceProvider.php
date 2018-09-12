@@ -58,6 +58,8 @@ class AppServiceProvider extends ServiceProvider
                 ->htmlIf(Auth::user()->hasAnyPermission(['see all applications', 'see all DJs']), '<div class="dropdown-divider"></div>')
                 ->routeIfCan('see all applications', 'shows.all', 'All shows')
                 ->routeIfCan('see all DJs', 'shows.djs', 'DJ roster')
+                ->htmlIfCan('build schedule', '<div class="dropdown-divider"></div>')
+                ->routeIfCan('build schedule', 'schedule.build', 'Schedule builder')
                 ->setActiveClassOnLink();
 
             $menu = Menu::new()
