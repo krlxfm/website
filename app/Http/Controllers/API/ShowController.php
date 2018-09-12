@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 use KRLX\Mail\ShowSubmitted;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
+use KRLX\Mail\NewUserInvitation;
 use Illuminate\Support\Facades\Mail;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
-use KRLX\Notifications\NewUserShowInvitation;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
@@ -121,11 +121,8 @@ class ShowController extends Controller
             $host = User::where('email', $new_email)->first();
 
             if (! $host) {
-                // Create a temporary user so that we can send the email.
-                // This user will be deleted in about 3 seconds anyway.
-                $host = User::create(['email' => $new_email, 'name' => 'Temporary User', 'password' => '']);
-                $host->notify(new NewUserShowInvitation($show, $request->user()));
-                $host->delete();
+                // Send the new user an email invitation.
+                Mail::to($new_email)->queue(new NewUserInvitation($show, $request->user()));
             }
         }
 
