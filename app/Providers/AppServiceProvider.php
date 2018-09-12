@@ -4,6 +4,7 @@ namespace KRLX\Providers;
 
 use Spatie\Menu\Laravel\Link;
 use Spatie\Menu\Laravel\Menu;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -45,15 +46,32 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(190);
 
         Menu::macro('main', function () {
-            return Menu::new()
-                ->addClass('navbar-nav ml-auto')
-                ->addItemParentClass('nav-item')
-                ->addItemClass('nav-link')
-                ->route('home', 'Home')
+            $shows_dropdown = Menu::new()
+                ->withoutParentTag()
+                ->setWrapperTag('div')
+                ->addClass('dropdown-menu dropdown-menu-right')
+                ->addParentClass('dropdown')
+                ->addItemClass('dropdown-item')
+                ->prepend('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Radio shows</a>')
                 ->route('shows.my', 'My shows')
                 ->route('shows.create', 'New show')
+                ->htmlIf(Auth::user()->hasAnyPermission(['see all applications', 'see all DJs']), '<div class="dropdown-divider"></div>')
+                ->routeIfCan('see all applications', 'shows.all', 'All shows')
+                ->routeIfCan('see all DJs', 'shows.djs', 'DJ roster')
+                ->setActiveClassOnLink();
+
+            $menu = Menu::new()
+                ->addClass('navbar-nav ml-auto')
+                ->addItemParentClass('nav-item')
+                ->setActiveFromRequest()
+                ->route('home', 'Home')
+                ->submenu($shows_dropdown)
                 ->route('logout', 'Sign out')
-                ->setActiveFromRequest();
+                ->each(function (Link $link) {
+                    $link->addClass('nav-link');
+                });
+
+            return $menu;
         });
     }
 
