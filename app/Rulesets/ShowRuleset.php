@@ -82,6 +82,7 @@ class ShowRuleset
             'content' => ['array', 'size:'.count($track->content)],
             'scheduling' => ['array', 'size:'.count($track->scheduling)],
             'etc' => ['array', 'size:'.count($track->etc)],
+            'fallback' => ['sometimes', 'boolean'],
             'description' => ['min:'.$track->description_min_length, 'max:65000'],
             'conflicts.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input['preferences'] ?? $this->show->preferences))]),
             'preferences.*' => ($track->weekly ? ['array'] : ['date', 'distinct', Rule::notIn(array_wrap($this->input['conflicts'] ?? $this->show->conflicts))]),
