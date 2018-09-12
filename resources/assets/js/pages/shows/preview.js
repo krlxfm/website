@@ -1,5 +1,15 @@
 $(document).ready(updateSchedulePreview);
 
+const nextDay = {
+    "Sunday": "Monday",
+    "Monday": "Tuesday",
+    "Tuesday": "Wednesday",
+    "Wednesday": "Thursday",
+    "Thursday": "Friday",
+    "Friday": "Saturday",
+    "Saturday": "Sunday"
+};
+
 function updateSchedulePreview() {
     var sortedPreferences = preferences.slice(0).sort((a, b) => {
         return a.strength - b.strength;
@@ -28,7 +38,8 @@ function setSchedulePreviewItems(items, zones) {
         item.days.forEach((day) => {
             var time = moment(start);
             while(time < end) {
-                var rect = $("#preview-rect-"+day + '-' + time.format('HH-mm'));
+                var dayToUpdate = ((time.hours() > start.hours() || time.hours() == start.hours() && time.hours() >= start.hours()) ? day : nextDay[day]);
+                var rect = $("#preview-rect-"+dayToUpdate + '-' + time.format('HH-mm'));
                 if(Array.isArray(zones)) {
                     rect.attr('class', 'svg-bg-priority-' + zones[item.strength]);
                 } else {
