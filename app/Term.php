@@ -111,7 +111,7 @@ class Term extends Model
      */
     public function showsInPriorityOrder(bool $weekly)
     {
-        $shows = $this->shows()->with('track')->whereHas('track', function ($query) use ($weekly) {
+        $shows = $this->shows()->with('track', 'hosts')->whereHas('track', function ($query) use ($weekly) {
             $query->where('order', ($weekly ? '>' : '='), 0);
         })->get();
 
