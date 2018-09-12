@@ -19,6 +19,7 @@ class HomeTest extends TestCase
     {
         parent::setUp();
 
+        $this->artisan('db:seed');
         $this->user = factory(User::class)->states('carleton')->create();
         $this->term = factory(Term::class)->create();
         $this->session = $this->actingAs($this->user);

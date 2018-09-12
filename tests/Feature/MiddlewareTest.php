@@ -20,6 +20,7 @@ class MiddlewareTest extends TestCase
     {
         parent::setUp();
 
+        $this->artisan('db:seed');
         $this->term = factory(Term::class)->create();
         $this->user = factory(User::class)->create();
         $this->session = $this->actingAs($this->user);

@@ -27,6 +27,7 @@ class ContractTest extends TestCase
             'term_id' => $this->term->id,
         ]);
         $this->session = $this->actingAs($this->user);
+        $this->artisan('db:seed');
     }
 
     /**
