@@ -32,7 +32,7 @@ class ShowPolicy
      */
     public function update(User $user, Show $show)
     {
-        $host = $show->hosts->contains($user) or $user->can('edit all applications');
+        $host = ($show->hosts->contains($user) or $user->can('edit all applications'));
 
         $term = $show->term->status == 'active';
         if (! $term and $user->hasAnyPermission(['override pending term', 'override closed term'])) {
