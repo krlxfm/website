@@ -12,6 +12,7 @@ class ScheduleTimeChange extends InitialTimeAssigned
     public function build()
     {
         $this->subject("TIME CHANGE for {$this->show->title}");
+
         return $this->markdown('mail.shows.update');
     }
 }

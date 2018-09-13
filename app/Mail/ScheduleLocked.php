@@ -17,6 +17,7 @@ class ScheduleLocked extends InitialTimeAssigned
     public function build()
     {
         $this->subject("[KRLX] {$this->show->title} - Final Time and Policy Reminders");
+
         return $this->markdown('mail.shows.final');
     }
 }
