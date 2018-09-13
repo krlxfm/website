@@ -14,13 +14,14 @@ let mix = require('laravel-mix');
 mix.webpackConfig({
         resolve: {
             alias: {
-                'jquery-ui': 'jquery-ui-dist/jquery-ui.js'
+                'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
+                'jquery-mask': 'jquery.maskedinput/src/jquery.maskedinput.js'
             }
         }
     })
    .js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/schedule.js', 'public/js')
-   .extract(['vue', 'sweetalert', 'moment', 'lodash', 'jquery', 'jquery-ui', 'popper.js', 'bootstrap', 'axios', 'fullcalendar'])
+   .extract(['vue', 'sweetalert', 'moment', 'lodash', 'jquery', 'jquery-ui', 'jquery-mask', 'popper.js', 'bootstrap', 'axios', 'fullcalendar'])
    .sass('resources/assets/sass/app.scss', 'public/css')
    .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')
    .copyDirectory('resources/assets/js/pages', 'public/js/pages');

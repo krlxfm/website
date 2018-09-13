@@ -12,6 +12,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('jquery-ui');
+    require('jquery-mask');
     require('bootstrap');
     require('fullcalendar');
 } catch (e) {}
