@@ -6,6 +6,8 @@ services:
   - mysql
 install:
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+  - npm install
+  - npm run dev
 before_script:
   - cp .env.travis .env
   - php artisan key:generate
