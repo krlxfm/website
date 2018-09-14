@@ -74,6 +74,10 @@ class AppServiceProvider extends ServiceProvider
                     $link->addClass('nav-link');
                 });
 
+            if (app('request')->route()->getName() == 'shows.my') {
+                $menu->setActive(route('shows.my.other'));
+            }
+
             return $menu;
         });
     }
