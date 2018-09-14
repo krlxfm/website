@@ -63,7 +63,7 @@ class HomeController extends Controller
             'first_name' => 'required|string',
             'phone_number' => 'required|string|min:10',
             'status' => 'required|in:student,faculty,staff',
-            'year' => 'required_if:status,student|integer|min:1900|max:'.(date('Y') + 5),
+            'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
             'major' => 'present|max:190',
             'hometown' => 'present|max:190',
             'bio' => 'present|max:65000',
