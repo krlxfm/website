@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
                 ->prepend('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Radio shows</a>')
                 ->route('shows.my.other', 'My shows')
                 ->route('shows.create', 'New show')
+                ->route('shows.join', 'Join a show')
                 ->htmlIf(Auth::user()->hasAnyPermission(['see all applications', 'see all DJs']), '<div class="dropdown-divider"></div>')
                 ->routeIfCan('see all applications', 'shows.all', 'All shows')
                 ->routeIfCan('see all DJs', 'shows.djs', 'DJ roster')
