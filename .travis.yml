@@ -13,6 +13,7 @@ before_script:
   - php artisan migrate
   - php artisan passport:install
 script: phpunit
+after_script: cat storage/logs/laravel.log
 jobs:
   include:
     - stage: report
