@@ -33,6 +33,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('shows', 'ShowController@my')->name('shows.my');
     Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
+    Route::get('profile', 'UserController@profile')->name('profile');
 
     Route::middleware('permission:see all applications')->group(function () {
         Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
