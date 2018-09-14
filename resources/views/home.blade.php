@@ -5,7 +5,7 @@
         <div class="col">
             <h1 class="text-center mb-1">Mission Control</h1>
             <p class="text-center mb-4">
-                {{ $user->name }} - {{ $user->email }}
+                {{ $user->name }}, {{ $user->title }} - {{ $user->email }}
                 @if(ends_with($user->email, "carleton.edu"))
                     - Priority <span class="badge bg-priority-{{ strtolower($user->priority->zone()) }}">{!! $user->priority->html() !!}</span>
                 @endif

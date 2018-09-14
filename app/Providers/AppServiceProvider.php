@@ -68,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 ->setActiveFromRequest()
                 ->route('home', 'Home')
                 ->submenu($shows_dropdown)
+                ->route('profile', 'Profile')
                 ->route('logout', 'Sign out')
                 ->each(function (Link $link) {
                     $link->addClass('nav-link');
