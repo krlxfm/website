@@ -40,7 +40,10 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td class="align-middle">{{ $user->email }}</td>
+                            <td class="align-middle">
+                                {{ $user->email }}<br>
+                                {{ $user->phone_number }}
+                            </td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($oldPriority->zone()) }}" style="font-size: x-large;">{{ $oldPriority->terms }}</td>
                             <td class="align-middle text-center bg-priority-{{ strtolower($priorityNow->zone()) }}" style="font-size: x-large;">{{ $priorityNow->terms }}</td>
                         </tr>
