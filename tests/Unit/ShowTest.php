@@ -71,7 +71,7 @@ class ShowTest extends TestCase
      */
     public function testBoostedInvitationDoesNotMarkShowBoosted()
     {
-        $this->show->hosts()->attach($this->user, ['boost' => 'S']);
+        $this->show->hosts()->attach($this->user);
         $this->assertFalse($this->show->boosted);
     }
 
@@ -96,7 +96,12 @@ class ShowTest extends TestCase
      */
     public function testBoostedJoinDoesMarkShowBoosted()
     {
-        $this->show->hosts()->attach($this->user, ['accepted' => true, 'boost' => 'S']);
+        $this->show->hosts()->attach($this->user, ['accepted' => true]);
+        $this->user->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'zone',
+        ]);
+
         $this->assertCount(1, $this->show->hosts);
         $this->assertTrue($this->show->boosted);
     }

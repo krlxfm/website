@@ -57,10 +57,20 @@ class User extends Authenticatable
     public function shows()
     {
         return $this->belongsToMany('KRLX\Show')
-                    ->withPivot('accepted', 'boost')
+                    ->withPivot('accepted')
                     ->wherePivot('accepted', true)
                     ->withTimestamps()
                     ->as('membership');
+    }
+
+    /**
+     * Returns all Priority Boost access tickets that belong to the user.
+     *
+     * @return Eloquent\Collection<KRLX\Boost>
+     */
+    public function boosts()
+    {
+        return $this->hasMany('KRLX\Boost');
     }
 
     /**
@@ -81,7 +91,7 @@ class User extends Authenticatable
     public function invitations()
     {
         return $this->belongsToMany('KRLX\Show')
-                    ->withPivot('accepted', 'boost')
+                    ->withPivot('accepted')
                     ->wherePivot('accepted', false)
                     ->withTimestamps()
                     ->as('membership');

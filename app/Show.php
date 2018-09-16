@@ -98,7 +98,7 @@ class Show extends Model
     {
         return $this->belongsToMany(User::class)
                     ->wherePivot('accepted', 1)
-                    ->withPivot('accepted', 'boost')
+                    ->withPivot('accepted')
                     ->as('membership')
                     ->withTimestamps();
     }
@@ -113,9 +113,19 @@ class Show extends Model
     {
         return $this->belongsToMany(User::class)
                     ->wherePivot('accepted', 0)
-                    ->withPivot('accepted', 'boost')
+                    ->withPivot('accepted')
                     ->as('membership')
                     ->withTimestamps();
+    }
+
+    /**
+     * Returns all boosts applied to this show.
+     *
+     * @return Eloquent\Collection<KRLX\Boost>
+     */
+    public function boosts()
+    {
+        return $this->hasMany('KRLX\Boost');
     }
 
     /**
@@ -126,46 +136,12 @@ class Show extends Model
      */
     public function getBoostedAttribute()
     {
-        foreach ($this->hosts as $host) {
-            if ($host->membership->boost != null) {
-                return true;
-            }
-        }
+        $hosts = $this->hosts;
+        $boosts = $this->boosts->filter(function ($boost) use ($hosts) {
+            return $hosts->contains($boost->user);
+        });
 
-        return false;
-    }
-
-    /**
-     * Compute how much of a priority boost the show should get. Returns "Z+N"
-     * if the show is entitled to an N-zone boost, "S" if the show is titled to
-     * skipping track order, or "A" if the priority should be set to A1 within
-     * the track.
-     *
-     * @return string|null
-     */
-    public function getBoostAttribute()
-    {
-        if (! $this->boosted) {
-            return;
-        }
-
-        $string = '';
-        foreach ($this->hosts as $host) {
-            if ($host->membership->boost == 'S') {
-                $string = 'S';
-                break;
-            } elseif ($host->membership->boost == 'A1') {
-                $string = 'A1';
-            } elseif ($host->membership->boost[0] == '+' and $string != 'A1') {
-                $zones = intval(substr($host->membership->boost));
-                $current_zones = ($string[0] == 'Z' ? intval(substr($string, 2)) : 0);
-                if ($zones > $current_zones) {
-                    $string = 'Z+'.$zones;
-                }
-            }
-        }
-
-        return $string;
+        return $boosts->count() > 0;
     }
 
     /**
@@ -183,11 +159,6 @@ class Show extends Model
         $group = '';
 
         $terms = $priorities->max->terms ?? 0;
-        if ($this->boosted and $this->boost[0] == 'Z') {
-            $terms += intval(substr($this->boost, 2));
-        } elseif ($this->boosted and $this->boost == 'A1') {
-            return 'A1';
-        }
 
         if ($this->track->zone) {
             $zone = $this->track->zone;
