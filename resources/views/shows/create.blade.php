@@ -29,7 +29,7 @@
                                     <p class="card-text">
                                         {{ $track->description }}
                                         <br><small>
-                                            {{ $track->weekly ? 'Weekly' : 'One-time show'}} | {!! $track->boostable ? '<i class="fas fa-check text-success"></i> Eligible' : '<i class="fas fa-times text-danger"></i> Not eligible' !!} for Priority Boost
+                                            {{ $track->weekly ? 'Weekly' : 'One-time show'}} | {!! $track->boostable ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-danger"></i> Not' !!} Upgrade Eligible
                                         </small>
                                     </p>
                                 </div>
