@@ -107,6 +107,24 @@ class ShowTest extends TestCase
     }
 
     /**
+     * Test that a One-Zone Upgrade Certificate upgrades a show's priority
+     * by the equivalent of one term.
+     *
+     * @return void
+     */
+    public function testOneZoneUpgrade()
+    {
+        $this->show->hosts()->attach($this->user, ['accepted' => true]);
+        $this->user->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'zone',
+        ]);
+
+        $this->assertEquals(0, $this->user->priority->terms);
+        $this->assertEquals(1, $this->show->priority->terms);
+    }
+
+    /**
      * Test that a show which doesn't appear on the calendar does not have a
      * next show.
      *
