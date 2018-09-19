@@ -14,7 +14,7 @@ class BoostController extends Controller
      */
     public function index(Request $request)
     {
-        $boosts = $request->user()->boosts()->with('show')->get();
+        $boosts = $request->user()->eligibleBoosts();
         return view('boost.index', compact('boosts'));
     }
 }

@@ -56,6 +56,8 @@ class AppServiceProvider extends ServiceProvider
                 ->route('shows.my.other', 'My shows')
                 ->route('shows.create', 'New show')
                 ->route('shows.join', 'Join a show')
+                ->htmlIf(Auth::user()->eligibleBoosts()->count() > 0, '<div class="dropdown-divider"></div>')
+                ->routeIf(Auth::user()->eligibleBoosts()->count() > 0, 'boost.index', 'Priority upgrades')
                 ->htmlIf(Auth::user()->hasAnyPermission(['see all applications', 'see all DJs']), '<div class="dropdown-divider"></div>')
                 ->routeIfCan('see all applications', 'shows.all', 'All shows')
                 ->routeIfCan('see all DJs', 'shows.djs', 'DJ roster')

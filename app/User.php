@@ -2,6 +2,7 @@
 
 namespace KRLX;
 
+use KRLX\Term;
 use KRLX\Events\UserCreating;
 use Laravel\Passport\HasApiTokens;
 use KRLX\Notifications\ResetPassword;
@@ -133,6 +134,26 @@ class User extends Authenticatable
                                 ->count();
 
         return $priority;
+    }
+
+    /**
+     * Function to determine if the user has any boosts available in the current
+     * academic term.
+     *
+     * @return bool
+     */
+    public function eligibleBoosts()
+    {
+        $term = Term::orderByDesc('on_air')->first();
+        $boosts = $this->boosts()->with('show')->get();
+
+        return $boosts->filter(function($boost) use ($term) {
+            if ($boost->term_id) {
+                return $boost->term_id == $term->id;
+            } else {
+                return (! $boost->show or $boost->show->term_id == $term->id);
+            }
+        });
     }
 
     /**
