@@ -17,6 +17,7 @@ class MoveBoostDataToOwnTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('show_id')->nullable();
+            $table->string('term_id')->nullable();
             $table->enum('type', ['S', 'A1', 'zone'])->default('zone');
             $table->boolean('transferable')->default(false);
             $table->timestamps();
