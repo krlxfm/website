@@ -156,6 +156,8 @@ class Show extends Model
 
         $priorities = $this->hosts->pluck('priority');
         $terms = $priorities->max->terms ?? 0;
+        $terms += $this->boosts()->where('type', 'zone')->count();
+
         $year = $priorities->min->year ?? (date('Y') + 4);
 
         if ($this->track->zone) {
