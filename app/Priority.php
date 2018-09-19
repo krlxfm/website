@@ -6,14 +6,12 @@ class Priority
 {
     public $terms = 0;
     public $year = 0;
-    public $override = null;
     public $relative_year = 0;
 
-    public function __construct(int $terms = null, int $year = null, int $relative_year = null, string $override = null)
+    public function __construct(int $terms = null, int $year = null, int $relative_year = null)
     {
         $this->terms = $terms;
         $this->year = $year;
-        $this->override = $override;
         $this->$relative_year = $relative_year ?? date('Y');
     }
 
@@ -48,10 +46,6 @@ class Priority
      */
     public function code()
     {
-        if ($this->override) {
-            return $this->override;
-        }
-
         $zone = explode(' | ', $this->display())[0];
         $group = '';
         if (strlen($zone) == 1) {
@@ -79,9 +73,6 @@ class Priority
     public function zone()
     {
         $letters = range('J', 'A');
-        if ($this->override) {
-            return $this->override[0];
-        }
 
         return $this->terms < count($letters) ? $letters[$this->terms] : 'A';
     }

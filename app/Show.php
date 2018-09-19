@@ -169,7 +169,7 @@ class Show extends Model
                 $terms = array_search($value[0], $term_numbers);
                 $year += (int) $value[1];
             }
-            return new Priority($terms, $year, $relative_year, $value);
+            return new Priority($terms, $year, $relative_year);
         }
 
         $priorities = $this->hosts->pluck('priority');
