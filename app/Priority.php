@@ -8,11 +8,11 @@ class Priority
     public $year = 0;
     public $relative_year = 0;
 
-    public function __construct(int $terms = null, int $year = null, int $relative_year = null)
+    public function __construct(int $terms = null, int $year = null, int $rel_year = null)
     {
         $this->terms = $terms;
         $this->year = $year;
-        $this->$relative_year = $relative_year ?? date('Y');
+        $this->relative_year = $rel_year;
     }
 
     /**

@@ -163,7 +163,7 @@ class Show extends Model
         if ($value) {
             $term_numbers = array_merge(range('J', 'B'), ['A3', 'A2', 'A1', 'A']);
             $terms = array_search($value, $term_numbers);
-            $year = date('Y') - ($this->term->boosted ? 1 : 0);
+            $year = $this->term->year - ($this->term->boosted ? 1 : 0);
             $relative_year = $year;
             if ($terms === false) {
                 $terms = array_search($value[0], $term_numbers);
