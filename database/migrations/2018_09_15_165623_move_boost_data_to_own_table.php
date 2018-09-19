@@ -16,7 +16,7 @@ class MoveBoostDataToOwnTable extends Migration
         Schema::create('boosts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('show_id');
+            $table->string('show_id')->nullable();
             $table->enum('type', ['S', 'A1', 'zone'])->default('S');
             $table->timestamps();
         });
