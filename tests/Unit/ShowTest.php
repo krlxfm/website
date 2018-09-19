@@ -121,7 +121,72 @@ class ShowTest extends TestCase
         ]);
 
         $this->assertEquals(0, $this->user->priority->terms);
+        $this->assertEquals('J', $this->user->priority->zone());
         $this->assertEquals(1, $this->show->priority->terms);
+        $this->assertEquals('I', $this->show->priority->zone());
+    }
+
+    /**
+     * Test that an A1 Upgrade Certificate successfully override's a show's
+     * priority to A1.
+     *
+     * @return void
+     */
+    public function testA1Upgrade()
+    {
+        $this->show->hosts()->attach($this->user, ['accepted' => true]);
+        $this->user->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'A1',
+        ]);
+
+        $this->assertEquals('A1', $this->show->priority->code());
+        $this->assertEquals(1000, $this->show->priority->terms);
+    }
+
+    /**
+     * Test that all A1 Boosted shows are created equal - that is, a show with
+     * two A1 Boosts doesn't leapfrog over shows with just one.
+     *
+     * @return void
+     */
+    public function testOnlyOneA1UpgradePerShow()
+    {
+        $this->show->hosts()->attach($this->user, ['accepted' => true]);
+        $this->user->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'A1',
+        ]);
+
+        $otherUser = factory(User::class)->states('contract_ok')->create();
+        $this->show->hosts()->attach($otherUser, ['accepted' => true]);
+        $otherUser->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'A1',
+        ]);
+
+        $this->assertEquals('A1', $this->show->priority->code());
+        $this->assertEquals(1000, $this->show->priority->terms);
+    }
+
+    /**
+     * Test that Board Priority Upgrade Certificates don't actually change
+     * a show's priority code, but do flag the show as having Board Priority.
+     *
+     * @return void
+     */
+    public function testBoardUpgrade()
+    {
+        $this->show->hosts()->attach($this->user, ['accepted' => true]);
+        $code = $this->show->priority->code();
+
+        $this->user->boosts()->create([
+            'show_id' => $this->show->id,
+            'type' => 'S',
+        ]);
+
+        $this->assertEquals($code, $this->show->priority->code());
+        $this->assertTrue($this->show->board_boost);
     }
 
     /**

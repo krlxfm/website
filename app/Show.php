@@ -145,18 +145,37 @@ class Show extends Model
     }
 
     /**
+     * Returns whether or not the show has any Board Upgrade Certificates on it.
+     *
+     * @return bool
+     */
+    public function getBoardBoostAttribute()
+    {
+        return $this->boosts()->where('type', 'S')->count() > 0;
+    }
+
+    /**
      * Generate the show's priority object.
      *
      * @return Priority
      */
     public function getPriorityAttribute($value) {
         if ($value) {
-            return new Priority(0, 0, ($this->term->year - ($this->term->boosted ? 1 : 0)), $value);
+            $term_numbers = array_merge(range('J', 'B'), ['A3', 'A2', 'A1', 'A']);
+            $terms = array_search($value, $term_numbers);
+            $year = date('Y') - ($this->term->boosted ? 1 : 0);
+            $relative_year = $year;
+            if ($terms === false) {
+                $terms = array_search($value[0], $term_numbers);
+                $year += (int) $value[1];
+            }
+            return new Priority($terms, $year, $relative_year, $value);
         }
 
         $priorities = $this->hosts->pluck('priority');
         $terms = $priorities->max->terms ?? 0;
         $terms += $this->boosts()->where('type', 'zone')->count();
+        $terms += ($this->boosts()->where('type', 'A1')->count() > 0 ? 1000 : 0);
 
         $year = $priorities->min->year ?? (date('Y') + 4);
 

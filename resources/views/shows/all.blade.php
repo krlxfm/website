@@ -1,5 +1,10 @@
 @extends('layouts.missioncontrol', ['title' => 'All Shows'])
 
+@php
+$code = '';
+$position = 0;
+@endphp
+
 @section('head')
     <div class="row">
         <div class="col">
@@ -25,6 +30,14 @@
                 </thead>
                 <tbody>
                     @foreach($shows->where('submitted', true) as $show)
+                        @php
+                        if ($code == $show->priority->code()) {
+                            $position++;
+                        } else {
+                            $position = 0;
+                            $code = $show->priority->code();
+                        }
+                        @endphp
                         <tr>
                             <td class="align-middle">
                                 <h5 class="mb-0">{{ $show->title }}</h5>
@@ -48,8 +61,7 @@
                                     <i class="fas fa-rocket"></i>
                                 @endif
                                 {{ $show->track->prefix }}
-                                {{ $show->priority->zone() }}
-                                {{ $show->priority->code() }}
+                                {{ $show->priority->code().str_pad($position, 2, '0', STR_PAD_LEFT) }}
                             </td>
                             <td class="align-middle">
                                 <div class="btn-group">
