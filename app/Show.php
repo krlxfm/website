@@ -145,47 +145,28 @@ class Show extends Model
     }
 
     /**
-     * Generate the show's priority string.
+     * Generate the show's priority object.
      *
-     * @return string
+     * @return Priority
      */
-    public function getPriorityAttribute($value)
-    {
+    public function getPriorityAttribute($value) {
         if ($value) {
-            return $value;
+            return new Priority(0, 0, ($this->term->year - ($this->term->boosted ? 1 : 0)), $value);
         }
-        $priorities = $this->hosts->pluck('priority');
-        $zone = '';
-        $group = '';
 
+        $priorities = $this->hosts->pluck('priority');
         $terms = $priorities->max->terms ?? 0;
+        $year = $priorities->min->year ?? (date('Y') + 4);
 
         if ($this->track->zone) {
-            $zone = $this->track->zone;
-        } elseif ($terms >= count(config('defaults.priority.terms'))) {
-            $zone = config('defaults.priority.default');
-        } else {
-            $zone = config('defaults.priority.terms')[$terms];
+            $terms = array_search($this->track->zone, array_merge(config('defaults.priority.terms'), ['A']));
         }
 
-        $year = $priorities->min->year;
-        if ($this->track->group !== null) {
-            $group = $this->track->group;
-        } elseif ($year == 0) {
-            $zone = config('defaults.priority.none');
-        } elseif ($year >= count(config('defaults.status_codes')) and $year < 1000) {
-            $zone = config('defaults.priority.default');
-        } elseif (strlen($zone) == 2) {
-            $group = '';
-        } else {
-            $group = $year - $this->term->year + ($this->term->boosted ? 1 : 0);
-            if ($group <= 0) {
-                $group = '';
-                $zone = config('defaults.priority.default');
-            }
+        if ($this->track->group) {
+            $year = $this->track->group + $this->term->year - ($this->term->boosted ? 1 : 0);
         }
 
-        return $zone.$group;
+        return new Priority($terms, $year, ($this->term->year - ($this->term->boosted ? 1 : 0)));
     }
 
     /**

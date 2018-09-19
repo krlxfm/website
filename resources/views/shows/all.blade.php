@@ -43,12 +43,13 @@
                             <td class="align-middle">
                                 {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                             </td>
-                            <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
+                            <td class="align-middle text-center bg-priority-{{ strtolower($show->priority->zone()) }}">
                                 @if($show->boosted and $show->boost == 'S')
                                     <i class="fas fa-rocket"></i>
                                 @endif
                                 {{ $show->track->prefix }}
-                                {{ $show->priority }}
+                                {{ $show->priority->zone() }}
+                                {{ $show->priority->code() }}
                             </td>
                             <td class="align-middle">
                                 <div class="btn-group">
@@ -93,9 +94,9 @@
                                 <td class="align-middle">
                                     {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                                 </td>
-                                <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
+                                <td class="align-middle text-center bg-priority-{{ strtolower($show->priority->zone()) }}">
                                     {{ $show->track->prefix }}
-                                    {{ $show->priority }}
+                                    {{ $show->priority->code() }}
                                 </td>
                                 <td class="align-middle">
                                     <div class="btn-group">
@@ -138,9 +139,9 @@
                                 <td class="align-middle">
                                     {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                                 </td>
-                                <td class="align-middle text-center bg-priority-{{ strtolower($show->priority[0]) }}">
+                                <td class="align-middle text-center bg-priority-{{ strtolower($show->priority->zone()) }}">
                                     {{ $show->track->prefix }}
-                                    {{ $show->priority }}
+                                    {{ $show->priority->code() }}
                                 </td>
                                 <td class="align-middle">
                                     <div class="btn-group">
