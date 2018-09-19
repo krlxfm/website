@@ -152,6 +152,9 @@ $position = 0;
                                     {!! implode('<br>', $show->hosts->pluck('full_name')->all()) !!}
                                 </td>
                                 <td class="align-middle text-center bg-priority-{{ strtolower($show->priority->zone()) }}">
+                                    @if($show->boosted)
+                                        <i class="fas fa-rocket"></i>
+                                    @endif
                                     {{ $show->track->prefix }}
                                     {{ $show->priority->code() }}
                                 </td>
