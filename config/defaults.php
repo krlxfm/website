@@ -18,6 +18,11 @@ return [
          */
         'full' => ['ass', 'asshole', 'pussy', 'tit'],
     ],
+    'boosts' => [
+        'S' => 'Board Upgrade Certificate',
+        'A1' => 'A1 Upgrade Certificate',
+        'zone' => 'One-Zone Upgrade Certificate'
+    ],
     'directory' => 'https://apps.carleton.edu/stock/ldapimage.php?id=',
     'title' => 'KRLX Community',
     'salt' => env('OAUTH_SALT', 'krlx'),

@@ -10,6 +10,48 @@
                     - Priority <span class="badge bg-priority-{{ strtolower($user->priority->zone()) }}">{!! $user->priority->html() !!}</span>
                 @endif
             </p>
+            @if(count($boosts) > 0)
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h3 class="mb-0">Priority Upgrade Certificates</h3>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach($boosts as $boost)
+                            <li class="list-group-item d-flex align-items-center flex-wrap">
+                                <div>
+                                    <h5 class="head-sans-serif mb-0">
+                                        <strong>{{ config('defaults.boosts.'.$boost->type) }}</strong>
+                                    </h5>
+                                    @if($boost->show)
+                                        Applied to {{ $boost->show->title }}
+                                    @else
+                                        <strong class="text-success">Available to redeem</strong>
+                                    @endif
+                                    @unless($boost->term_id)
+                                        | No expiration date
+                                    @endunless
+                                </div>
+                                <div class="ml-auto btn-group">
+                                    @if($boost->show)
+                                        <a href="#" class="btn btn-outline-success">
+                                            <i class="fas fa-exchange-alt"></i> Move
+                                        </a>
+                                    @else
+                                        <a href="#" class="btn btn-success">
+                                            <i class="fas fa-certificate"></i> Redeem
+                                        </a>
+                                    @endif
+                                    @if($boost->transferable)
+                                        <a href="#" class="btn btn-outline-success">
+                                            <i class="fas fa-gift"></i> Transfer
+                                        </a>
+                                    @endif
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card my-3">
                 <div class="card-header d-flex flex-wrap align-items-center">
                     <h3 class="mb-0">Radio shows - {{ $term->name }}</h3>
