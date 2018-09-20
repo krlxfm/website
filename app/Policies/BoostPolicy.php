@@ -19,6 +19,6 @@ class BoostPolicy
      */
     public function redeem(User $user, Boost $boost)
     {
-        return $boost->user_id = $user->id;
+        return $boost->user_id == $user->id;
     }
 }
