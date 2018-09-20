@@ -5,8 +5,8 @@
             <li class="list-group-item schedule-queue-item" v-for="show in showsWithoutTimes" v-bind:data-show-id="show.id" v-bind:key="show.id" v-on:mousedown="$emit('current-show', show.id)">
                 <h5 class="head-sans-serif mb-0">{{ show.title }}</h5>
                 <p class="mb-0">
-                    <span class="badge" v-bind:class="'bg-priority-'+show.priority.charAt(0).toLowerCase()">
-                        {{ show.priority }}
+                    <span class="badge" v-bind:class="'bg-priority-'+show.priority_code.charAt(0).toLowerCase()">
+                        {{ show.priority_code }}
                     </span>
                     <span class="badge bg-priority-a">
                         <i class="fas" v-bind:class="show.hosts.length == 1 ? 'fa-user' : 'fa-users'"></i>

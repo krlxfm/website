@@ -70,6 +70,15 @@ class Show extends Model
     ];
 
     /**
+     * The attributes that should be appended to arrays.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'priority_code',
+    ];
+
+    /**
      * Shows have a Track ID that corresponds to a Track.
      *
      * @return Track
@@ -190,6 +199,16 @@ class Show extends Model
         }
 
         return new Priority($terms, $year, ($this->term->year - ($this->term->boosted ? 1 : 0)));
+    }
+
+    /**
+     * Shorthand for priority->code so that JavaScript doesn't complain.
+     *
+     * @return string
+     */
+    public function getPriorityCodeAttribute()
+    {
+        return $this->priority->code();
     }
 
     /**

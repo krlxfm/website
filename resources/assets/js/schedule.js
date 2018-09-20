@@ -47,8 +47,8 @@ function getEvents() {
         var showData = {
             id: show.id,
             title: show.title,
-            color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
-            textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
+            color: calendar.priorityColors[show.priority_code.charAt(0).toLowerCase()],
+            textColor: ['g', 'h', 's'].includes(show.priority_code.charAt(0).toLowerCase()) ? 'black' : 'white',
             start: showTimes.start,
             end: showTimes.end
         };
@@ -163,8 +163,8 @@ window.enableDragging = function() {
         $(this).data('event', {
             id: showID,
             title: show.title,
-            color: calendar.priorityColors[show.priority.charAt(0).toLowerCase()],
-            textColor: ['g', 'h', 's'].includes(show.priority.charAt(0).toLowerCase()) ? 'black' : 'white',
+            color: calendar.priorityColors[show.priority_code.charAt(0).toLowerCase()],
+            textColor: ['g', 'h', 's'].includes(show.priority_code.charAt(0).toLowerCase()) ? 'black' : 'white',
             duration: '0'+Math.floor(show.preferred_length / 60)+':'+((show.preferred_length % 60) / 10)+'0'
         });
 
