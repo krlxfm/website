@@ -57,4 +57,17 @@ class BoostTest extends TestCase
         $request->assertOk()
                 ->assertSee(config('defaults.boost.zone'));
     }
+
+    /**
+     * Test that the user can access the redemption screen for any of their own
+     * upgrade certificates.
+     *
+     * @return void
+     */
+    public function testUserCanRedeemOwnEligibleCertificate()
+    {
+        $request = $this->get("/shows/boost/{$this->boost->id}");
+        $request->assertOk()
+                ->assertSee(config('defaults.boost.zone'));
+    }
 }

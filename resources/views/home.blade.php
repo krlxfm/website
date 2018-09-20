@@ -33,11 +33,11 @@
                                 </div>
                                 <div class="ml-auto btn-group">
                                     @if($boost->show)
-                                        <a href="#" class="btn btn-outline-success">
+                                        <a href="{{ route('boost.redeem', $boost) }}" class="btn btn-outline-success">
                                             <i class="fas fa-exchange-alt"></i> Move
                                         </a>
                                     @else
-                                        <a href="#" class="btn btn-success">
+                                        <a href="{{ route('boost.redeem', $boost) }}" class="btn btn-success">
                                             <i class="fas fa-certificate"></i> Redeem
                                         </a>
                                     @endif

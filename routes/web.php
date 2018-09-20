@@ -52,6 +52,8 @@ Route::middleware(['auth', 'onboard'])->group(function () {
         Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
 
         Route::get('shows/boost', 'BoostController@index')->name('boost.index');
+        Route::get('shows/boost/{boost}', 'BoostController@redeem')->name('boost.redeem');
+        Route::post('shows/boost/{boost}', 'BoostController@redeemToShow');
         Route::get('shows/create', 'ShowController@create')->name('shows.create');
         Route::get('shows/{show}', 'ShowController@review')->name('shows.review');
         Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
