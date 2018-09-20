@@ -30,6 +30,8 @@ class BoostController extends Controller
      */
     public function redeem(Boost $boost, Request $request)
     {
+        $this->authorize('redeem', $boost);
+
         $term = Term::orderByDesc('on_air')->first();
         $candidates = $request->user()->shows()->with(['hosts', 'track' => function($query) {
             $query->where('boostable', true);
@@ -55,6 +57,8 @@ class BoostController extends Controller
      */
     public function redeemToShow(Boost $boost, Request $request)
     {
+        $this->authorize('redeem', $boost);
+
         $request->validate([
             'show_id' => ['required', 'string', 'exists:shows,id', function($attribute, $value, $fail) use ($boost, $request) {
                 $show = Show::find($value);

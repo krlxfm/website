@@ -14,6 +14,7 @@ class BoostTest extends TestCase
 {
     use RefreshDatabase;
 
+    public $boost;
     public $show;
     public $track;
     public $term;
@@ -39,7 +40,7 @@ class BoostTest extends TestCase
             'submitted' => false,
         ]);
         $this->show->hosts()->attach($this->user, ['accepted' => true]);
-        $this->user->boosts()->create([
+        $this->boost = $this->user->boosts()->create([
             'show_id' => $this->show->id,
             'type' => 'zone',
         ]);
