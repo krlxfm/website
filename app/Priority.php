@@ -81,7 +81,7 @@ class Priority
      */
     public function zone()
     {
-        if ($this->year < 1000) {
+        if ($this->year < 1000 and $this->year > 0) {
             return 'A';
         }
 
