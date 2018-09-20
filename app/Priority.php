@@ -46,10 +46,14 @@ class Priority
      */
     public function code()
     {
-        $zone = explode(' | ', $this->display())[0];
+        $zone = $this->zone();
         $group = '';
         if (strlen($zone) == 1) {
-            $group = $this->year - $this->relative_year;
+            if ($this->year < 1000) {
+                return $this->year == 0 ? config('defaults.priority.none') : config('defaults.priority.default');
+            } else {
+                $group = $this->year - $this->relative_year;
+            }
         }
 
         return $zone.$group;

@@ -9,7 +9,7 @@ $position = 0;
     <div class="row">
         <div class="col">
             <div class="d-flex flex-wrap align-items-center">
-                <h1>All Shows</h1>
+                <h1>All Shows ({{ $shows->where('submitted', true)->count() }} submitted)</h1>
                 <div class="btn-group ml-auto">
                     <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
                 </div>
