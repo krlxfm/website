@@ -175,7 +175,7 @@ class ShowController extends Controller
         }
 
         $shows = $term->showsInPriorityOrder(true);
-        $one_off_shows = $term->showsInPriorityOrder(false);
+        $one_off_shows = $term->showsInPriorityOrder(false)->groupBy('track.id');
 
         return view('shows.all', compact('shows', 'terms', 'term', 'one_off_shows'));
     }
