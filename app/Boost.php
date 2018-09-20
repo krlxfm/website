@@ -11,7 +11,7 @@ class Boost extends Model
      *
      * @var array
      */
-    protected $fillable = ['show_id', 'type', 'user_id'];
+    protected $fillable = ['show_id', 'type', 'user_id', 'term_id'];
 
     /**
      * The user who this Boost is assigned to.

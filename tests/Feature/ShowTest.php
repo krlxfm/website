@@ -97,7 +97,38 @@ class ShowTest extends TestCase
 
         $show = Show::where('title', 'Example Show Title')->first();
         $this->assertContains($this->user->id, $show->hosts()->pluck('id'));
+        $this->assertFalse($this->user->can('auto-request Zone S'));
+        $this->assertFalse($show->boosted, 'A show was boosted when it should not have been.');
         $request->assertRedirect(route('shows.hosts', $show->id));
+    }
+
+    /**
+     * Test that a user with permission to automatically request Zone S will
+     * automatically have their FIRST show get upgraded.
+     *
+     * @return void
+     */
+    public function testAutomaticUpgradeRequest()
+    {
+        $this->user->givePermissionTo('auto-request Zone S');
+
+        $this->post('/shows', [
+            'title' => 'Example Show Title',
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $upgraded_show = Show::where('title', 'Example Show Title')->first();
+        $this->post('/shows', [
+            'title' => 'Other Show Title',
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $non_upgraded_show = Show::where('title', 'Other Show Title')->first();
+
+        $this->assertTrue($upgraded_show->boosted, 'Failed asserting that the show is boosted.');
+        $this->assertTrue($upgraded_show->board_boost, 'Failed asserting that the show has a Board Upgrade Certificate.');
+        $this->assertFalse($non_upgraded_show->boosted, 'A second show was upgraded when it should not have been.');
+        $this->assertFalse($non_upgraded_show->board_boost, 'A second Board Upgrade Certificate was issued.');
     }
 
     /**
