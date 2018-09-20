@@ -194,11 +194,11 @@ class ShowController extends Controller
             $term = $terms->first();
         }
 
-        $hosts = User::orderBy('email')->with(['points', 'shows' => function($query) use ($term) {
+        $hosts = User::orderBy('email')->with(['points', 'shows' => function ($query) use ($term) {
             return $query->where([['term_id', $term->id], ['submitted', true]]);
         }])->get();
 
-        $users = $hosts->filter(function($user) {
+        $users = $hosts->filter(function ($user) {
             return $user->shows->count() > 0;
         });
 

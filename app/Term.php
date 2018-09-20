@@ -112,8 +112,9 @@ class Term extends Model
     public function showsInPriorityOrder(bool $weekly)
     {
         $shows = $this->shows()->with('track', 'hosts')->get();
-        return $shows->filter(function($show) use ($weekly) {
-            return ($show->track->weekly == $weekly and ($weekly ? ($show->track->order > 0) : ($show->track->order == 0)));
+
+        return $shows->filter(function ($show) use ($weekly) {
+            return $show->track->weekly == $weekly and ($weekly ? ($show->track->order > 0) : ($show->track->order == 0));
         })->sort(function ($a, $b) {
             return $this->sortShowsByPriority($a, $b);
         });
