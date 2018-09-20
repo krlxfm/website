@@ -4,6 +4,7 @@ namespace KRLX\Http\Controllers;
 
 use KRLX\Show;
 use KRLX\Term;
+use KRLX\User;
 use Validator;
 use KRLX\Track;
 use KRLX\Rules\Profanity;
@@ -188,16 +189,18 @@ class ShowController extends Controller
      */
     public function djs(Request $request, Term $term = null)
     {
-        $terms = Term::orderByDesc('on_air')->get();
         if ($term == null) {
+            $terms = Term::orderByDesc('on_air')->get();
             $term = $terms->first();
         }
 
-        $hosts = $term->shows()->where('submitted', true)->get()->pluck('hosts')->flatten();
+        $hosts = User::orderBy('email')->with(['points', 'shows' => function($query) use ($term) {
+            return $query->where([['term_id', $term->id], ['submitted', true]]);
+        }])->get();
 
-        $users = $hosts->unique(function ($user) {
-            return $user['id'];
-        })->sortBy('email');
+        $users = $hosts->filter(function($user) {
+            return $user->shows->count() > 0;
+        });
 
         return view('shows.djs', compact('term', 'terms', 'users'));
     }
