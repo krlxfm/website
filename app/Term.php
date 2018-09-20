@@ -137,11 +137,14 @@ class Term extends Model
      */
     protected function sortShowsByPriority(Show $show_a, Show $show_b)
     {
+        $priority_a = $show_a->priority;
+        $priority_b = $show_b->priority;
+
         $boost_diff = $show_b->board_boost <=> $show_a->board_boost;
         $track_diff = $show_a->track->order <=> $show_b->track->order;
-        $faculty_diff = ($show_b->priority->year < 1000) <=> ($show_a->priority->year < 1000);
-        $zone_diff = $show_b->priority->terms <=> $show_a->priority->terms;
-        $year_diff = $show_a->priority->year <=> $show_b->priority->year;
+        $faculty_diff = ($priority_b->year < 1000) <=> ($priority_a->year < 1000);
+        $zone_diff = $priority_b->terms <=> $priority_a->terms;
+        $year_diff = $priority_a->year <=> $priority_b->year;
         $completed_diff = $show_b->submitted <=> $show_a->submitted;
         $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
         $id_diff = $show_a->id <=> $show_b->id;
