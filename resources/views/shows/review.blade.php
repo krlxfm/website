@@ -35,7 +35,7 @@
                         <td>Status</td>
                         <td>
                             @if($show->submitted)
-                                Submitted &mdash; priority {{ $show->priority }}
+                                Submitted &mdash; priority {{ $show->priority->code() }}
                                 @if($show->boosted)
                                     <span class="badge badge-danger"><i class="fas fa-rocket"></i> PRIORITY BOOST</span>
                                 @endif
