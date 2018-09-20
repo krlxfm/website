@@ -2,7 +2,6 @@
 
 namespace KRLX;
 
-use KRLX\Show;
 use Illuminate\Database\Eloquent\Model;
 
 class Boost extends Model
@@ -55,14 +54,16 @@ class Boost extends Model
     public function setShowIdAttribute($value)
     {
         $show = Show::find($value);
-        if (! $show) return;
+        if (! $show) {
+            return;
+        }
 
         $multi_boost_check = ($this->type == 'zone' or $show->boosts()->where('type', $this->type)->count() == 0);
         $eligible_check = $show->track->boostable;
         $same_term_check = true;
         if ($this->term_id) {
             $same_term_check = ($this->term_id == $show->term_id);
-        } else if ($this->show_id) {
+        } elseif ($this->show_id) {
             $same_term_check = ($this->show->term_id == $show->term_id);
         }
 

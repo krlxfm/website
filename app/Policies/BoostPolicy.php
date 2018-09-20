@@ -2,8 +2,8 @@
 
 namespace KRLX\Policies;
 
-use KRLX\Boost;
 use KRLX\User;
+use KRLX\Boost;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class BoostPolicy

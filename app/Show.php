@@ -159,7 +159,8 @@ class Show extends Model
      *
      * @return Priority
      */
-    public function getPriorityAttribute($value) {
+    public function getPriorityAttribute($value)
+    {
         if ($value) {
             $term_numbers = array_merge(range('J', 'B'), ['A3', 'A2', 'A1', 'A']);
             $terms = array_search($value, $term_numbers);
@@ -169,6 +170,7 @@ class Show extends Model
                 $terms = array_search($value[0], $term_numbers);
                 $year += (int) $value[1];
             }
+
             return new Priority($terms, $year, $relative_year);
         }
 
