@@ -168,8 +168,8 @@ class ShowController extends Controller
      */
     public function all(Request $request, Term $term = null)
     {
-        $terms = Term::orderByDesc('on_air')->get();
         if ($term == null) {
+            $terms = Term::orderByDesc('on_air')->get();
             $term = $terms->first();
         }
 

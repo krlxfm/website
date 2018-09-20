@@ -51,8 +51,13 @@ class Priority
         if (strlen($zone) == 1) {
             if ($this->year < 1000) {
                 return config('defaults.priority.default');
+            } else if ($zone == 'A') {
+                $group = 12 - $this->terms;
             } else {
                 $group = $this->year - $this->relative_year;
+            }
+            if ($group < 0) {
+                $group = 0;
             }
         }
 
@@ -76,6 +81,10 @@ class Priority
      */
     public function zone()
     {
+        if ($this->year < 1000) {
+            return 'A';
+        }
+
         $letters = range('J', 'A');
 
         return $this->terms < count($letters) ? $letters[$this->terms] : 'A';
