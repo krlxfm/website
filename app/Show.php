@@ -185,7 +185,7 @@ class Show extends Model
             $terms = array_search($this->track->zone, array_merge(config('defaults.priority.terms'), ['A']));
         }
 
-        if ($this->track->group) {
+        if ($this->track->group !== null) {
             $year = $this->track->group + $this->term->year - ($this->term->boosted ? 1 : 0);
         }
 
