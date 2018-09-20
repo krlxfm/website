@@ -139,13 +139,14 @@ class Term extends Model
     {
         $boost_diff = $show_b->board_boost <=> $show_a->board_boost;
         $track_diff = $show_a->track->order <=> $show_b->track->order;
+        $faculty_diff = ($show_b->priority->year < 1000) <=> ($show_a->priority->year < 1000);
         $zone_diff = $show_b->priority->terms <=> $show_a->priority->terms;
         $year_diff = $show_a->priority->year <=> $show_b->priority->year;
         $completed_diff = $show_b->submitted <=> $show_a->submitted;
         $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
         $id_diff = $show_a->id <=> $show_b->id;
 
-        $diffs = [$boost_diff, $track_diff, $zone_diff, $year_diff, $completed_diff, $updated_at_diff, $id_diff];
+        $diffs = [$boost_diff, $track_diff, $faculty_diff, $zone_diff, $year_diff, $completed_diff, $updated_at_diff, $id_diff];
 
         foreach ($diffs as $diff) {
             if ($diff != 0) {
