@@ -50,7 +50,7 @@ class Priority
         $group = '';
         if (strlen($zone) == 1) {
             if ($this->year < 1000) {
-                return $this->year == 0 ? config('defaults.priority.none') : config('defaults.priority.default');
+                return config('defaults.priority.none');
             } else {
                 $group = $this->year - $this->relative_year;
             }
