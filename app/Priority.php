@@ -53,6 +53,9 @@ class Priority
                 return config('defaults.priority.default');
             } elseif ($zone == 'A') {
                 $group = 12 - $this->terms;
+                if ($group <= 0) {
+                    $group = 1;
+                }
             } else {
                 $group = $this->year - $this->relative_year;
             }
