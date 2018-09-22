@@ -134,7 +134,7 @@ function checkNoSpringForwardShenanigans(grid) {
 
 function check1aMercyRule(shows) {
     const showsWithEarlyClasses = shows.filter(show => showList[show.id].classes.filter(i => earlyClasses.includes(i)).length > 0);
-    const ecShowsWithEarlyStart = showsWithEarlyClasses.filter(show => (show.start.hour() >= 1 && show.end.hour() < 8));
+    const ecShowsWithEarlyStart = showsWithEarlyClasses.filter(show => (show.start.hour() >= 1 && show.end.hour() < 8 && show.end.hour() > 1));
 
     /*
      * We now have a list of shows that could be subjected to the 1a Mercy Rule.
