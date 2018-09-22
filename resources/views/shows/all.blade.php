@@ -94,7 +94,7 @@ $position = 0;
                                 <td class="align-middle">
                                     <h5 class="mb-0">{{ $show->title }}
                                         @unless($show->submitted)
-                                            <small><span class="badge badge-warning">INCOMPLETE</span></small>
+                                            <small><span class="badge badge-warning" data-status="incomplete">INCOMPLETE</span></small>
                                         @endunless
                                     </h5>
                                     <small class="text-muted">
@@ -141,7 +141,7 @@ $position = 0;
                         @foreach($shows->where('submitted', false) as $show)
                             <tr>
                                 <td class="align-middle">
-                                    <h5 class="mb-0">{{ $show->title }} <small><span class="badge badge-warning">INCOMPLETE</span></small></h5>
+                                    <h5 class="mb-0">{{ $show->title }} <small><span class="badge badge-warning" data-status="incomplete">INCOMPLETE</span></small></h5>
                                     <small class="text-muted">
                                         {{ $show->id }} | {{ $show->track->name }} | last updated {{ $show->updated_at->toDayDateTimeString() }}
                                     </small>
@@ -172,3 +172,10 @@ $position = 0;
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+var termID = "{{ $term->id }}";
+</script>
+<script src="/js/pages/shows/all.js" defer></script>
+@endpush

@@ -26,7 +26,7 @@ class Term extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'on_air', 'off_air', 'boosted',
+        'id', 'on_air', 'off_air', 'applications_close', 'boosted',
     ];
 
     /**
@@ -45,6 +45,7 @@ class Term extends Model
      */
     protected $casts = [
         'boosted' => 'boolean',
+        'track_managers' => 'array',
     ];
 
     /**
@@ -66,6 +67,7 @@ class Term extends Model
         'updated_at',
         'on_air',
         'off_air',
+        'applications_close',
     ];
 
     /**
