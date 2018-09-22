@@ -400,7 +400,7 @@ class ShowTest extends APITestCase
     {
         $show = Show::find($this->show->id);
         $request = $this->json('POST', '/api/v1/shows/remind', [
-            'term_id' => $this->show->term_id
+            'term_id' => $this->show->term_id,
         ]);
         $this->assertFalse($show->submitted);
 
