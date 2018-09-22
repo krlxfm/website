@@ -2,6 +2,7 @@
 
 namespace KRLX\Events;
 
+use KRLX\Term;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -19,9 +20,9 @@ class TermCreating
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Term $term)
     {
-        //
+        $this->term = $term;
     }
 
     /**

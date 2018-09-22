@@ -27,7 +27,7 @@ class AddColumnsToTermsTable extends Migration
     public function down()
     {
         Schema::table('terms', function (Blueprint $table) {
-            //
+            $table->dropColumn(['applications_close', 'track_managers']);
         });
     }
 }
