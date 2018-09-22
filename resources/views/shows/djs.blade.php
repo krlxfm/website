@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <div class="d-flex flex-wrap align-items-center">
-                <h1>DJ roster</h1>
+                <h1>DJ roster ({{ $users->count() }})</h1>
                 <div class="btn-group ml-auto">
                     <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
                 </div>
