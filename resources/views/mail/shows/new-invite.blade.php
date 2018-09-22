@@ -11,7 +11,7 @@ Join {{ $show->title }}
 
 **Important: This invitation will expire when applications close. You'll need to accept this invitation before applications close in order to receive experience points and other benefits.**
 
-If the button isn't working, you can also join from [My Shows]({{ route('shows.my', $show->term) }}).
+If the button isn't working, you can also join with this link: [{{ route('shows.join', $show) }}]({{ route('shows.join', $show) }}).
 
 If you aren't interested in joining {{ $show->title }}, you can safely ignore this email.
 
