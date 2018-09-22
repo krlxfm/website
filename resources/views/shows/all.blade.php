@@ -125,7 +125,7 @@ $position = 0;
                 <div class="d-flex mb-3 mt-5 flex-wrap align-items-center">
                     <h2>Incomplete Shows</h2>
                     <div class="btn-group ml-auto">
-                        <a href="#" class="btn btn-primary"><i class="fas fa-bell"></i> Remind shows</a>
+                        <button type="button" id="remind" class="btn btn-primary"><i class="fas fa-bell"></i> Remind shows</button>
                     </div>
                 </div>
                 <table class="table table-borderless table-striped">
