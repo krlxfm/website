@@ -247,13 +247,13 @@ class ShowController extends Controller
     public function remind(Request $request)
     {
         $request->validate([
-            'term_id' => 'required|string|exists:terms,id'
+            'term_id' => 'required|string|exists:terms,id',
         ]);
 
         $term = Term::find($request->input('term_id'));
         $shows = $term->shows()->where('submitted', false)->with('hosts')->get();
 
-        foreach($shows as $show) {
+        foreach ($shows as $show) {
             Mail::to($show->hosts)->queue(new ShowReminder($show));
         }
     }
