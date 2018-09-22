@@ -184,6 +184,7 @@ class ShowController extends Controller
         $this->authorize('delete', $show);
 
         $show->delete();
+
         return redirect()->route('shows.my');
     }
 
