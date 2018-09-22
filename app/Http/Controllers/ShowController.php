@@ -89,7 +89,7 @@ class ShowController extends Controller
         if ($request->user()->can('auto-request Zone S')) {
             $boosts = $request->user()->boosts()->with('show')->where('type', 'S')->get();
             $boosted_shows = $boosts->filter(function ($boost) use ($request) {
-                return $boost->term_id == $request->input('term_id') or $boost->show->term_id == $request->input('term_id');
+                return $boost->term_id == $request->input('term_id') or ($boost->show and $boost->show->term_id == $request->input('term_id'));
             });
             if ($boosted_shows->count() == 0) {
                 $request->user()->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $request->input('term_id')]);
