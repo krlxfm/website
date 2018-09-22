@@ -245,6 +245,7 @@ class ShowController extends Controller
             return view('shows.find');
         } else {
             $this->authorize('update', $show);
+
             return view('shows.join', compact('show'));
         }
     }
