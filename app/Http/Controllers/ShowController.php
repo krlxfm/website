@@ -86,7 +86,7 @@ class ShowController extends Controller
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
 
-        if ($request->user()->can('auto-request Zone S')) {
+        if ($request->user()->can('auto-request Zone S') and $show->track->boostable) {
             $boosts = $request->user()->boosts()->with('show')->where('type', 'S')->get();
             $boosted_shows = $boosts->filter(function ($boost) use ($request) {
                 return $boost->term_id == $request->input('term_id') or ($boost->show and $boost->show->term_id == $request->input('term_id'));
