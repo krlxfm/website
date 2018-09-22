@@ -6,6 +6,7 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use Validator;
+use KRLX\Mail\ShowReminder;
 use Illuminate\Http\Request;
 use KRLX\Mail\ShowSubmitted;
 use KRLX\Rulesets\ShowRuleset;
@@ -218,7 +219,7 @@ class ShowController extends Controller
      *
      * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
-     * @return Illuminate\Http\Response
+     * @return KRLX\Show|Illuminate\Http\Response
      */
     public function submit(Request $request, Show $show)
     {
@@ -235,5 +236,25 @@ class ShowController extends Controller
         $show->save();
 
         return $show;
+    }
+
+    /**
+     * Send reminder emails to incomplete shows.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return Illuminate\Http\Response
+     */
+    public function remind(Request $request)
+    {
+        $request->validate([
+            'term_id' => 'required|string|exists:terms,id'
+        ]);
+
+        $term = Term::find($request->input('term_id'));
+        $shows = $term->shows()->where('submitted', false)->with('hosts')->get();
+
+        foreach($shows as $show) {
+            Mail::to($show->hosts)->queue(new ShowReminder($show));
+        }
     }
 }

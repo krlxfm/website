@@ -6,6 +6,8 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
+use KRLX\Mail\ShowReminder;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -20,6 +22,7 @@ class ShowTest extends APITestCase
     public function setUp()
     {
         parent::setUp();
+        Mail::fake();
 
         $this->term = factory(Term::class)->create(['status' => 'active']);
         $this->track = factory(Track::class)->create(['active' => true]);
@@ -386,5 +389,19 @@ class ShowTest extends APITestCase
         $request->assertOk();
         $this->assertNotContains($this->user->id, $show->invitees()->pluck('id'), 'The user was not removed from the invitee list.');
         $this->assertNotContains($this->user->id, $show->hosts()->pluck('id'), 'The user was added to the host list when they should not have been.');
+    }
+
+    /**
+     * Test that the remind-shows route queues emails for everyone involved.
+     *
+     * @return void
+     */
+    public function testShowReminderEmails()
+    {
+        $show = Show::find($this->show->id);
+        $request = $this->json('POST', '/api/v1/shows/remind', [
+            'term_id' => $this->show->term_id
+        ]);
+        $this->assertFalse($show->submitted);
     }
 }
