@@ -403,5 +403,7 @@ class ShowTest extends APITestCase
             'term_id' => $this->show->term_id
         ]);
         $this->assertFalse($show->submitted);
+
+        Mail::assertQueued(ShowReminder::class);
     }
 }
