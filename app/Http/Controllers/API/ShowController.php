@@ -251,6 +251,12 @@ class ShowController extends Controller
         ]);
 
         $term = Term::find($request->input('term_id'));
+        if (! $term->applications_close) {
+            // The term MUST have an Applications Close date set.
+            // Otherwise, emails will have issues rendering.
+            abort(400, 'This term has not been fully configured. Please set an application closure date in the term settings.');
+        }
+
         $shows = $term->shows()->where('submitted', false)->with('hosts')->get();
 
         foreach ($shows as $show) {
