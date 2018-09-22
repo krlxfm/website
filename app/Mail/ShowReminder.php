@@ -3,6 +3,7 @@
 namespace KRLX\Mail;
 
 use KRLX\Show;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -17,6 +18,7 @@ class ShowReminder extends Mailable
      * @var Show
      */
     public $show;
+    public $deadline_diff;
 
     /**
      * Create a new message instance.
@@ -29,6 +31,9 @@ class ShowReminder extends Mailable
         $this->show = $show;
         $this->subject("{$show->title} Application Reminder");
         $this->from('scheduling@krlx.org');
+
+        $now = Carbon::now();
+        $this->deadline_diff = $now->diff($show->term->applications_close);
     }
 
     /**

@@ -1,7 +1,7 @@
 @component('mail::message')
 # Don't forget to submit your application!
 
-This is a friendly reminder that your application for the KRLX radio show {{ $show->title }} has not yet been submitted for sheduling.
+This is a friendly reminder that your application for the KRLX radio show {{ $show->title }} has not yet been submitted for scheduling.
 If you're hoping to make {{ $show->title }} a reality, there are a couple steps for you to complete.
 
 If you **do not** want {{ $show->title }} to get scheduled, you can either ignore this email or delete the application online.
@@ -14,6 +14,8 @@ Continue Application for {{ $show->title }}
 @endcomponent
 
 If the button isn't working, this link should: [{{ route('shows.review', $show) }}]({{ route('shows.review', $show) }})
+
+Applications close at {{ $show->term->applications_close->format('g:i a') }} on {{ $show->term->applications_close->format('l, F j') }} - this is {{ $deadline_diff->h }} hours and {{ $deadline_diff->i }} minutes from now.
 
 Please let us know if you have any questions or run into any trouble!
 We look forward to reviewing your application and getting you a slot on the air!
