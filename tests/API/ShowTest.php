@@ -392,6 +392,28 @@ class ShowTest extends APITestCase
     }
 
     /**
+     * Test that remind-show emails are NOT sent if the term does not have an
+     * application closure date set.
+     *
+     * @return void
+     */
+    public function testShowReminderEmailsDontSendWithoutCloseDate()
+    {
+        $term = factory(Term::class)->create(['applications_close' => null, 'status' => 'active']);
+        $show = factory(Show::class)->create([
+            'term_id' => $term->id,
+            'track_id' => $this->track->id,
+            'submitted' => false,
+        ]);
+        $request = $this->json('POST', '/api/v1/shows/remind', [
+            'term_id' => $term->id,
+        ]);
+        $this->assertFalse($show->submitted);
+
+        Mail::assertNotQueued(ShowReminder::class);
+    }
+
+    /**
      * Test that the remind-shows route queues emails for everyone involved.
      *
      * @return void
