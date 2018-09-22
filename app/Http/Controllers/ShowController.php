@@ -148,7 +148,7 @@ class ShowController extends Controller
     }
 
     /**
-     * Display the scheduling fields of a show.
+     * Display ALL fields of a show.
      *
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
@@ -158,6 +158,33 @@ class ShowController extends Controller
         $this->authorize('view', $show);
 
         return view('shows.review', compact('show'));
+    }
+
+    /**
+     * Display the view to delete a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function delete(Show $show)
+    {
+        $this->authorize('delete', $show);
+
+        return view('shows.delete', compact('show'));
+    }
+
+    /**
+     * Destroy a show.
+     *
+     * @param  KRLX\Show  $show
+     * @return Illuminate\Http\Response
+     */
+    public function destroy(Show $show)
+    {
+        $this->authorize('delete', $show);
+
+        $show->delete();
+        return redirect()->route('shows.my');
     }
 
     /**

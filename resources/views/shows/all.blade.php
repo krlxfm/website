@@ -66,7 +66,7 @@ $position = 0;
                             <td class="align-middle">
                                 <div class="btn-group">
                                     <a href="{{ route('shows.review', $show) }}" class="btn btn-outline-primary">View/Edit</a>
-                                    <a href="{{ route('shows.review', $show) }}" class="btn btn-outline-danger">Delete</a>
+                                    <a href="{{ route('shows.delete', $show) }}" class="btn btn-outline-danger">Delete</a>
                                 </div>
                             </td>
                         </tr>

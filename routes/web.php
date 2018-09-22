@@ -59,7 +59,9 @@ Route::middleware(['auth', 'onboard'])->group(function () {
         Route::get('shows/{show}/hosts', 'ShowController@hosts')->name('shows.hosts');
         Route::get('shows/{show}/content', 'ShowController@content')->name('shows.content');
         Route::get('shows/{show}/schedule', 'ShowController@schedule')->name('shows.schedule');
+        Route::get('shows/{show}/delete', 'ShowController@delete')->name('shows.delete');
         Route::post('shows', 'ShowController@store')->name('shows.store');
+        Route::delete('shows/{show}', 'ShowController@destroy')->name('shows.destroy');
     });
 
     Route::get('contract', 'PointController@contract')->name('legal.contract');
