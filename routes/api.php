@@ -12,6 +12,8 @@
 */
 
 Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
+    Route::get('schedule/now', 'FeedController@now');
+
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('shows', 'ShowController');
         Route::post('shows/remind', 'ShowController@remind');
@@ -25,7 +27,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
         Route::patch('schedule/{show}', 'ScheduleController@update');
 
         Route::get('users', 'UserController@search');
+        Route::apiResource('terms', 'TermController');
+        Route::apiResource('tracks', 'TrackController');
     });
-    Route::apiResource('terms', 'TermController');
-    Route::apiResource('tracks', 'TrackController');
 });
