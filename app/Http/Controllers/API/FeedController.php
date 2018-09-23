@@ -6,7 +6,6 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\Track;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
 
 class FeedController extends Controller
