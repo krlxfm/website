@@ -41,7 +41,7 @@ class ShowPolicy
             $term = ($pending or $closed);
         }
 
-        return ($host and $term);
+        return $host and $term;
     }
 
     /**
