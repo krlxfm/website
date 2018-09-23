@@ -36,12 +36,12 @@ class ShowPolicy
 
         $term = $show->term->status == 'active';
         if (! $term and $user->hasAnyPermission(['override pending term', 'override closed term'])) {
-            $pending = $show->term->status == 'pending' and $user->can('override pending term');
-            $closed = $show->term->status == 'closed' and $user->can('override closed term');
-            $term = $pending or $closed;
+            $pending = ($show->term->status == 'pending' and $user->can('override pending term'));
+            $closed = ($show->term->status == 'closed' and $user->can('override closed term'));
+            $term = ($pending or $closed);
         }
 
-        return $host and $term;
+        return ($host and $term);
     }
 
     /**
