@@ -13,6 +13,7 @@
 
 Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
     Route::get('schedule/now', 'FeedController@now');
+    Route::get('schedule/signage', 'FeedController@signage');
 
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('shows', 'ShowController');

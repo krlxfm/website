@@ -7,6 +7,7 @@ use KRLX\Term;
 use KRLX\Track;
 use Carbon\Carbon;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Http\Resources\Show as ShowResource;
 
 class FeedController extends Controller
 {
@@ -30,5 +31,21 @@ class FeedController extends Controller
         } while ($show == null);
 
         return $show;
+    }
+
+    /**
+     * Computes the Digital Signage Feeds.
+     *
+     * @return Array<KRLX\Show>
+     */
+    public function signage()
+    {
+        $now = $this->now();
+        $next = $now->next;
+
+        return [
+            'now' => new ShowResource($now),
+            'next' => new ShowResource($next)
+        ];
     }
 }
