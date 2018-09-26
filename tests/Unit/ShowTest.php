@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use KRLX\Show;
 use KRLX\User;
+use KRLX\Track;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -231,5 +232,40 @@ class ShowTest extends TestCase
         $this->assertNotNull($current_show->day);
 
         $this->assertEquals($next_show->id, $current_show->next->id);
+    }
+
+    /**
+     * Test "Next Show" for a track, such as Bandemonium.
+     *
+     * @return void
+     */
+    public function testBandemoniumAsNextShow()
+    {
+        $current_show = factory(Show::class)->create([
+            'track_id' => $this->show->track->id,
+            'term_id' => $this->show->term->id,
+            'submitted' => true,
+            'day' => 'Saturday',
+            'start' => '12:00',
+            'end' => '13:00',
+        ]);
+
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'weekly' => false,
+            'start_day' => 'Saturday',
+            'start_time' => '13:00',
+            'end_time' => '14:00',
+            'name' => 'Demo Track'
+        ]);
+
+        $this->show->term->track_managers = [
+            $track->id => [$this->user->id]
+        ];
+        $this->show->term->save();
+
+        $this->assertEquals('Demo Track', $current_show->next->title);
+        $this->assertContains($this->user->id, $current_show->next->hosts->pluck('id'));
+        $this->assertTrue(starts_with($current_show->next->id, 'TRACK-'));
     }
 }
