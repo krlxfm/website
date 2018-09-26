@@ -256,11 +256,11 @@ class ShowTest extends TestCase
             'start_day' => 'Saturday',
             'start_time' => '13:00',
             'end_time' => '14:00',
-            'name' => 'Demo Track'
+            'name' => 'Demo Track',
         ]);
 
         $this->show->term->track_managers = [
-            $track->id => [$this->user->id]
+            $track->id => [$this->user->id],
         ];
         $this->show->term->save();
 

@@ -223,8 +223,8 @@ class Show extends Model
         }
         $track_shows = [];
         $track_managers = $this->term->track_managers;
-        foreach(Track::where([['active', true], ['weekly', false]])->get() as $track) {
-            $dummy_show = new Show;
+        foreach (Track::where([['active', true], ['weekly', false]])->get() as $track) {
+            $dummy_show = new self;
             $dummy_show->title = $track->name;
             $dummy_show->id = "TRACK-{$track->id}";
             $dummy_show->term_id = $this->term_id;
