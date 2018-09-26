@@ -45,7 +45,10 @@ class FeedController extends Controller
 
         return [
             'now' => new ShowResource($now),
-            'next' => new ShowResource($next),
+            'next' => [
+                new ShowResource($next),
+                new ShowResource($next->next),
+            ],
         ];
     }
 }
