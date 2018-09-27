@@ -11,7 +11,7 @@ $position = 0;
             <div class="d-flex flex-wrap align-items-center">
                 <h1>All Shows ({{ $shows->where('submitted', true)->count() }} submitted)</h1>
                 <div class="btn-group ml-auto">
-                    <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
+                    <a href="{{ route('shows.download', $term) }}" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
                 </div>
             </div>
             @include('components.term-selector', ['root' => route('shows.all')])

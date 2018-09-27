@@ -11,6 +11,7 @@ use KRLX\Rules\Profanity;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
+use KRLX\Http\Resources\Show as ShowResource;
 use KRLX\Http\Controllers\API\ShowController as APIController;
 
 class ShowController extends Controller
@@ -206,6 +207,39 @@ class ShowController extends Controller
         $one_off_shows = $term->showsInPriorityOrder(false)->groupBy('track.id');
 
         return view('shows.all', compact('shows', 'terms', 'term', 'one_off_shows'));
+    }
+
+    /**
+     * Download a CSV of all shows.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Term|null  $term
+     * @return Illuminate\Http\Response
+     */
+    public function download(Request $request, Term $term = null)
+    {
+        if ($term == null) {
+            $terms = Term::orderByDesc('on_air')->get();
+            $term = $terms->first();
+        }
+
+        $shows = $term->showsInPriorityOrder(true)->where('submitted', true);
+
+        $file = fopen(storage_path('app/shows.csv'), 'w');
+        fputcsv($file, ['id', 'title', 'djs', 'day', 'start', 'end']);
+        foreach($shows as $show) {
+            fputcsv($file, [
+                'id' => $show->id,
+                'title' => $show->title,
+                'djs' => implode(', ', $show->hosts->pluck('full_name')->all()),
+                'day' => $show->day,
+                'start' => $show->start,
+                'end' => $show->end
+            ]);
+        }
+        fclose($file);
+
+        return response()->download(storage_path('app/shows.csv'))->deleteFileAfterSend(true);
     }
 
     /**

@@ -37,6 +37,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
 
     Route::middleware('permission:see all applications')->group(function () {
         Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
+        Route::get('shows/download/{term?}', 'ShowController@download')->name('shows.download');
     });
 
     Route::middleware('permission:see all DJs')->group(function () {
