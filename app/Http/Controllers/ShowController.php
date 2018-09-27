@@ -11,7 +11,6 @@ use KRLX\Rules\Profanity;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
-use KRLX\Http\Resources\Show as ShowResource;
 use KRLX\Http\Controllers\API\ShowController as APIController;
 
 class ShowController extends Controller
@@ -227,14 +226,14 @@ class ShowController extends Controller
 
         $file = fopen(storage_path('app/shows.csv'), 'w');
         fputcsv($file, ['id', 'title', 'djs', 'day', 'start', 'end']);
-        foreach($shows as $show) {
+        foreach ($shows as $show) {
             fputcsv($file, [
                 'id' => $show->id,
                 'title' => $show->title,
                 'djs' => implode(', ', $show->hosts->pluck('full_name')->all()),
                 'day' => $show->day,
                 'start' => $show->start,
-                'end' => $show->end
+                'end' => $show->end,
             ]);
         }
         fclose($file);
