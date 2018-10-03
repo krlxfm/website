@@ -102,12 +102,15 @@ class ShowController extends Controller
     /**
      * Display the hosts (and invitees) of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function hosts(Show $show)
+    public function hosts(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.hosts', compact('show'));
     }
@@ -115,12 +118,15 @@ class ShowController extends Controller
     /**
      * Display the content fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function content(Show $show)
+    public function content(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         $ruleset = new ShowRuleset($show, []);
         $rules = collect($ruleset->rules(true));
@@ -137,12 +143,15 @@ class ShowController extends Controller
     /**
      * Display the scheduling fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function schedule(Show $show)
+    public function schedule(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.schedule', compact('show'));
     }
@@ -150,12 +159,15 @@ class ShowController extends Controller
     /**
      * Display ALL fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function review(Show $show)
+    public function review(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.review', compact('show'));
     }
