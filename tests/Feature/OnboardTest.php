@@ -87,7 +87,7 @@ class OnboardTest extends AuthenticatedTestCase
 
              $this->assertEquals($year, $user->year);
              $this->assertEquals($phone, $user->phone_number);
-             $this->assertContains(ucwords($value), $user->priority->display());
+             $this->assertContains(ucwords($value), $user->priority->html());
              $req_carleton->assertRedirect('/home');
          }
      }
