@@ -13,6 +13,10 @@ $factory->define(KRLX\Term::class, function (Faker $faker) {
         'applications_close' => $closeDate->subDay(),
         'on_air' => $date,
         'off_air' => $futureDate->addWeeks(2),
-        'boosted' => true,
+        'boosted' => true
     ];
 });
+
+$factory->state(KRLX\Term::class, 'active', [
+    'status' => 'active'
+]);

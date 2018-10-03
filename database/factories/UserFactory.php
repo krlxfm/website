@@ -31,13 +31,9 @@ $factory->state(KRLX\User::class, 'carleton', function ($faker) {
     ];
 });
 
-$factory->state(KRLX\User::class, 'contract_ok', function ($faker) {
-    return [];
-});
+$factory->state(KRLX\User::class, 'contract_ok', []);
 
-$factory->state(KRLX\User::class, 'board', function ($faker) {
-    return [];
-});
+$factory->state(KRLX\User::class, 'board', []);
 
 $factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $faker) {
     foreach (Term::all() as $term) {
@@ -46,5 +42,5 @@ $factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $
 });
 
 $factory->afterCreatingState(KRLX\User::class, 'board', function ($user, $faker) {
-    $user->addRole('board');
+    $user->assignRole('board');
 });
