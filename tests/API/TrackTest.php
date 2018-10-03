@@ -6,7 +6,7 @@ use KRLX\Track;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TrackTest extends TestCase
+class TrackTest extends APITestCase
 {
     use RefreshDatabase;
 

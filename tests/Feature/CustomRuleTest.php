@@ -12,6 +12,16 @@ class CustomRuleTest extends TestCase
 {
     use RefreshDatabase;
 
+    public $user;
+    public $session;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(User::class)->states('contract_ok')->create();
+        $this->session = $this->actingAs($this->user, 'api');
+    }
+
     /**
      * Test the "ValidationRule" validation rule: Can a string be used as a
      * validation rule?

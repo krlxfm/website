@@ -6,7 +6,7 @@ use KRLX\Term;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TermTest extends TestCase
+class TermTest extends APITestCase
 {
     use RefreshDatabase;
 
