@@ -11,18 +11,23 @@ class OnboardTest extends AuthenticatedTestCase
     use WithFaker;
 
     /**
-     * Test that onboarding is mandatory for Carleton accounts.
+     * Test that onboarding is mandatory for Carleton accounts, but not guests.
      *
      * @return void
      */
-    public function testCarletonOnboardingMandatory()
+    public function testCarletonOnboardingMandatoryForNewCarls()
     {
         $user = factory(User::class)->states('carleton_new')->create();
 
         $this->assertNull($user->phone_number);
 
         $request = $this->actingAs($user)->get('/home');
+        $carl_request = $this->actingAs($this->carleton)->get('/home');
+        $guest_request = $this->actingAs($this->guest)->get('/home');
+
         $request->assertRedirect('/welcome');
+        $carl_request->assertOk();
+        $guest_request->assertOk();
     }
 
     /**
