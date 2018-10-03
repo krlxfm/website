@@ -9,12 +9,10 @@ use Tests\AuthenticatedTestCase;
 class ShowPermissionTest extends AuthenticatedTestCase
 {
     public $show;
-    public $new_carl;
 
     public function setUp()
     {
         parent::setUp();
-        $this->new_carl = factory(User::class)->states('carleton_new')->create();
         $this->show = factory(Show::class)->create(['term_id' => $this->term->id]);
     }
 

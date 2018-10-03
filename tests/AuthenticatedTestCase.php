@@ -13,6 +13,7 @@ class AuthenticatedTestCase extends TestCase
 
     public $guest;
     public $carleton;
+    public $new_carl;
     public $board;
     public $term;
 
@@ -24,6 +25,7 @@ class AuthenticatedTestCase extends TestCase
 
         $this->term = factory(Term::class)->states('active')->create();
         $this->guest = factory(User::class)->create();
+        $this->new_carl = factory(User::class)->states('carleton_new')->create();
         $this->carleton = factory(User::class)->states('carleton', 'contract_ok')->create();
         $this->board = factory(User::class)->states('carleton', 'contract_ok', 'board')->create();
     }
