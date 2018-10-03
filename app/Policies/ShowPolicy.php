@@ -16,7 +16,7 @@ class ShowPolicy
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function view(User $user, Show $show)
     {
@@ -24,11 +24,22 @@ class ShowPolicy
     }
 
     /**
+     * Determine whether the user can create shows at all.
+     *
+     * @param  \KRLX\User  $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return ends_with($user->email, '@carleton.edu');
+    }
+
+    /**
      * Determine whether the user can update the show.
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function update(User $user, Show $show)
     {
@@ -49,7 +60,7 @@ class ShowPolicy
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user, Show $show)
     {
