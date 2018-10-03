@@ -59,7 +59,8 @@ class OnboardTest extends AuthenticatedTestCase
         $user = User::find($this->carleton->id);
 
         $this->assertEquals($phone, $user->phone_number);
-        $req_carleton->assertRedirect('/home');
+        $req_carleton->assertRedirect('/home')
+                     ->assertSessionHas('status', 'Your account has been activated!');
     }
 
     /**

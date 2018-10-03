@@ -87,6 +87,6 @@ class HomeController extends Controller
         }
         $user->save();
 
-        return redirect()->intended('/home');
+        return redirect()->intended('/home')->with('status', 'Your account has been activated!');
     }
 }
