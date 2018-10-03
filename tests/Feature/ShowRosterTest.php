@@ -82,6 +82,9 @@ class ShowRosterTest extends AuthenticatedTestCase
         $this->assertEquals('J', $zero_term_junior->priority->zone());
         $this->assertEquals('J2', $show_J2->priority->code());
 
+        // This is backwards from what you might think it is: we're checking
+        // that the "old" J2 show does indeed have an updated_at time which is
+        // before the "new" J2 show.
         $this->assertLessThan($show_J2->updated_at, $show_J2_old->updated_at);
 
         // Check that shows appear in priority order.
