@@ -35,8 +35,16 @@ $factory->state(KRLX\User::class, 'contract_ok', function ($faker) {
     return [];
 });
 
+$factory->state(KRLX\User::class, 'board', function ($faker) {
+    return [];
+});
+
 $factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $faker) {
     foreach (Term::all() as $term) {
         $user->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
     }
+});
+
+$factory->afterCreatingState(KRLX\User::class, 'board', function ($user, $faker) {
+    $user->addRole('board');
 });
