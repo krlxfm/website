@@ -64,11 +64,11 @@ class HomeController extends Controller
             'phone_number' => 'required|string|min:10',
             'status' => 'required|in:student,faculty,staff',
             'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
-            'major' => 'present|max:190',
-            'hometown' => 'present|max:190',
-            'bio' => 'present|max:65000',
-            'favorite_music' => 'present|max:65000',
-            'favorite_shows' => 'present|max:65000',
+            'major' => 'sometimes|present|max:190',
+            'hometown' => 'sometimes|present|max:190',
+            'bio' => 'sometimes|present|max:65000',
+            'favorite_music' => 'sometimes|present|max:65000',
+            'favorite_shows' => 'sometimes|present|max:65000',
         ];
         $request->validate($rules);
 
