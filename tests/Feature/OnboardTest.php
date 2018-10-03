@@ -23,14 +23,17 @@ class OnboardTest extends AuthenticatedTestCase
     }
 
     /**
-     * Test that non-Carleton accounts get redirected away from the Carleton
-     * onboarding processs.
+     * Test that users who don't need onboarding are redirected to the
+     * profile screen.
      *
      * @return void
      */
-    public function testNonCarletonAccountsGoHome()
+    public function testUnnecessaryOnboardingIsPrevented()
     {
-        $request = $this->actingAs($this->guest)->get('/welcome');
-        $request->assertRedirect('/home');
+        $req_carleton = $this->actingAs($this->carleton)->get('/welcome');
+        $req_guest = $this->actingAs($this->guest)->get('/welcome');
+
+        $req_carleton->assertRedirect('/profile');
+        $req_guest->assertRedirect('/profile');
     }
 }
