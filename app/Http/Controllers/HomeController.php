@@ -79,6 +79,7 @@ class HomeController extends Controller
         if ($request->has('source') and $request->input('source') == 'profile') {
             return redirect('/home')->with('status', 'Your profile has been updated!');
         }
+
         return redirect()->intended('/home')->with('status', 'Your account has been activated!');
     }
 

@@ -71,24 +71,24 @@ class OnboardTest extends AuthenticatedTestCase
      *
      * @return void
      */
-     public function testOnboardingSavesForFacultyAndStaff()
-     {
-         $options = [1 => 'faculty', 2 => 'staff'];
-         foreach($options as $year => $value) {
-             $phone = $this->faker()->regexify('507-222-[0-9]{4}');
-             $req_carleton = $this->actingAs($this->carleton)->post('/welcome', [
+    public function testOnboardingSavesForFacultyAndStaff()
+    {
+        $options = [1 => 'faculty', 2 => 'staff'];
+        foreach ($options as $year => $value) {
+            $phone = $this->faker()->regexify('507-222-[0-9]{4}');
+            $req_carleton = $this->actingAs($this->carleton)->post('/welcome', [
                  'first_name' => $this->carleton->first_name,
                  'name' => $this->carleton->name,
                  'phone_number' => $phone,
                  'status' => $value,
              ]);
 
-             $user = User::find($this->carleton->id);
+            $user = User::find($this->carleton->id);
 
-             $this->assertEquals($year, $user->year);
-             $this->assertEquals($phone, $user->phone_number);
-             $this->assertContains(ucwords($value), $user->priority->html());
-             $req_carleton->assertRedirect('/home');
-         }
-     }
+            $this->assertEquals($year, $user->year);
+            $this->assertEquals($phone, $user->phone_number);
+            $this->assertContains(ucwords($value), $user->priority->html());
+            $req_carleton->assertRedirect('/home');
+        }
+    }
 }

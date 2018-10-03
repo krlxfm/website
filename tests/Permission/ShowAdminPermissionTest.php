@@ -28,9 +28,9 @@ class ShowAdminPermissionTest extends AuthenticatedTestCase
      */
     public function testBoardAccessToRestrictedRoutes()
     {
-        $routes = ["/shows/all", "/shows/download", "/shows/djs", "/schedule/build"];
+        $routes = ['/shows/all', '/shows/download', '/shows/djs', '/schedule/build'];
 
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $guest_req = $this->actingAs($this->guest)->get("$route");
             $carleton_req = $this->actingAs($this->carleton)->get("$route");
             $host_req = $this->actingAs($this->host)->get("$route");

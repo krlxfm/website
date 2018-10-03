@@ -6,6 +6,6 @@ $factory->define(KRLX\Track::class, function (Faker $faker) {
     return [
         'name' => ucwords($faker->words(2, true)),
         'description' => $faker->paragraph,
-        'active' => true
+        'active' => true,
     ];
 });

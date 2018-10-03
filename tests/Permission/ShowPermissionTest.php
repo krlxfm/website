@@ -45,8 +45,8 @@ class ShowPermissionTest extends AuthenticatedTestCase
      */
     public function testShowViewingPermission()
     {
-        $routes = ["", "hosts", "content", "schedule"];
-        foreach($routes as $route) {
+        $routes = ['', 'hosts', 'content', 'schedule'];
+        foreach ($routes as $route) {
             $guest_req = $this->actingAs($this->guest)->get("/shows/{$this->show->id}/$route");
             $carleton_req = $this->actingAs($this->carleton)->get("/shows/{$this->show->id}/$route");
             $host_req = $this->actingAs($this->host)->get("/shows/{$this->show->id}/$route");
@@ -62,7 +62,7 @@ class ShowPermissionTest extends AuthenticatedTestCase
 
     /**
      * Test that only hosts and board members can delete a show. (This also
-     * tests updating, because the permission requirements are identical.)
+     * tests updating, because the permission requirements are identical.).
      *
      * @return void
      */
