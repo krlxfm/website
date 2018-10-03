@@ -6,7 +6,7 @@ use KRLX\Show;
 use KRLX\User;
 use Tests\AuthenticatedTestCase;
 
-class HomeTest extends AuthenticatedTestCase
+class ShowPermissionTest extends AuthenticatedTestCase
 {
     public $show;
     public $new_carl;
