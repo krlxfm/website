@@ -47,8 +47,10 @@ class OnboardTest extends AuthenticatedTestCase
      */
     public function testOnboardingSavesForStudents()
     {
+        $new_user = factory(User::class)->states('carleton_new')->create();
+
         $phone = $this->faker()->regexify('507-222-[0-9]{4}');
-        $req_carleton = $this->actingAs($this->carleton)->post('/welcome', [
+        $req_carleton = $this->actingAs($new_user)->post('/welcome', [
             'first_name' => $this->carleton->first_name,
             'name' => $this->carleton->name,
             'phone_number' => $phone,
@@ -56,7 +58,7 @@ class OnboardTest extends AuthenticatedTestCase
             'year' => $this->carleton->year,
         ]);
 
-        $user = User::find($this->carleton->id);
+        $user = User::find($new_user->id);
 
         $this->assertEquals($phone, $user->phone_number);
         $req_carleton->assertRedirect('/home')

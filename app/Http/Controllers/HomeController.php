@@ -58,23 +58,12 @@ class HomeController extends Controller
      */
     public function storeOnboarding(Request $request)
     {
-        $rules = [
-            'name' => 'required|string',
-            'first_name' => 'required|string',
-            'phone_number' => 'required|string|min:10',
-            'status' => 'required|in:student,faculty,staff',
-            'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
-            'major' => 'sometimes|present|max:190',
-            'hometown' => 'sometimes|present|max:190',
-            'bio' => 'sometimes|present|max:65000',
-            'favorite_music' => 'sometimes|present|max:65000',
-            'favorite_shows' => 'sometimes|present|max:65000',
-        ];
+        $rules = $this->getValidationRules();
         $request->validate($rules);
 
         $user = $request->user();
         foreach (array_keys($rules) as $field) {
-            if ($field == 'status') {
+            if ($field == 'status' or $field == 'source') {
                 continue;
             }
             $user->{$field} = $request->input($field);
@@ -87,6 +76,31 @@ class HomeController extends Controller
         }
         $user->save();
 
+        if ($request->has('source') and $request->input('source') == 'profile') {
+            return redirect('/home')->with('status', 'Your profile has been updated!');
+        }
         return redirect()->intended('/home')->with('status', 'Your account has been activated!');
+    }
+
+    /**
+     * Get the rules required to save an onboarding request.
+     *
+     * @return array
+     */
+    private function getValidationRules()
+    {
+        return [
+            'name' => 'required|string',
+            'first_name' => 'required|string',
+            'phone_number' => 'required|string|min:10',
+            'status' => 'required|in:student,faculty,staff',
+            'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
+            'major' => 'sometimes|present|max:190',
+            'hometown' => 'sometimes|present|max:190',
+            'bio' => 'sometimes|present|max:65000',
+            'favorite_music' => 'sometimes|present|max:65000',
+            'favorite_shows' => 'sometimes|present|max:65000',
+            'source' => 'sometimes|present|string',
+        ];
     }
 }
