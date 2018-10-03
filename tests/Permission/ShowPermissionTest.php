@@ -61,7 +61,8 @@ class ShowPermissionTest extends AuthenticatedTestCase
     }
 
     /**
-     * Test that only hosts and board members can delete a show.
+     * Test that only hosts and board members can delete a show. (This also
+     * tests updating, because the permission requirements are identical.)
      *
      * @return void
      */
@@ -72,6 +73,7 @@ class ShowPermissionTest extends AuthenticatedTestCase
         $host_req = $this->actingAs($this->host)->get("/shows/{$this->show->id}/delete");
         $board_req = $this->actingAs($this->board)->get("/shows/{$this->show->id}/delete");
 
+        $this->assertEquals('active', $this->term->status);
         $guest_req->assertStatus(403);
         $carleton_req->assertStatus(403);
         $host_req->assertStatus(200);
