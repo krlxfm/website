@@ -10,13 +10,13 @@
                     - Priority <span class="badge bg-priority-{{ strtolower($user->priority->zone()) }}">{!! $user->priority->html() !!}</span>
                 @endif
             </p>
-            @if(count($boosts) > 0)
+            @if($user->boosts->whereIn('term_id', [null, $term->id])->count() > 0)
                 <div class="card my-3">
                     <div class="card-header">
                         <h3 class="mb-0">Priority Upgrade Certificates</h3>
                     </div>
                     <ul class="list-group list-group-flush">
-                        @foreach($boosts as $boost)
+                        @foreach($user->boosts as $boost)
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <div>
                                     <h5 class="head-sans-serif mb-0">

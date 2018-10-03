@@ -27,7 +27,10 @@ class HomeTest extends AuthenticatedTestCase
      */
     public function testPriorityUpgradesDontAppearIfUserDoesntHaveAny()
     {
-        $alt_term = factory(Term::class)->create();
+        $alt_term = factory(Term::class)->create([
+            'on_air' => $this->term->on_air->copy()->subWeek(),
+            'off_air' => $this->term->off_air->copy()->subWeek(),
+        ]);
 
         $this->carleton->boosts()->create(['term_id' => $alt_term->id]);
         $this->assertCount(0, $this->carleton->boosts->whereIn('term_id', [null, $this->term->id]));

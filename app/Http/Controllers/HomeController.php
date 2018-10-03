@@ -30,9 +30,8 @@ class HomeController extends Controller
 
         $user = $request->user();
         $shows = $user->shows()->where('term_id', $term->id)->get();
-        $boosts = $user->boosts->whereIn('term_id', [null, $term->id]);
 
-        return view('home', compact('user', 'shows', 'term', 'boosts'));
+        return view('home', compact('user', 'shows', 'term'));
     }
 
     /**
