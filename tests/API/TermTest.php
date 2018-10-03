@@ -3,7 +3,6 @@
 namespace Tests\API;
 
 use KRLX\Term;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TermTest extends APITestCase
