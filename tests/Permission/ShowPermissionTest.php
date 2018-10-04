@@ -95,9 +95,12 @@ class ShowPermissionTest extends AuthenticatedTestCase
         $board_req = $this->actingAs($this->board)->get('/shows/join');
 
         $guest_req->assertStatus(403);
-        $carleton_req->assertStatus(200);
-        $host_req->assertStatus(200);
-        $board_req->assertStatus(200);
+        $carleton_req->assertStatus(200)
+                     ->assertViewIs('shows.find');
+        $host_req->assertStatus(200)
+                 ->assertViewIs('shows.find');
+        $board_req->assertStatus(200)
+                  ->assertViewIs('shows.find');
     }
 
     /**
@@ -114,8 +117,12 @@ class ShowPermissionTest extends AuthenticatedTestCase
         $board_req = $this->actingAs($this->board)->get("/shows/join/{$this->show->id}");
 
         $guest_req->assertStatus(403);
-        $carleton_req->assertStatus(200);
+        $carleton_req->assertStatus(200)
+                     ->assertViewIs('shows.join')
+                     ->assertSee($this->show->title);
         $host_req->assertRedirect("/shows/{$this->show->id}");
-        $board_req->assertStatus(200);
+        $board_req->assertStatus(200)
+                  ->assertViewIs('shows.join')
+                  ->assertSee($this->show->title);;
     }
 }
