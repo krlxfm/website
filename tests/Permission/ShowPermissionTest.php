@@ -55,8 +55,10 @@ class ShowPermissionTest extends AuthenticatedTestCase
             $guest_req->assertStatus(403);
             $carleton_req->assertStatus(302)
                          ->assertRedirect("/shows/join/{$this->show->id}");
-            $host_req->assertStatus(200);
-            $board_req->assertStatus(200);
+            $host_req->assertStatus(200)
+                     ->assertSee($this->show->id);
+            $board_req->assertStatus(200)
+                      ->assertSee($this->show->id);
         }
     }
 
