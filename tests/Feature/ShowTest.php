@@ -85,4 +85,17 @@ class ShowTest extends AuthenticatedTestCase
         $this->assertContains($this->carleton->id, $show->hosts->pluck('id'));
         $request->assertRedirect("/shows/{$show->id}/hosts");
     }
+
+    /**
+     * Test that shows can be deleted.
+     *
+     * @return void
+     */
+    public function testWebShowDeletion()
+    {
+        $request = $this->actingAs($this->carleton)->delete("/shows/{$this->my_show->id}");
+
+        $show = Show::find($this->my_show->id);
+        $this->assertNull($show);
+    }
 }
