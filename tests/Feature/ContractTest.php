@@ -49,4 +49,28 @@ class ContractTest extends AuthenticatedTestCase
                 ->assertSessionMissing('term')
                 ->assertSee($this->term->id);
     }
+
+    /**
+     * Verify that signing the contract successfully provisions an experience
+     * point, if (and only if) one does not already exist for the term.
+     *
+     * @return void
+     */
+    public function testSigningContractProvisionsOnePoint()
+    {
+        $user_request = $this->actingAs($this->carleton)->post('/contract', [
+            'term' => $this->term->id,
+            'contract' => 'true'
+        ]);
+
+        $this->assertCount(1, $this->board->points->where('term_id', $this->term->id));
+        $board_request = $this->actingAs($this->board)->post('/contract', [
+            'term' => $this->term->id,
+            'contract' => 'true'
+        ]);
+
+        $this->assertCount(1, $this->carleton->points->where('term_id', $this->term->id));
+        $this->assertCount(1, $this->board->points->where('term_id', $this->term->id));
+        $user_request->assertRedirect('/home');
+    }
 }
