@@ -81,20 +81,13 @@ class ShowController extends Controller
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
 
-        $this->authorize('createShows', Term::find($request->input('term_id')));
+        $term = Term::find($request->input('term_id'));
+        $this->authorize('createShows', $term);
 
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
 
-        if ($request->user()->can('auto-request Zone S') and $show->track->boostable) {
-            $boosts = $request->user()->boosts()->with('show')->where('type', 'S')->get();
-            $boosted_shows = $boosts->filter(function ($boost) use ($request) {
-                return $boost->term_id == $request->input('term_id') or ($boost->show and $boost->show->term_id == $request->input('term_id'));
-            });
-            if ($boosted_shows->count() == 0) {
-                $request->user()->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $request->input('term_id')]);
-            }
-        }
+        $this->generateCertificate($request->user(), $show, $term);
 
         return redirect()->route('shows.hosts', $show);
     }
@@ -310,8 +303,31 @@ class ShowController extends Controller
         // Throws an HTTP 400 if a bad token comes in.
         $controller->join($request, $show);
 
+        $this->generateCertificate($request->user(), $show, $show->term);
+
         $request->session()->flash('success', "You have successfully joined {$show->title}! Please carefully review the schedule below and add your details if necessary.");
 
         return redirect()->route('shows.schedule', $show);
+    }
+
+    /**
+     * Generates a Board Upgrade Certificate if the show and user are eligible.
+     *
+     * @param  KRLX\User  $user
+     * @param  KRLX\Show  $show
+     * @param  KRLX\Term  $term
+     * @return void
+     */
+    private function generateCertificate(User $user, Show $show, Term $term)
+    {
+        if ($user->can('auto-request Zone S') and $show->track->boostable) {
+            $boosts = $user->boosts()->with('show')->where('type', 'S')->get();
+            $boosted_shows = $boosts->filter(function ($boost) use ($term) {
+                return $boost->term_id == $term->id or ($boost->show and $boost->show->term_id == $term->id);
+            });
+            if ($boosted_shows->count() == 0) {
+                $user->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $term->id]);
+            }
+        }
     }
 }
