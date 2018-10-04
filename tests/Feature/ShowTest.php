@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use KRLX\Term;
 use KRLX\Show;
+use KRLX\Term;
 use Tests\AuthenticatedTestCase;
 
 class ShowTest extends AuthenticatedTestCase

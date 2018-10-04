@@ -60,13 +60,13 @@ class ContractTest extends AuthenticatedTestCase
     {
         $user_request = $this->actingAs($this->carleton)->post('/contract', [
             'term' => $this->term->id,
-            'contract' => 'true'
+            'contract' => 'true',
         ]);
 
         $this->assertCount(1, $this->board->points->where('term_id', $this->term->id));
         $board_request = $this->actingAs($this->board)->post('/contract', [
             'term' => $this->term->id,
-            'contract' => 'true'
+            'contract' => 'true',
         ]);
 
         $this->assertCount(1, $this->carleton->points->where('term_id', $this->term->id));

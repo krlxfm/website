@@ -123,6 +123,6 @@ class ShowPermissionTest extends AuthenticatedTestCase
         $host_req->assertRedirect("/shows/{$this->show->id}");
         $board_req->assertStatus(200)
                   ->assertViewIs('shows.join')
-                  ->assertSee($this->show->title);;
+                  ->assertSee($this->show->title);
     }
 }
