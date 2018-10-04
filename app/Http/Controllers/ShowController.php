@@ -281,13 +281,16 @@ class ShowController extends Controller
     /**
      * Display the "Join Show" view.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show|null  $show
      * @return Illuminate\Http\Response
      */
-    public function join(Show $show = null)
+    public function join(Request $request, Show $show = null)
     {
         if ($show == null) {
             return view('shows.find');
+        } elseif ($show->hosts->pluck('id')->contains($request->user()->id)) {
+            return redirect()->route('shows.review', $show)->with('status', 'You are already a part of this show!');
         } else {
             return view('shows.join', compact('show'));
         }

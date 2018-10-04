@@ -81,4 +81,41 @@ class ShowPermissionTest extends AuthenticatedTestCase
         $host_req->assertStatus(200);
         $board_req->assertStatus(200);
     }
+
+    /**
+     * Test that Carleton accounts have access to the Join/Search screen.
+     *
+     * @return void
+     */
+    public function testJoinShowScreenAccess()
+    {
+        $guest_req = $this->actingAs($this->guest)->get('/shows/join');
+        $carleton_req = $this->actingAs($this->carleton)->get('/shows/join');
+        $host_req = $this->actingAs($this->host)->get('/shows/join');
+        $board_req = $this->actingAs($this->board)->get('/shows/join');
+
+        $guest_req->assertStatus(403);
+        $carleton_req->assertStatus(200);
+        $host_req->assertStatus(200);
+        $board_req->assertStatus(200);
+    }
+
+    /**
+     * Test that Carleton accounts can join a show (accepting an invitation).
+     * Hosts already on the show should be redirected to the review screen.
+     *
+     * @return void
+     */
+    public function testJoiningSpecificShowScreenAccess()
+    {
+        $guest_req = $this->actingAs($this->guest)->get("/shows/join/{$this->show->id}");
+        $carleton_req = $this->actingAs($this->carleton)->get("/shows/join/{$this->show->id}");
+        $host_req = $this->actingAs($this->host)->get("/shows/join/{$this->show->id}");
+        $board_req = $this->actingAs($this->board)->get("/shows/join/{$this->show->id}");
+
+        $guest_req->assertStatus(403);
+        $carleton_req->assertStatus(200);
+        $host_req->assertRedirect("/shows/{$this->show->id}");
+        $board_req->assertStatus(200);
+    }
 }
