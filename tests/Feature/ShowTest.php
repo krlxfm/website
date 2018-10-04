@@ -66,4 +66,23 @@ class ShowTest extends AuthenticatedTestCase
         $board_request->assertOk();
         $this->assertCount(3, $board_request->baseResponse->original->terms);
     }
+
+    /**
+     * Test that shows can be created.
+     *
+     * @return void
+     */
+    public function testWebShowCreation()
+    {
+        $request = $this->actingAs($this->carleton)->post('/shows', [
+            'term_id' => $this->term->id,
+            'track_id' => $this->my_show->track_id,
+            'title' => 'Test Show',
+        ]);
+
+        $show = Show::where('title', 'Test Show')->first();
+
+        $this->assertContains($this->carleton->id, $show->hosts->pluck('id'));
+        $request->assertRedirect("/shows/{$show->id}/hosts");
+    }
 }
