@@ -30,15 +30,19 @@ class OnboardTest extends AuthenticatedTestCase
 
     /**
      * Test that users who don't need onboarding are redirected to the
-     * profile screen.
+     * profile screen, but those who DO need onboarding are instead presented
+     * with the onboarding view.
      *
      * @return void
      */
     public function testUnnecessaryOnboardingIsPrevented()
     {
+        $req_new_carl = $this->actingAs($this->new_carl)->get('/welcome');
         $req_carleton = $this->actingAs($this->carleton)->get('/welcome');
         $req_guest = $this->actingAs($this->guest)->get('/welcome');
 
+        $req_new_carl->assertOk()
+                     ->assertViewIs('legal.onboard');
         $req_carleton->assertRedirect('/profile');
         $req_guest->assertRedirect('/profile');
     }
