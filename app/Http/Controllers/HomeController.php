@@ -68,12 +68,8 @@ class HomeController extends Controller
             }
             $user->{$field} = $request->input($field);
         }
-        $status = $request->input('status');
-        if ($status == 'faculty') {
-            $user->year = 1;
-        } elseif ($status == 'staff') {
-            $user->year = 2;
-        }
+        $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
+        $user->year = $statuses[$request->input('status')];
         $user->save();
 
         return redirect()->intended('/home')->with('status', $request->has('source') ? 'Your profile has been updated!' : 'Your account has been activated!');
