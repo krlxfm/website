@@ -18,7 +18,8 @@ class ShowTest extends AuthenticatedTestCase
         Mail::fake();
 
         $this->show = factory(Show::class)->create(['term_id' => $this->term->id]);
-        $this->show->hosts()->attach($this->board, ['accepted' => true]);
+        $this->host = factory(User::class)->states('carleton', 'contract_ok')->create();
+        $this->show->hosts()->attach($this->host, ['accepted' => true]);
     }
 
     /**
@@ -59,5 +60,35 @@ class ShowTest extends AuthenticatedTestCase
         $this->assertContains($this->board->id, $show->hosts()->pluck('id'));
         $this->assertNotContains($this->board->id, $show->invitees()->pluck('id'));
         $this->assertTrue($show->board_boost, "Board show creation did not result in an automatic upgrade.");
+    }
+
+    /**
+     * Assert that checking details about a show are available to anyone, but
+     * only limited information is available if you're not a host.
+     *
+     * @return void
+     */
+    public function testAnyAccountCanCheckShows()
+    {
+        $unauthenticated_req = $this->json('GET', "/api/v1/shows/{$this->show->id}");
+        $guest_req = $this->actingAs($this->guest, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
+        $new_carl_req = $this->actingAs($this->new_carl, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
+        $carleton_req = $this->actingAs($this->carleton, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
+        $host_req = $this->actingAs($this->host, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
+        $board_req = $this->actingAs($this->board, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
+
+        $this->assertEmpty($this->show->content, "The content field is not empty, so JSON matching might fail.");
+
+        $unauthenticated_req->assertStatus(401);
+        $guest_req->assertOk()
+                  ->assertJsonMissing(['content' => []]);
+        $new_carl_req->assertOk()
+                     ->assertJsonMissing(['content' => []]);
+        $carleton_req->assertOk()
+                     ->assertJsonMissing(['content' => []]);
+        $host_req->assertOk()
+                 ->assertJsonFragment(['content' => []]);
+        $board_req->assertOk()
+                  ->assertJsonFragment(['content' => []]);
     }
 }

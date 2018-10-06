@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Notifications\ShowInvitation;
 use KRLX\Http\Requests\ShowUpdateRequest;
+use KRLX\Http\Resources\Show as ShowResource;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
@@ -64,14 +65,18 @@ class ShowController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \KRLX\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function show(Show $show)
+    public function show(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        $this->authorize('basicView', $show);
 
-        return $show->with(['hosts', 'invitees'])->first();
+        if ($request->user()->can('view', $show)) {
+            return $show->with(['hosts', 'invitees'])->first();
+        }
+        return new ShowResource($show);
     }
 
     /**

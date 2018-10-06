@@ -13,6 +13,7 @@
 
 - Users with the "auto-request Zone S" permission or Board role will now automatically generate a Board Upgrade Certificate when creating or joining a show over the API, if they're eligible to do so.
 - All permission changes on the web are now enforced on the API as well.
+- All accounts (even those that don't end in `@carleton.edu`) can query individual shows using the API if you know the Show ID. However, this will only return a subset of the show's information. To receive the full show object, you must be a host of the show yourself, or have the "see all applications" permission or Board role.
 
 ### Behind the scenes
 

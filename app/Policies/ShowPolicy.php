@@ -12,6 +12,20 @@ class ShowPolicy
     use HandlesAuthorization;
 
     /**
+     * For API transactions, guests are allowed to receive some limited
+     * information about a show, such as its description and host names. These
+     * details are encapsulated in a ShowResource rather than a full Show.
+     *
+     * @param  \KRLX\User  $user
+     * @param  \KRLX\Show  $show
+     * @return bool
+     */
+    public function basicView(User $user, Show $show)
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can view the show.
      *
      * @param  \KRLX\User  $user
