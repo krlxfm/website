@@ -120,10 +120,10 @@ class User extends Authenticatable
     public function priorityAsOf(string $termID)
     {
         $term = Term::find($termID);
-        $priority = $this->priority;
         if (! $term) {
-            return $priority;
+            return new Priority(0);
         }
+        $priority = $this->priority;
 
         $priority->terms = $this->points()
                                 ->whereHas('term', function ($query) use ($term) {

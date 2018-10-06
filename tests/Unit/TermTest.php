@@ -3,21 +3,10 @@
 namespace Tests\Unit;
 
 use KRLX\Term;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\UnitBaseCase;
 
-class TermTest extends TestCase
+class TermTest extends UnitBaseCase
 {
-    use RefreshDatabase;
-
-    public $term;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->term = factory(Term::class)->create();
-    }
-
     /**
      * Test the "name" attribute for terms that have random names (like from
      * factories).

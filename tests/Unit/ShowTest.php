@@ -5,22 +5,17 @@ namespace Tests\Unit;
 use KRLX\Show;
 use KRLX\User;
 use KRLX\Track;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\UnitBaseCase;
 
-class ShowTest extends TestCase
+class ShowTest extends UnitBaseCase
 {
-    use RefreshDatabase;
-
-    public $user;
     public $show;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->show = factory(Show::class)->create();
-        $this->user = factory(User::class)->states('contract_ok')->create();
+        $this->show = factory(Show::class)->create(['term_id' => $this->term->id]);
     }
 
     /**
@@ -65,27 +60,19 @@ class ShowTest extends TestCase
     }
 
     /**
-     * Test that inviting a user to a show by itself does not mark the show
-     * as "boosted", even if we mark the invitation as bearing Priority Boost.
+     * Test that Board members added to the show manually don't cause it to be
+     * boosted, even though they would ordinarily be eligible to boost it
+     * through automatic certificate generation.
      *
      * @return void
      */
-    public function testBoostedInvitationDoesNotMarkShowBoosted()
-    {
-        $this->show->hosts()->attach($this->user);
-        $this->assertFalse($this->show->boosted);
-    }
-
-    /**
-     * Test that a single-host show, not marked as Priority Boost, is not
-     * treated as boosted.
-     *
-     * @return void
-     */
-    public function testNonBoostedJoinDoesNotMarkShowBoosted()
+    public function testDirectJoinDoesNotBoostShow()
     {
         $this->show->hosts()->attach($this->user, ['accepted' => true]);
+
         $this->assertCount(1, $this->show->hosts);
+        $this->assertTrue($this->user->can('auto-request Zone S'));
+        $this->assertEquals(0, $this->user->boosts()->where([['type', 'S'], ['term_id', $this->term->id]])->count());
         $this->assertFalse($this->show->boosted);
     }
 
