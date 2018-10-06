@@ -112,6 +112,48 @@ class ShowTest extends AuthenticatedTestCase
     }
 
     /**
+     * Verify that board members can update shows in closed or pending terms,
+     * but other users can't.
+     *
+     * @return void
+     */
+     public function testBoardModificationOfShowsInClosedTerms()
+     {
+         $closed_term = factory(Term::class)->create(['status' => 'closed']);
+         $pending_term = factory(Term::class)->create(['status' => 'pending']);
+
+         $closed_term_show = factory(Show::class)->create([
+             'title' => 'Gray Duck',
+             'track_id' => $this->show->track_id,
+             'term_id' => $closed_term->id,
+         ]);
+         $closed_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
+
+         $pending_term_show = factory(Show::class)->create([
+             'title' => 'Gray Duck',
+             'track_id' => $this->show->track_id,
+             'term_id' => $closed_term->id,
+         ]);
+         $pending_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
+
+         foreach([$closed_term, $pending_term] as $term) {
+             $this->board->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
+             $this->carleton->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
+         }
+
+         $data = ['description' => 'This is a description'];
+         $board_closed_req = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/shows/{$closed_term_show->id}", $data);
+         $board_pending_req = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/shows/{$pending_term_show->id}", $data);
+         $other_closed_req = $this->actingAs($this->carleton, 'api')->json('PATCH', "/api/v1/shows/{$closed_term_show->id}", $data);
+         $other_pending_req = $this->actingAs($this->carleton, 'api')->json('PATCH', "/api/v1/shows/{$pending_term_show->id}", $data);
+
+         $this->assertEquals(200, $board_closed_req->getStatusCode(), "The board member could not update a show in a closed term.");
+         $this->assertEquals(200, $board_pending_req->getStatusCode(), "The board member could not update a show in a pending term.");
+         $this->assertEquals(403, $other_closed_req->getStatusCode(), "The standard account could update a show in a closed term.");
+         $this->assertEquals(403, $other_pending_req->getStatusCode(), "The standard account could update a show in a pending term.");
+     }
+
+    /**
      * Assert that checking details about a show are available to anyone, but
      * only limited information is available if you're not a host.
      *
