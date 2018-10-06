@@ -221,20 +221,11 @@ class Show extends Model
         if (! $this->day or ! $this->start or ! $this->end) {
             return;
         }
-        $track_shows = [];
+        $track_shows = Track::dummyShows();
         $track_managers = $this->term->track_managers;
-        foreach (Track::where([['active', true], ['weekly', false]])->get() as $track) {
-            $dummy_show = new self;
-            $dummy_show->title = $track->name;
-            $dummy_show->id = "TRACK-{$track->id}";
-            $dummy_show->term_id = $this->term_id;
-            $dummy_show->day = $track->start_day;
-            $dummy_show->start = $track->start_time;
-            $dummy_show->end = $track->end_time;
-
-            $dummy_show->hosts = User::whereIn('id', $track_managers[$track->id] ?? [])->get();
-
-            $track_shows[] = $dummy_show;
+        foreach ($track_shows as $dummy_show) {
+            $track_id = explode('-', $dummy_show->id)[1];
+            $dummy_show->hosts = User::whereIn('id', $track_managers[$track_id] ?? [])->get();
         }
         $start = Carbon::now()->modify('next '.$this->day)
                               ->setTimeFromTimeString($this->start);
