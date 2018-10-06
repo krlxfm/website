@@ -265,7 +265,7 @@ class ShowTest extends UnitBaseCase
     public function testShowPriorityCalculationForFrozenPriority()
     {
         $priority_subjects = ['A3' => 9, 'J4' => 0, 'G2' => 3];
-        foreach($priority_subjects as $code => $terms) {
+        foreach ($priority_subjects as $code => $terms) {
             $show = factory(Show::class)->create(['priority' => $code]);
             $this->assertEquals($show->priority->terms, $terms);
         }
