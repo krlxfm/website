@@ -72,6 +72,46 @@ class ShowTest extends AuthenticatedTestCase
     }
 
     /**
+     * Board members can create shows on closed or pending terms.
+     * Verify that this is the case, as well as that non-Board users don't have
+     * this ability.
+     *
+     * @return void
+     */
+    public function testBoardCreationOfShowsInOddTerms()
+    {
+        $closed_term = factory(Term::class)->create(['status' => 'closed']);
+        $pending_term = factory(Term::class)->create(['status' => 'pending']);
+
+        $closed_term_show = [
+            'title' => 'Gray Duck',
+            'track_id' => $this->show->track_id,
+            'term_id' => $closed_term->id,
+        ];
+
+        $pending_term_show = [
+            'title' => 'Gray Duck',
+            'track_id' => $this->show->track_id,
+            'term_id' => $closed_term->id,
+        ];
+
+        foreach([$closed_term, $pending_term] as $term) {
+            $this->board->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
+            $this->carleton->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
+        }
+
+        $board_closed_req = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/shows', $closed_term_show);
+        $board_pending_req = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/shows', $pending_term_show);
+        $other_closed_req = $this->actingAs($this->carleton, 'api')->json('POST', '/api/v1/shows', $closed_term_show);
+        $other_pending_req = $this->actingAs($this->carleton, 'api')->json('POST', '/api/v1/shows', $pending_term_show);
+
+        $this->assertEquals(201, $board_closed_req->getStatusCode(), "The board member could not create a show in a closed term.");
+        $this->assertEquals(201, $board_pending_req->getStatusCode(), "The board member could not create a show in a pending term.");
+        $this->assertEquals(403, $other_closed_req->getStatusCode(), "The standard account could create a show in a closed term.");
+        $this->assertEquals(403, $other_pending_req->getStatusCode(), "The standard account could create a show in a pending term.");
+    }
+
+    /**
      * Assert that checking details about a show are available to anyone, but
      * only limited information is available if you're not a host.
      *
