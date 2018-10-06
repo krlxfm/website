@@ -91,4 +91,87 @@ class ShowTest extends AuthenticatedTestCase
         $board_req->assertOk()
                   ->assertJsonFragment(['content' => []]);
     }
+
+    /**
+     * Test that shows can be created with an empty title and still create OK
+     * (they'll have a title generated for them).
+     *
+     * @return void
+     */
+    public function testShowsCanGenerateTitles()
+    {
+        $request = $this->actingAs($this->host, 'api')->json('POST', '/api/v1/shows', [
+            'track_id' => $this->show->track_id,
+            'term_id' => $this->term->id,
+        ]);
+
+        $request->assertStatus(201);
+    }
+
+    /**
+     * Test that only the current user's shows will be returned from the GET
+     * /api/v1/shows route. This technically breaks REST conventions, but it's
+     * worth it for simplicity's sake.
+     *
+     * @return void
+     */
+    public function testOnlyMyShowsReturnedFromIndex()
+    {
+        $show = factory(Show::class)->create([
+            'term_id' => $this->term->id,
+            'track_id' => $this->show->track_id,
+        ]);
+
+        $request = $this->actingAs($this->host, 'api')->json('GET', '/api/v1/shows');
+        $request->assertJsonFragment(['id' => $this->show->id])
+                ->assertJsonMissing(['id' => $show->id]);
+    }
+
+    /**
+     * Test that we CAN'T update a show that we're not a member of.
+     *
+     * @return void
+     */
+    public function testUpdatingSomeoneElsesSingleShow()
+    {
+        $request = $this->actingAs($this->carleton, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is an example show description. It should be long enough to pass validation.',
+        ]);
+        $this->assertNotContains($this->carleton, $this->show->hosts);
+        $request->assertStatus(403);
+    }
+
+    /**
+     * Test that PATCH requests ONLY update the requested data.
+     *
+     * @return void
+     */
+    public function testPatchOnlyUpdatesRequestedData()
+    {
+        $title = $this->show->title;
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is an example show description. It should be long enough to pass validation.',
+        ]);
+
+        $request->assertOk()
+                ->assertJson([
+                    'description' => 'This is an example show description. It should be long enough to pass validation.',
+                    'title' => $title,
+                ]);
+    }
+
+    /**
+     * Test that PUT requests FAIL if data is missing.
+     *
+     * @return void
+     */
+    public function testPutFailsWithMissingAttribute()
+    {
+        $request = $this->actingAs($this->host, 'api')->json('PUT', "/api/v1/shows/{$this->show->id}", [
+            'title' => 'Amazing Show',
+        ]);
+
+        $request->assertStatus(422);
+        $this->assertNotEquals('Amazing Show', Show::find($this->show->id)->title);
+    }
 }
