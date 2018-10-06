@@ -3,12 +3,20 @@
 namespace Tests\API;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
+use KRLX\Track;
 use Tests\AuthenticatedTestCase;
+use KRLX\Mail\NewUserInvitation;
 use Illuminate\Support\Facades\Mail;
+use KRLX\Notifications\ShowInvitation;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Notification;
 
 class ShowTest extends AuthenticatedTestCase
 {
+    use WithFaker;
+
     public $show;
     public $host;
 
@@ -16,6 +24,7 @@ class ShowTest extends AuthenticatedTestCase
     {
         parent::setUp();
         Mail::fake();
+        Notification::fake();
 
         $this->show = factory(Show::class)->create(['term_id' => $this->term->id]);
         $this->host = factory(User::class)->states('carleton', 'contract_ok')->create();
@@ -173,5 +182,262 @@ class ShowTest extends AuthenticatedTestCase
 
         $request->assertStatus(422);
         $this->assertNotEquals('Amazing Show', Show::find($this->show->id)->title);
+    }
+
+    /**
+     * Test that users can delete their own shows, but others can't.
+     *
+     * @return void
+     */
+    public function testUsersCanDeleteOnlyOwnShows()
+    {
+        $delete_other_show = $this->actingAs($this->carleton, 'api')->json('DELETE', "/api/v1/shows/{$this->show->id}");
+        $delete_my_show = $this->actingAs($this->host, 'api')->json('DELETE', "/api/v1/shows/{$this->show->id}");
+
+        $this->assertNotContains($this->carleton, $this->show->hosts);
+        $delete_my_show->assertStatus(204);
+        $delete_other_show->assertStatus(403);
+    }
+
+    /**
+     * Test the ability to add a host.
+     *
+     * @return void
+     */
+    public function testAddingHost()
+    {
+        $add_request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
+            'add' => [$this->carleton->email],
+        ]);
+        $add_request->assertOk();
+        Notification::assertSentTo($this->carleton, ShowInvitation::class);
+        $this->assertContains($this->carleton->id, $this->show->invitees->pluck('id'));
+    }
+
+    /**
+     * Test the ability to invite a host who doesn't have an account.
+     *
+     * WARNING: This test is not thread safe; if running tests in parallel on
+     *          the same database, this test must be run sequentially while all
+     *          others hold.
+     *
+     * @return void
+     */
+    public function testAddingHostWithoutExistingAccount()
+    {
+        $faker = $this->faker();
+        $email = $faker->safeEmail;
+
+        // Since the database is sterile, we can test if new user accounts are
+        // ever created (and thus, if email addresses are actually written to
+        // disk) by monitoring the auto-increment value on the Users table.
+        // Admittedly, this is a bit of a hack, but it works.
+        // WARNING: THIS TEST IS NOT THREAD SAFE
+        $first_usr = factory(User::class)->create();
+
+        $add_request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}/invite", [
+            'invite' => [$email],
+        ]);
+        $second_usr = factory(User::class)->create();
+
+        $add_request->assertOk();
+        Mail::assertQueued(NewUserInvitation::class);
+        $this->assertNotContains($email, $this->show->invitees->pluck('email'));
+        $this->assertEquals(1, $second_usr->id - $first_usr->id);
+    }
+
+    /**
+     * Test the ability to remove a host.
+     *
+     * @return void
+     */
+    public function testRemovingHost()
+    {
+        $this->show->invitees()->attach($this->carleton);
+
+        $add_request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}/hosts", [
+            'remove' => [$this->carleton->email],
+        ]);
+        $add_request->assertOk();
+        $this->assertNotContains($this->carleton->id, $this->show->invitees->pluck('id'));
+    }
+
+    /**
+     * Test the ability to modify custom fields.
+     *
+     * @return void
+     */
+    public function testModificationOfCustomFields()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'content' => [
+                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']],
+            ],
+        ]);
+        $show = factory(Show::class)->create([
+            'track_id' => $track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->host, ['accepted' => true]);
+
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'content' => [
+                'sponsor' => 'asdf',
+            ],
+        ]);
+        $request->assertOk();
+        $testShow = Show::find($show->id);
+        $this->assertEquals('asdf', $testShow->content['sponsor']);
+    }
+
+    /**
+     * Test that single-occurrence shows can't simultaneously declare a day as
+     * both a conflict and a preference.
+     *
+     * @return void
+     */
+    public function testOneOffShowsCantHaveSameDayAsConflictAndPreference()
+    {
+        $track = factory(Track::class)->create([
+            'active' => true,
+            'weekly' => false,
+            'start_day' => $this->term->on_air->format('l'),
+            'start_time' => $this->term->on_air->format('H:i'),
+            'end_time' => $this->term->on_air->copy()->addHour()->format('H:i'),
+        ]);
+        $show = factory(Show::class)->create([
+            'track_id' => $track->id,
+            'term_id' => $this->term->id,
+        ]);
+        $show->hosts()->attach($this->host, ['accepted' => true]);
+
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(422);
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$show->id}", [
+            'conflicts' => [],
+            'preferences' => [$this->term->on_air->format('Y-m-d')],
+        ]);
+        $request->assertStatus(200);
+    }
+
+    /**
+     * Test joining a show.
+     *
+     * @return void
+     */
+    public function testJoiningShow()
+    {
+        $request = $this->actingAs($this->carleton, 'api')->json('PUT', "/api/v1/shows/{$this->show->id}/join", [
+            'token' => encrypt(['show' => $this->show->id, 'user' => $this->carleton->email]),
+        ]);
+        $request->assertStatus(200);
+        $this->assertTrue($this->show->track->joinable);
+        $this->assertNotContains($this->carleton->id, $this->show->invitees->pluck('id'));
+        $this->assertContains($this->carleton->id, $this->show->hosts->pluck('id'));
+    }
+
+    /**
+     * Test that "submitted" can't be edited directly via PATCH, but can be
+     * when all validation rules pass and a request is sent to the submit route.
+     *
+     * @return void
+     */
+    public function testSubmissionStatusCantBeEditedWithPatch()
+    {
+        $show = Show::find($this->show->id);
+        $this->assertFalse($show->submitted, 'The show was submitted to begin with.');
+
+        $request = $this->actingAs($this->host, 'api')->json('PATCH', "/api/v1/shows/{$this->show->id}", [
+            'description' => 'This is a show description',
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertEquals('This is a show description', $show->description, 'The description was not updated.');
+        $this->assertFalse($show->submitted, 'The show was successfully submitted when it should not have been.');
+
+        $request = $this->actingAs($this->host, 'api')->json('PUT', "/api/v1/shows/{$this->show->id}/submitted", [
+            'submitted' => true,
+        ]);
+        $request->assertStatus(200);
+        $show = Show::find($this->show->id);
+        $this->assertTrue($show->submitted, 'The show was not successfully submitted when it should have been.');
+    }
+
+    /**
+     * Test joining with bad tokens.
+     *
+     * @return void
+     */
+    public function testJoiningWithBadTokens()
+    {
+        $tokens = [
+            'this is not an array',
+            ['data' => 'this array is missing at least one key'],
+            ['user' => 'potato', 'show' => -1],
+            ['user' => $this->carleton->email, 'show' => '-_-_-_'],
+        ];
+
+        foreach ($tokens as $token) {
+            $request = $this->actingAs($this->carleton, 'api')->json('PUT', "/api/v1/shows/{$this->show->id}/join", [
+                'token' => encrypt($token),
+            ]);
+            $request->assertStatus(400);
+        }
+    }
+
+    /**
+     * Test that adding a "cancel" parameter to the join message removes the
+     * invitation altogether.
+     *
+     * @return void
+     */
+    public function testCancellingInvitation()
+    {
+        $this->show->invitees()->attach($this->carleton->id);
+        $this->assertContains($this->carleton->id, $this->show->invitees()->pluck('id'));
+        $this->assertNotContains($this->carleton->id, $this->show->hosts()->pluck('id'));
+
+        $request = $this->actingAs($this->carleton, 'api')->json('PUT', "/api/v1/shows/{$this->show->id}/join", [
+            'token' => encrypt(['user' => $this->carleton->email, 'show' => $this->show->id]),
+            'cancel' => true,
+        ]);
+        $request->assertOk();
+        $this->assertNotContains($this->carleton->id, $this->show->invitees()->pluck('id'), 'The user was not removed from the invitee list.');
+        $this->assertNotContains($this->carleton->id, $this->show->hosts()->pluck('id'), 'The user was added to the host list when they should not have been.');
+    }
+
+    /**
+     * Test that remind-show emails are NOT sent if the term does not have an
+     * application closure date set.
+     *
+     * @return void
+     */
+    public function testShowReminderEmailsDontSendWithoutCloseDate()
+    {
+        $term = factory(Term::class)->create(['applications_close' => null, 'status' => 'active']);
+        $show = factory(Show::class)->create([
+            'term_id' => $term->id,
+            'track_id' => $this->show->track_id,
+            'submitted' => false,
+        ]);
+        $request = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/shows/remind', [
+            'term_id' => $term->id,
+        ]);
+        $this->assertFalse($show->submitted);
+
+        Mail::assertNotQueued(ShowReminder::class);
     }
 }
