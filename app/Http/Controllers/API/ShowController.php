@@ -12,6 +12,7 @@ use KRLX\Mail\ShowSubmitted;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
 use KRLX\Mail\NewUserInvitation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Notifications\ShowInvitation;
@@ -65,15 +66,14 @@ class ShowController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \KRLX\Show  $show
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Show $show)
+    public function show(Show $show)
     {
         $this->authorize('basicView', $show);
 
-        if ($request->user()->can('view', $show)) {
+        if (Auth::user()->can('view', $show)) {
             return $show->with(['hosts', 'invitees'])->first();
         }
         return new ShowResource($show);
