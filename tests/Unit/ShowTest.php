@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
 use Tests\UnitBaseCase;
@@ -254,5 +255,38 @@ class ShowTest extends UnitBaseCase
         $this->assertEquals('Demo Track', $current_show->next->title);
         $this->assertContains($this->user->id, $current_show->next->hosts->pluck('id'));
         $this->assertTrue(starts_with($current_show->next->id, 'TRACK-'));
+    }
+
+    /**
+     * Test computation of priority for a show with a fixed priority value.
+     *
+     * @return void
+     */
+    public function testShowPriorityCalculationForFrozenPriority()
+    {
+        $priority_subjects = ['A3' => 9, 'J4' => 0, 'G2' => 3];
+        foreach($priority_subjects as $code => $terms) {
+            $show = factory(Show::class)->create(['priority' => $code]);
+            $this->assertEquals($show->priority->terms, $terms);
+        }
+    }
+
+    /**
+     * Test zone and group overrides in a show's priority calculation.
+     *
+     * @return void
+     */
+    public function testShowPriorityCalculationForOverridingTracks()
+    {
+        $term = factory(Term::class)->create(['id' => '2018-TEST', 'boosted' => false]);
+        $zone_override_track = factory(Track::class)->create(['zone' => 'I']);
+        $zone_override_show = factory(Show::class)->create(['track_id' => $zone_override_track->id, 'term_id' => '2018-TEST']);
+        $group_override_track = factory(Track::class)->create(['group' => 1]);
+        $group_override_show = factory(Show::class)->create(['track_id' => $group_override_track->id, 'term_id' => '2018-TEST']);
+
+        // Zone I = 1 term of experience.
+        // Group 1 on a non-boosted term in year 2018 = effective year 2019
+        $this->assertEquals(1, $zone_override_show->priority->terms);
+        $this->assertEquals(2019, $group_override_show->priority->year);
     }
 }
