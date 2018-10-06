@@ -6,7 +6,6 @@ use KRLX\Term;
 use KRLX\User;
 use Tests\UnitBaseCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends UnitBaseCase
 {
