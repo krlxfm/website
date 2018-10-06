@@ -76,6 +76,7 @@ class ShowController extends Controller
         if (Auth::user()->can('view', $show)) {
             return $show->with(['hosts', 'invitees'])->first();
         }
+
         return new ShowResource($show);
     }
 

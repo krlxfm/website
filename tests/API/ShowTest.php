@@ -6,8 +6,8 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
-use Tests\AuthenticatedTestCase;
 use KRLX\Mail\NewUserInvitation;
+use Tests\AuthenticatedTestCase;
 use Illuminate\Support\Facades\Mail;
 use KRLX\Notifications\ShowInvitation;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -47,28 +47,28 @@ class ShowTest extends AuthenticatedTestCase
 
         $this->assertGuest('api');
         $unauthenticated_req = $this->json('POST', '/api/v1/shows', $data);
-        $this->assertEquals(401, $unauthenticated_req->getStatusCode(), "Unauthenticated user did not receive HTTP 401 when creating shows.");
+        $this->assertEquals(401, $unauthenticated_req->getStatusCode(), 'Unauthenticated user did not receive HTTP 401 when creating shows.');
 
         $guest_req = $this->actingAs($this->guest, 'api')->json('POST', '/api/v1/shows', $data);
-        $this->assertEquals(403, $guest_req->getStatusCode(), "Guest user did not receive HTTP 403 when creating shows.");
+        $this->assertEquals(403, $guest_req->getStatusCode(), 'Guest user did not receive HTTP 403 when creating shows.');
 
         $new_carl_req = $this->actingAs($this->new_carl, 'api')->json('POST', '/api/v1/shows', $data);
-        $this->assertEquals(403, $new_carl_req->getStatusCode(), "New Carleton user did not receive HTTP 403 when creating shows.");
+        $this->assertEquals(403, $new_carl_req->getStatusCode(), 'New Carleton user did not receive HTTP 403 when creating shows.');
 
         $carleton_req = $this->actingAs($this->carleton, 'api')->json('POST', '/api/v1/shows', $data);
-        $this->assertEquals(201, $carleton_req->getStatusCode(), "Active Carleton user did not receive HTTP 201 when creating shows.");
+        $this->assertEquals(201, $carleton_req->getStatusCode(), 'Active Carleton user did not receive HTTP 201 when creating shows.');
         $show = Show::find($carleton_req->getData()->id);
         $this->assertContains($show->id, $this->carleton->shows()->pluck('id'));
         $this->assertContains($this->carleton->id, $show->hosts()->pluck('id'));
         $this->assertNotContains($this->carleton->id, $show->invitees()->pluck('id'));
 
         $board_req = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/shows', $data);
-        $this->assertEquals(201, $board_req->getStatusCode(), "Board user did not receive HTTP 201 when creating shows.");
+        $this->assertEquals(201, $board_req->getStatusCode(), 'Board user did not receive HTTP 201 when creating shows.');
         $show = Show::find($board_req->getData()->id);
         $this->assertContains($show->id, $this->board->shows()->pluck('id'));
         $this->assertContains($this->board->id, $show->hosts()->pluck('id'));
         $this->assertNotContains($this->board->id, $show->invitees()->pluck('id'));
-        $this->assertTrue($show->board_boost, "Board show creation did not result in an automatic upgrade.");
+        $this->assertTrue($show->board_boost, 'Board show creation did not result in an automatic upgrade.');
     }
 
     /**
@@ -86,7 +86,7 @@ class ShowTest extends AuthenticatedTestCase
         $host_req = $this->actingAs($this->host, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
         $board_req = $this->actingAs($this->board, 'api')->json('GET', "/api/v1/shows/{$this->show->id}");
 
-        $this->assertEmpty($this->show->content, "The content field is not empty, so JSON matching might fail.");
+        $this->assertEmpty($this->show->content, 'The content field is not empty, so JSON matching might fail.');
 
         $unauthenticated_req->assertStatus(401);
         $guest_req->assertOk()
