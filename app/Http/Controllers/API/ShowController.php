@@ -38,6 +38,7 @@ class ShowController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Show::class);
         $request->validate([
             'title' => 'sometimes|string|min:3',
             'track_id' => 'required|integer|exists:tracks,id',
@@ -50,9 +51,12 @@ class ShowController extends Controller
             ],
             'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+',
         ]);
-        $this->authorize('createShows', Term::find($request->input('term_id')));
+
+        $term = Term::find($request->input('term_id'));
+        $this->authorize('createShows', $term);
 
         $show = $request->user()->shows()->create($request->all(), ['accepted' => true]);
+        $this->generateCertificate($request->user(), $show, $term);
 
         return $show;
     }
@@ -186,6 +190,7 @@ class ShowController extends Controller
         if (! $request->has('cancel')) {
             $show->hosts()->detach($request->user()->id);
             $show->hosts()->attach($request->user()->id, ['accepted' => true]);
+            $this->generateCertificate($request->user(), $show, $show->term);
         }
 
         return $show;
@@ -261,6 +266,27 @@ class ShowController extends Controller
 
         foreach ($shows as $show) {
             Mail::to($show->hosts)->queue(new ShowReminder($show));
+        }
+    }
+
+    /**
+     * Generates a Board Upgrade Certificate if the show and user are eligible.
+     *
+     * @param  KRLX\User  $user
+     * @param  KRLX\Show  $show
+     * @param  KRLX\Term  $term
+     * @return void
+     */
+    public function generateCertificate(User $user, Show $show, Term $term)
+    {
+        if ($user->can('auto-request Zone S') and $show->track->boostable) {
+            $boosts = $user->boosts()->with('show')->where('type', 'S')->get();
+            $boosted_shows = $boosts->filter(function ($boost) use ($term) {
+                return $boost->term_id == $term->id or ($boost->show and $boost->show->term_id == $term->id);
+            });
+            if ($boosted_shows->count() == 0) {
+                $user->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $term->id]);
+            }
         }
     }
 }

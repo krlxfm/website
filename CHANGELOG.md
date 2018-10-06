@@ -6,7 +6,7 @@
 - Users who have completed onboarding will now be redirected to the profile screen instead of the home screen if they attempt to go back to the onboarding screen.
 - Show-specific permissions are now enforced; users must be either a member of the Board or a host of a show in order to see its details.
 - Users will no longer see the Join Show screen if they attempt to join a show that they're already a part of.
-- Guest accounts (those with email addresses not ending in `@carleton.edu`) no longer see any options related to creating shows on their home screen, and no longer have permission to complete any show-related actions.
+- Guest accounts (those with email addresses not ending in `@carleton.edu`) no longer see any options related to creating shows on their home screen, and no longer have permission to complete any show-related actions. This applies to both the web and the API.
 - Improvements to the profanity filters - they now catch additional words.
 
 Notes to developers:
