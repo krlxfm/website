@@ -104,7 +104,7 @@ class ShowTest extends AuthenticatedTestCase
     {
         $name = $this->standard_track->name;
 
-        $request = $this->json('PATCH', "/api/v1/tracks/{$this->standard_track->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/tracks/{$this->standard_track->id}", [
             'description' => 'A patched description.',
         ]);
 
@@ -122,7 +122,7 @@ class ShowTest extends AuthenticatedTestCase
      */
     public function testPutFailsWithMissingAttribute()
     {
-        $request = $this->json('PUT', "/api/v1/tracks/{$this->standard_track->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PUT', "/api/v1/tracks/{$this->standard_track->id}", [
             'description' => 'A patched description.',
         ]);
 
