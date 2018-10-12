@@ -126,14 +126,14 @@ class ShowTest extends AuthenticatedTestCase
              'title' => 'Gray Duck',
              'track_id' => $this->show->track_id,
              'term_id' => $closed_term->id,
-         ]);
+        ]);
         $closed_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
 
         $pending_term_show = factory(Show::class)->create([
              'title' => 'Gray Duck',
              'track_id' => $this->show->track_id,
              'term_id' => $closed_term->id,
-         ]);
+        ]);
         $pending_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
 
         foreach ([$closed_term, $pending_term] as $term) {
