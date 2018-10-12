@@ -7,7 +7,7 @@ use Tests\AuthenticatedTestCase;
 
 class ShowTest extends AuthenticatedTestCase
 {
-    public $std_track;
+    public $standard_track;
     public $custom_track;
     public $non_recurring_track;
 
@@ -15,7 +15,7 @@ class ShowTest extends AuthenticatedTestCase
     {
         parent::setUp();
 
-        $this->std_track = factory(Track::class)->create();
+        $this->standard_track = factory(Track::class)->create();
         $this->custom_track = factory(Track::class)->states('custom_field')->create();
         $this->non_recurring_track = factory(Track::class)->states('non_weekly')->create();
     }
@@ -51,13 +51,82 @@ class ShowTest extends AuthenticatedTestCase
      */
     public function testSingleTrackQuery()
     {
-        $request = $this->json('GET', "/api/v1/tracks/{$this->std_track->id}");
+        $request = $this->json('GET', "/api/v1/tracks/{$this->standard_track->id}");
 
         $request->assertStatus(200)
                 ->assertJson([
-                    'id' => $this->std_track->id,
-                    'name' => $this->std_track->name,
+                    'id' => $this->standard_track->id,
+                    'name' => $this->standard_track->name,
                 ])
                 ->assertJsonMissing(['created_at', 'updated_at', 'deleted_at']);
+    }
+
+    /**
+     * Test that deleting a track via the API soft-deletes it.
+     *
+     * @return void
+     */
+    public function testAPITrackDeleteSoftDeletes()
+    {
+        $request = $this->json('DELETE', "/api/v1/tracks/{$this->standard_track->id}");
+
+        $request->assertStatus(204);
+        $this->assertNull(Track::find($this->standard_track->id));
+        $this->assertNotNull(Track::withTrashed()->find($this->standard_track->id));
+    }
+
+    /**
+     * Test that the "index" route returns all tracks in the system (not
+     * including deleted ones).
+     *
+     * @return void
+     */
+    public function testTrackIndexReturnsTracks()
+    {
+        $secondTrack = factory(Track::class)->create();
+        $deletedTrack = factory(Track::class)->create();
+        $deletedTrack->delete();
+
+        $request = $this->json('GET', '/api/v1/tracks');
+
+        $request->assertOk()
+                ->assertJsonFragment(['id' => $this->standard_track->id])
+                ->assertJsonFragment(['id' => $secondTrack->id])
+                ->assertJsonMissing(['id' => $deletedTrack->id]);
+    }
+
+    /**
+     * Test that PATCH requests ONLY update the requested data.
+     *
+     * @return void
+     */
+    public function testPatchOnlyUpdatesRequestedData()
+    {
+        $name = $this->standard_track->name;
+
+        $request = $this->json('PATCH', "/api/v1/tracks/{$this->standard_track->id}", [
+            'description' => 'A patched description.',
+        ]);
+
+        $request->assertOk()
+                ->assertJson([
+                    'description' => 'A patched description.',
+                    'name' => $name,
+                ]);
+    }
+
+    /**
+     * Test that PUT requests FAIL if data is missing.
+     *
+     * @return void
+     */
+    public function testPutFailsWithMissingAttribute()
+    {
+        $request = $this->json('PUT', "/api/v1/tracks/{$this->standard_track->id}", [
+            'description' => 'A patched description.',
+        ]);
+
+        $request->assertStatus(422);
+        $this->assertNotEquals('A patched description.', Track::find($this->standard_track->id)->description);
     }
 }
