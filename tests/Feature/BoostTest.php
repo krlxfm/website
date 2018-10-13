@@ -7,6 +7,7 @@ use Tests\AuthenticatedTestCase;
 
 class BoostTest extends AuthenticatedTestCase
 {
+    public $boosted_show;
     public $show;
 
     public function setUp()
@@ -14,7 +15,14 @@ class BoostTest extends AuthenticatedTestCase
         parent::setUp();
 
         $this->show = factory(Show::class)->create(['term_id' => $this->term->id]);
+        $this->boosted_show = factory(Show::class)->create(['term_id' => $this->term->id]);
+
         $this->show->hosts()->attach($this->carleton, ['accepted' => true]);
+        $this->boosted_show->hosts()->attach($this->carleton, ['accepted' => true]);
+
+        $this->show->hosts()->attach($this->board, ['accepted' => true]);
+        $this->boosted_show->hosts()->attach($this->board, ['accepted' => true]);
+        $this->board->boosts()->create(['show_id' => $this->boosted_show->id, 'term_id' => $this->term->id, 'type' => 'A1']);
     }
 
     /**
