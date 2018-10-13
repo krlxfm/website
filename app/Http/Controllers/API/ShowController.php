@@ -48,7 +48,7 @@ class ShowController extends Controller
                 'required',
                 'string',
                 Rule::exists('terms', 'id')->where(function ($query) {
-                    $query->whereIn('status', ['active', 'early_access', 'closed']);
+                    $query->whereIn('status', ['active', 'pending', 'closed']);
                 }),
             ],
             'source' => 'sometimes|string|min:3|regex:[A-Za-z][A-Za-z0-9-_\./:]+',

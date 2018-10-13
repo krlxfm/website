@@ -80,8 +80,8 @@ class ShowTest extends AuthenticatedTestCase
      */
     public function testBoardCreationOfShowsInOddTerms()
     {
-        $closed_term = factory(Term::class)->create(['status' => 'closed']);
-        $pending_term = factory(Term::class)->create(['status' => 'pending']);
+        $pending_term = factory(Term::class)->create(['id' => '2018-PENDING', 'status' => 'pending']);
+        $closed_term = factory(Term::class)->create(['id' => '2018-CLOSED', 'status' => 'closed']);
 
         $closed_term_show = [
             'title' => 'Gray Duck',
@@ -92,7 +92,7 @@ class ShowTest extends AuthenticatedTestCase
         $pending_term_show = [
             'title' => 'Gray Duck',
             'track_id' => $this->show->track_id,
-            'term_id' => $closed_term->id,
+            'term_id' => $pending_term->id,
         ];
 
         foreach ([$closed_term, $pending_term] as $term) {
