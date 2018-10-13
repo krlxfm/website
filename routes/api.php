@@ -15,7 +15,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
     Route::get('schedule/now', 'FeedController@now');
     Route::get('schedule/signage', 'FeedController@signage');
 
-    Route::get('tracks', 'TrackController@show')->name('tracks.index');
+    Route::get('tracks', 'TrackController@index')->name('tracks.index');
     Route::get('tracks/{track}', 'TrackController@show')->name('tracks.show');
 
     Route::middleware('auth:api')->group(function () {

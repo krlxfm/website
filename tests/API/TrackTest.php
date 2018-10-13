@@ -68,7 +68,7 @@ class ShowTest extends AuthenticatedTestCase
      */
     public function testAPITrackDeleteSoftDeletes()
     {
-        $request = $this->json('DELETE', "/api/v1/tracks/{$this->standard_track->id}");
+        $request = $this->actingAs($this->board, 'api')->json('DELETE', "/api/v1/tracks/{$this->standard_track->id}");
 
         $request->assertStatus(204);
         $this->assertNull(Track::find($this->standard_track->id));
@@ -83,16 +83,14 @@ class ShowTest extends AuthenticatedTestCase
      */
     public function testTrackIndexReturnsTracks()
     {
-        $secondTrack = factory(Track::class)->create();
-        $deletedTrack = factory(Track::class)->create();
-        $deletedTrack->delete();
+        $this->custom_track->delete();
 
         $request = $this->json('GET', '/api/v1/tracks');
 
         $request->assertOk()
                 ->assertJsonFragment(['id' => $this->standard_track->id])
-                ->assertJsonFragment(['id' => $secondTrack->id])
-                ->assertJsonMissing(['id' => $deletedTrack->id]);
+                ->assertJsonFragment(['id' => $this->non_recurring_track->id])
+                ->assertJsonMissing(['id' => $this->custom_track->id]);
     }
 
     /**
