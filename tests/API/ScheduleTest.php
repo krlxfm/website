@@ -3,7 +3,6 @@
 namespace Tests\API;
 
 use KRLX\Show;
-use KRLX\Term;
 use KRLX\Jobs\PublishShow;
 use KRLX\Jobs\FinalPublishShow;
 use Tests\AuthenticatedTestCase;
