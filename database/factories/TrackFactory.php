@@ -27,7 +27,7 @@ $factory->state(KRLX\Track::class, 'custom_field', [
             'type' => 'shorttext',
             'db' => 'sponsor',
             'helptext' => null,
-            'rules' => ['required', 'min:3']
-        ]
-    ]
+            'rules' => ['required', 'min:3'],
+        ],
+    ],
 ]);

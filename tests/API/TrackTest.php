@@ -5,7 +5,7 @@ namespace Tests\API;
 use KRLX\Track;
 use Tests\AuthenticatedTestCase;
 
-class ShowTest extends AuthenticatedTestCase
+class TrackTest extends AuthenticatedTestCase
 {
     public $standard_track;
     public $custom_track;
@@ -45,7 +45,7 @@ class ShowTest extends AuthenticatedTestCase
 
     /**
      * Test that, once a track is created, it can be fetched. (Also, anyone can
-     * request details about a track.)
+     * request details about a track.).
      *
      * @return void
      */
