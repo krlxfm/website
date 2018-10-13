@@ -77,4 +77,20 @@ class BoostTest extends AuthenticatedTestCase
         $this->assertFalse($second_show->board_boost, 'A second Board Upgrade Certificate was issued.');
         $this->assertEquals(1, $this->board->boosts()->where([['type', 'S'], ['term_id', $this->term->id]])->count());
     }
+
+    /**
+     * Test that the view successfully renders, even for users without a boost.
+     *
+     * @return void
+     */
+    public function testBoostIndexRenders()
+    {
+        $board_req = $this->actingAs($this->board)->get('/shows/boost');
+        $carleton_req = $this->actingAs($this->carleton)->get('/shows/boost');
+
+        $this->assertCount(1, $this->board->eligibleBoosts());
+        $this->assertCount(0, $this->carleton->eligibleBoosts());
+
+        $board_req->assertSee('A1 Upgrade Certificate');
+    }
 }
