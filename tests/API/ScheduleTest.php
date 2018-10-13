@@ -6,13 +6,23 @@ use KRLX\Show;
 use KRLX\Term;
 use KRLX\Jobs\PublishShow;
 use KRLX\Jobs\FinalPublishShow;
+use Tests\AuthenticatedTestCase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ScheduleTest extends APITestCase
+class ScheduleTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
+
+    public $show;
+
+    public function setUp()
+    {
+        parent::setUp();
+        Queue::fake();
+
+        $this->show = factory(Show::class)->create(['submitted' => true, 'term_id' => $this->term->id]);
+    }
 
     /**
      * Test an update to a show's scheduling data.
@@ -21,16 +31,14 @@ class ScheduleTest extends APITestCase
      */
     public function testScheduleUpdateForShow()
     {
-        $show = factory(Show::class)->create();
-
-        $request = $this->json('PATCH', "/api/v1/schedule/{$show->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/schedule/{$this->show->id}", [
             'day' => 'Sunday',
             'start' => '12:00',
             'end' => '13:00',
         ]);
 
         $request->assertOk();
-        $show_updated = Show::find($show->id);
+        $show_updated = Show::find($this->show->id);
 
         $this->assertEquals('Sunday', $show_updated->day);
         $this->assertEquals('12:00', $show_updated->start);
@@ -45,12 +53,10 @@ class ScheduleTest extends APITestCase
      */
     public function testPublishingDispatchesJobs()
     {
-        Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['status' => 'active']);
         $shows = factory(Show::class, 10)->create([
-            'term_id' => $term->id,
+            'term_id' => $this->term->id,
             'submitted' => true,
             'start' => $faker->time('H:i'),
             'end' => $faker->time('H:i'),
@@ -58,7 +64,7 @@ class ScheduleTest extends APITestCase
         ]);
 
         $publish_array = ['publish' => $shows->pluck('id')->all()];
-        $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', '/api/v1/schedule/publish', $publish_array);
         $request->assertStatus(202);
 
         Queue::assertPushed(PublishShow::class, 10);
@@ -77,20 +83,18 @@ class ScheduleTest extends APITestCase
      */
     public function testFinalPublishingDispatchesJobs()
     {
-        Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['status' => 'active']);
         $shows = factory(Show::class, 10)->create([
-            'term_id' => $term->id,
+            'term_id' => $this->term->id,
             'submitted' => true,
             'start' => $faker->time('H:i'),
             'end' => $faker->time('H:i'),
             'day' => $faker->date('l'),
         ]);
 
-        $publish_array = ['publish' => [$shows->first()->id], 'final' => $term->id];
-        $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
+        $publish_array = ['publish' => [$shows->first()->id], 'final' => $this->term->id];
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', '/api/v1/schedule/publish', $publish_array);
         $request->assertStatus(202);
 
         Queue::assertPushed(FinalPublishShow::class, 10);
@@ -109,29 +113,27 @@ class ScheduleTest extends APITestCase
      */
     public function testSchedulePublishMonitorProgress()
     {
-        Queue::fake();
         $faker = $this->faker();
 
-        $term = factory(Term::class)->create(['status' => 'active']);
         $show = factory(Show::class)->create([
-            'term_id' => $term->id,
+            'term_id' => $this->term->id,
             'submitted' => true,
             'start' => $faker->time('H:i'),
             'end' => $faker->time('H:i'),
             'day' => $faker->date('l'),
         ]);
 
-        $request = $this->json('GET', '/api/v1/schedule/publish');
+        $request = $this->actingAs($this->board, 'api')->json('GET', '/api/v1/schedule/publish');
         $request->assertStatus(204);
 
         $publish_array = ['publish' => [$show->id]];
-        $request = $this->json('PATCH', '/api/v1/schedule/publish', $publish_array);
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', '/api/v1/schedule/publish', $publish_array);
         $request->assertStatus(202);
 
         $contents = file_get_contents(storage_path('app/publish'));
         file_put_contents(storage_path('app/publish'), json_encode(['position' => 1, 'show' => $show->id]));
 
-        $request = $this->json('GET', '/api/v1/schedule/publish');
+        $request = $this->actingAs($this->board, 'api')->json('GET', '/api/v1/schedule/publish');
         file_put_contents(storage_path('app/publish'), $contents);
         $request->assertStatus(200)
                 ->assertJsonFragment(['show' => $show->id]);
