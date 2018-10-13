@@ -125,7 +125,7 @@ class BoostTest extends AuthenticatedTestCase
 
     /**
      * Test that redeeming in an invalid situation throws a 422 response. This
-     * should happen under the following circumstances:
+     * should happen under the following circumstances:.
      *
      * - Host/show mismatch
      * - Limited-use certificate duplication (applying a second A1 or S)
