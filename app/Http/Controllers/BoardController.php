@@ -13,7 +13,7 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $board = User::role('board')->orderBy('email')->get();
+        $board = User::role('board')->orderBy('email')->orderBy('order')->get();
 
         return view('board.meet', compact('board'));
     }
