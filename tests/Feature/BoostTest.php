@@ -99,6 +99,22 @@ class BoostTest extends AuthenticatedTestCase
     }
 
     /**
+     * Test that a show with multiple One-Zone Upgrades appears okay in the
+     * redemption screen.
+     *
+     * @return void
+     */
+    public function testZoneUpgradesCombineOnRedeemScreen()
+    {
+        $this->carleton->boosts()->create(['type' => 'zone', 'show_id' => $this->show->id]);
+        $boost = $this->carleton->boosts()->create(['type' => 'zone']);
+
+        $request = $this->actingAs($this->carleton)->get("/shows/boost/{$boost->id}");
+
+        $request->assertSee($this->show->title);
+    }
+
+    /**
      * When a user has an upgrade certificate available and eligible shows,
      * clicking "Redeem" should show all available shows. In particular, shows
      * can only have one A1 or S certificate on them. As such, we should test
