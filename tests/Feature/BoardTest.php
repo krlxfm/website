@@ -15,14 +15,8 @@ class BoardTest extends AuthenticatedTestCase
      */
     public function testMeetingTheBoard()
     {
-        $more_board = factory(User::class, 5)->states('board')->create();
-        $users = $more_board->concat($this->board);
-
         $request = $this->actingAs($this->carleton)->get('/board');
         $request->assertOk();
-
-        foreach ($users as $user) {
-            $request->assertSeeInOrder([$user->full_name, $user->bio]);
-        }
+        $request->assertSeeInOrder([e($this->board->full_name), $this->board->bio]);
     }
 }

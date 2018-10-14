@@ -30,7 +30,8 @@ Route::get('privacy', function () {
 });
 
 Route::middleware(['auth', 'onboard'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::get('board', 'BoardController@index')->name('board.meet');
     Route::get('profile', 'UserController@profile')->name('profile');
 
     Route::middleware('can:create,KRLX\Show')->group(function () {
