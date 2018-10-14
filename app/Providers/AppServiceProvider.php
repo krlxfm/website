@@ -65,12 +65,23 @@ class AppServiceProvider extends ServiceProvider
                 ->routeIfCan('build schedule', 'schedule.build', 'Schedule builder')
                 ->setActiveClassOnLink();
 
+            $board_dropdown = Menu::new()
+                ->withoutParentTag()
+                ->setWrapperTag('div')
+                ->addClass('dropdown-menu dropdown-menu-right')
+                ->addParentClass('dropdown')
+                ->addItemClass('dropdown-item')
+                ->prepend('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Board</a>')
+                ->route('board.meet', 'Meet')
+                ->setActiveClassOnLink();
+
             $menu = Menu::new()
                 ->addClass('navbar-nav ml-auto')
                 ->addItemParentClass('nav-item')
                 ->setActiveFromRequest()
                 ->route('home', 'Home')
                 ->submenu($shows_dropdown)
+                ->submenu($board_dropdown)
                 ->route('profile', 'Profile')
                 ->route('logout', 'Sign out')
                 ->each(function (Link $link) {
