@@ -106,7 +106,7 @@
     </div>
     <div class="form-group row">
         <label for="bio" class="col-sm-3 col-md-2 col-form-label">
-            Bio <i class="fab fa-markdown" title="Markdown formatting is supported in this field." data-toggle="tooltip"></i>
+            Bio
         </label>
         <div class="col-sm-9 col-md-10">
             <textarea name="bio" class="form-control" id="bio" rows="3">{{ old('bio') ?? Auth::user()->bio }}</textarea>
