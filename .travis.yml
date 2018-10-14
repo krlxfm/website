@@ -18,7 +18,7 @@ after_script: cat storage/logs/laravel.log
 jobs:
   include:
     - stage: report
-      php: '7.1'
+      php: '7.2'
       before_script:
         - cp .env.travis .env
         - cp travis-manifest.json public/mix-manifest.json
