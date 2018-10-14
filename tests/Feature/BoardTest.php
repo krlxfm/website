@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use KRLX\User;
 use Tests\AuthenticatedTestCase;
 
 class BoardTest extends AuthenticatedTestCase

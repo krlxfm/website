@@ -3,7 +3,6 @@
 namespace KRLX\Http\Controllers;
 
 use KRLX\User;
-use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
