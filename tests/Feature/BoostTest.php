@@ -162,13 +162,11 @@ class BoostTest extends AuthenticatedTestCase
         $host_mismatch_request = $this->actingAs($rando)->post("/shows/boost/{$rando_boost->id}", ['show_id' => $this->show->id]);
         $limited_request = $this->actingAs($this->carleton)->post("/shows/boost/{$count_lim_boost->id}", ['show_id' => $this->boosted_show->id]);
         $bad_track_request = $this->actingAs($this->carleton)->post("/shows/boost/{$carl_zone_boost->id}", ['show_id' => $ineligible_track_show->id]);
-        $past_show_request = $this->actingAs($this->carleton)->post("/shows/boost/{$term_lim_boost}", ['show_id' => $this->show->id]);
+        $past_show_request = $this->actingAs($this->carleton)->post("/shows/boost/{$term_lim_boost->id}", ['show_id' => $this->show->id]);
 
-        // dump($host_mismatch_request);
-
-        $this->assertNotEquals(200, $host_mismatch_request->status());
-        $this->assertNotEquals(200, $limited_request->status());
-        $this->assertNotEquals(200, $bad_track_request->status());
-        $this->assertNotEquals(200, $past_show_request->status());
+        $this->assertEquals(302, $host_mismatch_request->status());
+        $this->assertEquals(302, $limited_request->status());
+        $this->assertEquals(302, $bad_track_request->status());
+        $this->assertEquals(302, $past_show_request->status());
     }
 }
