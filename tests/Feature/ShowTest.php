@@ -4,283 +4,98 @@ namespace Tests\Feature;
 
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
-use KRLX\Track;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\AuthenticatedTestCase;
 
-class ShowTest extends TestCase
+class ShowTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase;
-
-    public $show;
-    public $track;
-    public $term;
-    public $user;
-    public $session;
+    public $my_show;
+    public $other_show;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->artisan('db:seed');
-        $this->track = factory(Track::class)->create([
-            'active' => true,
-        ]);
-        $this->term = factory(Term::class)->create([
-            'status' => 'active',
-        ]);
-        $this->user = factory(User::class)->states('contract_ok')->create();
-        $this->show = factory(Show::class)->create([
-            'id' => 'SHOW01',
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-            'submitted' => false,
-        ]);
-        $this->show->hosts()->attach($this->user, ['accepted' => true]);
-        $this->session = $this->actingAs($this->user);
+        $this->my_show = factory(Show::class)->create(['term_id' => $this->term->id]);
+        $this->other_show = factory(Show::class)->create(['term_id' => $this->term->id]);
+
+        $this->my_show->hosts()->attach($this->carleton, ['accepted' => true]);
+        $this->other_show->hosts()->attach($this->board, ['accepted' => true]);
     }
 
     /**
-     * Test that we can see our list of incomplete shows.
+     * Test that My Shows displays the titles of the shows that the requesting
+     * user is actually a part of.
      *
      * @return void
      */
-    public function testUserCanSeeOwnShows()
+    public function testMyShowsReturnsOnlyMyShow()
     {
-        $secondShow = factory(Show::class)->create([
-            'id' => 'SECOND',
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-            'submitted' => false,
-        ]);
-        $secondShow->hosts()->attach($this->user, ['accepted' => true]);
+        $carl_request = $this->actingAs($this->carleton)->get('/shows');
+        $board_request = $this->actingAs($this->board)->get('/shows');
 
-        $request = $this->get('/shows');
-
-        $this->assertCount(1, Term::all());
-        $request->assertOk()
-                ->assertSeeInOrder(['Applications in progress', $this->show->title, $secondShow->title, 'Completed applications']);
+        $carl_request->assertOk()
+                     ->assertSee($this->my_show->title)
+                     ->assertDontSee($this->other_show->title);
+        $board_request->assertOk()
+                      ->assertSee($this->other_show->title)
+                      ->assertDontSee($this->my_show->title);
     }
 
     /**
-     * Test that the list of available tracks appears when we go to create a
-     * new show.
+     * Test that Board members (who can override Pending and Closed terms) see
+     * those options when creating a show.
      *
      * @return void
      */
-    public function testTrackListAppearsWhenCreatingNewShow()
+    public function testBoardMembersCanSeeClosedTerms()
     {
-        $track = factory(Track::class)->create([
-            'active' => false,
+        $pending_term = factory(Term::class)->create([
+            'status' => 'pending',
+            'on_air' => $this->term->on_air->subWeek(),
         ]);
-        $request = $this->get('/shows/create');
+        $closed_term = factory(Term::class)->create([
+            'status' => 'closed',
+            'on_air' => $this->term->on_air->subWeek(),
+        ]);
 
-        $request->assertOk()
-                ->assertSee($this->track->name)
-                ->assertDontSee($track->name);
+        $carl_request = $this->actingAs($this->carleton)->get('/shows/create');
+        $board_request = $this->actingAs($this->board)->get('/shows/create');
+
+        $carl_request->assertOk();
+        $this->assertCount(1, $carl_request->baseResponse->original->terms);
+        $board_request->assertOk();
+        $this->assertCount(3, $board_request->baseResponse->original->terms);
     }
 
     /**
-     * Test that submitting the show creation form on the web results in a new
-     * show being created, and that we are redirected there.
+     * Test that shows can be created.
      *
      * @return void
      */
     public function testWebShowCreation()
     {
-        $request = $this->post('/shows', [
-            'title' => 'Example Show Title',
-            'track_id' => $this->track->id,
+        $request = $this->actingAs($this->carleton)->post('/shows', [
             'term_id' => $this->term->id,
+            'track_id' => $this->my_show->track_id,
+            'title' => 'Test Show',
         ]);
 
-        $show = Show::where('title', 'Example Show Title')->first();
-        $this->assertContains($this->user->id, $show->hosts()->pluck('id'));
-        $this->assertFalse($this->user->can('auto-request Zone S'));
-        $this->assertFalse($show->boosted, 'A show was boosted when it should not have been.');
-        $request->assertRedirect(route('shows.hosts', $show->id));
+        $show = Show::where('title', 'Test Show')->first();
+
+        $this->assertContains($this->carleton->id, $show->hosts->pluck('id'));
+        $request->assertRedirect("/shows/{$show->id}/hosts");
     }
 
     /**
-     * Test that a user with permission to automatically request Zone S will
-     * automatically have their FIRST show get upgraded.
+     * Test that shows can be deleted.
      *
      * @return void
      */
-    public function testAutomaticUpgradeRequest()
+    public function testWebShowDeletion()
     {
-        $this->user->givePermissionTo('auto-request Zone S');
+        $request = $this->actingAs($this->carleton)->delete("/shows/{$this->my_show->id}");
 
-        $this->post('/shows', [
-            'title' => 'Example Show Title',
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-        ]);
-        $upgraded_show = Show::where('title', 'Example Show Title')->first();
-        $this->post('/shows', [
-            'title' => 'Other Show Title',
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-        ]);
-        $non_upgraded_show = Show::where('title', 'Other Show Title')->first();
-
-        $this->assertTrue($upgraded_show->boosted, 'Failed asserting that the show is boosted.');
-        $this->assertTrue($upgraded_show->board_boost, 'Failed asserting that the show has a Board Upgrade Certificate.');
-        $this->assertFalse($non_upgraded_show->boosted, 'A second show was upgraded when it should not have been.');
-        $this->assertFalse($non_upgraded_show->board_boost, 'A second Board Upgrade Certificate was issued.');
-    }
-
-    /**
-     * Test that we can't create a show with expletives in the title.
-     *
-     * @return void
-     */
-    public function testWebShowCreationWithExpletives()
-    {
-        $title = config('defaults.banned_words.full')[0]." except this time it's a radio show";
-        $request = $this->post('/shows', [
-            'title' => $title,
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-        ]);
-
-        $show = Show::where('title', $title)->first();
+        $show = Show::find($this->my_show->id);
         $this->assertNull($show);
-    }
-
-    /**
-     * Test that we have access to the hosts view after creating a show.
-     *
-     * @return void
-     */
-    public function testHostsViewRenders()
-    {
-        $request = $this->get("/shows/{$this->show->id}/hosts");
-
-        $request->assertOk()
-                ->assertViewIs('shows.hosts');
-    }
-
-    /**
-     * Test that we have access to the content view after creating a show, and
-     * that the view marks the "description" field as required.
-     *
-     * @return void
-     */
-    public function testContentViewRenders()
-    {
-        $request = $this->get("/shows/{$this->show->id}/content");
-
-        $this->assertEquals(0, strlen($this->show->description ?? ''));
-        $request->assertOk()
-                ->assertViewIs('shows.content')
-                ->assertSee('The description field is required.');
-    }
-
-    /**
-     * Test that we have access to the schedule view after creating a show.
-     *
-     * @return void
-     */
-    public function testScheduleViewRenders()
-    {
-        $request = $this->get("/shows/{$this->show->id}/schedule");
-
-        $request->assertOk()
-                ->assertViewIs('shows.schedule');
-    }
-
-    /**
-     * Test that we have access to the review view after creating a show.
-     *
-     * @return void
-     */
-    public function testReviewScreenRenders()
-    {
-        $request = $this->get("/shows/{$this->show->id}");
-
-        $request->assertOk()
-                ->assertViewIs('shows.review')
-                ->assertSee($this->show->term->name);
-    }
-
-    /**
-     * Test that tracks with custom fields can still render okay.
-     *
-     * @return void
-     */
-    public function testCustomFieldTracksStillRender()
-    {
-        $track = factory(Track::class)->create([
-            'active' => true,
-            'content' => [
-                ['db' => 'sponsor', 'title' => 'Sponsor', 'helptext' => null, 'type' => 'shorttext', 'rules' => ['required', 'min:3']],
-            ],
-        ]);
-        $show = factory(Show::class)->create([
-            'term_id' => $this->term->id,
-            'track_id' => $track->id,
-        ]);
-        $show->hosts()->attach($this->user->id, ['accepted' => true]);
-
-        $request = $this->get("/shows/{$show->id}/content");
-
-        $request->assertOk()
-                ->assertViewIs('shows.content')
-                ->assertSee('Sponsor');
-    }
-
-    /**
-     * Test that we have access to the Join Shows screen without an ID.
-     *
-     * @return void
-     */
-    public function testFindShowViewRenders()
-    {
-        $request = $this->get('/shows/join');
-
-        $request->assertOk()
-                ->assertViewIs('shows.find');
-    }
-
-    /**
-     * Test that we have access to the join view, assuming we're not a host of
-     * the show we're trying to join.
-     *
-     * @return void
-     */
-    public function testJoinShowViewRenders()
-    {
-        $show = factory(Show::class)->create([
-             'track_id' => $this->track->id,
-             'term_id' => $this->term->id,
-        ]);
-        $show->invitees()->attach($this->user);
-        $request = $this->get("/shows/join/{$show->id}");
-
-        $request->assertOk()
-                ->assertViewIs('shows.join')
-                ->assertSee($show->title);
-    }
-
-    /**
-     * Test joining a show.
-     *
-     * @return void
-     */
-    public function testJoiningShow()
-    {
-        $show = factory(Show::class)->create([
-            'track_id' => $this->track->id,
-            'term_id' => $this->term->id,
-        ]);
-        $show->hosts()->attach($this->user, ['accepted' => true]);
-
-        $request = $this->put("/shows/join/{$show->id}", [
-            'token' => encrypt(['show' => $show->id, 'user' => $this->user->email]),
-        ]);
-        $request->assertRedirect(route('shows.schedule', $show))
-                ->assertSessionHas('success');
     }
 }

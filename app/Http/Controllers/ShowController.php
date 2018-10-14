@@ -81,20 +81,14 @@ class ShowController extends Controller
             'title' => ['required', 'string', 'min:3', 'max:200', new Profanity],
         ]);
 
-        $this->authorize('createShows', Term::find($request->input('term_id')));
+        $term = Term::find($request->input('term_id'));
+        $this->authorize('createShows', $term);
 
+        $controller = new APIController();
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
         $show->hosts()->attach($request->user(), ['accepted' => true]);
 
-        if ($request->user()->can('auto-request Zone S') and $show->track->boostable) {
-            $boosts = $request->user()->boosts()->with('show')->where('type', 'S')->get();
-            $boosted_shows = $boosts->filter(function ($boost) use ($request) {
-                return $boost->term_id == $request->input('term_id') or ($boost->show and $boost->show->term_id == $request->input('term_id'));
-            });
-            if ($boosted_shows->count() == 0) {
-                $request->user()->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $request->input('term_id')]);
-            }
-        }
+        $controller->generateCertificate($request->user(), $show, $term);
 
         return redirect()->route('shows.hosts', $show);
     }
@@ -102,12 +96,15 @@ class ShowController extends Controller
     /**
      * Display the hosts (and invitees) of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function hosts(Show $show)
+    public function hosts(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.hosts', compact('show'));
     }
@@ -115,12 +112,15 @@ class ShowController extends Controller
     /**
      * Display the content fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function content(Show $show)
+    public function content(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         $ruleset = new ShowRuleset($show, []);
         $rules = collect($ruleset->rules(true));
@@ -137,12 +137,15 @@ class ShowController extends Controller
     /**
      * Display the scheduling fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function schedule(Show $show)
+    public function schedule(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.schedule', compact('show'));
     }
@@ -150,12 +153,15 @@ class ShowController extends Controller
     /**
      * Display ALL fields of a show.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show  $show
      * @return Illuminate\Http\Response
      */
-    public function review(Show $show)
+    public function review(Request $request, Show $show)
     {
-        $this->authorize('view', $show);
+        if (! $request->user()->can('view', $show)) {
+            return redirect()->route('shows.join', $show);
+        }
 
         return view('shows.review', compact('show'));
     }
@@ -269,13 +275,16 @@ class ShowController extends Controller
     /**
      * Display the "Join Show" view.
      *
+     * @param  Illuminate\Http\Request  $request
      * @param  KRLX\Show|null  $show
      * @return Illuminate\Http\Response
      */
-    public function join(Show $show = null)
+    public function join(Request $request, Show $show = null)
     {
         if ($show == null) {
             return view('shows.find');
+        } elseif ($show->hosts->pluck('id')->contains($request->user()->id)) {
+            return redirect()->route('shows.review', $show)->with('status', 'You are already a part of this show!');
         } else {
             return view('shows.join', compact('show'));
         }

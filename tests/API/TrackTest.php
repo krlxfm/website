@@ -3,24 +3,26 @@
 namespace Tests\API;
 
 use KRLX\Track;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\AuthenticatedTestCase;
 
-class TrackTest extends APITestCase
+class TrackTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase;
-
-    protected $track;
+    public $standard_track;
+    public $custom_track;
+    public $non_recurring_track;
 
     public function setUp()
     {
         parent::setUp();
-        $this->track = factory(Track::class)->create();
+
+        $this->standard_track = factory(Track::class)->create();
+        $this->custom_track = factory(Track::class)->states('custom_field')->create();
+        $this->non_recurring_track = factory(Track::class)->states('non_weekly')->create();
     }
 
     /**
-     * Test that tracks can be created.
-     * Given a track name and description, assert that the track is created,
-     * and that the API call returns a status code 201.
+     * Test that board members can create tracks. Unauthenticated and non-Board
+     * accounts should not be able to create tracks.
      *
      * @return void
      */
@@ -31,24 +33,30 @@ class TrackTest extends APITestCase
             'description' => 'A track only for epic shows. Shows will be rejected if they are not epic.',
         ];
 
-        $request = $this->json('POST', '/api/v1/tracks', $trackData);
+        $unauthenticated_req = $this->json('POST', '/api/v1/tracks', $trackData);
+        $unauthenticated_req->assertStatus(401);
 
+        $request = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/tracks', $trackData);
         $request->assertStatus(201);
+
+        $non_board_request = $this->actingAs($this->carleton, 'api')->json('POST', '/api/v1/tracks', $trackData);
+        $non_board_request->assertStatus(403);
     }
 
     /**
-     * Test that, once a track is created, it can be fetched.
+     * Test that, once a track is created, it can be fetched. (Also, anyone can
+     * request details about a track.).
      *
      * @return void
      */
     public function testSingleTrackQuery()
     {
-        $request = $this->json('GET', "/api/v1/tracks/{$this->track->id}");
+        $request = $this->json('GET', "/api/v1/tracks/{$this->standard_track->id}");
 
         $request->assertStatus(200)
                 ->assertJson([
-                    'id' => $this->track->id,
-                    'name' => $this->track->name,
+                    'id' => $this->standard_track->id,
+                    'name' => $this->standard_track->name,
                 ])
                 ->assertJsonMissing(['created_at', 'updated_at', 'deleted_at']);
     }
@@ -60,11 +68,11 @@ class TrackTest extends APITestCase
      */
     public function testAPITrackDeleteSoftDeletes()
     {
-        $request = $this->json('DELETE', "/api/v1/tracks/{$this->track->id}");
+        $request = $this->actingAs($this->board, 'api')->json('DELETE', "/api/v1/tracks/{$this->standard_track->id}");
 
         $request->assertStatus(204);
-        $this->assertNull(Track::find($this->track->id));
-        $this->assertNotNull(Track::withTrashed()->find($this->track->id));
+        $this->assertNull(Track::find($this->standard_track->id));
+        $this->assertNotNull(Track::withTrashed()->find($this->standard_track->id));
     }
 
     /**
@@ -75,16 +83,14 @@ class TrackTest extends APITestCase
      */
     public function testTrackIndexReturnsTracks()
     {
-        $secondTrack = factory(Track::class)->create();
-        $deletedTrack = factory(Track::class)->create();
-        $deletedTrack->delete();
+        $this->custom_track->delete();
 
         $request = $this->json('GET', '/api/v1/tracks');
 
         $request->assertOk()
-                ->assertJsonFragment(['id' => $this->track->id])
-                ->assertJsonFragment(['id' => $secondTrack->id])
-                ->assertJsonMissing(['id' => $deletedTrack->id]);
+                ->assertJsonFragment(['id' => $this->standard_track->id])
+                ->assertJsonFragment(['id' => $this->non_recurring_track->id])
+                ->assertJsonMissing(['id' => $this->custom_track->id]);
     }
 
     /**
@@ -94,9 +100,9 @@ class TrackTest extends APITestCase
      */
     public function testPatchOnlyUpdatesRequestedData()
     {
-        $name = $this->track->name;
+        $name = $this->standard_track->name;
 
-        $request = $this->json('PATCH', "/api/v1/tracks/{$this->track->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/tracks/{$this->standard_track->id}", [
             'description' => 'A patched description.',
         ]);
 
@@ -114,11 +120,11 @@ class TrackTest extends APITestCase
      */
     public function testPutFailsWithMissingAttribute()
     {
-        $request = $this->json('PUT', "/api/v1/tracks/{$this->track->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PUT', "/api/v1/tracks/{$this->standard_track->id}", [
             'description' => 'A patched description.',
         ]);
 
         $request->assertStatus(422);
-        $this->assertNotEquals('A patched description.', Track::find($this->track->id)->description);
+        $this->assertNotEquals('A patched description.', Track::find($this->standard_track->id)->description);
     }
 }

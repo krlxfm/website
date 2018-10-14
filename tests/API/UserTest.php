@@ -2,12 +2,10 @@
 
 namespace Tests\API;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\AuthenticatedTestCase;
 
-class UserTest extends APITestCase
+class UserTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase;
-
     /**
      * Test the user searching.
      *
@@ -15,8 +13,8 @@ class UserTest extends APITestCase
      */
     public function testUserSearching()
     {
-        $request = $this->json('GET', '/api/v1/users', ['query' => $this->user->email]);
+        $request = $this->actingAs($this->carleton, 'api')->json('GET', '/api/v1/users', ['query' => $this->new_carl->email]);
         $request->assertOk()
-                ->assertJsonFragment(['id' => $this->user->id]);
+                ->assertJsonFragment(['id' => $this->new_carl->id]);
     }
 }

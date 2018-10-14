@@ -23,6 +23,13 @@ $factory->define(KRLX\User::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(KRLX\User::class, 'carleton_new', function ($faker) {
+    return [
+        'email' => $faker->username.'@carleton.edu',
+        'year' => date('Y') + $faker->numberBetween(1, 3),
+    ];
+});
+
 $factory->state(KRLX\User::class, 'carleton', function ($faker) {
     return [
         'email' => $faker->username.'@carleton.edu',
@@ -31,12 +38,16 @@ $factory->state(KRLX\User::class, 'carleton', function ($faker) {
     ];
 });
 
-$factory->state(KRLX\User::class, 'contract_ok', function ($faker) {
-    return [];
-});
+$factory->state(KRLX\User::class, 'contract_ok', []);
+
+$factory->state(KRLX\User::class, 'board', []);
 
 $factory->afterCreatingState(KRLX\User::class, 'contract_ok', function ($user, $faker) {
     foreach (Term::all() as $term) {
         $user->points()->create(['term_id' => $term->id, 'status' => 'provisioned']);
     }
+});
+
+$factory->afterCreatingState(KRLX\User::class, 'board', function ($user, $faker) {
+    $user->assignRole('board');
 });

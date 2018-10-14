@@ -12,11 +12,25 @@ class ShowPolicy
     use HandlesAuthorization;
 
     /**
+     * For API transactions, guests are allowed to receive some limited
+     * information about a show, such as its description and host names. These
+     * details are encapsulated in a ShowResource rather than a full Show.
+     *
+     * @param  \KRLX\User  $user
+     * @param  \KRLX\Show  $show
+     * @return bool
+     */
+    public function basicView(User $user, Show $show)
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can view the show.
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function view(User $user, Show $show)
     {
@@ -24,11 +38,22 @@ class ShowPolicy
     }
 
     /**
+     * Determine whether the user can create shows at all.
+     *
+     * @param  \KRLX\User  $user
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return ends_with($user->email, '@carleton.edu');
+    }
+
+    /**
      * Determine whether the user can update the show.
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function update(User $user, Show $show)
     {
@@ -49,7 +74,7 @@ class ShowPolicy
      *
      * @param  \KRLX\User  $user
      * @param  \KRLX\Show  $show
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user, Show $show)
     {

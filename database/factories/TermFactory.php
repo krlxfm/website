@@ -16,3 +16,7 @@ $factory->define(KRLX\Term::class, function (Faker $faker) {
         'boosted' => true,
     ];
 });
+
+$factory->state(KRLX\Term::class, 'active', [
+    'status' => 'active',
+]);

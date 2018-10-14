@@ -32,7 +32,7 @@ class Profanity implements Rule
      */
     public function passes($attribute, $value)
     {
-        $target = preg_replace('/[@#\$%\^]/', '*', strtolower($value));
+        $target = preg_replace('/[@#\$%\^0-9]/', '*', strtolower($value));
         $words = explode(' ', $target);
         foreach (array_merge(config('defaults.banned_words.full'), config('defaults.banned_words.partial')) as $bad_word) {
             if (in_array($bad_word, $words) or in_array(str_plural($bad_word), $words)) {
@@ -75,7 +75,7 @@ class Profanity implements Rule
     private function singleWordDerivativesPass($word, $derivatives, $value)
     {
         foreach ($derivatives as $derivative) {
-            if (strpos($value, $derivative) !== false) {
+            if (stripos($value, $derivative) !== false) {
                 $this->word = $word;
 
                 return false;

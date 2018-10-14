@@ -19,6 +19,8 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'auto-request Zone S']);
         Permission::create(['name' => 'override closed term']);
         Permission::create(['name' => 'override pending term']);
+        Permission::create(['name' => 'manage tracks']);
+        Permission::create(['name' => 'manage terms']);
 
         // Create roles and assign permissions.
         $board = Role::create(['name' => 'board']);
@@ -30,6 +32,8 @@ class PermissionSeeder extends Seeder
             'auto-request Zone S',
             'override closed term',
             'override pending term',
+            'manage tracks',
+            'manage terms',
         ]);
 
         $tester = Role::create(['name' => 'tester']);

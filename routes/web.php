@@ -31,9 +31,12 @@ Route::get('privacy', function () {
 
 Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('shows', 'ShowController@my')->name('shows.my');
-    Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
     Route::get('profile', 'UserController@profile')->name('profile');
+
+    Route::middleware('can:create,KRLX\Show')->group(function () {
+        Route::get('shows', 'ShowController@my')->name('shows.my');
+        Route::get('shows/my/{term?}', 'ShowController@my')->name('shows.my.other');
+    });
 
     Route::middleware('permission:see all applications')->group(function () {
         Route::get('shows/all/{term?}', 'ShowController@all')->name('shows.all');
@@ -48,7 +51,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
         Route::get('schedule/build/{term?}', 'ScheduleController@build')->name('schedule.build');
     });
 
-    Route::middleware('contract')->group(function () {
+    Route::middleware(['can:create,KRLX\Show', 'contract'])->group(function () {
         Route::get('shows/join/{show?}', 'ShowController@join')->name('shows.join');
         Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
 

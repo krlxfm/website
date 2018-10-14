@@ -30,9 +30,8 @@ class HomeController extends Controller
 
         $user = $request->user();
         $shows = $user->shows()->where('term_id', $term->id)->get();
-        $boosts = $user->eligibleBoosts();
 
-        return view('home', compact('user', 'shows', 'term', 'boosts'));
+        return view('home', compact('user', 'shows', 'term'));
     }
 
     /**
@@ -45,7 +44,7 @@ class HomeController extends Controller
     {
         $user = $request->user();
         if (! ends_with($user->email, '@carleton.edu') or ! empty($user->phone_number)) {
-            return redirect()->intended('/home');
+            return redirect()->intended('/profile');
         }
 
         return view('legal.onboard');
@@ -59,35 +58,42 @@ class HomeController extends Controller
      */
     public function storeOnboarding(Request $request)
     {
-        $rules = [
+        $rules = $this->getValidationRules();
+        $request->validate($rules);
+
+        $user = $request->user();
+        foreach (array_keys($rules) as $field) {
+            if ($field == 'status' or $field == 'source') {
+                continue;
+            }
+            $user->{$field} = $request->input($field);
+        }
+        $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
+        $user->year = $statuses[$request->input('status')];
+        $user->save();
+
+        return redirect()->intended('/home')->with('status', $request->has('source') ? 'Your profile has been updated!' : 'Your account has been activated!');
+    }
+
+    /**
+     * Get the rules required to save an onboarding request.
+     *
+     * @return array
+     */
+    private function getValidationRules()
+    {
+        return [
             'name' => 'required|string',
             'first_name' => 'required|string',
             'phone_number' => 'required|string|min:10',
             'status' => 'required|in:student,faculty,staff',
             'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
-            'major' => 'present|max:190',
-            'hometown' => 'present|max:190',
-            'bio' => 'present|max:65000',
-            'favorite_music' => 'present|max:65000',
-            'favorite_shows' => 'present|max:65000',
+            'major' => 'sometimes|present|max:190',
+            'hometown' => 'sometimes|present|max:190',
+            'bio' => 'sometimes|present|max:65000',
+            'favorite_music' => 'sometimes|present|max:65000',
+            'favorite_shows' => 'sometimes|present|max:65000',
+            'source' => 'sometimes|present|string',
         ];
-        $request->validate($rules);
-
-        $user = $request->user();
-        foreach (array_keys($rules) as $field) {
-            if ($field == 'status') {
-                continue;
-            }
-            $user->{$field} = $request->input($field);
-        }
-        $status = $request->input('status');
-        if ($status == 'faculty') {
-            $user->year = 1;
-        } elseif ($status == 'staff') {
-            $user->year = 2;
-        }
-        $user->save();
-
-        return redirect()->intended('/home');
     }
 }

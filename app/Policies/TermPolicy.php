@@ -19,9 +19,9 @@ class TermPolicy
      */
     public function createShows(User $user, Term $term)
     {
-        $active = $term->status == 'active';
-
-        if ($active) {
+        if ($user->points()->where('term_id', $term->id)->count() == 0) {
+            return false;
+        } elseif ($term->status == 'active') {
             return true;
         } elseif ($term->status == 'pending' and $user->hasPermissionTo('override pending term')) {
             return true;

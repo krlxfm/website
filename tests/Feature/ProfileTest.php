@@ -2,38 +2,46 @@
 
 namespace Tests\Feature;
 
-use KRLX\Term;
 use KRLX\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\AuthenticatedTestCase;
 
-class ProfileTest extends TestCase
+class ProfileTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase;
-
-    public $term;
-    public $user;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->term = factory(Term::class)->create();
-        $this->user = factory(User::class)->states('contract_ok')->create();
-        $this->artisan('db:seed');
-        $this->user->assignRole('board');
-    }
-
     /**
-     * Test that the profile view renders.
+     * Test that all users can access the profile screen.
      *
      * @return void
      */
-    public function testProfileViewRenders()
+    public function testAllUsersCanAccessProfile()
     {
-        $request = $this->actingAs($this->user)->get('profile');
+        $guest_req = $this->actingAs($this->guest)->get('/profile');
+        $carleton_req = $this->actingAs($this->carleton)->get('/profile');
 
-        $request->assertOk()
-                ->assertViewIs('account.profile');
+        $guest_req->assertOk()
+                  ->assertDontSee('Carleton status');
+        $carleton_req->assertOk()
+                     ->assertSee('Carleton status');
+    }
+
+    /**
+     * Test that saving profile changes brings the user back to Home and
+     * flashes a "Profile updated" message.
+     *
+     * @return void
+     */
+    public function testSavingProfileReturnsUserHome()
+    {
+        $request = $this->actingAs($this->carleton)->post('/welcome', [
+            'source' => 'profile',
+            'first_name' => $this->carleton->first_name,
+            'name' => $this->carleton->name,
+            'phone_number' => $this->carleton->phone_number,
+            'status' => 'student',
+            'year' => $this->carleton->year,
+            'bio' => 'This is a short biography about a test account.',
+        ]);
+
+        $request->assertRedirect('/home')
+                ->assertSessionHas('status', 'Your profile has been updated!');
     }
 }

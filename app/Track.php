@@ -57,4 +57,32 @@ class Track extends Model
         'joinable' => 'boolean',
         'weekly' => 'boolean',
     ];
+
+    /**
+     * Generate "dummy" shows (used for calculating next shows) for active,
+     * non-recurring tracks.
+     *
+     * @return Array<KRLX\Show>
+     */
+    public static function dummyShows()
+    {
+        $results = [];
+
+        foreach (self::where([['active', true], ['weekly', false]])->get() as $track) {
+            if (! $track->start_day or ! $track->start_time or ! $track->end_time) {
+                continue;
+            }
+
+            $dummy_show = new Show;
+            $dummy_show->title = $track->name;
+            $dummy_show->id = "TRACK-{$track->id}";
+            $dummy_show->day = $track->start_day;
+            $dummy_show->start = $track->start_time;
+            $dummy_show->end = $track->end_time;
+
+            $results[] = $dummy_show;
+        }
+
+        return $results;
+    }
 }

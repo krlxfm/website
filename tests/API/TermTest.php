@@ -3,22 +3,10 @@
 namespace Tests\API;
 
 use KRLX\Term;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\AuthenticatedTestCase;
 
-class TermTest extends APITestCase
+class TermTest extends AuthenticatedTestCase
 {
-    use RefreshDatabase;
-
-    public $term;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->term = factory(Term::class)->create([
-            'status' => 'pending',
-        ]);
-    }
-
     /**
      * Test that terms can be created.
      *
@@ -26,7 +14,7 @@ class TermTest extends APITestCase
      */
     public function testTermsCanBeCreated()
     {
-        $request = $this->json('POST', '/api/v1/terms', [
+        $request = $this->actingAs($this->board, 'api')->json('POST', '/api/v1/terms', [
             'id' => date('Y').'-SP',
             'on_air' => date('Y').'-04-01 21:00:00',
             'off_air' => date('Y').'-06-01 21:00:00',
@@ -42,7 +30,7 @@ class TermTest extends APITestCase
      */
     public function testQueryingIndividualTerm()
     {
-        $request = $this->json('GET', "/api/v1/terms/{$this->term->id}");
+        $request = $this->actingAs($this->board, 'api')->json('GET', "/api/v1/terms/{$this->term->id}");
 
         $request->assertStatus(200)
                 ->assertJson([
@@ -60,7 +48,7 @@ class TermTest extends APITestCase
      */
     public function testTermsDeleteHard()
     {
-        $request = $this->json('DELETE', "/api/v1/terms/{$this->term->id}");
+        $request = $this->actingAs($this->board, 'api')->json('DELETE', "/api/v1/terms/{$this->term->id}");
         $request->assertStatus(204);
 
         $this->assertNull(Term::find($this->term->id));
@@ -76,7 +64,7 @@ class TermTest extends APITestCase
         $secondTerm = factory(Term::class)->create();
         $deletedTerm = factory(Term::class)->create();
         $deletedTerm->delete();
-        $request = $this->json('GET', '/api/v1/terms');
+        $request = $this->actingAs($this->board, 'api')->json('GET', '/api/v1/terms');
 
         $request->assertOk()
                 ->assertJsonFragment(['id' => $this->term->id])
@@ -92,7 +80,7 @@ class TermTest extends APITestCase
     public function testPatchOnlyUpdatesRequestedData()
     {
         $off_air = $this->term->off_air;
-        $request = $this->json('PATCH', "/api/v1/terms/{$this->term->id}", [
+        $request = $this->actingAs($this->board, 'api')->json('PATCH', "/api/v1/terms/{$this->term->id}", [
             'status' => 'active',
         ]);
 
@@ -110,11 +98,11 @@ class TermTest extends APITestCase
      */
     public function testPutFailsWithMissingAttribute()
     {
-        $request = $this->json('PUT', "/api/v1/terms/{$this->term->id}", [
-            'status' => 'active',
+        $request = $this->actingAs($this->board, 'api')->json('PUT', "/api/v1/terms/{$this->term->id}", [
+            'status' => 'closed',
         ]);
 
         $request->assertStatus(422);
-        $this->assertNotEquals('active', Term::find($this->term->id)->status);
+        $this->assertNotEquals('closed', Term::find($this->term->id)->status);
     }
 }
