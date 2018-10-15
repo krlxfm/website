@@ -39,7 +39,7 @@
             </div>
         </nav>
         <div class="landing-card">
-            <img src="/storage/cover.jpg">
+            <img src="/img/default.jpg">
             <div class="alert m-3 py-2 px-3 d-flex align-items-center alert-success">
                 <i class="fas fa-check fa-2x mr-3"></i>
                 <span>You have been signed out.</span>
