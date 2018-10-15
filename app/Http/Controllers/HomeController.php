@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Show the application landing page.
      *
-     * @return void
+     * @return Illuminate\Http\Response
      */
-    public function __construct()
+    public function welcome()
     {
-        $this->middleware('auth');
+        return view('home');
     }
 
     /**
