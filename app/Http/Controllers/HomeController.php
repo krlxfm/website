@@ -3,7 +3,9 @@
 namespace KRLX\Http\Controllers;
 
 use KRLX\Term;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use KRLX\Http\Controllers\API\FeedController;
 
 class HomeController extends Controller
 {
@@ -14,7 +16,11 @@ class HomeController extends Controller
      */
     public function welcome()
     {
-        return view('home');
+        $feed = new FeedController;
+        $show = $feed->now();
+        $transition = Carbon::parse($show->end)->format('g:i a');
+
+        return view('welcome', compact('show', 'transition'));
     }
 
     /**

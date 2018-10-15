@@ -46,7 +46,7 @@
             </div>
             <div class="landing-headline px-3">
                 <h1 class="cover">Welcome to KRLX.</h1>
-                <h2>Don't worry, sometimes we mix up the letters too.</h2>
+                <h2>Surviving Tornadoes Since 1947</h2>
                 <p class="my-3 hide-mobile">
                     <a href="#" class="btn btn-light btn-lg"><strong>Listen Live</strong></a>
                     <a href="#" class="btn btn-outline-light">Request Song</a>
@@ -54,19 +54,43 @@
                 </p>
             </div>
         </div>
-        <div class="bg-black d-flex flex-wrap px-3 py-2 align-items-center">
-            <span class="onair-now"><strong>On air now:</strong> No Apologies <span class="text-smallcaps">with</span> Tate B.</span>
-            <span class="ml-auto">
-                <a href="#" class="btn btn-outline-light btn-sm mr-2">Listen live</a>
-                <a href="#" class="btn btn-outline-light btn-sm">About this show</a>
-            </span>
-        </div>
-        <div class="bg-dark text-light d-flex flex-wrap align-items-center px-3 py-1">
-            <span><strong>Up next, at 9:00 pm:</strong> Savor Kindness</span>
-            <span class="ml-auto">
-                <a href="#" class="text-light">Full schedule<i class="fas fa-chevron-right ml-1"></i></a>
-            </span>
-        </div>
+        @if($show)
+            <div class="bg-black d-flex flex-wrap px-3 py-2 align-items-center">
+                <span class="onair-now">
+                    <strong>On air now:</strong> {{ $show->title }}
+                    <span class="d-none d-md-inline">
+                        <span class="text-smallcaps">with</span>
+                        @switch($show->hosts->count())
+                            @case(1)
+                                {{ $show->hosts->first()->public_name }}
+                                @break
+                            @case(2)
+                                {{ implode(' and ', $show->hosts->pluck('public_name')->all()) }}
+                                @break
+                            @default
+                                {{ $show->hosts->first()->public_name }} and {{ $show->hosts->count() - 1 }} others
+                                @break
+                        @endswitch
+                        </span>
+                    </span>
+                <span class="ml-auto">
+                    <a href="#" class="btn btn-outline-light btn-sm mr-2">Listen live</a>
+                    <a href="#" class="btn btn-outline-light btn-sm">About this show</a>
+                </span>
+            </div>
+            <div class="bg-dark text-light d-flex flex-wrap align-items-center px-3 py-1">
+                <span><strong>Up next, at {{ $transition }}:</strong> {{ $show->next->title }}</span>
+                <span class="ml-auto">
+                    <a href="#" class="text-light">Full schedule<i class="fas fa-chevron-right ml-1"></i></a>
+                </span>
+            </div>
+        @else
+            <div class="bg-black px-3 py-2 text-center">
+                <span class="onair-now">
+                    KRLX is currently off air due to a break in Carleton's academic schedule.
+                </span>
+            </div>
+        @endif
         <div class="container-fluid my-4">
             <div class="row">
                 <div class="col-md-3">
