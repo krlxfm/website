@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'HomeController@welcome');
+Route::get('/', function () {
+    return redirect('/home');
+});
+// Route::get('/', 'HomeController@welcome');
 
 Route::get('logout', 'Auth\LoginController@logout');
 Auth::routes();

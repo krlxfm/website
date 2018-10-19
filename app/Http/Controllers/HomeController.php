@@ -12,15 +12,21 @@ class HomeController extends Controller
     /**
      * Show the application landing page.
      *
+     * @param  Illuminuate\Http\Request
      * @return Illuminate\Http\Response
      */
-    public function welcome()
+    public function welcome(Request $request)
     {
         $feed = new FeedController;
         $show = $feed->now();
         $transition = Carbon::parse($show->end)->format('g:i a');
 
-        return view('welcome', compact('show', 'transition'));
+        $messages = collect(config('messages.public'));
+        if (starts_with($request->ip(), '137.22.') or $request->ip() == '::1') {
+            $messages = $messages->concat(config('messages.carleton'));
+        }
+
+        return view('welcome', compact('show', 'transition', 'messages'));
     }
 
     /**

@@ -40,13 +40,15 @@
         </nav>
         <div class="landing-card">
             <img src="/img/default.jpg">
-            <div class="alert m-3 py-2 px-3 d-flex align-items-center alert-success">
-                <i class="fas fa-check fa-2x mr-3"></i>
-                <span>You have been signed out.</span>
-            </div>
+            @if (session('status'))
+                <div class="alert m-3 py-2 px-3 d-flex align-items-center alert-success">
+                    <i class="fas fa-check fa-2x mr-3"></i>
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
             <div class="landing-headline px-3">
                 <h1 class="cover">Welcome to KRLX.</h1>
-                <h2>Surviving Tornadoes Since 1947</h2>
+                <h2>{{ $messages->random() }}</h2>
                 <p class="my-3 hide-mobile">
                     <a href="#" class="btn btn-light btn-lg"><strong>Listen Live</strong></a>
                     <a href="#" class="btn btn-outline-light">Request Song</a>
