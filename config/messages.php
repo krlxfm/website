@@ -19,5 +19,5 @@ return [
         'Now with 7% more graffiti',
         'Now with 18% more stickers',
         'No automation, no ads, no idea what we\'re doing',
-    ]
+    ],
 ];
