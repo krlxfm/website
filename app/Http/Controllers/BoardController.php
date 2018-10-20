@@ -11,10 +11,20 @@ class BoardController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function index()
+    public function meet()
     {
         $board = User::role('board')->orderBy('order')->orderBy('email')->get();
 
         return view('board.meet', compact('board'));
+    }
+
+    /**
+     * Display the dashboard for a Board application.
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('board.start');
     }
 }

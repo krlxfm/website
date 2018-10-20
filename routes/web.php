@@ -32,7 +32,9 @@ Route::get('privacy', function () {
 
 Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
-    Route::get('board', 'BoardController@index')->name('board.meet');
+    Route::get('board', 'BoardController@meet')->name('board.main');
+    Route::get('board/meet', 'BoardController@meet')->name('board.meet');
+    Route::get('board/apply', 'BoardController@index')->name('board.index');
     Route::get('profile', 'UserController@profile')->name('profile');
 
     Route::middleware('can:create,KRLX\Show')->group(function () {
