@@ -7,10 +7,9 @@
             <p>Complete all parts of the Board Application as shown here (don't worry, they're each pretty short). Each panel will turn green when it has been completed. Once all panels are green, the "Submit" button will appear.</p>
             @if(count($missing_fields) == 0)
                 <div class="card my-3">
-                    <h5 class="card-header bg-success text-light">Profile</h5>
+                    <h5 class="card-header bg-success text-light"><i class="fas fa-check"></i> Profile</h5>
                     <div class="card-body">
-                        <p>Candidates for the Board of Directors are required to have a little more information in their profiles &mdash; specifically, you'll need a bio, your hometown, your major (if you have one), and your pronouns.</p>
-                        <p>We don't use this information to make decisions. Rather, this information will be published on the <a href="{{ route('board.meet') }}">Meet the Board</a> page in the event that you are elected.</p>
+                        <p class="card-text">Your profile has all of the required fields filled in. Feel free to update it as necessary. Remember, we don't use this information to make decisions, but if you are elected, this information will be published on the <a href="{{ route('board.meet') }}">Meet the Board</a> page.</p>
                         <a href="{{ route('profile') }}" class="card-link">Edit my profile</a>
                     </div>
                 </div>
