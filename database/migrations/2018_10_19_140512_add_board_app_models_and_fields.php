@@ -30,6 +30,7 @@ class AddBoardAppModelsAndFields extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
+            $table->integer('year')->unsigned();
             $table->boolean('submitted')->default(false);
             $table->enum('ocs', ['none', 'abroad_sp', 'abroad_fa', 'abroad_wi'])->default('none');
 
