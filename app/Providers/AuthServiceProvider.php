@@ -13,6 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
+        'KRLX\BoardApp' => 'KRLX\Policies\BoardAppPolicy',
         'KRLX\Boost' => 'KRLX\Policies\BoostPolicy',
         'KRLX\Show' => 'KRLX\Policies\ShowPolicy',
         'KRLX\Track' => 'KRLX\Policies\TrackPolicy',

@@ -42,4 +42,24 @@ class BoardAppPermissionTest extends AuthenticatedTestCase
         $board_req->assertOk()
                   ->assertDontSee('Application Unavailable');
     }
+
+    /**
+     * Test that users must have permission to apply for board seats in order
+     * to create a board application. Successful creation results in the user
+     * being redirected to the application itself.
+     *
+     * @return void
+     */
+    public function testPermissionRequiredToCreateApplications()
+    {
+        $guest_req = $this->actingAs($this->guest)->get('/board/apply/start');
+        $carleton_req = $this->actingAs($this->carleton)->get('/board/apply/start');
+        $host_req = $this->actingAs($this->host)->get('/board/apply/start');
+        $board_req = $this->actingAs($this->board)->get('/board/apply/start');
+
+        $guest_req->assertStatus(403);
+        $carleton_req->assertStatus(403);
+        $host_req->assertStatus(302);
+        $board_req->assertStatus(302);
+    }
 }

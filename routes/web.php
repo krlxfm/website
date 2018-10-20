@@ -35,6 +35,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('board', 'BoardController@meet')->name('board.main');
     Route::get('board/meet', 'BoardController@meet')->name('board.meet');
     Route::get('board/apply', 'BoardController@index')->name('board.index');
+    Route::get('board/apply/start', 'BoardController@start')->name('board.start');
     Route::get('profile', 'UserController@profile')->name('profile');
 
     Route::middleware('can:create,KRLX\Show')->group(function () {

@@ -3,6 +3,8 @@
 namespace KRLX\Http\Controllers;
 
 use KRLX\User;
+use KRLX\BoardApp;
+use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {
@@ -26,5 +28,17 @@ class BoardController extends Controller
     public function index()
     {
         return view('board.start');
+    }
+
+    /**
+     * Create a board application for the user if one doesn't already exist.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @return Illuminuate\Http\Response
+     */
+    public function start(Request $request)
+    {
+        $this->authorize('create', BoardApp::class);
+        return redirect()->route('board.index');
     }
 }
