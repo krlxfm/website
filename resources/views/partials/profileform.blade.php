@@ -29,6 +29,65 @@
     <fieldset class="form-group">
         <div class="row">
             <legend class="col-form-label col-sm-3 col-md-2 pt-0">
+                Pronouns
+            </legend>
+            <div class="col-sm-9 col-md-10">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        id="pronouns-he"
+                        type="checkbox"
+                        name="pronouns-he"
+                        value="he-him-his"
+                        {{ str_contains(Auth::user()->pronouns, 'he/him/his') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="pronouns-he">
+                        he / him / his
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        id="pronouns-she"
+                        type="checkbox"
+                        name="pronouns-she"
+                        value="she-her-hers"
+                        {{ str_contains(Auth::user()->pronouns, 'she/her/hers') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="pronouns-she">
+                        she / her / hers
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        id="pronouns-they"
+                        type="checkbox"
+                        name="pronouns-they"
+                        value="they-them-their"
+                        {{ str_contains(Auth::user()->pronouns, 'they/them/their') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="pronouns-they">
+                        they / them / their
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        id="pronouns-other"
+                        type="checkbox"
+                        name="other_pronouns_checkbox"
+                        value="other"
+                        {{ (strlen(Auth::user()->pronouns) > 0 and (ends_with(Auth::user()->pronouns, 'he/him/his') or ends_with(Auth::user()->pronouns, 'she/her/hers') or ends_with(Auth::user()->pronouns, 'they/them/their'))) ? '' : 'checked' }}>
+                    <label class="form-check-label" for="pronouns-other">
+                        Other
+                    </label>
+                    <input type="text" name="other_pronouns" class="form-control" id="pronouns-other" value="{{ old('other_pronouns') ?? array_last(explode(', ', Auth::user()->pronouns)) }}" placeholder="Enter your pronouns here if they're not listed above.">
+                    <small id="pronouns-other_help" class="form-text text-muted">Enter your pronouns here if they're not listed above. <strong>Do not put commas in your response.</strong></small>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="form-group">
+        <div class="row">
+            <legend class="col-form-label col-sm-3 col-md-2 pt-0">
                 Carleton status <span class="text-danger">*</span>
             </legend>
             <div class="col-sm-9 col-md-10">
@@ -127,6 +186,15 @@
         </label>
         <div class="col-sm-9 col-md-10">
             <textarea name="favorite_shows" class="form-control" id="favorite_shows" rows="3">{{ old('favorite_shows') ?? Auth::user()->favorite_shows }}</textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="major" class="col-sm-3 col-md-2 col-form-label">
+            Walk-Up Song
+        </label>
+        <div class="col-sm-9 col-md-10">
+            <input type="text" name="walkup" class="form-control" id="walkup" value="{{ old('walkup') ?? Auth::user()->walkup }}">
+            <small id="walkup_help" class="form-text text-muted">If you could have any song play every time you walked into a room, what would it be? (This is similar to how you hear <em>Shoot to Thrill</em> by AC/DC as Iron Man makes his entrance in <em>The Avengers</em>.)</small>
         </div>
     </div>
 @endif

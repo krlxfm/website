@@ -72,6 +72,7 @@ class HomeController extends Controller
     {
         $rules = $this->getValidationRules();
         $request->validate($rules);
+        $request->validate($this->getPronounValidationRules());
 
         $user = $request->user();
         foreach (array_keys($rules) as $field) {
@@ -82,6 +83,16 @@ class HomeController extends Controller
         }
         $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
         $user->year = $statuses[$request->input('status')];
+
+        $pronoun_fields = ['pronouns-he', 'pronouns-she', 'pronouns-they', 'other_pronouns'];
+        $pronouns = [];
+        foreach($pronoun_fields as $field) {
+            if ($request->has($field) and strlen($request->{$field}) > 0) {
+                $pronouns[] = str_replace('-', '/', $request->{$field});
+            }
+        }
+        $user->pronouns = implode(', ', $pronouns);
+
         $user->save();
 
         return redirect()->intended('/home')->with('status', $request->has('source') ? 'Your profile has been updated!' : 'Your account has been activated!');
@@ -106,6 +117,22 @@ class HomeController extends Controller
             'favorite_music' => 'sometimes|present|max:65000',
             'favorite_shows' => 'sometimes|present|max:65000',
             'source' => 'sometimes|present|string',
+        ];
+    }
+
+    /**
+     * Private function to validate pronouns input, becuase that's hard.
+     *
+     * @return array
+     */
+    private function getPronounValidationRules()
+    {
+        return [
+            'pronouns-he' => 'sometimes|in:he-him-his',
+            'pronouns-she' => 'sometimes|in:she-her-hers',
+            'pronouns-they' => 'sometimes|in:they-them-their',
+            'other_pronouns_checkbox' => 'sometimes|in:other',
+            'other_pronouns' => 'required_with:other_pronouns_checkbox|nullable|string|regex:/^[^,]+$/',
         ];
     }
 }

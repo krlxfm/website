@@ -7,6 +7,7 @@
             <p>Fields marked with <i class="fab fa-markdown"></i> support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown formatting</a>. Fields marked with <span class="text-danger">*</span> are required.</p>
             <form action="/welcome" method="post">
                 @include('partials.profileform')
+                <input type="hidden" name="source" value="profile">
                 <p>
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
                 </p>
