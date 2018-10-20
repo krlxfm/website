@@ -6,6 +6,9 @@
             <h1 class="text-center mb-3">Meet the Board</h1>
             <p>Day-to-day operation of KRLX is governed by the Board of Directors, a group of {{ $board->count() }} students dedicated to keeping the lights on and the radio broadcasting. If you have questions about a particular position or function of KRLX, feel free to reach out to that board member. If you're not sure who to contact, the general inbox <code>{{ 'board@'.env('MAIL_DOMAIN', 'example.com') }}</code> forwards to everyone.</p>
             <p>Looking to join the board? Elections for all seats happen every winter term and interim appointments happen periodically as board members go abroad. Contact the Station Manager with questions.</p>
+            @can('apply for board seats')
+                <p><a href="{{ route('board.index') }}" class="btn btn-primary btn-lg">Join the Board</a></p>
+            @endcan
             @if (Auth::user()->hasRole('board'))
                 <div class="alert alert-info">
                     You can change the information that appears here by <a href="/profile" class="alert-link">editing your profile.</a>
