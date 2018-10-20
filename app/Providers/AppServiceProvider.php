@@ -73,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
                 ->addItemClass('dropdown-item')
                 ->prepend('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Board</a>')
                 ->route('board.meet', 'Meet')
+                ->routeIfCan('apply for board seats', 'board.index', 'Join the Board')
                 ->setActiveClassOnLink();
 
             $menu = Menu::new()
