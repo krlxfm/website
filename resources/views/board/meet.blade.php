@@ -24,6 +24,9 @@
                                     <p class="card-text">
                                         <strong>{{ $member->title }}</strong><br>
                                         Major: {{ $member->major ?? 'Undeclared' }}
+                                        @if($member->pronouns)
+                                            <br>Pronouns: {{ $member->pronouns }}
+                                        @endif
                                     </p>
                                     <p class="card-text">
                                         @if($member->bio)

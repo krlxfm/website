@@ -91,7 +91,7 @@ class HomeController extends Controller
                 $pronouns[] = str_replace('-', '/', $request->{$field});
             }
         }
-        $user->pronouns = implode(', ', $pronouns);
+        $user->pronouns = implode(', ', collect($pronouns)->unique()->all());
 
         $user->save();
 
