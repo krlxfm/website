@@ -58,17 +58,23 @@ class BoardController extends Controller
     public function myApplication($year, Request $request)
     {
         $this->authorize('create', BoardApp::class);
+        $user = $request->user();
 
         if (! is_numeric($year)) {
             return redirect()->route('board.index');
         }
 
         $int_year = (int) $year;
-        $app = $request->user()->board_apps()->where('year', $int_year)->first();
+        $app = $user->board_apps()->where('year', $int_year)->first();
         if (! $app) {
             return redirect()->route('board.index');
         }
 
-        return $app;
+        $important_fields = ['bio', 'pronouns', 'hometown'];
+        $missing_fields = collect($important_fields)->filter(function($field) use ($user) {
+            return $user->{$field} == null;
+        });
+
+        return view('board.app', compact('app', 'missing_fields'));
     }
 }
