@@ -6,9 +6,16 @@
             <h1 class="text-center mb-3">Welcome aboard!</h1>
             <p>The KRLX Board of Directors is a group of student volunteers who are dedicated to keeping the lights on and the radio broadcasting. We're honored that you are considering a position on the Board and are excited to work with you throughout the selection process, to help you achieve your goals with KRLX, and to allow us to put the future of the station into the trustworthy hands of its future leaders.</p>
             <p>If you love KRLX and want to help lead it for the next year, you are in the right place. We're ready when you are.</p>
-            <p class="text-center">
-                <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
-            </p>
+            @can('apply for board seats')
+                <p class="text-center">
+                    <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
+                </p>
+            @else
+                <p class="text-center">
+                    <button class="btn btn-danger btn-lg" disabled type="button">Application Unavailable</button>
+                </p>
+                <p class="text-center">You currently do not have access to the Board application. This may be because you don't meet the eligibility requirements, or applications are currently closed. If you believe you should have access to the Board application, please contact the Station Manager or an IT engineer.</p>
+            @endcan
         </div>
     </div>
     <div class="row mt-4">
@@ -48,9 +55,16 @@
     <div class="row">
         <div class="col">
             <h2 class="text-center mb-3">Ready to get started?</h2>
-            <p class="text-center">
-                <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
-            </p>
+            @can('apply for board seats')
+                <p class="text-center">
+                    <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
+                </p>
+            @else
+                <p class="text-center">
+                    <button class="btn btn-danger btn-lg" disabled type="button">Application Unavailable</button>
+                </p>
+                <p class="text-center">You currently do not have access to the Board application. This may be because you don't meet the eligibility requirements, or applications are currently closed. If you believe you should have access to the Board application, please contact the Station Manager or an IT engineer.</p>
+            @endcan
         </div>
     </div>
 @endsection
