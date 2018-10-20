@@ -74,6 +74,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns all Board applications that the user has created.
+     *
+     * @return Eloquent\Collection<KRLX\BoardApp>
+     */
+    public function board_apps()
+    {
+        return $this->hasMany('KRLX\BoardApp');
+    }
+
+    /**
      * Returns the experience points that belong to the user.
      *
      * @return Eloquent\Collection<KRLX\Point>

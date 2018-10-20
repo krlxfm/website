@@ -13,6 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        'KRLX\Events\BoardAppCreating' => [
+            'KRLX\Listeners\FillBoardAppDefaults',
+        ],
         'KRLX\Events\ShowCreating' => [
             'KRLX\Listeners\FillShowDefaults',
         ],

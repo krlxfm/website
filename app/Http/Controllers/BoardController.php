@@ -39,6 +39,11 @@ class BoardController extends Controller
     public function start(Request $request)
     {
         $this->authorize('create', BoardApp::class);
-        return redirect()->route('board.index');
+
+        if ($request->user()->board_apps->where('year', date('Y'))->count() == 0) {
+            $request->user()->board_apps()->create();
+        }
+
+        return redirect()->route('board.app', date('Y'));
     }
 }
