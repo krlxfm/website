@@ -30,12 +30,31 @@ class BoardAppTest extends AuthenticatedTestCase
     {
         $this->assertCount(0, $this->board->board_apps->where('year', date('Y')), 'The board user starts off with a board application');
 
-        $request = $this->actingAs($this->board)->get('/board/apply/start');
-        $request->assertRedirect();
-        $this->assertCount(1, $this->board->board_apps->where('year', date('Y')), 'The board application was not created when it should have been');
+        $req1 = $this->actingAs($this->board)->get('/board/apply/start');
+        $req1->assertRedirect();
+        $this->assertEquals(1, $this->board->board_apps()->where('year', date('Y'))->count(), 'The board application was not created when it should have been');
 
-        $request = $this->actingAs($this->board)->get('/board/apply/start');
-        $request->assertRedirect();
-        $this->assertCount(1, $this->board->board_apps->where('year', date('Y')), 'A second board application was created when it should not have been');
+        $req2 = $this->actingAs($this->board)->get('/board/apply/start');
+        $req2->assertRedirect();
+        $this->assertEquals(1, $this->board->board_apps()->where('year', date('Y'))->count(), 'A second board application was created when it should not have been');
+    }
+
+    /**
+     * Verify that garbage strings don't count as board applications.
+     *
+     * @return void
+     */
+    public function testGarbageStringsDontCountAsApplicationSearchTerms()
+    {
+        $this->board->board_apps()->create();
+        $year = date('Y');
+
+        $req1 = $this->actingAs($this->board)->get('/board/apply/asdf');
+        $req2 = $this->actingAs($this->board)->get('/board/apply/2000');
+        $req3 = $this->actingAs($this->board)->get("/board/apply/$year");
+
+        $req1->assertStatus(302);
+        $req2->assertStatus(302);
+        $req3->assertStatus(200);
     }
 }

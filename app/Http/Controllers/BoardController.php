@@ -40,10 +40,35 @@ class BoardController extends Controller
     {
         $this->authorize('create', BoardApp::class);
 
-        if ($request->user()->board_apps->where('year', date('Y'))->count() == 0) {
+        if ($request->user()->board_apps()->where('year', date('Y'))->count() == 0) {
             $request->user()->board_apps()->create();
         }
 
         return redirect()->route('board.app', date('Y'));
+    }
+
+    /**
+     * Return the user's board application for a given year. For safety, we kick
+     * out if the passed-in URL is a string.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function myApplication($year, Request $request)
+    {
+        $this->authorize('create', BoardApp::class);
+
+        if (! is_numeric($year)) {
+            return redirect()->route('board.index');
+        }
+
+        $int_year = (int) $year;
+        $app = $request->user()->board_apps()->where('year', $int_year)->first();
+        if (! $app) {
+            return redirect()->route('board.index');
+        }
+
+        return $app;
     }
 }
