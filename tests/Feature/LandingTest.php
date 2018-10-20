@@ -14,6 +14,6 @@ class LandingTest extends AuthenticatedTestCase
     public function testLandingPageLoads()
     {
         $request = $this->get('/');
-        $request->assertOk();
+        $request->assertStatus(302);
     }
 }
