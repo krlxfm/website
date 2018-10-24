@@ -70,11 +70,14 @@ class BoardController extends Controller
             return redirect()->route('board.index');
         }
 
-        $important_fields = ['bio', 'pronouns', 'hometown'];
+        $important_fields = ['bio', 'pronouns', 'hometown', 'major'];
         $missing_fields = collect($important_fields)->filter(function($field) use ($user) {
             return $user->{$field} == null;
         });
 
-        return view('board.app', compact('app', 'missing_fields'));
+        $logistics_needed = collect($app->interview_schedule)->values()->unique()->count() == 1;
+        $common_needed = collect($app->common)->filter(function($item) { return empty($item); })->count();
+
+        return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed'));
     }
 }

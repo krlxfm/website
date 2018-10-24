@@ -117,6 +117,7 @@ class HomeController extends Controller
             'favorite_music' => 'sometimes|present|max:65000',
             'favorite_shows' => 'sometimes|present|max:65000',
             'source' => 'sometimes|present|string',
+            'walkup' => 'sometimes|present|max:190',
         ];
     }
 

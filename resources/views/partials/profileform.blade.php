@@ -79,7 +79,12 @@
                     <label class="form-check-label" for="pronouns-other">
                         Other
                     </label>
-                    <input type="text" name="other_pronouns" class="form-control" id="pronouns-other" value="{{ old('other_pronouns') ?? array_last(explode(', ', Auth::user()->pronouns)) }}" placeholder="Enter your pronouns here if they're not listed above.">
+                    @php
+                    $defaults = ['he/him/his', 'she/her/hers', 'they/them/their'];
+                    $pronouns = old('other_pronouns') ?? array_last(explode(', ', Auth::user()->pronouns));
+                    if (in_array($pronouns, $defaults)) $pronouns = '';
+                    @endphp
+                    <input type="text" name="other_pronouns" class="form-control" id="pronouns-other" value="{{  $pronouns }}" placeholder="Enter your pronouns here if they're not listed above.">
                     <small id="pronouns-other_help" class="form-text text-muted">Enter your pronouns here if they're not listed above. <strong>Do not put commas in your response.</strong></small>
                 </div>
             </div>
