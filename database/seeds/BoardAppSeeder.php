@@ -14,7 +14,7 @@ class BoardAppSeeder extends Seeder
      */
     public function run()
     {
-        $dates = [['date' => date('Y').'-12-01', 'start' => '08:00', 'end' => '17:00']];
+        $dates = [['date' => date('Y').'-12-01', 'start' => '08:00', 'end' => '17:00'], ['date' => date('Y').'-12-02', 'start' => '08:00', 'end' => '12:00']];
         $questions = ['What is radio?', 'No seriously, please explain what radio is.'];
 
         Config::create(['name' => 'interview options', 'value' => json_encode($dates)]);

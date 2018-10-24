@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use KRLX\Config;
+use Carbon\Carbon;
 use KRLX\BoardApp;
 use Tests\AuthenticatedTestCase;
 
@@ -56,5 +58,35 @@ class BoardAppTest extends AuthenticatedTestCase
         $req1->assertStatus(302);
         $req2->assertStatus(302);
         $req3->assertStatus(200);
+    }
+
+    /**
+     * Test the logistics view: it should render, and we should see ALL of the
+     * dates/times listed in the config database.
+     *
+     * @return void
+     */
+    public function testLogisticsViewRenders()
+    {
+        $this->board->board_apps()->create();
+        $year = date('Y');
+
+        $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
+        $opts = [];
+        foreach($interview_options as $option) {
+            $start = Carbon::parse($option['date'].' '.$option['start'].':00');
+            $end = Carbon::parse($option['date'].' '.$option['end'].':00');
+            $time = $start->copy();
+            while ($time < $end) {
+                $opts[] = $time->format('D, M j, g:i a');
+                $time->addMinutes(15);
+            }
+        }
+
+        $req = $this->actingAs($this->board)->get("/board/apply/$year/logistics");
+
+        $this->assertNotEmpty($opts);
+        $req->assertOk();
+        $req->assertSeeInOrder($opts);
     }
 }
