@@ -78,7 +78,11 @@ class BoardAppTest extends AuthenticatedTestCase
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
             while ($time < $end) {
-                $opts[] = $time->format('D, M j, g:i a');
+                // What is this? We use non-breaking space (NBSP) characters to
+                // force the display to work as we intend on small screens.
+                // Because assertSeeInOrder scans literal text (not rendered),
+                // we'll need to test that the non-breaking spaces are present.
+                $opts[] = str_replace(' ', '&nbsp;', $time->format('D, M j,')).' '.str_replace(' ', '&nbsp;', $time->format('g:i a'));
                 $time->addMinutes(15);
             }
         }

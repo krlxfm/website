@@ -95,7 +95,7 @@ class BoardController extends Controller
             return $request->user()->{$field} == null;
         });
 
-        $logistics_needed = collect($app->interview_schedule)->values()->unique()->count() == 1;
+        $logistics_needed = collect($app->interview_schedule)->values()->sum() == 0;
         $common_needed = collect($app->common)->filter(function($item) { return empty($item); })->count();
 
         return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed'));
@@ -122,7 +122,7 @@ class BoardController extends Controller
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
             while ($time < $end) {
-                $dates[] = $time->format('D, M j, g:i a');
+                $dates[] = $time->copy();
                 $time->addMinutes(15);
             }
         }
