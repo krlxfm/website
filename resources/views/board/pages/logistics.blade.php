@@ -196,8 +196,7 @@ function schedule_opt($date, $value, $app) {
                             @endif
                             <tr>
                                 <td>
-                                    {!! str_replace(' ', '&nbsp;', $date->format('D, M j,')) !!}
-                                    {!! str_replace(' ', '&nbsp', $date->format('g:i a')) !!}
+                                    {!! str_replace(' ', '&nbsp;', $date->format('D, M j,')) !!} {!! str_replace(' ', '&nbsp;', $date->format('g:i a')) !!}
                                 </td>
                                 <td class="text-center table-danger">
                                     <input

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use KRLX\User;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\BoardApp;
@@ -9,6 +10,18 @@ use Tests\AuthenticatedTestCase;
 
 class BoardAppTest extends AuthenticatedTestCase
 {
+    public $user;
+    public $board_app;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $user = factory(User::class)->states('carleton', 'contract_ok', 'board')->create();
+        $this->user = $user;
+        $this->board_app = $user->board_apps()->create();
+    }
+
     /**
      * Test that the base "Apply" view renders.
      *
@@ -48,12 +61,9 @@ class BoardAppTest extends AuthenticatedTestCase
      */
     public function testGarbageStringsDontCountAsApplicationSearchTerms()
     {
-        $this->board->board_apps()->create();
-        $year = date('Y');
-
-        $req1 = $this->actingAs($this->board)->get('/board/apply/asdf');
-        $req2 = $this->actingAs($this->board)->get('/board/apply/2000');
-        $req3 = $this->actingAs($this->board)->get("/board/apply/$year");
+        $req1 = $this->actingAs($this->user)->get('/board/apply/asdf');
+        $req2 = $this->actingAs($this->user)->get('/board/apply/2000');
+        $req3 = $this->actingAs($this->user)->get("/board/apply/{$this->board_app->year}");
 
         $req1->assertStatus(302);
         $req2->assertStatus(302);
@@ -68,9 +78,6 @@ class BoardAppTest extends AuthenticatedTestCase
      */
     public function testLogisticsViewRenders()
     {
-        $this->board->board_apps()->create();
-        $year = date('Y');
-
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
         $opts = [];
         foreach($interview_options as $option) {
@@ -87,10 +94,20 @@ class BoardAppTest extends AuthenticatedTestCase
             }
         }
 
-        $req = $this->actingAs($this->board)->get("/board/apply/$year/logistics");
+        $req = $this->actingAs($this->user)->get("/board/apply/{$this->board_app->year}/logistics");
 
         $this->assertNotEmpty($opts);
         $req->assertOk();
         $req->assertSeeInOrder($opts);
     }
+
+    // /**
+    //  * Time to do some crazy validation tests...
+    //  *
+    //  * @return void
+    //  */
+    // public function testLogisticsSubmission()
+    // {
+    //
+    // }
 }
