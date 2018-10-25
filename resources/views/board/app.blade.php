@@ -10,10 +10,10 @@
 @endsection
 
 @section('mid')
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-body">
             <div class="row">
-                <div class="col-3">
+                <div class="col-sm-3">
                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">
                         @include('board.panelicon', ['complete' => $missing_fields->count() == 0])
@@ -25,7 +25,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-sm-9">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         @include('board.profile')
