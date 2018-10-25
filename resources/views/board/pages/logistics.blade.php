@@ -41,64 +41,66 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset class="form-group">
-                    <div class="row">
-                        <legend class="col-form-label col-sm-3 pt-0">
-                            Preferred video platform
-                            <br>
-                            <a href="{{ 'mailto:it@' . env('MAIL_DOMAIN', 'example.org') }}">(don't have any of these?)</a>
-                        </legend>
-                        <div class="col-sm-9">
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    id="platform-facebook"
-                                    type="radio"
-                                    name="remote_platform"
-                                    value="facebook"
-                                    {{ $app->remote_platform == 'facebook' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="platform-facebook">
-                                    <i class="fab fa-facebook-messenger fa-fw"></i> Facebook Messenger
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    id="platform-skype"
-                                    type="radio"
-                                    name="remote_platform"
-                                    value="skype"
-                                    {{ $app->remote_platform == 'skype' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="platform-skype">
-                                    <i class="fab fa-skype fa-fw"></i> Skype
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    id="platform-hangouts"
-                                    type="radio"
-                                    name="remote_platform"
-                                    value="hangouts"
-                                    {{ $app->remote_platform == 'hangouts' ? 'checked' : '' }}>
-                                <label class="form-check-label" for="platform-hangouts">
-                                    <i class="fas fa-video fa-fw"></i> Google Hangouts
-                                </label>
+                <div id="video-fields">
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">
+                                Preferred video platform
+                                <br>
+                                <a href="{{ 'mailto:it@' . env('MAIL_DOMAIN', 'example.org') }}">(don't have any of these?)</a>
+                            </legend>
+                            <div class="col-sm-9">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="platform-facebook"
+                                        type="radio"
+                                        name="remote_platform"
+                                        value="facebook"
+                                        {{ $app->remote_platform == 'facebook' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="platform-facebook">
+                                        <i class="fab fa-facebook-messenger fa-fw"></i> Facebook Messenger
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="platform-skype"
+                                        type="radio"
+                                        name="remote_platform"
+                                        value="skype"
+                                        {{ $app->remote_platform == 'skype' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="platform-skype">
+                                        <i class="fab fa-skype fa-fw"></i> Skype
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="platform-hangouts"
+                                        type="radio"
+                                        name="remote_platform"
+                                        value="hangouts"
+                                        {{ $app->remote_platform == 'hangouts' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="platform-hangouts">
+                                        <i class="fas fa-video fa-fw"></i> Google Hangouts
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </fieldset>
-                <div class="form-group row">
-                    <label for="remote_contact" class="col-sm-3 col-form-label">
-                        Profile information
-                    </label>
-                    <div class="col-sm-9">
-                        <input type="text" name="remote_contact" class="form-control" id="remote_contact" value="{{ old('remote_contact') ?? $app->remote_contact }}">
-                        <small id="remote_contact_help" class="form-text text-muted">
-                            <strong>Facebook:</strong> enter your full Facebook profile URL from <a href="https://www.facebook.com/settings" target="_blank">Facebook Settings &gt; General</a> (should start with facebook.com).<br>
-                            <strong>Skype:</strong> enter the email address listed on <a href="https://secure.skype.com/portal/profile" target="_blank">your profile</a>.<br>
-                            <strong>Google Hangouts:</strong> enter your Carleton email address.
-                        </small>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label for="remote_contact" class="col-sm-3 col-form-label">
+                            Profile information
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="text" name="remote_contact" class="form-control" id="remote_contact" value="{{ old('remote_contact') ?? $app->remote_contact }}">
+                            <small id="remote_contact_help" class="form-text text-muted">
+                                <strong>Facebook:</strong> enter your full Facebook profile URL from <a href="https://www.facebook.com/settings" target="_blank">Facebook Settings &gt; General</a> (should start with facebook.com).<br>
+                                <strong>Skype:</strong> enter the email address listed on <a href="https://secure.skype.com/portal/profile" target="_blank">your profile</a>.<br>
+                                <strong>Google Hangouts:</strong> enter your Carleton email address.
+                            </small>
+                        </div>
                     </div>
                 </div>
                 <fieldset class="form-group">
