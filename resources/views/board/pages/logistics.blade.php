@@ -1,5 +1,14 @@
 @extends('layouts.missioncontrol', ['title' => 'Logistics - Board Application - '.$app->year])
 
+@php
+function schedule_opt($date, $value, $app) {
+    $app_value = array_key_exists($date, $app->interview_schedule) ? $app->interview_schedule[$date] : null;
+    $old_value = old("interview_schedule.$date") ?? $app_value;
+
+    return $old_value == $value ? 'checked' : '';
+}
+@endphp
+
 @section('head')
     <div class="row">
         <div class="col">
@@ -166,7 +175,7 @@
                 <div class="alert alert-info">
                     If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time. All times are listed in US/Central, and slots are 15 minutes long.
                 </div>
-                <table class="table table-responsive-sm">
+                <table class="table table-hover table-responsive-sm">
                     <thead>
                         <tr class="text-center">
                             <th>Time</th>
@@ -190,7 +199,7 @@
                                     {!! str_replace(' ', '&nbsp;', $date->format('D, M j,')) !!}
                                     {!! str_replace(' ', '&nbsp', $date->format('g:i a')) !!}
                                 </td>
-                                <td class="text-center" style="background: #ffdddd">
+                                <td class="text-center table-danger">
                                     <input
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-1"
@@ -198,9 +207,9 @@
                                         style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="1"
-                                        {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 1 ? 'checked' : '' }}>
+                                        {{ schedule_opt($date->format('Y-m-d H:i:s'), 1, $app) }}>
                                 </td>
-                                <td class="text-center" style="background: #ffffdd">
+                                <td class="text-center table-warning">
                                     <input
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-2"
@@ -208,9 +217,9 @@
                                         style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="2"
-                                        {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 2 ? 'checked' : '' }}>
+                                        {{ schedule_opt($date->format('Y-m-d H:i:s'), 2, $app) }}>
                                 </td>
-                                <td class="text-center" style="background: #dfffdf">
+                                <td class="text-center table-success">
                                     <input
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-3"
@@ -218,7 +227,7 @@
                                         style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="3"
-                                        {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 3 ? 'checked' : '' }}>
+                                        {{ schedule_opt($date->format('Y-m-d H:i:s'), 3, $app) }}>
                                 </td>
                             </tr>
                         @endforeach
