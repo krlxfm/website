@@ -14,7 +14,7 @@ function schedule_opt($date, $value, $app) {
         <div class="col">
             <a href="{{ route('board.app', $app->year) }}"><i class="fas fa-chevron-left mr-1"></i>{{ $app->year . ' - ' . ($app->year + 1) }} BOARD APPLICATION</a>
             <h1 class="mb-3 mt-2">Logistics</h1>
-            <form method="post">
+            <form method="post" action="{{ route('board.app', $app->year) }}">
                 @method('patch')
                 @csrf
                 <fieldset class="form-group">

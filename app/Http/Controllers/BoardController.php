@@ -115,18 +115,76 @@ class BoardController extends Controller
             return $app;
         }
 
+        $dates = $this->interviewDates();
+
+        return view('board.pages.logistics', compact('app', 'dates'));
+    }
+
+    /**
+     * Store changes to the board application.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function updateApplication($year, Request $request)
+    {
+        $app = $this->validateYear($year, $request);
+        if (! $app instanceof BoardApp) {
+            return $app;
+        }
+
+        $request->validate($this->validationRules());
+        $app->fill($request->all());
+        $app->save();
+
+        return redirect()->route('board.app', $app->year);
+    }
+
+    /**
+     * Get the validation rules for a Board application.
+     *
+     * @return array
+     */
+    private function validationRules()
+    {
+        $dates = collect($this->interviewDates());
+        $rules = [
+            'interview_schedule' => ['sometimes','array','size:'.$dates->count(), function ($attribute, $value, $fail) use ($dates) {
+                foreach($dates->all() as $date) {
+                    if (! array_key_exists($date->format('Y-m-d H:i:s'), $value)) {
+                        $fail("Please enter your availability for {$date->format('D, M j, g:i a')}.");
+                    }
+                }
+            }],
+            'interview_schedule.*' => 'integer|between:1,3',
+            'ocs' => 'sometimes|in:none,abroad_fa,abroad_sp,abroad_wi',
+            'remote' => 'sometimes|boolean',
+            'remote_contact' => 'sometimes|required_if:remote,1',
+            'remote_platform' => 'required_if:remote,1',
+        ];
+
+        return $rules;
+    }
+
+    /**
+     * Get the interview dates available for Board applications.
+     *
+     * @return array
+     */
+    private function interviewDates()
+    {
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
-        $dates = [];
+        $opts = [];
         foreach($interview_options as $option) {
             $start = Carbon::parse($option['date'].' '.$option['start'].':00');
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
             while ($time < $end) {
-                $dates[] = $time->copy();
+                $opts[] = $time->copy();
                 $time->addMinutes(15);
             }
         }
-
-        return view('board.pages.logistics', compact('app', 'dates'));
+        return $opts;
     }
 }

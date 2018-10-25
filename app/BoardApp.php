@@ -34,4 +34,14 @@ class BoardApp extends Model
     protected $dates = [
         'interview',
     ];
+
+    /**
+     * Board Apps are generally permissive (this makes logic easier).
+     * These are the attributes we do NOT want to be mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'id', 'user_id', 'year', 'created_at', 'updated_at', 'submitted', 'interview'
+    ];
 }

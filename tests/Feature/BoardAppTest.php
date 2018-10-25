@@ -101,13 +101,26 @@ class BoardAppTest extends AuthenticatedTestCase
         $req->assertSeeInOrder($opts);
     }
 
-    // /**
-    //  * Time to do some crazy validation tests...
-    //  *
-    //  * @return void
-    //  */
-    // public function testLogisticsSubmission()
-    // {
-    //
-    // }
+    /**
+     * Test valid input to the Logistics page.
+     *
+     * @return void
+     */
+    public function testLogisticsSubmission()
+    {
+        $data = [
+            'interview_schedule' => $this->board_app->interview_schedule,
+            'remote' => false,
+            'remote_contact' => null,
+            'remote_platform' => null,
+            'ocs' => 'none',
+        ];
+
+        foreach($this->board_app->interview_schedule as $date => $value) {
+            $data['interview_schedule'][$date] = 3;
+        }
+
+        $req = $this->actingAs($this->user)->patch("/board/apply/{$this->board_app->year}");
+        $req->assertRedirect(route('board.app', $this->board_app->year));
+    }
 }
