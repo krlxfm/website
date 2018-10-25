@@ -65,7 +65,7 @@ function schedule_opt($date, $value, $app) {
                                         id="platform-facebook"
                                         type="radio"
                                         name="remote_platform"
-                                        value="facebook"
+                                        value="facebook-messenger"
                                         {{ $app->remote_platform == 'facebook' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="platform-facebook">
                                         <i class="fab fa-facebook-messenger fa-fw"></i> Facebook Messenger
@@ -89,8 +89,8 @@ function schedule_opt($date, $value, $app) {
                                         id="platform-hangouts"
                                         type="radio"
                                         name="remote_platform"
-                                        value="hangouts"
-                                        {{ $app->remote_platform == 'hangouts' ? 'checked' : '' }}>
+                                        value="google-hangouts"
+                                        {{ $app->remote_platform == 'google-hangouts' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="platform-hangouts">
                                         <i class="fas fa-video fa-fw"></i> Google Hangouts
                                     </label>

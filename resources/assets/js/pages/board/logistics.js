@@ -1,7 +1,7 @@
 $(document).ready(function() {
-    toggleVideoConferencing();
     $('input[name="remote"]').on('change', toggleVideoConferencing);
     $('td.table-success, td.table-warning, td.table-danger').on('click', clickInternalInput);
+    toggleVideoConferencing();
 });
 
 function clickInternalInput() {
@@ -10,5 +10,5 @@ function clickInternalInput() {
 
 function toggleVideoConferencing() {
     const abroadNow = parseInt($('input[name="remote"]:checked').val());
-    $("#video-fields").toggle(abroadNow);
+    $("#video-fields").toggle(abroadNow == 1);
 }
