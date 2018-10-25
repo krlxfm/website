@@ -22,7 +22,7 @@
                                     name="remote"
                                     value="0"
                                     {{ $app->remote ? '' : 'checked' }}>
-                                <label class="form-check-label" for="remote-no">
+                                <label class="form-check-label" for="abroad-no">
                                     Yes - I am currently on campus and can attend my interview in person
                                 </label>
                             </div>
@@ -34,7 +34,7 @@
                                     name="remote"
                                     value="1"
                                     {{ $app->remote ? 'checked' : '' }}>
-                                <label class="form-check-label" for="remote-yes">
+                                <label class="form-check-label" for="abroad-yes">
                                     No - I am currently off campus and will need to complete my interview via video conference
                                 </label>
                             </div>
@@ -130,7 +130,7 @@
                                     value="abroad_sp"
                                     {{ $app->ocs == 'abroad_sp' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="abroad-spring">
-                                    Yes - I will be abroad Spring {{ $app->year }}
+                                    Yes - I am planning to be abroad Spring {{ $app->year }}
                                 </label>
                             </div>
                             <div class="form-check">
@@ -142,7 +142,7 @@
                                     value="abroad_fa"
                                     {{ $app->ocs == 'abroad_fa' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="abroad-fall">
-                                    Yes - I will be abroad Fall {{ $app->year }}
+                                    Yes - I am planning to be abroad Fall {{ $app->year }}
                                 </label>
                             </div>
                             <div class="form-check">
@@ -154,7 +154,7 @@
                                     value="abroad_wi"
                                     {{ $app->ocs == 'abroad_wi' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="abroad-winter">
-                                    Yes - I will be abroad Winter {{ $app->year + 1 }}
+                                    Yes - I am planning to be abroad Winter {{ $app->year + 1 }}
                                 </label>
                             </div>
                         </div>
@@ -231,3 +231,7 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script src="/js/pages/board/logistics.js" defer></script>
+@endpush
