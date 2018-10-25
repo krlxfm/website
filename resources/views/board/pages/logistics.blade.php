@@ -171,11 +171,18 @@
                             <th style="background: #ffbbbb">Unavailable</th>
                             <th style="background: #ffffbb">If&nbsp;need&nbsp;be</th>
                             <th style="background: #bbffbb">Available</th>
-                            <th style="background: #bbbbff">Preferred</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($dates as $date)
+                            @if (! $loop->first and $loop->index % 12 == 0)
+                                <tr class="text-center">
+                                    <th>Time</th>
+                                    <th style="background: #ffbbbb">Unavailable</th>
+                                    <th style="background: #ffffbb">If&nbsp;need&nbsp;be</th>
+                                    <th style="background: #bbffbb">Available</th>
+                                </tr>
+                            @endif
                             <tr>
                                 <td>
                                     {!! str_replace(' ', '&nbsp;', $date->format('D, M j,')) !!}
@@ -186,6 +193,7 @@
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-1"
                                         type="radio"
+                                        style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="1"
                                         {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 1 ? 'checked' : '' }}>
@@ -195,6 +203,7 @@
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-2"
                                         type="radio"
+                                        style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="2"
                                         {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 2 ? 'checked' : '' }}>
@@ -204,18 +213,10 @@
                                         class="form-check-input"
                                         id="{{ $date->format('Y-m-d_H:i') }}-3"
                                         type="radio"
+                                        style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="3"
                                         {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 3 ? 'checked' : '' }}>
-                                </td>
-                                <td class="text-center" style="background: #ddddff">
-                                    <input
-                                        class="form-check-input"
-                                        id="{{ $date->format('Y-m-d_H:i') }}-4"
-                                        type="radio"
-                                        name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
-                                        value="4"
-                                        {{ $app->interview_schedule[$date->format('Y-m-d H:i:s')] == 4 ? 'checked' : '' }}>
                                 </td>
                             </tr>
                         @endforeach
