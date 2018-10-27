@@ -123,4 +123,16 @@ class BoardAppTest extends AuthenticatedTestCase
         $req = $this->actingAs($this->user)->patch("/board/apply/{$this->board_app->year}");
         $req->assertRedirect(route('board.app', $this->board_app->year));
     }
+
+    /**
+     * Test that the Common Questions view loads.
+     *
+     * @return void
+     */
+    public function testCommonViewLoads()
+    {
+        $req = $this->actingAs($this->user)->get("/board/apply/{$this->board_app->year}/common");
+        $req->assertOk()
+            ->assertSeeInOrder(collect($this->board_app->common)->keys()->all());
+    }
 }

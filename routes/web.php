@@ -39,6 +39,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('board/apply/start', 'BoardController@start')->name('board.start');
     Route::get('board/apply/{year}', 'BoardController@myApplication')->name('board.app');
     Route::patch('board/apply/{year}', 'BoardController@updateApplication');
+    Route::get('board/apply/{year}/common', 'BoardController@common')->name('board.common');
     Route::get('board/apply/{year}/logistics', 'BoardController@logistics')->name('board.logistics');
 
     Route::get('profile', 'UserController@profile')->name('profile');

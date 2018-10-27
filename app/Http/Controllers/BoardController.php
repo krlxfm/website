@@ -121,6 +121,23 @@ class BoardController extends Controller
     }
 
     /**
+     * Return the logistics view.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function common($year, Request $request)
+    {
+        $app = $this->validateYear($year, $request);
+        if (! $app instanceof BoardApp) {
+            return $app;
+        }
+
+        return view('board.pages.common', compact('app'));
+    }
+
+    /**
      * Store changes to the board application.
      *
      * @param  Illuminate\Http\Request  $request
