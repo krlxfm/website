@@ -152,10 +152,35 @@ class BoardController extends Controller
         }
 
         $request->validate($this->validationRules($app));
-        $app->fill($request->all());
+        $values = $request->all();
+
+        // STOP: This is a MAJOR XSS vulnerability, so we need to block all
+        // <script> tags from getting through.
+        $this->sanitizeInput($values);
+
+        $app->fill($values);
         $app->save();
 
         return redirect()->route('board.app', $app->year);
+    }
+
+    /**
+     * Sanitize inputs which could potentially contain XSS code.
+     *
+     * @param  array  $input
+     * @return array
+     */
+    private function sanitizeInput(array &$input)
+    {
+        foreach($input as $key => &$value) {
+            if (is_array($value)) {
+                $value = $this->sanitizeInput($value);
+            } else {
+                $value = str_replace('<script>', '&lt;script&gt;', $value);
+            }
+        }
+
+        return $input;
     }
 
     /**
