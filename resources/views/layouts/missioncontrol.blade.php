@@ -15,6 +15,7 @@
     <script src="{{ mix('/js/vendor.js') }}" defer></script>
     @stack('topjs')
     <script src="{{ mix('/js/app.js') }}" defer></script>
+    @stack('postjs')
 
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">

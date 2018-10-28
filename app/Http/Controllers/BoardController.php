@@ -151,7 +151,7 @@ class BoardController extends Controller
             return $app;
         }
 
-        $request->validate($this->validationRules());
+        $request->validate($this->validationRules($app));
         $app->fill($request->all());
         $app->save();
 
@@ -163,7 +163,7 @@ class BoardController extends Controller
      *
      * @return array
      */
-    private function validationRules()
+    private function validationRules(BoardApp $app)
     {
         $dates = collect($this->interviewDates());
         $rules = [
@@ -179,6 +179,13 @@ class BoardController extends Controller
             'remote' => 'sometimes|boolean',
             'remote_contact' => 'sometimes|required_if:remote,1',
             'remote_platform' => 'required_if:remote,1',
+            'common' => ['sometimes','array','size:'.count($app->common), function ($attribute, $value, $fail) use ($app) {
+                foreach(collect($app->common)->keys()->all() as $key) {
+                    if (! array_key_exists($key, $value)) {
+                        $fail("The question $key is not present in the Common answers.");
+                    }
+                }
+            }],
         ];
 
         return $rules;

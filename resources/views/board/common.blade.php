@@ -8,6 +8,6 @@
     @empty ($response)
         <em>No response yet.</em>
     @else
-        {{ $response }}
+        {!! $response !!}
     @endempty
 @endforeach
