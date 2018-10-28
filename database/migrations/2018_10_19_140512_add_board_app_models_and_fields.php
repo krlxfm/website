@@ -21,6 +21,7 @@ class AddBoardAppModelsAndFields extends Migration
             $table->boolean('restricted')->default(false);
             $table->string('color')->default('#aa0000');
             $table->string('title');
+            $table->string('abbr');
             $table->text('description')->nullable();
             $table->text('app_questions')->nullable();
             $table->text('interview_questions')->nullable();
