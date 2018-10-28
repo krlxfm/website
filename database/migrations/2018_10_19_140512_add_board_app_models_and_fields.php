@@ -19,6 +19,7 @@ class AddBoardAppModelsAndFields extends Migration
             $table->boolean('active')->default(true);
             $table->boolean('on_call')->default(false);
             $table->boolean('restricted')->default(false);
+            $table->boolean('dark')->default(true);
             $table->tinyInteger('order')->default(0)->unsigned();
             $table->string('color')->default('#aa0000');
             $table->string('title');
