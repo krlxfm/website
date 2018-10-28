@@ -10,7 +10,7 @@
                 @csrf
                 @foreach($app->common as $question => $response)
                     <h5 class="head-sans-serif mb-1 mt-3"><strong>{{ $question }}</strong></h5>
-                    <textarea name="common[{{ $question }}]">{!! $response !!}</textarea>
+                    <textarea name="common[{{ $question }}]">{!! str_replace('<script>', '&lt;script&rt;', $response) !!}</textarea>
                 @endforeach
                 <div class="my-3">
                     <button type="submit" class="btn btn-primary btn-lg btn-block">Save and continue</button>

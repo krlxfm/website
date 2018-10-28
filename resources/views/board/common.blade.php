@@ -4,10 +4,13 @@
 <p><a href="{{ route('board.common', $app->year) }}" class="btn btn-lg btn-secondary">Answer or revise the common questions <i class="fas fa-chevron-right"></i></a></p>
 
 @foreach($app->common as $question => $response)
-    <h5 class="head-sans-serif mb-1 mt-3"><strong>{{ $question }}</strong></h5>
+    <h5 class="head-sans-serif mb-1 mt-3">
+        @include('board.panelicon', ['complete' => !empty($response)])
+        <strong>{{ $question }}</strong>
+    </h5>
     @empty ($response)
         <em>No response yet.</em>
     @else
-        {!! $response !!}
+        {!! str_replace('<script>', '&lt;script&rt;', $response) !!}
     @endempty
 @endforeach
