@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use KRLX\User;
 use KRLX\Config;
+use KRLX\Position;
 use Carbon\Carbon;
 use KRLX\BoardApp;
 use Tests\AuthenticatedTestCase;
@@ -32,6 +33,18 @@ class BoardAppTest extends AuthenticatedTestCase
         $request = $this->actingAs($this->board)->get('/board/apply');
         $request->assertOk()
                 ->assertSee(date('Y'));
+    }
+
+    /**
+     * Test that the "Positions" view renders.
+     *
+     * @return void
+     */
+    public function testPositionsViewRenders()
+    {
+        $request = $this->actingAs($this->board)->get('/board/positions');
+        $request->assertOk()
+                ->assertSeeInOrder(Position::orderBy('order')->get()->pluck('title')->all());
     }
 
     /**

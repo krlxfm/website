@@ -6,6 +6,7 @@ use KRLX\User;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\BoardApp;
+use KRLX\Position;
 use Illuminate\Http\Request;
 
 class BoardController extends Controller
@@ -20,6 +21,18 @@ class BoardController extends Controller
         $board = User::role('board')->orderBy('order')->orderBy('email')->get();
 
         return view('board.meet', compact('board'));
+    }
+
+    /**
+     * Display the "Positions" view.
+     *
+     * @return Illuminate\Http\Response
+     */
+    public function positions()
+    {
+        $positions = Position::where('active', true)->orderBy('order')->get();
+
+        return view('board.positions', compact('positions'));
     }
 
     /**
