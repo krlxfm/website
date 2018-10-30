@@ -44,7 +44,7 @@
                     </a>
                     @endif
                     @foreach($app->positions as $position)
-                        <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                        <a class="nav-link" id="v-pills-{{ $position->position->abbr }}-tab" data-toggle="pill" href="#v-pills-{{ $position->position->abbr }}" role="tab" aria-controls="v-pills-{{ $position->abbr }}" aria-selected="false">
                             {{ $position->position->title }}
                         </a>
                     @endforeach
@@ -67,6 +67,11 @@
                     <div class="tab-pane fade" id="v-pills-add" role="tabpanel" aria-labelledby="v-pills-add-tab">
                         @include('board.add')
                     </div>
+                    @foreach($app->positions as $position)
+                        <div class="tab-pane fade" id="v-pills-{{ $position->position->abbr }}" role="tabpanel" aria-labelledby="v-pills-{{ $position->position->abbr }}-tab">
+                            @include('board.position', ['position' => $position])
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
