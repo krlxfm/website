@@ -52,7 +52,12 @@ class PositionController extends Controller
      */
     public function show(PositionApp $position)
     {
-        //
+        $pos = $position->position;
+        $app = $position->board_app;
+
+        $this->authorize('update', $app);
+
+        return view('board.pages.position', compact('pos', 'app', 'position'));
     }
 
     /**

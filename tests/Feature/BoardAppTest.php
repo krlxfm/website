@@ -160,6 +160,12 @@ class BoardAppTest extends AuthenticatedTestCase
 
         $req = $this->actingAs($this->user)->post("/board/apply/positions", ['position_id' => $position->id, 'board_app_id' => $this->board_app->id]);
         $req->assertRedirect();
+
         $this->assertCount(1, $this->board_app->positions);
+        $pa_id = $this->board_app->positions->first();
+
+        $req2 = $this->actingAs($this->user)->get("/board/apply/positions/{$pa->id}");
+        $req2->assertOk()
+             ->assertSee($pa->title);
     }
 }

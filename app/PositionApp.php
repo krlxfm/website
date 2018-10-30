@@ -19,7 +19,7 @@ class PositionApp extends Model
         return $this->belongsTo('KRLX\Position');
     }
 
-    public function app()
+    public function board_app()
     {
         return $this->belongsTo('KRLX\BoardApp');
     }
