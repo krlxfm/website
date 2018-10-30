@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PositionApp extends Model
 {
-    protected $guarded = [
+    protected $fillable = [
         'position_id', 'order', 'responses'
     ];
 

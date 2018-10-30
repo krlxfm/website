@@ -36,12 +36,12 @@ class PositionController extends Controller
             })],
         ]);
 
-        $this->authorize('create', PositionApp::class);
-
         $app = BoardApp::find($request->input('board_app_id'));
+        $this->authorize('update', $app);
+
         $position = $app->positions()->create(['position_id' => $request->input('position_id'), 'order' => $app->positions->count()]);
 
-        return redirect()->route('positions.edit', $position);
+        return redirect()->route('positions.show', $position);
     }
 
     /**
@@ -51,17 +51,6 @@ class PositionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(PositionApp $position)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \KRLX\PositionApp  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PositionApp $position)
     {
         //
     }

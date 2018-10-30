@@ -158,7 +158,8 @@ class BoardAppTest extends AuthenticatedTestCase
     {
         $position = factory(Position::class)->create();
 
-        $req = $this->actingAs($this->user)->post("/board/apply/{$this->board_app->year}/positions", ['position_id' => $position->id]);
+        $req = $this->actingAs($this->user)->post("/board/apply/positions", ['position_id' => $position->id, 'board_app_id' => $this->board_app->id]);
         $req->assertRedirect();
+        $this->assertCount(1, $this->board_app->positions);
     }
 }

@@ -10,17 +10,19 @@
     </thead>
     <tbody>
         @forelse($positions as $position)
-            <form method="post" action="{{ route('points.store') }}">
-                @csrf
-                <tr>
-                    <td class="align-middle">
-                        {{ $position->title }} <span class="badge badge-{{ $position->dark ? 'dark' : 'light' }}" style="background: {{ $position->color }}">{{ $position->abbr }}</span>
-                    </td>
-                    <input type="hidden" name="board_app_id" value="{{ $app->id }}">
-                    <input type="hidden" name="position_id" value="{{ $position->id }}">
-                    <td class="align-middle"><button type="submit" class="btn btn-success btn-block"><i class="fas fa-plus"></i> Add {{ $position->title }}</button></td>
-                </tr>
-            </form>
+            <tr>
+                <td class="align-middle">
+                    {{ $position->title }} <span class="badge badge-{{ $position->dark ? 'dark' : 'light' }}" style="background: {{ $position->color }}">{{ $position->abbr }}</span>
+                </td>
+                <td class="align-middle">
+                    <form method="post" action="{{ route('positions.store', $app->year) }}">
+                        @csrf
+                        <input type="hidden" name="board_app_id" value="{{ $app->id }}">
+                        <input type="hidden" name="position_id" value="{{ $position->id }}">
+                        <button type="submit" class="btn btn-success btn-block"><i class="fas fa-plus"></i> Add {{ $position->title }}</button>
+                    </form>
+                </td>
+            </tr>
         @empty
             <tr>
                 <td colspan="2">You are currently not eligible to apply for any additional positions.</td>
