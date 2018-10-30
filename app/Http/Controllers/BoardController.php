@@ -111,7 +111,11 @@ class BoardController extends Controller
         $logistics_needed = collect($app->interview_schedule)->values()->sum() == 0;
         $common_needed = collect($app->common)->filter(function($item) { return empty($item); })->count();
 
-        return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed'));
+        $positions = Position::where('active', true)->orderBy('order')->get()->reject(function($position) use ($request, $app) {
+            return $app->positions->pluck('position_id')->contains($position->id) or ($position->restricted and $request->user()->cant('apply for Station Manager'));
+        });
+
+        return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed', 'positions'));
     }
 
     /**

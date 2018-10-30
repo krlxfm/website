@@ -33,7 +33,7 @@
                     <p class="text-muted text-center mb-1 mt-3" style="font-variant: small-caps; letter-spacing: 3px; font-weight: bold;">
                         position specific questions
                     </p>
-                    <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                    <a class="nav-link" id="v-pills-add-tab" data-toggle="pill" href="#v-pills-add" role="tab" aria-controls="v-pills-add" aria-selected="false">
                         <i class="fas fa-plus fa-fw"></i>
                         Add a position
                     </a>
@@ -63,6 +63,9 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-common" role="tabpanel" aria-labelledby="v-pills-common-tab">
                         @include('board.common')
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-add" role="tabpanel" aria-labelledby="v-pills-add-tab">
+                        @include('board.add')
                     </div>
                 </div>
             </div>
