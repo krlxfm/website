@@ -10,12 +10,13 @@
     </thead>
     <tbody>
         @forelse($positions as $position)
-            <form method="post">
+            <form method="post" action="{{ route('points.store') }}">
                 @csrf
                 <tr>
                     <td class="align-middle">
                         {{ $position->title }} <span class="badge badge-{{ $position->dark ? 'dark' : 'light' }}" style="background: {{ $position->color }}">{{ $position->abbr }}</span>
                     </td>
+                    <input type="hidden" name="board_app_id" value="{{ $app->id }}">
                     <input type="hidden" name="position_id" value="{{ $position->id }}">
                     <td class="align-middle"><button type="submit" class="btn btn-success btn-block"><i class="fas fa-plus"></i> Add {{ $position->title }}</button></td>
                 </tr>

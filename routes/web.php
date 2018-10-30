@@ -42,6 +42,7 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::patch('board/apply/{year}', 'BoardController@updateApplication');
     Route::get('board/apply/{year}/common', 'BoardController@common')->name('board.common');
     Route::get('board/apply/{year}/logistics', 'BoardController@logistics')->name('board.logistics');
+    Route::resource('board/apply/{year}/positions', 'PositionController')->except(['index', 'create']);
 
     Route::get('profile', 'UserController@profile')->name('profile');
 

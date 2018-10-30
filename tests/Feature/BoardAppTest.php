@@ -148,4 +148,17 @@ class BoardAppTest extends AuthenticatedTestCase
         $req->assertOk()
             ->assertSeeInOrder(collect($this->board_app->common)->keys()->all());
     }
+
+    /**
+     * Test that we can add a standard (non-restricted) position to a board app.
+     *
+     * @return void
+     */
+    public function testAddingStandardPosition()
+    {
+        $position = factory(Position::class)->create();
+
+        $req = $this->actingAs($this->user)->post("/board/apply/{$this->board_app->year}/positions", ['position_id' => $position->id]);
+        $req->assertRedirect();
+    }
 }
