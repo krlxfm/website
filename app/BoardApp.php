@@ -44,4 +44,14 @@ class BoardApp extends Model
     protected $guarded = [
         'id', 'user_id', 'year', 'created_at', 'updated_at', 'submitted', 'interview'
     ];
+
+    /**
+     * Each BoardApp contains one or more PositionApps.
+     *
+     * @return Eloquent\Collection<KRLX\PositionApp>
+     */
+    public function positions()
+    {
+        return $this->hasMany('KRLX\PositionApp')->orderBy('order');
+    }
 }

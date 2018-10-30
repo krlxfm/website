@@ -33,6 +33,21 @@
                     <p class="text-muted text-center mb-1 mt-3" style="font-variant: small-caps; letter-spacing: 3px; font-weight: bold;">
                         position specific questions
                     </p>
+                    <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                        <i class="fas fa-plus fa-fw"></i>
+                        Add a position
+                    </a>
+                    @if($app->positions->count() > 1)
+                    <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                        <i class="fas fa-random fa-fw"></i>
+                        Reorder positions
+                    </a>
+                    @endif
+                    @foreach($app->positions as $position)
+                        <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                            {{ $position->position->title }}
+                        </a>
+                    @endforeach
                     <p class="text-muted text-center mb-1 mt-3" style="font-variant: small-caps; letter-spacing: 3px; font-weight: bold;">
                         review and submit
                     </p>

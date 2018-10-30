@@ -6,6 +6,7 @@ return [
         'Surviving Floods Since 1948',
         'Surviving Tornadoes Since 1948',
         'Surviving Paper Clips Since 1948',
+        'Creating Fire Hazards Since 1948',
         'Don\'t worry, sometimes we mix up the letters too.',
         'Where every hour is amateur hour.',
         'It\'s better on the bottom!',
