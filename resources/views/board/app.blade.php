@@ -38,7 +38,7 @@
                         Add a position
                     </a>
                     @if($app->positions->count() > 1)
-                    <a class="nav-link" id="v-pills-common-tab" data-toggle="pill" href="#v-pills-common" role="tab" aria-controls="v-pills-common" aria-selected="false">
+                    <a class="nav-link" id="v-pills-reorder-tab" data-toggle="pill" href="#v-pills-reorder" role="tab" aria-controls="v-pills-reorder" aria-selected="false">
                         <i class="fas fa-random fa-fw"></i>
                         Reorder positions
                     </a>
@@ -67,6 +67,9 @@
                     </div>
                     <div class="tab-pane fade" id="v-pills-add" role="tabpanel" aria-labelledby="v-pills-add-tab">
                         @include('board.add')
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-reorder" role="tabpanel" aria-labelledby="v-pills-reorder-tab">
+                        @include('board.reorder')
                     </div>
                     @foreach($app->positions as $position)
                         <div class="tab-pane fade" id="v-pills-{{ $position->position->abbr }}" role="tabpanel" aria-labelledby="v-pills-{{ $position->position->abbr }}-tab">
