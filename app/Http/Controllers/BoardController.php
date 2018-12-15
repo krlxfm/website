@@ -2,6 +2,7 @@
 
 namespace KRLX\Http\Controllers;
 
+use Validator;
 use KRLX\User;
 use KRLX\Config;
 use Carbon\Carbon;
@@ -169,6 +170,37 @@ class BoardController extends Controller
         }
 
         return view('board.pages.reorder', compact('app'));
+    }
+
+    /**
+     * Return the position-reordering view.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function storeReorder($year, Request $request)
+    {
+        $app = $this->validateYear($year, $request);
+        if (! $app instanceof BoardApp) {
+            return $app;
+        }
+
+        $positions = $app->positions->pluck('position_id')->all();
+        $validator = Validator::make(['order' => explode(',', $request->input('order'))], [
+            'order' => 'required|array|min:1',
+            'order.*' => 'integer|distinct|in:'.implode(',',$positions)
+        ]);
+        if ($validator->fails()) {
+            return redirect(route('board.pages.reorder', $app->year))->withErrors($validator)->withInput();
+        }
+        $orders = explode(',', $request->input('order'));
+        foreach ($app->positions as $position) {
+            $position->order = array_search($position->position_id, $orders);
+            $position->save();
+        }
+
+        return redirect()->route('board.app', $app->year);
     }
 
     /**

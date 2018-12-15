@@ -9,8 +9,8 @@
                     {{ position.title }}
                 </div>
                 <div class="btn-group ml-auto">
-                    <button class="btn btn-primary" v-if="index > 0" v-on:click="moveUp(index)"><i class="fas fa-arrow-up"></i> Move up</button>
-                    <button class="btn btn-secondary" v-if="index < (positions.length - 1)" v-on:click="moveDown(index)"><i class="fas fa-arrow-down"></i> Move down</button>
+                    <button type="button" class="btn btn-primary" v-if="index > 0" v-on:click="moveUp(index)"><i class="fas fa-arrow-up"></i> Move up</button>
+                    <button type="button" class="btn btn-secondary" v-if="index < (positions.length - 1)" v-on:click="moveDown(index)"><i class="fas fa-arrow-down"></i> Move down</button>
                 </div>
             </div>
         </div>
