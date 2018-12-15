@@ -23,6 +23,7 @@ Vue.component('preference-list', require('./components/PreferenceList.vue'));
 Vue.component('participant-list', require('./components/ParticipantList.vue'));
 Vue.component('participant-search', require('./components/ParticipantSearch.vue'));
 Vue.component('schedule-preview', require('./components/SchedulePreview.vue'));
+Vue.component('board-app-position-order', require('./components/BoardPositionReorder.vue'));
 
 window.to12Hour = function(time) {
     var components = time.split(':');
