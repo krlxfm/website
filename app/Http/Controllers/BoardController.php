@@ -116,7 +116,14 @@ class BoardController extends Controller
             return $app->positions->pluck('position_id')->contains($position->id) or ($position->restricted and $request->user()->cant('apply for Station Manager'));
         });
 
-        return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed', 'positions'));
+        $can_submit = !($missing_fields or $logistics_needed or $common_needed or $app->positions->count() == 0);
+        if ($can_submit) {
+            foreach($app->positions as $position) {
+                if (!$position->complete()) $can_submit = false;
+            }
+        }
+
+        return view('board.app', compact('app', 'missing_fields', 'logistics_needed', 'common_needed', 'positions', 'can_submit'));
     }
 
     /**

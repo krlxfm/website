@@ -52,6 +52,10 @@
                     <p class="text-muted text-center mb-1 mt-3" style="font-variant: small-caps; letter-spacing: 3px; font-weight: bold;">
                         review and submit
                     </p>
+                    <a class="nav-link" id="v-pills-review-tab" data-toggle="pill" href="#v-pills-review" role="tab" aria-controls="v-pills-review" aria-selected="false">
+                        <i class="fas fa-send fa-fw"></i>
+                        Review and submit
+                    </a>
                 </div>
             </div>
             <div class="col-sm-9">
@@ -76,6 +80,9 @@
                             @include('board.position', ['position' => $position])
                         </div>
                     @endforeach
+                    <div class="tab-pane fade" id="v-pills-review" role="tabpanel" aria-labelledby="v-pills-review-tab">
+                        @include('board.review')
+                    </div>
                 </div>
             </div>
         </div>
