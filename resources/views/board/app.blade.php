@@ -45,6 +45,7 @@
                     @endif
                     @foreach($app->positions as $position)
                         <a class="nav-link" id="v-pills-{{ $position->position->abbr }}-tab" data-toggle="pill" href="#v-pills-{{ $position->position->abbr }}" role="tab" aria-controls="v-pills-{{ $position->abbr }}" aria-selected="false">
+                            @include('board.panelicon', ['complete' => $position->complete()])
                             {{ $position->position->title }}
                         </a>
                     @endforeach

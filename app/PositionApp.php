@@ -23,4 +23,20 @@ class PositionApp extends Model
     {
         return $this->belongsTo('KRLX\BoardApp');
     }
+
+    /**
+     * For quick validation, returns whether or not all questions have been
+     * successfully answered.
+     *
+     * @return bool
+     */
+    public function complete()
+    {
+        foreach($this->position->app_questions as $question) {
+            if (!array_key_exists($question, $this->responses) or empty($this->responses[$question])) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
