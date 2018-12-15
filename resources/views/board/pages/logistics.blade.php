@@ -173,7 +173,7 @@ function schedule_opt($date, $value, $app) {
                 <h3>Interview time preferences</h3>
                 <p>You will be assigned an interview time based on the position(s) you apply for, as well as your availability as indicated below. Please be as flexible as you can - we'll try to let you know of your time as quickly as we can after applications close. <strong>You must provide an answer in each row.</strong></p>
                 <div class="alert alert-info">
-                    If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time. All times are listed in US/Central, and slots are 15 minutes long.
+                    If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time. All times are listed in US/Central, and slots are 15 minutes long. (Candidates applying for Station Manager should expect a longer interview.)
                 </div>
                 <table class="table table-hover table-responsive-sm">
                     <thead>
