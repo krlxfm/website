@@ -6,6 +6,6 @@
         <li>{{ $position->position->title }}</li>
     @endforeach
 </ol>
-<p><a href="{{ route('board.common', $app->year) }}" class="btn btn-lg btn-secondary">Revise this order <i class="fas fa-chevron-right"></i></a></p>
+<p><a href="{{ route('board.reorder', $app->year) }}" class="btn btn-lg btn-secondary">Revise this order <i class="fas fa-chevron-right"></i></a></p>
 <p>If this order looks good, you don't need to do anything. If you add any new positions, they will be added to the bottom of the list.</p>
 <p>No longer interested in a position? Choose its entry in the sidebar, then click "Remove this position".</p>

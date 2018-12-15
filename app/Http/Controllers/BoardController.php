@@ -138,7 +138,7 @@ class BoardController extends Controller
     }
 
     /**
-     * Return the logistics view.
+     * Return the common questions view.
      *
      * @param  Illuminate\Http\Request  $request
      * @param  int  $year
@@ -152,6 +152,23 @@ class BoardController extends Controller
         }
 
         return view('board.pages.common', compact('app'));
+    }
+
+    /**
+     * Return the position-reordering view.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function reorder($year, Request $request)
+    {
+        $app = $this->validateYear($year, $request);
+        if (! $app instanceof BoardApp) {
+            return $app;
+        }
+
+        return view('board.pages.reorder', compact('app'));
     }
 
     /**
