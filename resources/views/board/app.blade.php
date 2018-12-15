@@ -81,3 +81,7 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script src="/js/pages/board/app.js" defer></script>
+@endpush

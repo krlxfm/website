@@ -80,6 +80,21 @@ class PositionController extends Controller
      */
     public function destroy(PositionApp $position)
     {
-        //
+        $pos = $position->position;
+        $app = $position->board_app;
+
+        $this->authorize('update', $app);
+
+        $order = $position->order;
+        $positions_after = $app->positions->filter(function($item) use ($order) {
+            return $item->order > $order;
+        });
+        foreach($positions_after as $pos_after) {
+            $pos_after->order -= 1;
+            $pos_after->save();
+        }
+        $position->delete();
+
+        return redirect()->route('board.app', $app->year);
     }
 }
