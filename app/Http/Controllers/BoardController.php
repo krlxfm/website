@@ -41,9 +41,16 @@ class BoardController extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('board.start');
+        $action = 'Review';
+        if ($request->user()->board_apps()->where('year', date('Y'))->count() == 0) {
+            $action = 'Create';
+        } else {
+            $app = $request->user()->board_apps()->where('year', date('Y'))->first();
+            $action = ($app->submitted ? 'Review' : 'Continue work on');
+        }
+        return view('board.start', compact('action'));
     }
 
     /**
@@ -178,6 +185,7 @@ class BoardController extends Controller
 
         $this->authorize('update', $app);
         $app->submitted = true;
+        $app->save();
 
         $next_year = $app->year + 1;
         $request->session()->flash('status', "Congratulations - your {$app->year}-$next_year Board application has been submitted! Look for an email in the next few days with information on the interview process.");

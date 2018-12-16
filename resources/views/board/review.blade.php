@@ -1,6 +1,8 @@
 <h2>Review and submit</h2>
 
-@if($can_submit)
+@if($app->submitted)
+    <p>This application has been successfully submitted for review.</p>
+@elseif($can_submit)
     <p>This is your final checklist for submitting your board application. Please carefully review each item listed and check the checkbox to confirm it. Once all checkboxes are checked, the submit button will appear.</p>
     <hr>
     <div class="form-check mb-3">

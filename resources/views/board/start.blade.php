@@ -8,7 +8,7 @@
             <p>If you love KRLX and want to help lead it for the next year, you are in the right place. We're ready when you are.</p>
             @can('apply for board seats')
                 <p class="text-center">
-                    <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
+                    <a href="/board/apply/start" class="btn btn-success btn-lg">{{ $action ?? 'Start' }} <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
                 </p>
             @else
                 <p class="text-center">

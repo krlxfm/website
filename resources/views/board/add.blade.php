@@ -1,6 +1,9 @@
 <h2>Add a position</h2>
 <p>To learn more about each of the positions and their associated responsibilities and desired skills, please <a href="{{ route('board.positions') }}">click here</a>.</p>
 
+@if($app->submitted)
+    <p>You have already submitted your application. New positions can't be added.</p>
+@else
 <table class="table table-striped">
     <thead>
         <tr>
@@ -30,3 +33,4 @@
         @endforelse
     </tbody>
 </table>
+@endif

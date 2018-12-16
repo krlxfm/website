@@ -1,6 +1,11 @@
 @extends('layouts.missioncontrol', ['title' => 'Board Application - '.$app->year])
 
 @section('head')
+    @if($app->submitted)
+        <div class="alert alert-success">
+            <strong>This application has been submitted for review.</strong> Changes are no longer permitted online. If you need to withdraw or change your interview schedule, please contact the Station Manager or an IT engineer.
+        </div>
+    @endif
     <div class="row">
         <div class="col">
             <h1 class="text-center mb-3">{{ $app->year }} &ndash; {{ $app->year + 1 }} Board Application</h1>

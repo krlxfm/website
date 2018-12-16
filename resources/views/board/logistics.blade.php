@@ -5,9 +5,13 @@
 </div>
 
 @if ($logistics_needed)
-    <a href="{{ route('board.logistics', $app->year) }}" class="btn btn-lg btn-secondary">Answer the logistics questions <i class="fas fa-chevron-right"></i></a>
+    @unless($app->submitted)
+        <a href="{{ route('board.logistics', $app->year) }}" class="btn btn-lg btn-secondary">Answer the logistics questions <i class="fas fa-chevron-right"></i></a>
+    @endunless
 @else
-    <p><a href="{{ route('board.logistics', $app->year) }}" class="btn btn btn-secondary">Revise logistics questions <i class="fas fa-chevron-right"></i></a></p>
+    @unless($app->submitted)
+        <p><a href="{{ route('board.logistics', $app->year) }}" class="btn btn btn-secondary">Revise logistics questions <i class="fas fa-chevron-right"></i></a></p>
+    @endunless
     <table class="table table-striped">
         <thead>
             <tr>

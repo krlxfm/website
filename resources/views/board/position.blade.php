@@ -1,9 +1,11 @@
 <h2>{{ $position->position->title }}</h2>
 
 <p>The questions here pertain only to the {{ $position->position->title }} position.</p>
+@unless($app->submitted)
 <p>
     <a href="{{ route('positions.show', $position->id) }}" class="btn btn-lg btn-secondary">Answer or revise the {{ $position->position->title }} questions <i class="fas fa-chevron-right"></i></a>
 </p>
+@endunless
 
 @foreach($position->position->app_questions ?? [] as $index => $question)
     @php
