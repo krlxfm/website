@@ -36,7 +36,7 @@
 
     <form id="submit-form-live" name="submit" action="{{ route('board.app', $app->year )}}" method="post">
         @csrf
-        <button type="submit" class="btn btn-success btn-lg btn-block">Submit Board Application</button>
+        <button type="submit" disabled class="btn btn-success btn-lg btn-block">Submit Board Application</button>
     </form>
 @else
     <div class="alert alert-warning">
