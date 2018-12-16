@@ -199,7 +199,7 @@
         </label>
         <div class="col-sm-9 col-md-10">
             <input type="text" name="walkup" class="form-control" id="walkup" value="{{ old('walkup') ?? Auth::user()->walkup }}">
-            <small id="walkup_help" class="form-text text-muted">If you could have any song play every time you walked into a room, what would it be? (This is similar to how you hear <em>Shoot to Thrill</em> by AC/DC as Iron Man makes his entrance in <em>The Avengers</em>.)</small>
+            <small id="walkup_help" class="form-text text-muted">If you could have any song play every time you walked into a room, what would it be &mdash; and what part of the song? (This is similar to how you hear <em>Shoot to Thrill</em> by AC/DC as Iron Man makes his entrance in <em>The Avengers</em>.)</small>
         </div>
     </div>
 @endif
