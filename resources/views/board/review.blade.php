@@ -46,8 +46,9 @@
         </label>
     </div>
 
-    <form id="submit-form-live" name="submit" action="{{ route('board.app', $app->year )}}" method="post">
+    <form id="submit-form-live" name="submit" action="{{ route('board.submit', $app->year )}}" method="post">
         @csrf
+        @method('patch')
         <button type="submit" id="theBigSubmitButton" class="btn btn-success btn-lg btn-block">Submit Board Application</button>
     </form>
 @else

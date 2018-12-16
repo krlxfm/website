@@ -163,6 +163,27 @@ class BoardController extends Controller
     }
 
     /**
+     * Submit the application.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  int  $year
+     * @return Illuminate\Http\Response
+     */
+    public function submit($year, Request $request)
+    {
+        $app = $this->validateYear($year, $request);
+        if (! $app instanceof BoardApp) {
+            return $app;
+        }
+
+        $this->authorize('update', $app);
+        $app->submitted = true;
+
+        $request->session()->flash('status', 'Congratulations - your Board application has been submitted! Look for an email in the next few days with information on the interview process.');
+        return redirect()->route('board.index');
+    }
+
+    /**
      * Return the position-reordering view.
      *
      * @param  Illuminate\Http\Request  $request

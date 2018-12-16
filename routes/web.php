@@ -37,14 +37,17 @@ Route::middleware(['auth', 'onboard'])->group(function () {
     Route::get('board/meet', 'BoardController@meet')->name('board.meet');
     Route::get('board/apply', 'BoardController@index')->name('board.index');
     Route::get('board/positions', 'BoardController@positions')->name('board.positions');
-    Route::get('board/apply/start', 'BoardController@start')->name('board.start');
-    Route::get('board/apply/{year}', 'BoardController@myApplication')->name('board.app');
-    Route::patch('board/apply/{year}', 'BoardController@updateApplication');
-    Route::get('board/apply/{year}/common', 'BoardController@common')->name('board.common');
-    Route::get('board/apply/{year}/logistics', 'BoardController@logistics')->name('board.logistics');
-    Route::get('board/apply/{year}/reorder', 'BoardController@reorder')->name('board.reorder');
-    Route::patch('board/apply/{year}/reorder', 'BoardController@storeReorder');
-    Route::resource('board/apply/positions', 'PositionController')->except(['index', 'create', 'edit']);
+    Route::middleware('can:create,KRLX\BoardApp')->group(function () {
+        Route::get('board/apply/start', 'BoardController@start')->name('board.start');
+        Route::get('board/apply/{year}', 'BoardController@myApplication')->name('board.app');
+        Route::patch('board/apply/{year}', 'BoardController@updateApplication');
+        Route::get('board/apply/{year}/common', 'BoardController@common')->name('board.common');
+        Route::get('board/apply/{year}/logistics', 'BoardController@logistics')->name('board.logistics');
+        Route::get('board/apply/{year}/reorder', 'BoardController@reorder')->name('board.reorder');
+        Route::patch('board/apply/{year}/submit', 'BoardController@submit')->name('board.submit');
+        Route::patch('board/apply/{year}/reorder', 'BoardController@storeReorder');
+        Route::resource('board/apply/positions', 'PositionController')->except(['index', 'create', 'edit']);
+    });
 
     Route::get('profile', 'UserController@profile')->name('profile');
 
