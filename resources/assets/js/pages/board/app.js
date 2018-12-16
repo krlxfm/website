@@ -1,6 +1,17 @@
 $(document).ready(function() {
+    $("#theBigSubmitButton").hide();
     $('button[data-action="delete-position"]').click(deletePosition);
+    $('[data-action="review-checkbox"]').on('input', updateSubmitEligibility);
 });
+
+function updateSubmitEligibility() {
+    var checkboxes = $('input[data-action="review-checkbox"]');
+    var checkedBoxes = $('input[data-action="review-checkbox"]:checked');
+
+    var ready = checkboxes.length === checkedBoxes.length;
+
+    $("#theBigSubmitButton").toggle(ready);
+}
 
 function deletePosition() {
     var button = $(this);
