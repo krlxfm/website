@@ -22,8 +22,10 @@
     @endif
 @endforeach
 
+@unless($app->submitted)
 <form action="{{ route('positions.destroy', $position->id) }}" class="mt-3" data-position-id="{{ $position->position->id }}" method="post">
     @csrf
     @method('delete')
     <button type="button" data-action="delete-position" class="btn btn-outline-danger" data-position="{{ $position->position->title }}" data-posid="{{ $position->position->id }}">Remove this position</button>
 </form>
+@endunless

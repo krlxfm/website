@@ -15,6 +15,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'KRLX\BoardApp' => 'KRLX\Policies\BoardAppPolicy',
         'KRLX\Boost' => 'KRLX\Policies\BoostPolicy',
+        'KRLX\PositionApp' => 'KRLX\Policies\PositionAppPolicy',
         'KRLX\Show' => 'KRLX\Policies\ShowPolicy',
         'KRLX\Track' => 'KRLX\Policies\TrackPolicy',
         'KRLX\Term' => 'KRLX\Policies\TermPolicy',

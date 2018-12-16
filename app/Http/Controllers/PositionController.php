@@ -69,6 +69,8 @@ class PositionController extends Controller
      */
     public function update(Request $request, PositionApp $position)
     {
+        $this->authorize('update', $position);
+
         $correct = 0;
         foreach(array_keys($request->input('responses')) as $question) {
             if (in_array($question, $position->position->app_questions)) {
@@ -121,10 +123,10 @@ class PositionController extends Controller
      */
     public function destroy(PositionApp $position)
     {
+        $this->authorize('update', $position);
+
         $pos = $position->position;
         $app = $position->board_app;
-
-        $this->authorize('update', $app);
 
         $order = $position->order;
         $positions_after = $app->positions->filter(function($item) use ($order) {
