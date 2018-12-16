@@ -179,7 +179,8 @@ class BoardController extends Controller
         $this->authorize('update', $app);
         $app->submitted = true;
 
-        $request->session()->flash('status', 'Congratulations - your Board application has been submitted! Look for an email in the next few days with information on the interview process.');
+        $next_year = $app->year + 1;
+        $request->session()->flash('status', "Congratulations - your {$app->year}-$next_year Board application has been submitted! Look for an email in the next few days with information on the interview process.");
         return redirect()->route('board.index');
     }
 
