@@ -57,7 +57,7 @@
             <h2 class="text-center mb-3">Ready to get started?</h2>
             @can('apply for board seats')
                 <p class="text-center">
-                    <a href="/board/apply/start" class="btn btn-success btn-lg">Start <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
+                    <a href="/board/apply/start" class="btn btn-success btn-lg">{{ $action ?? 'Start' }} <span class="d-none d-sm-inline">{{ date('Y') }} - {{ date('Y') + 1 }} Board</span> Application</a>
                 </p>
             @else
                 <p class="text-center">
