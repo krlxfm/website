@@ -5,7 +5,10 @@
     <a href="{{ route('positions.show', $position->id) }}" class="btn btn-lg btn-secondary">Answer or revise the {{ $position->position->title }} questions <i class="fas fa-chevron-right"></i></a>
 </p>
 
-@foreach($position->position->app_questions ?? [] as $question)
+@foreach($position->position->app_questions ?? [] as $index => $question)
+    @php
+        $response = array_key_exists($question, $position->responses) ? $position->responses[$question] : null;
+    @endphp
     <h5 class="head-sans-serif mb-1 mt-3">
         @include('board.panelicon', ['complete' => (array_key_exists($question, $position->responses) and !empty($position->responses[$question]))])
         <strong>{{ $question }}</strong>

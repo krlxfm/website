@@ -69,7 +69,48 @@ class PositionController extends Controller
      */
     public function update(Request $request, PositionApp $position)
     {
-        //
+        $correct = 0;
+        foreach(array_keys($request->input('responses')) as $question) {
+            if (in_array($question, $position->position->app_questions)) {
+                $correct += 1;
+            }
+        };
+
+        $request->validate([
+            'responses' => ['sometimes','array','size:'.count($position->position->app_questions), function ($attribute, $value, $fail) use ($position, $correct) {
+                if ($correct !== count($position->position->app_questions)) {
+                    $fail("One or more questions are missing.");
+                }
+            }]
+        ]);
+        $values = $request->all();
+
+        // STOP: This is a MAJOR XSS vulnerability, so we need to block all
+        // <script> tags from getting through.
+        $this->sanitizeInput($values);
+        $position->responses = $request->input('responses');
+        $position->save();
+
+        return redirect()->route('board.app', $position->board_app->year);
+    }
+
+    /**
+     * Sanitize inputs which could potentially contain XSS code.
+     *
+     * @param  array  $input
+     * @return array
+     */
+    private function sanitizeInput(array &$input)
+    {
+        foreach($input as $key => &$value) {
+            if (is_array($value)) {
+                $value = $this->sanitizeInput($value);
+            } else {
+                $value = str_replace('<script>', '&lt;script&gt;', $value);
+            }
+        }
+
+        return $input;
     }
 
     /**
