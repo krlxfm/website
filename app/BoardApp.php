@@ -54,4 +54,14 @@ class BoardApp extends Model
     {
         return $this->hasMany('KRLX\PositionApp')->orderBy('order');
     }
+
+    /**
+     * BoardApps have one User assigned to them.
+     *
+     * @return KRLX\User
+     */
+    public function user()
+    {
+        return $this->belongsTo('KRLX\User');
+    }
 }

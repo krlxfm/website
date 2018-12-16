@@ -48,6 +48,9 @@ Route::middleware(['auth', 'onboard'])->group(function () {
         Route::patch('board/apply/{year}/reorder', 'BoardController@storeReorder');
         Route::resource('board/apply/positions', 'PositionController')->except(['index', 'create', 'edit']);
     });
+    Route::middleware('permission:review board applications')->group(function () {
+        Route::get('board/apps', 'AllBoardAppsController@index')->name('board.all');
+    });
 
     Route::get('profile', 'UserController@profile')->name('profile');
 
