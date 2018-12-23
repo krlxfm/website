@@ -32,7 +32,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-primary"><i class="fas fa-download"></i> View/Download</button>
+                                    <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
                                 </div>
                             </td>
                         </tr>
