@@ -42,6 +42,7 @@ class IssueXP extends Command
 
         if ($points->count() == 0) {
             $this->info('There are no pending experience points.');
+
             return 0;
         }
 
@@ -56,7 +57,7 @@ class IssueXP extends Command
             if ($point->user->shows->where('term_id', $point->term_id)->count() == 0) {
                 $no_shows[] = $point;
                 $eligible = false;
-            } else if ($point->user->shows->where('term_id', $point->term_id)->where('track.awards_xp', true)->count() == 0) {
+            } elseif ($point->user->shows->where('term_id', $point->term_id)->where('track.awards_xp', true)->count() == 0) {
                 $no_eligible_shows[] = $point;
                 $eligible = false;
             }
@@ -73,13 +74,13 @@ class IssueXP extends Command
         $this->info("Issued $successful_points ".str_plural('point', $successful_points));
         if (count($no_shows) > 0) {
             $this->comment('The following '.str_plural('host', count($no_shows)).' could not be issued points because they did not have any shows on file at all:');
-            foreach($no_shows as $point) {
+            foreach ($no_shows as $point) {
                 $this->line("[{$point->id}, {$point->term_id}] {$point->user->full_name}");
             }
         }
         if (count($no_eligible_shows) > 0) {
             $this->comment('The following '.str_plural('host', count($no_eligible_shows)).' could not be issued points because, while they did participate in at least one show, that show is not eligible for XP:');
-            foreach($no_eligible_shows as $point) {
+            foreach ($no_eligible_shows as $point) {
                 $this->line("[{$point->id}, {$point->term_id}] {$point->user->full_name}");
             }
         }
