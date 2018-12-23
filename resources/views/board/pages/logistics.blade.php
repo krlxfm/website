@@ -65,7 +65,7 @@ function schedule_opt($date, $value, $app) {
                                         id="platform-facebook"
                                         type="radio"
                                         name="remote_platform"
-                                        value="facebook-messenger"
+                                        value="facebook"
                                         {{ $app->remote_platform == 'facebook' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="platform-facebook">
                                         <i class="fab fa-facebook-messenger fa-fw"></i> Facebook Messenger

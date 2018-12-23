@@ -26,7 +26,7 @@
                         <tr>
                             <td>{{ $app->user->full_name }}</td>
                             <td>
-                                @foreach($app->positions->pluck('position')->sortBy('order') as $pos)
+                                @foreach($app->positions->pluck('position') as $pos)
                                     <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
                                 @endforeach
                             </td>
