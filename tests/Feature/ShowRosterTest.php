@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use KRLX\Show;
+use KRLX\Term;
 use KRLX\User;
 use KRLX\Track;
 use Carbon\Carbon;
@@ -40,11 +41,14 @@ class ShowRosterTest extends AuthenticatedTestCase
             'year' => date('Y') + 1,
         ]);
 
+        // Create an old term
+        $old_term = factory(Term::class)->states('2015-TEST')->create();
+
         // Issue three experience points to the sophomore account
         $three_term_sophomore->points()->createMany([
-            ['term_id' => $this->term->id, 'status' => 'issued'],
-            ['term_id' => $this->term->id, 'status' => 'issued'],
-            ['term_id' => $this->term->id, 'status' => 'issued'],
+            ['term_id' => $old_term->id, 'status' => 'issued'],
+            ['term_id' => $old_term->id, 'status' => 'issued'],
+            ['term_id' => $old_term->id, 'status' => 'issued'],
         ]);
 
         // Create the shows
@@ -77,6 +81,7 @@ class ShowRosterTest extends AuthenticatedTestCase
 
         // Verify that priorities are set correctly
         $this->assertEquals('G', $three_term_sophomore->priority->zone());
+        $this->assertEquals('G', $three_term_sophomore->priorityAsOf($this->term->id)->zone());
         $this->assertEquals('G3', $show_G3->priority->code());
 
         $this->assertEquals('J', $zero_term_junior->priority->zone());

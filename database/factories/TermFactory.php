@@ -20,3 +20,11 @@ $factory->define(KRLX\Term::class, function (Faker $faker) {
 $factory->state(KRLX\Term::class, 'active', [
     'status' => 'active',
 ]);
+
+$factory->state(KRLX\Term::class, '2015-TEST', [
+    'id' => '2015-TEST',
+    'applications_close' => '2015-01-01 00:00:00',
+    'on_air' => '2015-01-02 00:00:00',
+    'off_air' => '2015-01-03 00:00:00',
+    'boosted' => true,
+]);

@@ -42,18 +42,18 @@ class IssueXP extends Command
         $dry = $this->option('dry-run');
 
         $points = Point::where('status', 'provisioned')->get();
+        $shows = Show::where('priority', null)->count();
 
-        if ($points->count() == 0) {
-            $this->info('There are no pending experience points.');
+        if ($points->count() == 0 and $shows->count() == 0) {
+            $this->info('There are no pending experience points or shows.');
 
             return 0;
         } elseif ($dry) {
             $this->info('Running in dry-run mode. The database will not be affected.');
-        } elseif (! $this->confirm('There are experience points pending, would you like to continue?')) {
+        } elseif (! $this->confirm('There are experience points or shows pending, would you like to continue?')) {
             return 0;
         }
 
-        $shows = Show::where('priority', null)->count();
         $updated_priority = [];
         $bar = $this->output->createProgressBar($shows->count());
         $bar->start();

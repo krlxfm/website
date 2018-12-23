@@ -183,7 +183,11 @@ class Show extends Model
             return new Priority($terms, $year, $relative_year);
         }
 
-        $priorities = $this->hosts->pluck('priority');
+        $host_priorities = [];
+        foreach($this->hosts as $host) {
+            $host_priorities[] = $host->priorityAsOf($this->term->id);
+        }
+        $priorities = collect($host_priorities);
         $terms = $priorities->max->terms ?? 0;
         $terms += $this->boosts()->where('type', 'zone')->count();
         $terms += ($this->boosts()->where('type', 'A1')->count() > 0 ? 1000 : 0);
