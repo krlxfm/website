@@ -71,7 +71,7 @@ class IssueXP extends Command
         $this->line('');
 
         $successful_points = $points->count() - count($no_shows) - count($no_eligible_shows);
-        $this->info("Issued $successful_points ".str_plural('point', $successful_points));
+        $this->info($successful_points.' '.str_plural('point', $successful_points).' issued.');
         if (count($no_shows) > 0) {
             $this->comment('The following '.str_plural('host', count($no_shows)).' could not be issued points because they did not have any shows on file at all:');
             foreach ($no_shows as $point) {
