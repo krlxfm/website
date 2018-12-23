@@ -54,6 +54,7 @@ class IssueXP extends Command
         }
 
         $shows = Show::where('priority', null)->count();
+        $updated_priority = [];
         $bar = $this->output->createProgressBar($shows->count());
         $bar->start();
         foreach ($shows as $show) {
@@ -61,9 +62,18 @@ class IssueXP extends Command
                 $show->priority = $show->priority_code;
                 $show->save();
             }
+            $updated_priority[$show->id] = $show->priority_code;
             $bar->advance();
         }
         $bar->finish();
+        $this->line('');
+        if ($dry) {
+            $this->info(count($updated_priority).' '.str_plural('show', count($updated_priority)).' will have updated priority.');
+            foreach ($updated_priority as $id => $priority) {
+                $this->line("[$id] => $priority");
+            }
+            $this->info('Run this command without the --dry-run option to store updated priority.');
+        }
 
         $bar = $this->output->createProgressBar($points->count());
         $bar->start();
@@ -86,8 +96,8 @@ class IssueXP extends Command
                 $issued[] = $point;
             }
             if (! $dry) {
-                // $point->status = $eligible ? 'issued' : 'ineligible';
-                // $point->save();
+                $point->status = $eligible ? 'issued' : 'ineligible';
+                $point->save();
             }
 
             $bar->advance();
@@ -96,7 +106,7 @@ class IssueXP extends Command
         $this->line('');
 
         if ($dry) {
-            $this->info(count($issued).' '.str_plural('point', $issued).' will be issued.');
+            $this->info(count($issued).' '.str_plural('point', count($issued)).' will be issued.');
             foreach ($issued as $point) {
                 $this->line("[{$point->id}, {$point->term_id}] {$point->user->full_name}");
             }
