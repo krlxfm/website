@@ -12,7 +12,7 @@ class IssueXP extends Command
      *
      * @var string
      */
-    protected $signature = 'krlx:xp';
+    protected $signature = 'krlx:xp {--dry-run : Simulates the results without affecting the database.}';
 
     /**
      * The console command description.
@@ -38,11 +38,17 @@ class IssueXP extends Command
      */
     public function handle()
     {
+        $dry = $this->option('dry-run');
+
         $points = Point::where('status', 'provisioned')->get();
 
         if ($points->count() == 0) {
             $this->info('There are no pending experience points.');
 
+            return 0;
+        } else if ($dry) {
+            $this->info('Running in dry-run mode. The database will not be affected.');
+        } else if (!$this->confirm('There are experience points pending, would you like to continue?')) {
             return 0;
         }
 
@@ -50,6 +56,7 @@ class IssueXP extends Command
         $bar->start();
         $no_shows = [];
         $no_eligible_shows = [];
+        $issued = [];
         foreach ($points as $point) {
             // Points here are not withheld, so now we need to check if eligible shows were completed.
             $eligible = true;
@@ -62,16 +69,28 @@ class IssueXP extends Command
                 $eligible = false;
             }
 
-            $point->status = $eligible ? 'issued' : 'ineligible';
-            $point->save();
+            if ($eligible) {
+                $issued[] = $point;
+            }
+            if (!$dry) {
+                $point->status = $eligible ? 'issued' : 'ineligible';
+                $point->save();
+            }
 
             $bar->advance();
         }
         $bar->finish();
         $this->line('');
 
-        $successful_points = $points->count() - count($no_shows) - count($no_eligible_shows);
-        $this->info($successful_points.' '.str_plural('point', $successful_points).' issued.');
+        if ($dry) {
+            $this->info(count($issued).' '.str_plural('point', $issued).' will be issued.');
+            foreach ($issued as $point) {
+                $this->line("[{$point->id}, {$point->term_id}] {$point->user->full_name}");
+            }
+            $this->info('Run this command without the --dry-run option to issue points.');
+        } else {
+            $this->info(count($issued).' '.str_plural('point', $issued).' issued.');
+        }
         if (count($no_shows) > 0) {
             $this->comment('The following '.str_plural('host', count($no_shows)).' could not be issued points because they did not have any shows on file at all:');
             foreach ($no_shows as $point) {
