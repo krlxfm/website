@@ -2,6 +2,7 @@
 
 namespace KRLX\Console\Commands;
 
+use KRLX\Show;
 use KRLX\Point;
 use Illuminate\Console\Command;
 
@@ -52,6 +53,18 @@ class IssueXP extends Command
             return 0;
         }
 
+        $shows = Show::where('priority', null)->count();
+        $bar = $this->output->createProgressBar($shows->count());
+        $bar->start();
+        foreach($shows as $show) {
+            if (!$dry) {
+                $show->priority = $show->priority_code;
+                $show->save();
+            }
+            $bar->advance();
+        }
+        $bar->finish();
+
         $bar = $this->output->createProgressBar($points->count());
         $bar->start();
         $no_shows = [];
@@ -73,8 +86,8 @@ class IssueXP extends Command
                 $issued[] = $point;
             }
             if (!$dry) {
-                $point->status = $eligible ? 'issued' : 'ineligible';
-                $point->save();
+                // $point->status = $eligible ? 'issued' : 'ineligible';
+                // $point->save();
             }
 
             $bar->advance();
