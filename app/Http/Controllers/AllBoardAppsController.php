@@ -21,7 +21,7 @@ class AllBoardAppsController extends Controller
         $redacted_sections = collect();
         if ($my_app and $my_app->id !== $app->id) {
             $my_positions = collect($my_app->positions->pluck('position'))->pluck('id');
-            $redacted_sections = $app->positions->filter(function($pos) use ($my_positions) {
+            $redacted_sections = $app->positions->filter(function ($pos) use ($my_positions) {
                 return $my_positions->contains($pos->position_id);
             })->pluck('position')->pluck('id');
         }

@@ -20,6 +20,7 @@ class PositionAppPolicy
     public function update(User $user, PositionApp $positionApp)
     {
         $app = $positionApp->board_app;
-        return ($user->id === $app->user_id and !$app->submitted);
+
+        return $user->id === $app->user_id and ! $app->submitted;
     }
 }

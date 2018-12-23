@@ -4,9 +4,8 @@ namespace Tests\Feature;
 
 use KRLX\User;
 use KRLX\Config;
-use KRLX\Position;
 use Carbon\Carbon;
-use KRLX\BoardApp;
+use KRLX\Position;
 use Tests\AuthenticatedTestCase;
 
 class BoardAppTest extends AuthenticatedTestCase
@@ -93,7 +92,7 @@ class BoardAppTest extends AuthenticatedTestCase
     {
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
         $opts = [];
-        foreach($interview_options as $option) {
+        foreach ($interview_options as $option) {
             $start = Carbon::parse($option['date'].' '.$option['start'].':00');
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
@@ -129,7 +128,7 @@ class BoardAppTest extends AuthenticatedTestCase
             'ocs' => 'none',
         ];
 
-        foreach($this->board_app->interview_schedule as $date => $value) {
+        foreach ($this->board_app->interview_schedule as $date => $value) {
             $data['interview_schedule'][$date] = 3;
         }
 
@@ -158,7 +157,7 @@ class BoardAppTest extends AuthenticatedTestCase
     {
         $position = factory(Position::class)->create();
 
-        $req = $this->actingAs($this->user)->post("/board/apply/positions", ['position_id' => $position->id, 'board_app_id' => $this->board_app->id]);
+        $req = $this->actingAs($this->user)->post('/board/apply/positions', ['position_id' => $position->id, 'board_app_id' => $this->board_app->id]);
         $req->assertRedirect();
 
         $this->assertCount(1, $this->board_app->positions);

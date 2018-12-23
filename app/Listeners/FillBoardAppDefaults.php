@@ -5,8 +5,6 @@ namespace KRLX\Listeners;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\Events\BoardAppCreating;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class FillBoardAppDefaults
 {
@@ -24,7 +22,7 @@ class FillBoardAppDefaults
 
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
         $opts = [];
-        foreach($interview_options as $option) {
+        foreach ($interview_options as $option) {
             $start = Carbon::parse($option['date'].' '.$option['start'].':00');
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
