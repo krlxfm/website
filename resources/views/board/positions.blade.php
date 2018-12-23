@@ -9,7 +9,7 @@
                 <p>Do any of these look appealing to you? <a href="{{ route('board.index') }}">Click here to apply to all open seats.</a></p>
             @endcan
             <div id="positions-accordion">
-            @foreach($positions as $position)
+            @forelse($positions as $position)
                 <div class="card my-3">
                     <div class="card-header" style="background: {{ $position->color }}" id="head-{{ $position->abbr }}" data-toggle="collapse" data-target="#pos-{{ $position->abbr }}" aria-expanded="false" aria-controls="pos-{{ $position->abbr }}">
                         <h2 class="mb-0 text-{{ $position->dark ? 'light' : 'dark' }}">
@@ -33,7 +33,9 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p>No board positions have been imported yet. Check back later to learn about what positions are available and how to apply for them.</p>
+            @endforelse
             </div>
         </div>
     </div>
