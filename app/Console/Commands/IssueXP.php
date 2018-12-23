@@ -42,7 +42,7 @@ class IssueXP extends Command
         $dry = $this->option('dry-run');
 
         $points = Point::where('status', 'provisioned')->get();
-        $shows = Show::where('priority', null)->count();
+        $shows = Show::where('priority', null)->get();
 
         if ($points->count() == 0 and $shows->count() == 0) {
             $this->info('There are no pending experience points or shows.');
