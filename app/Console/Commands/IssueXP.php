@@ -47,9 +47,9 @@ class IssueXP extends Command
             $this->info('There are no pending experience points.');
 
             return 0;
-        } else if ($dry) {
+        } elseif ($dry) {
             $this->info('Running in dry-run mode. The database will not be affected.');
-        } else if (!$this->confirm('There are experience points pending, would you like to continue?')) {
+        } elseif (! $this->confirm('There are experience points pending, would you like to continue?')) {
             return 0;
         }
 
@@ -85,7 +85,7 @@ class IssueXP extends Command
             if ($eligible) {
                 $issued[] = $point;
             }
-            if (!$dry) {
+            if (! $dry) {
                 // $point->status = $eligible ? 'issued' : 'ineligible';
                 // $point->save();
             }
