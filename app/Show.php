@@ -184,7 +184,7 @@ class Show extends Model
         }
 
         $host_priorities = [];
-        foreach($this->hosts as $host) {
+        foreach ($this->hosts as $host) {
             $host_priorities[] = $host->priorityAsOf($this->term->id);
         }
         $priorities = collect($host_priorities);
