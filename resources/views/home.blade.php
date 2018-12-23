@@ -16,7 +16,7 @@
                         <h3 class="mb-0">Priority Upgrade Certificates</h3>
                     </div>
                     <ul class="list-group list-group-flush">
-                        @foreach($user->boosts as $boost)
+                        @foreach($user->boosts->whereIn('term_id', [null, $term->id]) as $boost)
                             <li class="list-group-item d-flex align-items-center flex-wrap">
                                 <div>
                                     <h5 class="head-sans-serif mb-0">
