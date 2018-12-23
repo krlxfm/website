@@ -23,7 +23,7 @@ class BoardApp extends Model
      */
     protected $casts = [
         'common' => 'array',
-        'interview_schedule' => 'array'
+        'interview_schedule' => 'array',
     ];
 
     /**
@@ -42,7 +42,7 @@ class BoardApp extends Model
      * @var array
      */
     protected $guarded = [
-        'id', 'user_id', 'year', 'created_at', 'updated_at', 'submitted', 'interview'
+        'id', 'user_id', 'year', 'created_at', 'updated_at', 'submitted', 'interview',
     ];
 
     /**

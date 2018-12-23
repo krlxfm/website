@@ -72,18 +72,18 @@ class PositionController extends Controller
         $this->authorize('update', $position);
 
         $correct = 0;
-        foreach(array_keys($request->input('responses')) as $question) {
+        foreach (array_keys($request->input('responses')) as $question) {
             if (in_array($question, $position->position->app_questions)) {
                 $correct += 1;
             }
-        };
+        }
 
         $request->validate([
-            'responses' => ['sometimes','array','size:'.count($position->position->app_questions), function ($attribute, $value, $fail) use ($position, $correct) {
+            'responses' => ['sometimes', 'array', 'size:'.count($position->position->app_questions), function ($attribute, $value, $fail) use ($position, $correct) {
                 if ($correct !== count($position->position->app_questions)) {
-                    $fail("One or more questions are missing.");
+                    $fail('One or more questions are missing.');
                 }
-            }]
+            }],
         ]);
         $values = $request->all();
 
@@ -104,7 +104,7 @@ class PositionController extends Controller
      */
     private function sanitizeInput(array &$input)
     {
-        foreach($input as $key => &$value) {
+        foreach ($input as $key => &$value) {
             if (is_array($value)) {
                 $value = $this->sanitizeInput($value);
             } else {
@@ -129,10 +129,10 @@ class PositionController extends Controller
         $app = $position->board_app;
 
         $order = $position->order;
-        $positions_after = $app->positions->filter(function($item) use ($order) {
+        $positions_after = $app->positions->filter(function ($item) use ($order) {
             return $item->order > $order;
         });
-        foreach($positions_after as $pos_after) {
+        foreach ($positions_after as $pos_after) {
             $pos_after->order -= 1;
             $pos_after->save();
         }

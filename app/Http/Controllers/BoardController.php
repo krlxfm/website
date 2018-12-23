@@ -2,8 +2,8 @@
 
 namespace KRLX\Http\Controllers;
 
-use Validator;
 use KRLX\User;
+use Validator;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\BoardApp;
@@ -50,6 +50,7 @@ class BoardController extends Controller
             $app = $request->user()->board_apps()->where('year', date('Y'))->first();
             $action = ($app->submitted ? 'Review' : 'Continue work on');
         }
+
         return view('board.start', compact('action'));
     }
 
@@ -112,21 +113,25 @@ class BoardController extends Controller
         }
 
         $important_fields = ['bio', 'pronouns', 'hometown', 'major'];
-        $missing_fields = collect($important_fields)->filter(function($field) use ($request) {
+        $missing_fields = collect($important_fields)->filter(function ($field) use ($request) {
             return $request->user()->{$field} == null;
         });
 
         $logistics_needed = collect($app->interview_schedule)->values()->sum() == 0;
-        $common_needed = collect($app->common)->filter(function($item) { return empty($item); })->count();
+        $common_needed = collect($app->common)->filter(function ($item) {
+            return empty($item);
+        })->count();
 
-        $positions = Position::where('active', true)->orderBy('order')->get()->reject(function($position) use ($request, $app) {
+        $positions = Position::where('active', true)->orderBy('order')->get()->reject(function ($position) use ($request, $app) {
             return $app->positions->pluck('position_id')->contains($position->id) or ($position->restricted and $request->user()->cant('apply for Station Manager'));
         });
 
         $can_submit = ($missing_fields or $logistics_needed or $common_needed or $app->positions->count() == 0);
         if ($can_submit) {
-            foreach($app->positions as $position) {
-                if (!$position->complete()) $can_submit = false;
+            foreach ($app->positions as $position) {
+                if (! $position->complete()) {
+                    $can_submit = false;
+                }
             }
         }
 
@@ -189,6 +194,7 @@ class BoardController extends Controller
 
         $next_year = $app->year + 1;
         $request->session()->flash('status', "Congratulations - your {$app->year}-$next_year Board application has been submitted! Look for an email in the next few days with information on the interview process.");
+
         return redirect()->route('board.index');
     }
 
@@ -226,7 +232,7 @@ class BoardController extends Controller
         $positions = $app->positions->pluck('position_id')->all();
         $validator = Validator::make(['order' => explode(',', $request->input('order'))], [
             'order' => 'required|array|min:1',
-            'order.*' => 'integer|distinct|in:'.implode(',',$positions)
+            'order.*' => 'integer|distinct|in:'.implode(',', $positions),
         ]);
         if ($validator->fails()) {
             return redirect(route('board.pages.reorder', $app->year))->withErrors($validator)->withInput();
@@ -275,7 +281,7 @@ class BoardController extends Controller
      */
     private function sanitizeInput(array &$input)
     {
-        foreach($input as $key => &$value) {
+        foreach ($input as $key => &$value) {
             if (is_array($value)) {
                 $value = $this->sanitizeInput($value);
             } else {
@@ -295,8 +301,8 @@ class BoardController extends Controller
     {
         $dates = collect($this->interviewDates());
         $rules = [
-            'interview_schedule' => ['sometimes','array','size:'.$dates->count(), function ($attribute, $value, $fail) use ($dates) {
-                foreach($dates->all() as $date) {
+            'interview_schedule' => ['sometimes', 'array', 'size:'.$dates->count(), function ($attribute, $value, $fail) use ($dates) {
+                foreach ($dates->all() as $date) {
                     if (! array_key_exists($date->format('Y-m-d H:i:s'), $value)) {
                         $fail("Please enter your availability for {$date->format('D, M j, g:i a')}.");
                     }
@@ -307,8 +313,8 @@ class BoardController extends Controller
             'remote' => 'sometimes|boolean',
             'remote_contact' => 'sometimes|required_if:remote,1',
             'remote_platform' => 'required_if:remote,1',
-            'common' => ['sometimes','array','size:'.count($app->common), function ($attribute, $value, $fail) use ($app) {
-                foreach(collect($app->common)->keys()->all() as $key) {
+            'common' => ['sometimes', 'array', 'size:'.count($app->common), function ($attribute, $value, $fail) use ($app) {
+                foreach (collect($app->common)->keys()->all() as $key) {
                     if (! array_key_exists($key, $value)) {
                         $fail("The question $key is not present in the Common answers.");
                     }
@@ -328,7 +334,7 @@ class BoardController extends Controller
     {
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
         $opts = [];
-        foreach($interview_options as $option) {
+        foreach ($interview_options as $option) {
             $start = Carbon::parse($option['date'].' '.$option['start'].':00');
             $end = Carbon::parse($option['date'].' '.$option['end'].':00');
             $time = $start->copy();
@@ -337,6 +343,7 @@ class BoardController extends Controller
                 $time->addMinutes(15);
             }
         }
+
         return $opts;
     }
 }

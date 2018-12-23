@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class PositionApp extends Model
 {
     protected $fillable = [
-        'position_id', 'order', 'responses'
+        'position_id', 'order', 'responses',
     ];
 
     protected $casts = [
-        'responses' => 'array'
+        'responses' => 'array',
     ];
 
     public function position()
@@ -32,11 +32,12 @@ class PositionApp extends Model
      */
     public function complete()
     {
-        foreach($this->position->app_questions as $question) {
-            if (!array_key_exists($question, $this->responses) or empty($this->responses[$question])) {
+        foreach ($this->position->app_questions as $question) {
+            if (! array_key_exists($question, $this->responses) or empty($this->responses[$question])) {
                 return false;
             }
         }
+
         return true;
     }
 }

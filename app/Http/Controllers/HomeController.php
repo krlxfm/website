@@ -86,7 +86,7 @@ class HomeController extends Controller
 
         $pronoun_fields = ['pronouns-he', 'pronouns-she', 'pronouns-they', 'other_pronouns'];
         $pronouns = [];
-        foreach($pronoun_fields as $field) {
+        foreach ($pronoun_fields as $field) {
             if ($request->has($field) and strlen($request->{$field}) > 0) {
                 $pronouns[] = str_replace('-', '/', $request->{$field});
             }

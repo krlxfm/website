@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Position extends Model
 {
     protected $casts = [
-        'app_questions' => 'array'
+        'app_questions' => 'array',
     ];
 }
