@@ -56,8 +56,8 @@ class IssueXP extends Command
         $shows = Show::where('priority', null)->count();
         $bar = $this->output->createProgressBar($shows->count());
         $bar->start();
-        foreach($shows as $show) {
-            if (!$dry) {
+        foreach ($shows as $show) {
+            if (! $dry) {
                 $show->priority = $show->priority_code;
                 $show->save();
             }
