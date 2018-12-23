@@ -74,7 +74,10 @@ class AppServiceProvider extends ServiceProvider
                 ->prepend('<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Board</a>')
                 ->route('board.meet', 'Meet')
                 ->route('board.positions', 'Position List')
+                ->htmlIfCan('apply for board seats', '<div class="dropdown-divider"></div>')
                 ->routeIfCan('apply for board seats', 'board.index', 'Join the Board')
+                ->htmlIfCan('review board applications', '<div class="dropdown-divider"></div>')
+                ->routeIfCan('review board applications', 'board.all', 'All board applications')
                 ->setActiveClassOnLink();
 
             $menu = Menu::new()
