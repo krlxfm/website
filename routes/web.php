@@ -30,7 +30,7 @@ Route::get('privacy', function () {
     return view('legal.privacy');
 });
 
-Route::middleware(['auth', 'onboard'])->group(function () {
+Route::middleware(['auth', 'log', 'onboard'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
 
     Route::get('board', 'BoardController@meet')->name('board.main');

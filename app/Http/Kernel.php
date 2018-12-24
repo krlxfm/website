@@ -16,7 +16,6 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \KRLX\Http\Middleware\LogRequest::class,
         \KRLX\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \KRLX\Http\Middleware\TrustProxies::class,
@@ -59,6 +58,7 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'contract' => \KRLX\Http\Middleware\MembershipContract::class,
+        'log' => \KRLX\Http\Middleware\LogRequest::class,
         'onboard' => \KRLX\Http\Middleware\OnboardUser::class,
         'guest' => \KRLX\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
