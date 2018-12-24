@@ -11,6 +11,7 @@ use KRLX\Rules\Profanity;
 use Illuminate\Http\Request;
 use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use KRLX\Http\Controllers\API\ShowController as APIController;
 
 class ShowController extends Controller
@@ -86,6 +87,7 @@ class ShowController extends Controller
 
         $controller = new APIController();
         $show = Show::create(array_merge($request->all(), ['source' => 'web']));
+        Log::info("Show {$show->id} created.", [$request->all()]);
         $show->hosts()->attach($request->user(), ['accepted' => true]);
 
         $controller->generateCertificate($request->user(), $show, $term);
