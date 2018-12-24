@@ -58,7 +58,7 @@
                         review and submit
                     </p>
                     <a class="nav-link" id="v-pills-review-tab" data-toggle="pill" href="#v-pills-review" role="tab" aria-controls="v-pills-review" aria-selected="false">
-                        <i class="fas fa-send fa-fw"></i>
+                        <i class="fas fa-paper-plane fa-fw"></i>
                         Review and submit
                     </a>
                 </div>
