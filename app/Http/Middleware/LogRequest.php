@@ -16,9 +16,10 @@ class LogRequest
      */
     public function handle($request, Closure $next)
     {
-        $string = $request->user() ? $request->user()->email : "guest";
+        $string = $request->user() ? $request->user()->email : 'guest';
         $string .= ", {$request->ip()}: {$request->method()} {$request->path()}";
         Log::info($string);
+
         return $next($request);
     }
 }
