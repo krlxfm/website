@@ -191,7 +191,7 @@ class ShowController extends Controller
         try {
             $this->validateToken($request->input('token'), $request->user()->email, $show->id);
         } catch (DecryptException $e) {
-            Log::debug("Error decrypting token.", ['error' => $e]);
+            Log::debug('Error decrypting token.', ['error' => $e]);
             abort(400, 'The token is invalid.');
         }
 
@@ -294,7 +294,7 @@ class ShowController extends Controller
                 return $boost->term_id == $term->id or ($boost->show and $boost->show->term_id == $term->id);
             });
             if ($boosted_shows->count() == 0) {
-                Log::debug("Creating Zone S upgrade certificate.", ['user' => $user, 'show' => $show, 'term' => $term]);
+                Log::debug('Creating Zone S upgrade certificate.', ['user' => $user, 'show' => $show, 'term' => $term]);
                 $user->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $term->id]);
             }
         }
