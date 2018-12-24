@@ -245,6 +245,8 @@ class ShowController extends Controller
             Validator::make($show->toArray(), $rules)->validate();
 
             Mail::to($show->hosts)->queue(new ShowSubmitted($show));
+
+            Log::info("Show {$show->id} has been submitted for scheduling.");
         }
         $show->submitted = $request->input('submitted') ?? false;
         $show->save();
@@ -294,7 +296,7 @@ class ShowController extends Controller
                 return $boost->term_id == $term->id or ($boost->show and $boost->show->term_id == $term->id);
             });
             if ($boosted_shows->count() == 0) {
-                Log::debug('Creating Zone S upgrade certificate.', ['user' => $user, 'show' => $show, 'term' => $term]);
+                Log::debug('Creating Zone S upgrade certificate.', ['user' => $user->email, 'show' => $show->id, 'term' => $term->id]);
                 $user->boosts()->create(['type' => 'S', 'show_id' => $show->id, 'term_id' => $term->id]);
             }
         }
