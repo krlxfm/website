@@ -35,7 +35,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['papertrail'],
         ],
 
         'single' => [
@@ -74,6 +74,11 @@ return [
 
         'errorlog' => [
             'driver' => 'errorlog',
+            'level' => 'debug',
+        ],
+
+        'papertrail' => [
+            'driver' => 'papertrail',
             'level' => 'debug',
         ],
     ],

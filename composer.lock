@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31f32a21c6e31e78ac3f563ce1259098",
+    "content-hash": "4f602046afe963c2bc1879de72b60424",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1717,6 +1717,59 @@
                 "server"
             ],
             "time": "2018-06-23T16:57:59+00:00"
+        },
+        {
+            "name": "martinbean/laravel-papertrail",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/martinbean/laravel-papertrail.git",
+                "reference": "a01bb87a85ffc0209a69b3bf9b8c4df8ed1d4ffa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/martinbean/laravel-papertrail/zipball/a01bb87a85ffc0209a69b3bf9b8c4df8ed1d4ffa",
+                "reference": "a01bb87a85ffc0209a69b3bf9b8c4df8ed1d4ffa",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/log": "~5.6",
+                "illuminate/support": "~5.6",
+                "monolog/monolog": "~1.12"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MartinBean\\LaravelPapertrail\\LaravelPapertrailServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MartinBean\\LaravelPapertrail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Bean",
+                    "email": "martin@martinbean.co.uk",
+                    "homepage": "http://martinbean.co.uk"
+                }
+            ],
+            "description": "A Papertrail log channel for Laravel applications.",
+            "keywords": [
+                "laravel",
+                "log",
+                "logging",
+                "monolog",
+                "papertrail"
+            ],
+            "time": "2018-04-24T15:14:30+00:00"
         },
         {
             "name": "monolog/monolog",
