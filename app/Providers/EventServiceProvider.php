@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'KRLX\Events\BoardAppCreating' => [
             'KRLX\Listeners\FillBoardAppDefaults',
         ],
+        'KRLX\Events\PositionAppCreating' => [
+            'KRLX\Listeners\FillPositionAppDefaults',
+        ],
         'KRLX\Events\ShowCreating' => [
             'KRLX\Listeners\FillShowDefaults',
         ],

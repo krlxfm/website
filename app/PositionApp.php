@@ -2,12 +2,17 @@
 
 namespace KRLX;
 
+use KRLX\Events\PositionAppCreating;
 use Illuminate\Database\Eloquent\Model;
 
 class PositionApp extends Model
 {
     protected $fillable = [
         'position_id', 'order', 'responses',
+    ];
+
+    protected $dispatchesEvents = [
+        'creating' => PositionAppCreating::class,
     ];
 
     protected $casts = [

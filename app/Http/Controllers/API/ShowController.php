@@ -135,7 +135,7 @@ class ShowController extends Controller
             if (! $host) {
                 // Send the new user an email invitation.
                 Mail::to($new_email)->queue(new NewUserInvitation($show, $request->user()));
-                Log::info("Sending invitation to guest account $new_email", $show);
+                Log::info("Sending invitation to guest account $new_email", ['show' => $show->id]);
             }
         }
 
