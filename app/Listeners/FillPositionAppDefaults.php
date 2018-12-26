@@ -3,8 +3,6 @@
 namespace KRLX\Listeners;
 
 use KRLX\Events\PositionAppCreating;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class FillPositionAppDefaults
 {
