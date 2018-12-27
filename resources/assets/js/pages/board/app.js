@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#theBigSubmitButton").hide();
     $('button[data-action="delete-position"]').click(deletePosition);
-    $('[data-action="review-checkbox"]').on('input', updateSubmitEligibility);
+    $('[data-action="review-checkbox"]').on('input change click', updateSubmitEligibility);
 });
 
 function updateSubmitEligibility() {
