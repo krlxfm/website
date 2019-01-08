@@ -36,7 +36,8 @@
                     <p>You'll have the opportunity to review and edit the full application, including schedule, after you accept.</p>
 
                     <div class="alert alert-warning">
-                        <strong>If you accept this invitation, you are accepting responsibility to be in the studio during its assigned time slot.</strong> All group members are held equally accountable for a missed show or late arrival, so if you only plan on being on the show occasionally, you should not accept this invitation.
+                        <h4><strong>If you accept this invitation, you are accepting responsibility to be in the studio during this show's assigned time slot.</strong></h4>
+                        All group members are held equally accountable for a missed show or late arrival, so if you only plan on being on the show occasionally, you should not accept this invitation.
                     </div>
 
                     <form action="{{ route('shows.join', $show) }}" method="post">
