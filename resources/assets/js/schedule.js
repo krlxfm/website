@@ -46,7 +46,7 @@ function getEvents() {
         const showTimes = parseStartAndEnd(show.day, show.start, show.end);
         var showData = {
             id: show.id,
-            title: show.title,
+            title: (show.board_boost ? '[BOARD] ' : '') + show.title,
             color: calendar.priorityColors[show.priority_code.charAt(0).toLowerCase()],
             textColor: ['g', 'h', 's'].includes(show.priority_code.charAt(0).toLowerCase()) ? 'black' : 'white',
             start: showTimes.start,
