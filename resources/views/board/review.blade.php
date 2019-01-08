@@ -1,14 +1,14 @@
 <h2>Review and submit</h2>
 
 @if($app->submitted)
-    <p>This application has been successfully submitted for review.</p>
+    <p>This application has been successfully submitted for review. No further action is required, though if you need to withdraw your name from consideration, you may do so by emailing the Station Manager at <code>{{ 'manager@'.env('MAIL_DOMAIN', 'example.org') }}</code>.</p>
 @elseif($can_submit)
-    <p>This is your final checklist for submitting your board application. Please carefully review each item listed and check the checkbox to confirm it. Once all checkboxes are checked, the submit button will appear.</p>
+    <p>This is your final checklist for submitting your board application. Please carefully review each item listed and check the checkbox to confirm it. Once all checkboxes are checked, the submit button will appear. (If the button doesn't appear, please email <code>{{ 'it@'.env('MAIL_DOMAIN', 'example.org') }}</code> to let us know!)</p>
     <hr>
     <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" value="no-edits" id="reviewNoEdits" data-action="review-checkbox">
         <label class="form-check-label" for="reviewNoEdits">
-            I understand that once I submit this application, I will no longer be able to make changes.
+            I understand that once I submit this application, I will no longer be able to make any changes.
         </label>
     </div>
     @if($app->positions->count() == 1)

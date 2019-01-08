@@ -171,9 +171,17 @@ function schedule_opt($date, $value, $app) {
                 </fieldset>
 
                 <h3>Interview time preferences</h3>
-                <p>You will be assigned an interview time based on the position(s) you apply for, as well as your availability as indicated below. Please be as flexible as you can - we'll try to let you know of your time as quickly as we can after applications close. <strong>You must provide an answer in each row.</strong></p>
+                <p>You will be assigned an interview time based on the position(s) you apply for, as well as your availability as indicated below. Please be as flexible as you can - we'll do everything we can to let you know of your time as quickly as possible after applications close. Some notes about how this works:
+                    <ul>
+                        <li>Please only mark times as "Unavailable" if you have a scheduling conflict during the listed time that you are <em>completely unable to reschedule.</em> If you have a scheduling conflict but you can move or ignore it, mark the time as "If need be".</li>
+                        <li><strong>You must provide an answer in each row.</strong></li>
+                        <li>It's highly unlikely we'll use <em>all</em> of these time slots, but we would rather know your availability for them now in case we need to use them.</li>
+                        <li>All times are listed in <strong>US/Central</strong>. If you're abroad and outside of the US/Central time zone, you'll need to convert the listed times into your own time zone.</li>
+                        <li>Interviews are fairly short (only 15 minutes unless you're applying for Station Manager).</li>
+                    </ul>
+                </p>
                 <div class="alert alert-info">
-                    If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time. All times are listed in US/Central, and slots are 15 minutes long. (Candidates applying for Station Manager should expect a longer interview.)
+                    If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time.
                 </div>
                 <table class="table table-hover table-responsive-sm">
                     <thead>
