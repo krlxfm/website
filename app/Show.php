@@ -76,7 +76,7 @@ class Show extends Model
      */
     protected $appends = [
         'priority_code',
-        'board_boost'
+        'board_boost',
     ];
 
     /**
