@@ -10,8 +10,7 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
             <div class="row">
                 <div class="col">
                     <div class="alert alert-info">
-                        <p><strong>You should print this application or download it as a PDF.</strong></p>
-                        <p>This application has been formatted to work best as a printed PDF. If your browser doesn't have a dedicated "Export as PDF"/"Save as PDF" option, you can choose PDF as your print destination in the Print dialog box. <strong>When printing, please ensure that "Print backgrounds" is checked, otherwise some parts of the PDF may not appear correctly.</strong></p>
+                        <p>This application has been formatted to work best as a printed PDF. If your browser doesn't have a dedicated "Export as PDF"/"Save as PDF" option, you can choose PDF as your print destination in the Print dialog box. <strong>When printing, please ensure that "Print backgrounds" is checked, otherwise some parts of the PDF may not appear correctly.</strong> (Don't worry, this box won't appear at all in printing!)</p>
                         <p class="mb-2"><a href="{{ route('board.all') }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Back to all applications</a></p>
                     </div>
                 </div>
@@ -56,7 +55,7 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
             </p>
         </div>
         <div class="col-3">
-            <img class="img-fluid" src="{{ $app->user->photo }}" alt="{{ $app->user->full_name }}">
+            <img class="img-fluid" src="{{ config('defaults.directory').explode('@', $app->user->email)[0] }}" alt="{{ $app->user->full_name }}">
         </div>
     </div>
     <hr class="border-dark">

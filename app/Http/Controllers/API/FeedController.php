@@ -22,6 +22,11 @@ class FeedController extends Controller
         $weekly_tracks = Track::where('weekly', true)->get()->pluck('id');
         $shows = $term->shows()->with('hosts')->whereIn('track_id', $weekly_tracks)->get();
 
+        // Guard for when the station is off air
+        if ($shows->count() == 0) {
+            return null;
+        }
+
         $now = Carbon::now();
         $now->minute = floor($now->minute / 30) * 30;
         $now->second = 0;
@@ -41,6 +46,14 @@ class FeedController extends Controller
     public function signage()
     {
         $now = $this->now();
+
+        if ($now === null) {
+            return [
+                'now' => null,
+                'next' => []
+            ];
+        }
+
         $next = $now->next;
 
         return [
