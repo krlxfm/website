@@ -12,13 +12,15 @@
 */
 
 Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
-    Route::get('schedule/now', 'FeedController@now');
-    Route::get('schedule/signage', 'FeedController@signage');
+    Route::middleware('log')->group(function () {
+        Route::get('schedule/now', 'FeedController@now');
+        Route::get('schedule/signage', 'FeedController@signage');
+    });
 
     Route::get('tracks', 'TrackController@index')->name('tracks.index');
     Route::get('tracks/{track}', 'TrackController@show')->name('tracks.show');
 
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware(['auth:api', 'log'])->group(function () {
         Route::apiResource('shows', 'ShowController');
         Route::post('shows/remind', 'ShowController@remind');
         Route::patch('shows/{show}/hosts', 'ShowController@changeHosts');
