@@ -43,6 +43,14 @@ $position = 0;
                                 <h5 class="mb-0">{{ $show->title }}</h5>
                                 <small class="text-muted">
                                     {{ $show->id }} | {{ $show->track->name }}
+                                    @foreach (config('defaults.special_times') as $key => $time)
+                                        @if ($show->special_times[$key] == 'y')
+                                            |
+                                            <span class="text-success">
+                                                <i class="fas fa-check"></i> Interested in {{ $time['name'] }}
+                                            </span>
+                                        @endif
+                                    @endforeach
                                     @if($show->day and $show->start and $show->end)
                                         |
                                         <span class="text-primary">
