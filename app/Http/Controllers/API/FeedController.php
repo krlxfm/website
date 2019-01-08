@@ -24,7 +24,7 @@ class FeedController extends Controller
 
         // Guard for when the station is off air
         if ($shows->count() == 0) {
-            return null;
+            return;
         }
 
         $now = Carbon::now();
@@ -50,7 +50,7 @@ class FeedController extends Controller
         if ($now === null) {
             return [
                 'now' => null,
-                'next' => []
+                'next' => [],
             ];
         }
 
