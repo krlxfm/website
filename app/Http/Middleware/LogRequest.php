@@ -18,7 +18,11 @@ class LogRequest
     {
         $string = $request->user() ? $request->user()->email : 'guest';
         $string .= ", {$request->ip()}: {$request->method()} {$request->path()}";
-        Log::info($string);
+        if ($request->method() == 'PUT' or $request->method() == 'PATCH') {
+            Log::info($string, $request->all());
+        } else {
+            Log::info($string);
+        }
 
         return $next($request);
     }
