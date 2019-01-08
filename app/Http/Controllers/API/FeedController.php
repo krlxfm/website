@@ -23,7 +23,7 @@ class FeedController extends Controller
         $shows = $term->shows()->with('hosts')->whereIn('track_id', $weekly_tracks)->get();
 
         // Guard for when the station is off air
-        if ($shows->count() == 0) {
+        if ($term->status !== 'closed') {
             return;
         }
 
