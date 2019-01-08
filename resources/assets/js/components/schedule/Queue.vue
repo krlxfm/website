@@ -6,6 +6,7 @@
                 <h5 class="head-sans-serif mb-0">{{ show.title }}</h5>
                 <p class="mb-0">
                     <span class="badge" v-bind:class="'bg-priority-'+show.priority_code.charAt(0).toLowerCase()">
+                        <i class="fas fa-rocket" v-if="show.board_boost"></i>
                         {{ show.priority_code }}
                     </span>
                     <span class="badge bg-priority-a">
