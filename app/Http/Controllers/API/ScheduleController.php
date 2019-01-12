@@ -56,7 +56,7 @@ class ScheduleController extends Controller
         ]);
 
         $shows = [];
-        foreach($request->input('shows') as $data) {
+        foreach ($request->input('shows') as $data) {
             // Show is guaranteed to exist because otherwise the inbound request would fail validation.
             $show = Show::find($data['id']);
             if (array_key_exists('date', $data)) {
