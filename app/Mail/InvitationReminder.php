@@ -11,6 +11,8 @@ class InvitationReminder extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $show;
+
     /**
      * Create a new message instance.
      *
