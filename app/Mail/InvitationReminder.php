@@ -3,7 +3,6 @@
 namespace KRLX\Mail;
 
 use KRLX\Show;
-use KRLX\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -17,10 +16,9 @@ class InvitationReminder extends Mailable
      *
      * @return void
      */
-    public function __construct(Show $show, User $user)
+    public function __construct(Show $show)
     {
         $this->show = $show;
-        $this->user = $user;
         $this->subject("{$show->title} Invitation Reminder");
         $this->from('scheduling@krlx.org');
     }

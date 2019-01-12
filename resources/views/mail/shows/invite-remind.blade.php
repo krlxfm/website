@@ -1,9 +1,9 @@
 @component('mail::message')
 # Introduction
 
-Hi {{ $user->name }},
+Hi there,
 
-Just a friendly reminder that you have an outstanding invitation to join the KRLX show {{ $show->title }}. If you plan on joining this show, please accept the invitation with the button below before applications close.
+Just a friendly reminder that you have an outstanding invitation to join the KRLX show {{ $show->title }}. If you plan on participating in this show, please accept the invitation with the button below before applications close.
 
 @component('mail::button', ['url' => route('shows.join', $show)])
 Join {{ $show->title }}
