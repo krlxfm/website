@@ -30,6 +30,7 @@ Route::prefix('v1')->name('api.v1.')->namespace('API')->group(function () {
 
         Route::get('schedule/publish', 'ScheduleController@status');
         Route::patch('schedule/publish', 'ScheduleController@publish');
+        Route::patch('schedule/sync', 'ScheduleController@sync');
         Route::patch('schedule/{show}', 'ScheduleController@update');
 
         Route::get('users', 'UserController@search');

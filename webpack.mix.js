@@ -20,7 +20,7 @@ mix.webpackConfig({
         }
     })
    .js('resources/assets/js/app.js', 'public/js')
-   .js('resources/assets/js/schedule.js', 'public/js')
+   .js('resources/assets/js/schedule.js', 'public/js/schedule_19wi.js')
    .extract(['vue', 'sweetalert', 'moment', 'lodash', 'jquery', 'jquery-ui', 'jquery-mask', 'popper.js', 'bootstrap', 'axios', 'fullcalendar'])
    .sass('resources/assets/sass/app.scss', 'public/css')
    .copy('node_modules/fullcalendar/dist/fullcalendar.min.css', 'public/css')

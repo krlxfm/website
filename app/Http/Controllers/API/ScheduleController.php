@@ -30,9 +30,50 @@ class ScheduleController extends Controller
         foreach ($request->only('date', 'day', 'start', 'end') as $key => $value) {
             $show->{$key} = $value;
         }
+        // This line seems silly - it adds updated_at to the list of "dirty" attributes,
+        // and therefore insists on keeping updated_at the same.
+        $show->updated_at = $show->updated_at;
         $show->save();
 
         return $show;
+    }
+
+    /**
+     * Synchronize multiple shows to the calendar at once.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function sync(Request $request)
+    {
+        $request->validate([
+            'shows' => 'array',
+            'shows.*.id' => ['required', 'string', 'exists:shows,id'],
+            'shows.*.date' => ['sometimes', 'nullable', 'date'],
+            'shows.*.day' => ['sometimes', 'nullable', 'string', 'in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday'],
+            'shows.*.start' => ['sometimes', 'nullable', 'string', 'regex:/([01][0-9]|2[0-3]):[0-5][0-9]/'],
+            'shows.*.end' => ['sometimes', 'nullable', 'string', 'regex:/([01][0-9]|2[0-3]):[0-5][0-9]/'],
+        ]);
+
+        $shows = [];
+        foreach($request->input('shows') as $data) {
+            // Show is guaranteed to exist because otherwise the inbound request would fail validation.
+            $show = Show::find($data['id']);
+            if (array_key_exists('date', $data)) {
+                $show->date = $data['date'];
+            } else {
+                $show->day = $data['day'];
+                $show->start = $data['start'];
+                $show->end = $data['end'];
+            }
+
+            // Multi-sync should preserve priority.
+            $show->updated_at = $show->updated_at;
+            $show->save();
+            $shows[] = $show;
+        }
+
+        return collect($shows)->pluck('id');
     }
 
     /**

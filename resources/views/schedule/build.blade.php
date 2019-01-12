@@ -5,12 +5,25 @@
 @endpush
 
 @section('mid')
-<schedule-builder v-bind:current-show-id="showID" v-bind:control-messages="controlMessages" v-on:current-show="setCurrentShow" v-on:remove-show="removeShow" v-on:publish="publish"></schedule-builder>
+<schedule-builder v-bind:current-show-id="showID" v-bind:control-messages="controlMessages" v-on:current-show="setCurrentShow" v-on:remove-show="removeShow" v-on:publish="publish" v-on:sync-changes="syncChanges"></schedule-builder>
 <schedule-publisher v-bind:current-item="currentItem" v-bind:diffs="diffs" v-bind:progress="progress" v-on:draft="publishDraft" v-on:final="publishFinal"></schedule-publisher>
+<div class="modal fade" id="syncing-modal" dusk="syncing-modal" tabindex="-1" role="dialog" aria-labelledby="syncing-modal-label" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="syncing-modal-label">Sync in progress</h5>
+            </div>
+            <div class="modal-body">
+                <p><strong>Your changes are currently being synchronized to the server.</strong></p>
+                This message will disappear automatically once all changes are saved. If it's still visible for more than a few seconds, refresh the page.
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('topjs')
-<script src="/js/schedule.js" defer></script>
+<script src="/js/schedule_19wi.js" defer></script>
 @endpush
 
 @push('js')

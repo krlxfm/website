@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="col-md-3 d-none d-md-block">
-        <schedule-control-panel v-bind:messages="controlMessages" v-on:publish="$emit('publish')"></schedule-control-panel>
+        <schedule-control-panel v-bind:messages="controlMessages" v-on:publish="$emit('publish')" v-on:sync-changes="$emit('sync-changes')"></schedule-control-panel>
         <schedule-inspector v-bind:show="currentShow" v-bind:length-colors="lengthColors" v-on:remove-show="$emit('remove-show')"></schedule-inspector>
     </div>
 </div>

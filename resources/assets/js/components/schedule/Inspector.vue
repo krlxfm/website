@@ -51,6 +51,7 @@
             <hr>
             <div class="d-flex align-items-start my-2">
                 <span class="badge" v-bind:class="'bg-priority-'+show.priority_code.charAt(0).toLowerCase()" style="margin-top: 2px">
+                    <i class="fas fa-rocket" v-if="show.board_boost"></i>
                     {{ show.priority_code }}
                 </span>
                 <div class="ml-2" style="line-height: 1.3rem" v-html="show.hosts.map(host => host.full_name).join('<br>') "></div>

@@ -128,6 +128,22 @@ function setShowTime(show, start, end) {
     calendar.checkForErrors();
 }
 
+function syncAllShowsToAPI() {
+    var showList = Object.values(window.showList).map(show => {
+        return {
+            id: show.id,
+            date: null,
+            day: show.day,
+            start: show.start,
+            end: show.end
+        };
+    });
+    $("#syncing-modal").modal('show');
+    axios.patch('/api/v1/schedule/sync', {shows: showList}).then(response => {
+        $("#syncing-modal").modal('hide');
+    });
+}
+
 window.vueData = {
     data: {
         currentItem: '',
@@ -141,6 +157,7 @@ window.vueData = {
         publish: publish.showModal,
         publishDraft: publish.publishDraft,
         publishFinal: publish.publishFinal,
+        syncChanges: syncAllShowsToAPI,
         setCurrentShow: function(show) {
             this.showID = show;
             displaySchedule(show);
