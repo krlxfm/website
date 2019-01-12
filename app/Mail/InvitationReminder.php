@@ -2,12 +2,11 @@
 
 namespace KRLX\Mail;
 
-use KRLX\User;
 use KRLX\Show;
+use KRLX\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class InvitationReminder extends Mailable
 {
