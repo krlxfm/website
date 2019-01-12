@@ -1,5 +1,5 @@
 @component('mail::message')
-# Introduction
+# Your invitation is waiting!
 
 Hi there,
 
