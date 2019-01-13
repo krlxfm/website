@@ -178,9 +178,9 @@ exports.checkForErrors = function () {
     // Warnings - these allow a schedule to publish, but warn you of potentially bad ideas.
     checkNoConflictOverlaps(recurringShows, 'conflicts');
     checkNoLongShows(recurringShows);
-    checkNoWeekendTransition(grid);
     checkNoSpringForwardShenanigans(grid);
     check1aMercyRule(recurringShows);
+    checkNoWeekendTransition(grid);
 
     computeDiffs();
 };
