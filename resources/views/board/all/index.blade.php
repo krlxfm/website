@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($apps as $app)
+                    @foreach($completed_apps as $app)
                         <tr>
                             <td>{{ $app->user->full_name }}</td>
                             <td>
@@ -34,6 +34,19 @@
                                 <div class="btn-group">
                                     <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
                                 </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    @foreach($incomplete_apps as $app)
+                        <tr>
+                            <td>{{ $app->user->full_name }} (incomplete)</td>
+                            <td>
+                                @foreach($app->positions->pluck('position') as $pos)
+                                    <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                Responses unavailable
                             </td>
                         </tr>
                     @endforeach

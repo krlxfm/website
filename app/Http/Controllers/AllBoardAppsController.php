@@ -9,10 +9,11 @@ class AllBoardAppsController extends Controller
 {
     public function index(Request $request)
     {
-        $apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
+        $completed_apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
+        $incomplete_apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
         $my_app = $request->user()->board_apps()->where('year', date('Y'))->first();
 
-        return view('board.all.index', compact('apps', 'my_app'));
+        return view('board.all.index', compact('completd_apps', 'incomplete_apps', 'my_app'));
     }
 
     public function pdf(BoardApp $app, Request $request)
