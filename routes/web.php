@@ -51,6 +51,7 @@ Route::middleware(['auth', 'log', 'onboard'])->group(function () {
     Route::middleware('permission:review board applications')->group(function () {
         Route::get('board/apps', 'AllBoardAppsController@index')->name('board.all');
         Route::get('board/apps/{app}', 'AllBoardAppsController@pdf')->name('board.single');
+        Route::get('board/interviews', 'AllBoardAppsController@interviews')->name('board.interviews');
     });
 
     Route::get('profile', 'UserController@profile')->name('profile');

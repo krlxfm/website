@@ -2,6 +2,8 @@
 
 namespace KRLX\Http\Controllers;
 
+use KRLX\Config;
+use Carbon\Carbon;
 use KRLX\BoardApp;
 use Illuminate\Http\Request;
 
@@ -28,5 +30,24 @@ class AllBoardAppsController extends Controller
         }
 
         return view('board.all.pdf', compact('app', 'redacted_sections'));
+    }
+
+    public function interviews()
+    {
+        $apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
+
+        $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
+        $dates = [];
+        foreach ($interview_options as $option) {
+            $start = Carbon::parse($option['date'].' '.$option['start'].':00');
+            $end = Carbon::parse($option['date'].' '.$option['end'].':00');
+            $time = $start->copy();
+            while ($time < $end) {
+                $dates[] = $time->copy();
+                $time->addMinutes(15);
+            }
+        }
+
+        return view('board.all.interviews', compact('apps', 'dates'));
     }
 }
