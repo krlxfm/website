@@ -22,11 +22,6 @@ class FeedController extends Controller
         $weekly_tracks = Track::where('weekly', true)->get()->pluck('id');
         $shows = $term->shows()->with('hosts')->whereIn('track_id', $weekly_tracks)->get();
 
-        // Guard for when the station is off air
-        if ($term->status !== 'closed') {
-            return;
-        }
-
         $now = Carbon::now();
         $now->minute = floor($now->minute / 30) * 30;
         $now->second = 0;
