@@ -284,6 +284,8 @@ class BoardController extends Controller
         foreach ($input as $key => &$value) {
             if (is_array($value)) {
                 $value = $this->sanitizeInput($value);
+            } elseif ($value === null) {
+                $value = "";
             } else {
                 $value = str_replace('<script>', '&lt;script&gt;', $value);
             }
@@ -313,13 +315,7 @@ class BoardController extends Controller
             'remote' => 'sometimes|boolean',
             'remote_contact' => 'sometimes|required_if:remote,1',
             'remote_platform' => 'required_if:remote,1',
-            'common' => ['sometimes', 'array', 'size:'.count($app->common), function ($attribute, $value, $fail) use ($app) {
-                foreach (collect($app->common)->keys()->all() as $key) {
-                    if (! array_key_exists($key, $value)) {
-                        $fail("The question $key is not present in the Common answers.");
-                    }
-                }
-            }],
+            'common' => 'sometimes|array',
         ];
 
         return $rules;
