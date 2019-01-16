@@ -285,7 +285,7 @@ class BoardController extends Controller
             if (is_array($value)) {
                 $value = $this->sanitizeInput($value);
             } elseif ($value === null) {
-                $value = "";
+                $value = '';
             } else {
                 $value = str_replace('<script>', '&lt;script&gt;', $value);
             }
