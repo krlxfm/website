@@ -7,10 +7,6 @@ $colors = ['table', 'table-danger', 'table-warning', 'table-success'];
 @section('mid')
     <div class="row">
         <div class="col">
-            <h1 class="text-center mb-3">Interview Schedule</h1>
-            <div class="alert alert-info">
-                This screen is designed to work best on a desktop computer. Mobile devices will likely not display all data correctly.
-            </div>
             <table class="table table-hover table-responsive">
                 <thead>
                     <th>Candidate&nbsp;&amp;&nbsp;positions</th>
