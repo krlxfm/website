@@ -11,8 +11,8 @@ class AllBoardAppsController extends Controller
 {
     public function index(Request $request)
     {
-        $completed_apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
-        $incomplete_apps = BoardApp::where([['year', date('Y')], ['submitted', false]])->get();
+        $completed_apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->with('user')->get()->sortBy('user.email');
+        $incomplete_apps = BoardApp::where([['year', date('Y')], ['submitted', false]])->with('user')->get()->sortBy('user.email');
         $my_app = $request->user()->board_apps()->where('year', date('Y'))->first();
 
         return view('board.all.index', compact('completed_apps', 'incomplete_apps', 'my_app'));
@@ -34,7 +34,10 @@ class AllBoardAppsController extends Controller
 
     public function interviews()
     {
-        $apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->get();
+        $applications = BoardApp::where([['year', date('Y')], ['submitted', true]])->with('user')->get();
+        $applications = $applications->concat(BoardApp::where([['year', date('Y')], ['submitted', false]])->with('user')->get());
+
+        $apps = $applications->sortBy('user.email');
 
         $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
         $dates = [];
