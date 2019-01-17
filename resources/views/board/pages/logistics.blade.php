@@ -183,6 +183,11 @@ function schedule_opt($date, $value, $app) {
                 <div class="alert alert-info">
                     If none of these times work, please <a class="alert-link" href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}">email the Station Manager</a> to schedule an alternative time.
                 </div>
+                @unless(Config::valueOr('board interview message', '[NONE]') == '[NONE]')
+                    <div class="alert alert-info">
+                        {!! Config::valueOr('board interview message', '[NONE]') !!}
+                    </div>
+                @endunless
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                         <tr class="text-center">
