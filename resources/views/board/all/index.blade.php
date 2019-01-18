@@ -13,6 +13,7 @@
                     <strong>You do not have an application on file.</strong> If you are eligible to apply for board seats, and plan on doing so, please do not read candidate files until you have submitted your own.
                 </div>
             @endif
+            <p>In addition to the applications shown below, the following candidates have applications in progress: {{ implode(', ', $incomplete_apps->pluck('user.full_name')) }}.</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -34,19 +35,6 @@
                                 <div class="btn-group">
                                     <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
                                 </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    @foreach($incomplete_apps as $app)
-                        <tr>
-                            <td>{{ $app->user->full_name }} (incomplete)</td>
-                            <td>
-                                @foreach($app->positions->pluck('position') as $pos)
-                                    <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                Responses unavailable
                             </td>
                         </tr>
                     @endforeach
