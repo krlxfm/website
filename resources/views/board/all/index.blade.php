@@ -13,7 +13,7 @@
                     <strong>You do not have an application on file.</strong> If you are eligible to apply for board seats, and plan on doing so, please do not read candidate files until you have submitted your own.
                 </div>
             @endif
-            <p>In addition to the applications shown below, the following candidates have applications in progress: {{ implode(', ', $incomplete_apps->pluck('user.full_name')) }}.</p>
+            <p>In addition to the applications shown below, the following candidates have applications in progress: {{ implode(', ', $incomplete_apps->pluck('user.full_name')->all()) }}.</p>
             <table class="table">
                 <thead>
                     <tr>
