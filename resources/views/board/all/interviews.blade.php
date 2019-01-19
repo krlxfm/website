@@ -1,7 +1,7 @@
 @extends('layouts.missioncontrol', ['title' => 'Board Applications'])
 
 @php
-$colors = ['table', 'table-danger', 'table-warning', 'table-success'];
+$colors = ['', 'table-danger', 'table-warning', 'table-success'];
 @endphp
 
 @section('mid')
