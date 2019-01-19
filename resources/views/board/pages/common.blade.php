@@ -5,6 +5,9 @@
         <div class="col">
             <a href="{{ route('board.app', $app->year) }}"><i class="fas fa-chevron-left mr-1"></i>{{ $app->year . ' - ' . ($app->year + 1) }} BOARD APPLICATION</a>
             <h1 class="mb-3 mt-2">Common Questions</h1>
+            <div class="alert alert-warning">
+                To avoid formatting issues, please write or transcribe answers to the editors below rather than copying and pasting. If you need to copy and paste, please <a href="https://css-tricks.com/copy-paste-the-web/#article-header-id-8" target="_blank">paste without formatting</a>.
+            </div>
             <form method="post" action="{{ route('board.app', $app->year) }}">
                 @method('patch')
                 @csrf
