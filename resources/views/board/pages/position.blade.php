@@ -29,5 +29,5 @@
 @endpush
 
 @push('js')
-<script src="/js/pages/board/common.js" defer></script>
+<script src="/js/pages/board/editor.js" defer></script>
 @endpush
