@@ -11,6 +11,7 @@ $colors = ['', 'table-danger', 'table-warning', 'table-success'];
                 <thead>
                     <th>Candidate</th>
                     <th>Positions</th>
+                    <th>Unscheduled</th>
                     @foreach($dates as $date)
                         <th class="text-center">{!! $date->format('D&\n\b\s\p;n/j, H:i') !!}</th>
                     @endforeach
@@ -24,9 +25,12 @@ $colors = ['', 'table-danger', 'table-warning', 'table-success'];
                                     <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
                                 @endforeach
                             </td>
+                            <td class="text-center">
+                                <input type="radio" name="interviews[{{ $app->id }}]" value="null">
+                            </td>
                             @foreach($dates as $date)
                                 <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}">
-                                    <input type="radio" name="{{ $app->user->email }}" value="{{ $date->format('Y-m-d H:i:s') }}">
+                                    <input type="radio" name="interviews[{{ $app->id }}]" value="{{ $date->format('Y-m-d H:i:s') }}">
                                 </td>
                             @endforeach
                         </tr>
