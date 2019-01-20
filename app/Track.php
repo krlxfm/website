@@ -81,6 +81,7 @@ class Track extends Model
             $dummy_show->end = $track->end_time;
 
             $dummy_show->track_id = $track->id;
+            $dummy_show->term_id = Term::orderByDesc('on_air')->first()->id;
 
             $results[] = $dummy_show;
         }
