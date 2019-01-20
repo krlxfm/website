@@ -53,6 +53,5 @@ class AllBoardAppsController extends Controller
 
     public function saveInterviews(Request $request)
     {
-
     }
 }
