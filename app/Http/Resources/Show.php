@@ -2,6 +2,8 @@
 
 namespace KRLX\Http\Resources;
 
+use KRLX\Term;
+use KRLX\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Show extends JsonResource
@@ -20,16 +22,19 @@ class Show extends JsonResource
             'description' => $this->description,
             'track' => $this->track->name,
             'term' => $this->term_id,
-            'djs' => $this->hosts->pluck('full_name'),
         ];
 
         $weekly = [
+            'djs' => $this->hosts->pluck('full_name'),
             'start' => $this->start,
             'end' => $this->end,
             'day' => $this->day,
         ];
 
+        $track_managers = Term::orderByDesc('on_air')->first()->track_managers;
+
         $date = [
+            'djs' => User::whereIn('id', $track_managers[$this->track_id])->get()->pluck('full_name'),
             'date' => $this->date,
             'start' => $this->date ? $this->track->start_time : null,
             'end' => $this->date ? $this->track->end_time : null,

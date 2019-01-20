@@ -50,4 +50,9 @@ class AllBoardAppsController extends Controller
 
         return view('board.all.interviews', compact('apps', 'dates'));
     }
+
+    public function saveInterviews(Request $request)
+    {
+
+    }
 }

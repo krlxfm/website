@@ -80,6 +80,8 @@ class Track extends Model
             $dummy_show->start = $track->start_time;
             $dummy_show->end = $track->end_time;
 
+            $dummy_show->track_id = $track->id;
+
             $results[] = $dummy_show;
         }
 

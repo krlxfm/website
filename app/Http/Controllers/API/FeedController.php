@@ -20,7 +20,7 @@ class FeedController extends Controller
     {
         $term = Term::orderByDesc('on_air')->first();
         $weekly_tracks = Track::where('weekly', true)->get()->pluck('id');
-        $shows = $term->shows()->with('hosts')->whereIn('track_id', $weekly_tracks)->get();
+        $shows = $term->shows()->with('hosts')->whereIn('track_id', $weekly_tracks)->get()->concat(Track::dummyShows());
 
         $now = Carbon::now();
         $now->minute = floor($now->minute / 30) * 30;
