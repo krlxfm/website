@@ -35,7 +35,13 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['papertrail'],
+            'channels' => ['papertrail', 'single_err'],
+        ],
+
+        'single_err' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel.log'),
+            'level' => 'error',
         ],
 
         'single' => [
