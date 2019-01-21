@@ -31,9 +31,13 @@
                                 @endforeach
                             </td>
                             <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
-                                </div>
+                                @if ($app->submitted)
+                                    <div class="btn-group">
+                                        <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
+                                    </div>
+                                @else
+                                    Responses unavailable
+                                @endif
                             </td>
                         </tr>
                     @endforeach
