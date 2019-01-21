@@ -34,7 +34,7 @@ class Show extends JsonResource
         $track_managers = Term::orderByDesc('on_air')->first()->track_managers;
 
         $date = [
-            'djs' => User::whereIn('id', $track_managers[$this->track_id])->get()->pluck('full_name'),
+            'djs' => User::whereIn('id', $track_managers[$this->track->id])->get()->pluck('full_name'),
             'date' => $this->date,
             'start' => $this->date ? $this->track->start_time : null,
             'end' => $this->date ? $this->track->end_time : null,
