@@ -13,7 +13,6 @@
                     <strong>You do not have an application on file.</strong> If you are eligible to apply for board seats, and plan on doing so, please do not read candidate files until you have submitted your own.
                 </div>
             @endif
-            <p>In addition to the applications shown below, {{ $incomplete_apps->count() }} candidates have applications in progress.</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -23,8 +22,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($completed_apps as $app)
-                        <tr>
+                    @foreach($apps as $app)
+                        <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
                             <td>{{ $app->user->full_name }}</td>
                             <td>
                                 @foreach($app->positions->pluck('position') as $pos)
