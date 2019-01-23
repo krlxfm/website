@@ -26,7 +26,7 @@
                         <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
                             <td>{{ $app->user->full_name }}</td>
                             <td>
-                                <i class="far fa-check-circle text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
+                                <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
                                 @foreach($app->positions as $pos)
                                     @if ($pos->complete)
                                         <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }}" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
