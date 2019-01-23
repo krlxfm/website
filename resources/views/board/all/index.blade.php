@@ -24,18 +24,18 @@
                 <tbody>
                     @foreach($apps as $app)
                         <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
-                            <td>{{ $app->user->full_name }}</td>
-                            <td>
+                            <td class="align-middle">{{ $app->user->full_name }}</td>
+                            <td class="align-middle">
                                 <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
                                 @foreach($app->positions as $pos)
                                     @if ($pos->complete)
-                                        <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }}" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
+                                        <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }} align-middle" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
                                     @else
-                                        <span class="badge badge-light">{{ $pos->position->abbr }}</span>
+                                        <span class="badge badge-light align-middle">{{ $pos->position->abbr }}</span>
                                     @endif
                                 @endforeach
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 @if ($app->submitted)
                                     <div class="btn-group">
                                         <a class="btn btn-primary" href="{{ route('board.single', $app->id) }}"><i class="fas fa-download"></i> View/Download</a>
