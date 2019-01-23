@@ -80,4 +80,15 @@ class BoostController extends Controller
 
         return redirect()->route('home');
     }
+
+    /**
+     * Displays all upgrade certificates and which shows they're attached to.
+     * @return Illuminate\Http\Response
+     */
+    public function master()
+    {
+        $boosts = Boost::all();
+
+        return view('boost.master', compact('boosts'));
+    }
 }

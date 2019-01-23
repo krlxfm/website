@@ -79,6 +79,9 @@ Route::middleware(['auth', 'log', 'onboard'])->group(function () {
         Route::put('shows/join/{show}', 'ShowController@processJoinRequest');
 
         Route::get('shows/boost', 'BoostController@index')->name('boost.index');
+        Route::middleware('permission:manage upgrades')->group(function () {
+            Route::get('shows/boost/master', 'BoostController@master')->name('boost.master');
+        });
         Route::get('shows/boost/{boost}', 'BoostController@redeem')->name('boost.redeem');
         Route::post('shows/boost/{boost}', 'BoostController@redeemToShow');
         Route::get('shows/create', 'ShowController@create')->name('shows.create');
