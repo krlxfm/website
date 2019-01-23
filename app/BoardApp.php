@@ -67,7 +67,7 @@ class BoardApp extends Model
 
     /**
      * Determines if the common questions have been completed.
-     * @return boolean
+     * @return bool
      */
     public function getCommonCompleteAttribute()
     {
