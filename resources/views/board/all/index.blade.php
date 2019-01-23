@@ -13,6 +13,9 @@
                     <strong>You do not have an application on file.</strong> If you are eligible to apply for board seats, and plan on doing so, please do not read candidate files until you have submitted your own.
                 </div>
             @endif
+            @if (Auth::user()->can('view incomplete board applications'))
+                <p><strong>You have access to the incomplete application list.</strong> Common question completion status is marked by <i class="far text-muted fa-copyright"></i>/<i class="fas text-success fa-copyright"></i>. Positions are listed in order of preference and display as a white badge while incomplete; they will change to the position color (from <a href="{{ route('board.positions') }}">the position list</a>) once all questions for that position have been answered.</p>
+            @endif
             <table class="table">
                 <thead>
                     <tr>
