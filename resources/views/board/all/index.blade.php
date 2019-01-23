@@ -26,8 +26,13 @@
                         <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
                             <td>{{ $app->user->full_name }}</td>
                             <td>
+                                <i class="far fa-check-circle text-{{ $app->common_completed ? 'success' : 'muted' }}"></i>
                                 @foreach($app->positions->pluck('position') as $pos)
-                                    <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
+                                    @if ($pos->complete)
+                                        <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
+                                    @else
+                                        <span class="badge badge-light">{{ $pos->abbr }}</span>
+                                    @endif
                                 @endforeach
                             </td>
                             <td>

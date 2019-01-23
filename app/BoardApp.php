@@ -64,4 +64,17 @@ class BoardApp extends Model
     {
         return $this->belongsTo('KRLX\User');
     }
+
+    /**
+     * Determines if the common questions have been completed.
+     * @return boolean
+     */
+    public function getCommonCompleteAttribute()
+    {
+        $empty_common = collect($app->common)->filter(function ($item) {
+            return empty($item);
+        })->count();
+
+        return $empty_common == 0;
+    }
 }

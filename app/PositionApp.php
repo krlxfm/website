@@ -29,6 +29,11 @@ class PositionApp extends Model
         return $this->belongsTo('KRLX\BoardApp');
     }
 
+    public function getCompleteAttribute()
+    {
+        return $this->complete();
+    }
+
     /**
      * For quick validation, returns whether or not all questions have been
      * successfully answered.
