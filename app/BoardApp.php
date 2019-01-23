@@ -71,7 +71,7 @@ class BoardApp extends Model
      */
     public function getCommonCompleteAttribute()
     {
-        $empty_common = collect($app->common)->filter(function ($item) {
+        $empty_common = collect($this->common)->filter(function ($item) {
             return empty($item);
         })->count();
 
