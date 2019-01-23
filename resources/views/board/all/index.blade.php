@@ -27,11 +27,11 @@
                             <td>{{ $app->user->full_name }}</td>
                             <td>
                                 <i class="far fa-check-circle text-{{ $app->common_completed ? 'success' : 'muted' }}"></i>
-                                @foreach($app->positions->pluck('position') as $pos)
+                                @foreach($app->positions as $pos)
                                     @if ($pos->complete)
-                                        <span class="badge badge-{{ $pos->dark ? 'dark' : 'light' }}" style="background: {{ $pos->color }}">{{ $pos->abbr }}</span>
+                                        <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }}" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
                                     @else
-                                        <span class="badge badge-light">{{ $pos->abbr }}</span>
+                                        <span class="badge badge-light">{{ $pos->position->abbr }}</span>
                                     @endif
                                 @endforeach
                             </td>
