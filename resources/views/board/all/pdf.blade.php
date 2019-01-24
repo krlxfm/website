@@ -49,9 +49,7 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
                         @break
                 @endswitch
                 <br>
-                Walk-up song: {{ $app->user->walkup ?? 'None entered' }}
-                <br>
-                Radio priority: {{ $app->user->priority->code() }} ({{ $app->user->priority->terms }} {{ str_plural('term', $app->user->priority->terms) }})
+                Radio priority: {{ $app->user->priority->html() }} ({{ $app->user->priority->terms }} {{ str_plural('term', $app->user->priority->terms) }})
             </p>
         </div>
         <div class="col-3">
