@@ -188,6 +188,11 @@ function schedule_opt($date, $value, $app) {
                         {!! KRLX\Config::valueOr('board interview message', '[NONE]') !!}
                     </div>
                 @endunless
+                @if(Auth::user()->can('review board applications'))
+                    <div class="alert alert-warning">
+                        <strong>As you are a board member yourself, you are expected to be available for all interview slots.</strong> If you won't be able to be present for all interviews, you need to be in touch with the Station Manager to determine expectations and your eligibility to review candidate files or participate in decision-making.
+                    </div>
+                @endif
                 <table class="table table-hover table-responsive-sm">
                     <thead>
                         <tr class="text-center">
