@@ -14,7 +14,7 @@
                 </div>
             @endif
             @if (Auth::user()->can('view incomplete board applications'))
-                <p><strong>You have access to the incomplete application list.</strong> Common question completion status is marked by <i class="far text-muted fa-copyright"></i>/<i class="fas text-success fa-copyright"></i>. Positions are listed in order of preference and display as a white badge while incomplete; they will change to the position color (from <a href="{{ route('board.positions') }}">the position list</a>) once all questions for that position have been answered.</p>
+                <p><strong>You have access to the incomplete application list.</strong> Common question completion status is marked by <i class="far text-muted fa-copyright"></i>/<i class="fas text-success fa-copyright"></i> and interview schedule declaration completion status is marked with <i class="far text-muted fa-calendar"></i>/<i class="fas text-success fa-calendar"></i>. Positions are listed in order of preference and display as a white badge while incomplete; they will change to the position color (from <a href="{{ route('board.positions') }}">the position list</a>) once all questions for that position have been answered.</p>
             @endif
             <table class="table">
                 <thead>
@@ -31,9 +31,9 @@
                             <td class="align-middle">{{ $app->user->full_name }}</td>
                             <td class="align-middle">
                                 @unless ($app->submitted)
-                                    <i class="fas fa-spinner"></i>
+                                    <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
+                                    <i class="{{ collect($app->interview_schedule)->values()->sum() == 0 ? 'far text-muted' : 'fas text-success' }} fa-calendar"></i>
                                 @endunless
-                                <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
                                 @if ($app->remote)
                                     <i class="fas fa-video"></i>
                                 @endif
