@@ -49,7 +49,7 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
                         @break
                 @endswitch
                 <br>
-                Radio priority: {{ $app->user->priority->html() }} ({{ $app->user->priority->terms }} {{ str_plural('term', $app->user->priority->terms) }})
+                Radio priority: {!! $app->user->priority->html() !!} ({{ $app->user->priority->terms }} {{ str_plural('term', $app->user->priority->terms) }})
             </p>
         </div>
         <div class="col-3">
