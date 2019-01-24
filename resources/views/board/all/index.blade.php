@@ -32,7 +32,7 @@
                             <td class="align-middle">
                                 @unless ($app->submitted)
                                     <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
-                                    <i class="{{ collect($app->interview_schedule)->values()->sum() == 0 ? 'far text-muted' : 'fas text-success' }} fa-calendar"></i>
+                                    <i class="{{ collect($app->interview_schedule)->filter(function($slot) { return $slot == 0; })->count() > 0 ? 'far text-muted' : 'fas text-success' }} fa-calendar"></i>
                                 @endunless
                                 @if ($app->remote)
                                     <i class="fas fa-video"></i>

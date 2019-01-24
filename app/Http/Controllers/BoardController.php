@@ -117,7 +117,9 @@ class BoardController extends Controller
             return $request->user()->{$field} == null;
         });
 
-        $logistics_needed = collect($app->interview_schedule)->values()->sum() == 0;
+        $logistics_needed = collect($app->interview_schedule)->filter(function ($slot) {
+            return $slot == 0;
+        })->count();
         $common_needed = collect($app->common)->filter(function ($item) {
             return empty($item);
         })->count();
