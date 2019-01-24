@@ -19,7 +19,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="w-50">Candidate</th>
+                        <th>Candidate</th>
+                        <th>Flags</th>
                         <th class="w-25">Position(s)</th>
                         <th class="w-25">Actions</th>
                     </tr>
@@ -29,7 +30,18 @@
                         <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
                             <td class="align-middle">{{ $app->user->full_name }}</td>
                             <td class="align-middle">
+                                @unless ($app->submitted)
+                                    <i class="fas fa-spinner"></i>
+                                @endunless
                                 <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
+                                @if ($app->remote)
+                                    <i class="fas fa-video"></i>
+                                @endif
+                                @unless ($app->ocs == 'none')
+                                    <i class="fas fa-globe-americas"></i>
+                                @endunless
+                            </td>
+                            <td class="align-middle">
                                 @foreach($app->positions as $pos)
                                     @if ($pos->complete)
                                         <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }} align-middle" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
