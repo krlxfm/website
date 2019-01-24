@@ -87,7 +87,7 @@ class BoostController extends Controller
      */
     public function master()
     {
-        $boosts = Boost::orderByDesc('id')->all();
+        $boosts = Boost::orderByDesc('id')->get();
 
         return view('boost.master', compact('boosts'));
     }
