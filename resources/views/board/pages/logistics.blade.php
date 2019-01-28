@@ -3,11 +3,7 @@
 @php
 function schedule_opt($date, $value, $app) {
     $app_value = array_key_exists($date, $app->interview_schedule) ? $app->interview_schedule[$date] : null;
-    $old_value = old("interview_schedule.$date") ?? $app_value ?? 3;
-
-    if ($old_value == 0) {
-        $old_value = 3;
-    }
+    $old_value = old("interview_schedule.$date") ?? $app_value;
 
     return $old_value == $value ? 'checked' : '';
 }
@@ -198,7 +194,8 @@ function schedule_opt($date, $value, $app) {
                         <strong>As you are a board member yourself, you are expected to be available for all interview slots.</strong> If you won't be able to be present for all interviews, you need to be in touch with the Station Manager to determine expectations and your eligibility to review candidate files or participate in decision-making.
                     </div>
                 @endif
-                <table class="table table-hover table-responsive-sm">
+                <p><button class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
+                <table class="table table-hover table-responsive-sm" id="interview-times-table">
                     <thead>
                         <tr class="text-center">
                             <th>Time</th>
@@ -249,12 +246,14 @@ function schedule_opt($date, $value, $app) {
                                         style="margin-left: -8px"
                                         name="interview_schedule[{{ $date->format('Y-m-d H:i:s') }}]"
                                         value="3"
+                                        data-readable-value="available"
                                         {{ schedule_opt($date->format('Y-m-d H:i:s'), 3, $app) }}>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <p><button class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
                 <p>
                     <button type="submit" class="btn btn-primary btn-block btn-lg">Save and continue</button>
                 </p>
@@ -264,5 +263,5 @@ function schedule_opt($date, $value, $app) {
 @endsection
 
 @push('js')
-<script src="/js/pages/board/logistics.js" defer></script>
+<script src="/js/pages/board/logisticspage.js" defer></script>
 @endpush
