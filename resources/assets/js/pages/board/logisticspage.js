@@ -6,7 +6,9 @@ $(document).ready(function() {
 });
 
 function setAllSlotsAvailable() {
-    $('input[data-readable-value="available"]').prop('checked', true);
+    if (confirm('Are you sure you want to set all interview times to "Available"? Note that this will override any "Unavailable" or "If need be" designations!')) {
+        $('input[data-readable-value="available"]').prop('checked', true);
+    }
 }
 
 function clickInternalInput() {
