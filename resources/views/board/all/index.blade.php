@@ -31,7 +31,13 @@
                             <td class="align-middle">{{ $app->user->full_name }}</td>
                             <td class="align-middle">
                                 @unless ($app->submitted)
-                                    <i class="{{ $app->common_complete ? 'fas' : 'far' }} fa-copyright text-{{ $app->common_complete ? 'success' : 'muted' }}"></i>
+                                    @php
+                                    $profile_done = collect(['bio', 'pronouns', 'hometown', 'major'])->filter(function ($field) use ($app) {
+                                        return $app->user->{$field} == null;
+                                    })->count() == 0;
+                                    @endphp
+                                    <i class="{{ $profile_done ? 'fas text-success' : 'far text-muted' }} fa-user"></i>
+                                    <i class="{{ $app->common_complete ? 'fas text-success' : 'far text-muted' }} fa-copyright"></i>
                                     <i class="{{ collect($app->interview_schedule)->filter(function($slot) { return $slot == 0; })->count() > 0 ? 'far text-muted' : 'fas text-success' }} fa-calendar"></i>
                                 @endunless
                                 @if ($app->remote)
