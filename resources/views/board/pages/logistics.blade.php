@@ -194,7 +194,7 @@ function schedule_opt($date, $value, $app) {
                         <strong>As you are a board member yourself, you are expected to be available for all interview slots.</strong> If you won't be able to be present for all interviews, you need to be in touch with the Station Manager to determine expectations and your eligibility to review candidate files or participate in decision-making.
                     </div>
                 @endif
-                <p><button class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
+                <p><button type="button" class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
                 <table class="table table-hover table-responsive-sm" id="interview-times-table">
                     <thead>
                         <tr class="text-center">
@@ -253,7 +253,7 @@ function schedule_opt($date, $value, $app) {
                         @endforeach
                     </tbody>
                 </table>
-                <p><button class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
+                <p><button type="button" class="btn btn-lg btn-secondary" data-action="set-all-3">Set all slots to "Available"</button></p>
                 <p>
                     <button type="submit" class="btn btn-primary btn-block btn-lg">Save and continue</button>
                 </p>
