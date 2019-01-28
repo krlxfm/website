@@ -3,7 +3,11 @@
 @php
 function schedule_opt($date, $value, $app) {
     $app_value = array_key_exists($date, $app->interview_schedule) ? $app->interview_schedule[$date] : null;
-    $old_value = old("interview_schedule.$date") ?? $app_value;
+    $old_value = old("interview_schedule.$date") ?? $app_value ?? 3;
+
+    if ($old_value == 0) {
+        $old_value = 3;
+    }
 
     return $old_value == $value ? 'checked' : '';
 }
@@ -14,6 +18,7 @@ function schedule_opt($date, $value, $app) {
         <div class="col">
             <a href="{{ route('board.app', $app->year) }}"><i class="fas fa-chevron-left mr-1"></i>{{ $app->year . ' - ' . ($app->year + 1) }} BOARD APPLICATION</a>
             <h1 class="mb-3 mt-2">Logistics</h1>
+            <p>Your responses on this page are used to assist us in scheduling you for your interview and determining if and when an interim appointment would need to be made if you are offered a seat. Your responses here do not affect our judgement on whether or not to offer you a seat.</p>
             <form method="post" action="{{ route('board.app', $app->year) }}">
                 @method('patch')
                 @csrf
