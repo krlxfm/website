@@ -44,7 +44,7 @@
                                     <i class="fas fa-video"></i>
                                 @endif
                                 @unless ($app->ocs == 'none')
-                                    <i class="fas fa-globe-americas"></i>
+                                    <i class="fas fa-globe-americas"></i>{{ strtoupper(substr($app->ocs, -2)) }}
                                 @endunless
                             </td>
                             <td class="align-middle">
