@@ -91,8 +91,10 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
             <h2 class="mb-0">Common questions</h2>
         </div>
         @foreach($app->common as $question => $response)
-            <h5 class="head-sans-serif"><strong>{{ $question }}</strong></h5>
-            {!! $response !!}
+            <div>
+                <h5 class="head-sans-serif"><strong>{{ $question }}</strong></h5>
+                {!! $response !!}
+            </div>
         @endforeach
     </div>
     @foreach($app->positions as $position)
@@ -106,12 +108,14 @@ $icons = ['skype' => 'skype', 'facebook' => 'facebook-messenger', 'google-hangou
                 </div>
             @endif
             @foreach($position->responses as $question => $response)
-                <h5 class="head-sans-serif"><strong>{{ $question }}</strong></h5>
-                @if(in_array($position->position_id, $redacted_sections->all()))
-                    <p><em>Response redacted.</em></p>
-                @else
-                    {!! $response !!}
-                @endif
+                <div>
+                    <h5 class="head-sans-serif"><strong>{{ $question }}</strong></h5>
+                    @if(in_array($position->position_id, $redacted_sections->all()))
+                        <p><em>Response redacted.</em></p>
+                    @else
+                        {!! $response !!}
+                    @endif
+                </div>
             @endforeach
         </div>
     @endforeach
