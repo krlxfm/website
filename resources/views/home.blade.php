@@ -23,9 +23,9 @@
                                         <strong>My {{ $board_app->year }}-{{ $board_app->year + 1}} Board Application</strong>
                                     </h5>
                                     @if($board_app->submitted)
-                                        Continue applying for {{ $board_app->positions->count() == 0 ? 'board seats' : implode(', ', $board_app->positions->pluck('position.title')->all()) }}
-                                    @else
                                         Review submitted responses
+                                    @else
+                                        Continue applying for {{ $board_app->positions->count() == 0 ? 'board seats' : implode(', ', $board_app->positions->pluck('position.title')->all()) }}
                                     @endif
                                 </div>
                                 <i class="ml-auto fas fa-chevron-right fa-2x text-muted"></i>
