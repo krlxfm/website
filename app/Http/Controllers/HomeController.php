@@ -4,6 +4,7 @@ namespace KRLX\Http\Controllers;
 
 use KRLX\Term;
 use Carbon\Carbon;
+use KRLX\BoardApp;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\API\FeedController;
 
