@@ -10,6 +10,51 @@
                     - Priority <span class="badge bg-priority-{{ strtolower($user->priority->zone()) }}">{!! $user->priority->html() !!}</span>
                 @endif
             </p>
+            @can('apply for board seats')
+                <div class="card my-3">
+                    <div class="card-header">
+                        <h3 class="mb-0">Board of Directors</h3>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        @if($board_app)
+                            <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('board.app', date('Y')) }}">
+                                <div>
+                                    <h5 class="head-sans-serif mb-0">
+                                        <strong>My {{ $board_app->year }}-{{ $board_app->year + 1}} Board Application</strong>
+                                    </h5>
+                                    @if($board_app->submitted)
+                                        Continue applying for {{ $board_app->positions->count() == 0 ? 'board seats' : implode(', ', $board_app->positions->pluck('position.title')->all()) }}
+                                    @else
+                                        Review submitted responses
+                                    @endif
+                                </div>
+                                <i class="ml-auto fas fa-chevron-right fa-2x text-muted"></i>
+                            </a>
+                        @else
+                            <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('board.index') }}">
+                                <div>
+                                    <h5 class="head-sans-serif mb-0">
+                                        <strong>My {{ $board_app->year }}-{{ $board_app->year + 1}} Board Application</strong>
+                                    </h5>
+                                    Apply to join the Board of Directors
+                                </div>
+                                <i class="ml-auto fas fa-chevron-right fa-2x text-muted"></i>
+                            </a>
+                        @endif
+                        @can('review board applications')
+                            <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('board.all') }}">
+                                <div>
+                                    <h5 class="head-sans-serif mb-0">
+                                        <strong>All Board Applications</strong>
+                                    </h5>
+                                    Review submitted responses from incoming candidates
+                                </div>
+                                <i class="ml-auto fas fa-chevron-right fa-2x text-muted"></i>
+                            </a>
+                        @endcan
+                    </div>
+                </div>
+            @endcan
             @if($user->boosts->whereIn('term_id', [null, $term->id])->count() > 0)
                 <div class="card my-3">
                     <div class="card-header">
