@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body class="{{ $body_class ?? '' }}">
+    <style>
+    p:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+    }
+    </style>
     <div id="app" class="container-fluid">
         @yield('content')
     </div>
