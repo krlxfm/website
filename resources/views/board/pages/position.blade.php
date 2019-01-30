@@ -16,9 +16,11 @@
                     <h5 class="head-sans-serif mb-1 mt-3"><strong>{{ $question }}</strong></h5>
                     <textarea name="responses[{{ $question }}]">{!! array_key_exists($question, $position->responses) ? str_replace('<script>', '&lt;script&rt;', $position->responses[$question]) : '' !!}</textarea>
                 @endforeach
-                <div class="my-3">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Save and continue</button>
-                </div>
+                @unless($app->submitted)
+                    <div class="my-3">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Save and continue</button>
+                    </div>
+                @endunless
             </form>
         </div>
     </div>

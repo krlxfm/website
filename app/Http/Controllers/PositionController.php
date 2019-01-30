@@ -27,16 +27,21 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
+        $app = BoardApp::find($request->input('board_app_id'));
         $request->validate([
-            'position_id' => ['required', 'integer', Rule::exists('positions', 'id')->where(function ($query) {
-                $query->where('active', true);
-            })],
             'board_app_id' => ['required', 'integer', Rule::exists('board_apps', 'id')->where(function ($query) use ($request) {
                 $query->where('user_id', $request->user()->id);
             })],
+            'position_id' => ['required', 'integer', Rule::exists('positions', 'id')->where(function ($query) {
+                $query->where('active', true);
+            }), function ($attribute, $value, $fail) use ($app) {
+                if ($app->positions->pluck('position.id')->contains($value)) {
+                    $position = $app->positions->where('position.id', $value)->first()->position;
+                    $fail("This board application already has the {$position->title} position.");
+                }
+            }],
         ]);
 
-        $app = BoardApp::find($request->input('board_app_id'));
         $this->authorize('update', $app);
 
         $position = $app->positions()->create(['position_id' => $request->input('position_id'), 'order' => $app->positions->count()]);
@@ -54,6 +59,10 @@ class PositionController extends Controller
     {
         $pos = $position->position;
         $app = $position->board_app;
+
+        if ($app->submitted) {
+            return redirect()->route('board.app', $app->year);
+        }
 
         $this->authorize('update', $app);
 

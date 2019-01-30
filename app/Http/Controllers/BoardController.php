@@ -154,6 +154,10 @@ class BoardController extends Controller
             return $app;
         }
 
+        if ($app->submitted) {
+            return redirect()->route('board.app', $app->year);
+        }
+
         $dates = $this->interviewDates();
 
         return view('board.pages.logistics', compact('app', 'dates'));
@@ -171,6 +175,10 @@ class BoardController extends Controller
         $app = $this->validateYear($year, $request);
         if (! $app instanceof BoardApp) {
             return $app;
+        }
+
+        if ($app->submitted) {
+            return redirect()->route('board.app', $app->year);
         }
 
         return view('board.pages.common', compact('app'));
@@ -212,6 +220,10 @@ class BoardController extends Controller
         $app = $this->validateYear($year, $request);
         if (! $app instanceof BoardApp) {
             return $app;
+        }
+
+        if ($app->submitted) {
+            return redirect()->route('board.app', $app->year);
         }
 
         return view('board.pages.reorder', compact('app'));
