@@ -82,4 +82,26 @@ class AllBoardAppsController extends Controller
 
         return redirect()->route('board.interviews');
     }
+
+    public function schedulePDF()
+    {
+        $apps = BoardApp::where([['year', date('Y')], ['submitted', true]])->whereNotNull('interview')->get()->sortBy('interview');
+
+        $interview_options = json_decode(Config::valueOr('interview options', '[]'), true);
+        $dates = [];
+        foreach ($interview_options as $option) {
+            if (! array_key_exists($option['date'], $dates)) {
+                $dates[$option['date']] = [];
+            }
+            $start = Carbon::parse($option['date'].' '.$option['start'].':00');
+            $end = Carbon::parse($option['date'].' '.$option['end'].':00');
+            $time = $start->copy();
+            while ($time < $end) {
+                $dates[$option['date']][] = $time->copy();
+                $time->addMinutes(15);
+            }
+        }
+
+        return view('board.all.schedule', compact('apps', 'dates'));
+    }
 }
