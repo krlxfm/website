@@ -12,6 +12,7 @@ function checkedIfTime($app, $time) {
         <div class="col">
             <form method="post">
                 @csrf
+                @method('patch')
                 <table class="table table-hover table-responsive">
                     <thead>
                         <th>Candidate</th>
