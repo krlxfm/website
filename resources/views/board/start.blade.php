@@ -32,6 +32,7 @@
                     <strong>Warning:</strong> Unlike radio show applications, you can't edit a board application after you submit it. You can, however, save your progress at any step along the way before you submit it.
                 </div>
             </p>
+            <p>Interview times will be sent by email shortly after applications close, and all candidates will receive decisions by email within a few days of interviews finishing.</p>
         </div>
         <div class="col-md">
             <h2>Eligiblity requirements</h2>
@@ -48,6 +49,7 @@
             <ul>
                 <li>Station Manager candidates must have completed at least one term of service on the Board (including interim appointments).</li>
                 <li>Station Manager candidates must be on campus for ALL THREE of the next three academic terms.</li>
+                <li>Only current juniors can apply for Station Manager.</li>
             </ul>
             <p>If you have questions about your eligibility, please contact the current Station Manager.</p>
         </div>
