@@ -78,6 +78,8 @@ class AllBoardAppsController extends Controller
             $app->save();
         }
 
-        return redirect()->with('status', 'Interview times have been updated.')->route('board.interviews');
+        $request->session()->flash('status', 'Interview times have been updated.');
+
+        return redirect()->route('board.interviews');
     }
 }
