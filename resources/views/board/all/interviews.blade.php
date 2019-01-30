@@ -4,7 +4,7 @@
 $colors = ['', 'table-danger', 'table-warning', 'table-success'];
 function checkedIfTime($app, $time) {
     if ($time === null) {
-        return $app->interview === null;
+        return $app->interview === null ? 'checked' : '';
     } else {
         return ($app->interview and $app->interview->format('Y-m-d H:i:s') === $time) ? 'checked' : '';
     }
