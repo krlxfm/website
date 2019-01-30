@@ -3,7 +3,7 @@
 @php
 $colors = ['', 'table-danger', 'table-warning', 'table-success'];
 function checkedIfTime($app, $time) {
-    return $app->interview === $time ? 'checked' : '';
+    return ($app->interview and $app->interview->format('Y-m-d H:i:s') === $time) ? 'checked' : '';
 }
 @endphp
 
