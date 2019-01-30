@@ -60,19 +60,19 @@ class AllBoardAppsController extends Controller
             'interviews' => ['array', function ($attribute, $value, $fail) {
                 // Custom validation logic to check that all IDs are valid, and no duplicate interviews.
                 $interviews = collect($value);
-                $interviews_without_null = $interviews->reject(function($i) {
+                $interviews_without_null = $interviews->reject(function ($i) {
                     return $i === null;
                 });
                 if (BoardApp::whereIn('id', $interviews->keys()->all())->count() !== $interviews->count()) {
                     $fail("The $attribute array contains invalid board application IDs.");
-                } else if ($interviews_without_null->unique()->count() !== $interviews_without_null->count()) {
-                    $fail("Two or more candidates have been scheduled at the same time.");
+                } elseif ($interviews_without_null->unique()->count() !== $interviews_without_null->count()) {
+                    $fail('Two or more candidates have been scheduled at the same time.');
                 }
             }],
-            'interviews.*' => 'nullable|date'
+            'interviews.*' => 'nullable|date',
         ]);
 
-        foreach($request->input('interviews') as $key => $time) {
+        foreach ($request->input('interviews') as $key => $time) {
             $app = BoardApp::find($key);
             $app->interview = $time;
             $app->save();
