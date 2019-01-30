@@ -3,10 +3,10 @@
 @php
 $colors = ['', 'table-danger', 'table-warning', 'table-success'];
 function checkedIfTime($app, $time) {
-    if ($time) {
-        return ($app->interview and $app->interview->format('Y-m-d H:i:s') === $time) ? 'checked' : '';
-    } else {
+    if ($time === null) {
         return $app->interview === null;
+    } else {
+        return ($app->interview and $app->interview->format('Y-m-d H:i:s') === $time) ? 'checked' : '';
     }
 }
 @endphp
