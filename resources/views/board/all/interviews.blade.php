@@ -37,7 +37,7 @@ function checkedIfTime($app, $time) {
                                     @endforeach
                                 </td>
                                 <td class="text-center">
-                                    <input type="radio" name="interviews[{{ $app->id }}]" value="null" {{ checkedIfTime($app, null) }}>
+                                    <input type="radio" name="interviews[{{ $app->id }}]" value="" {{ checkedIfTime($app, null) }}>
                                 </td>
                                 @foreach($dates as $date)
                                     <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}">
