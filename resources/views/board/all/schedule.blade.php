@@ -19,11 +19,20 @@
                             <tr>
                                 <td>{{ $time->format('g:i a') }}</td>
                                 @if($apps->where('interview', $time->format('Y-m-d H:i:s'))->count() > 0)
+                                    @php
+                                        $app = $apps->where('interview', $time->format('Y-m-d H:i:s'))->first();
+                                    @endphp
                                     <td>
-                                        {{ $apps->where('interview', $time->format('Y-m-d H:i:s'))->first()->user->full_name }}
+                                        {{ $app->user->full_name }}
+                                        @if ($app->user->hasRole('board'))
+                                            <i class="fas fa-star"></i>
+                                        @endif
+                                        @if ($app->remote)
+                                            <i class="fas fa-video"></i>
+                                        @endif
                                     </td>
                                     <td>
-                                        @foreach($apps->where('interview', $time->format('Y-m-d H:i:s'))->first()->positions as $pos)
+                                        @foreach($app->positions as $pos)
                                             <span class="badge badge-{{ $pos->position->dark ? 'dark' : 'light' }} align-middle" style="background: {{ $pos->position->color }}">{{ $pos->position->abbr }}</span>
                                         @endforeach
                                     </td>
