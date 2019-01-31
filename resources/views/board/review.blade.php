@@ -53,6 +53,9 @@
         @method('patch')
         <button type="submit" id="theBigSubmitButton" class="btn btn-success btn-lg btn-block">Submit Board Application</button>
     </form>
+@elseif ($app->positions->count() == 0)
+    <p><strong>You're not quite ready to submit yet, because you need to add at least one position to your application.</strong></p>
+    <p>The KRLX Board does not have "at-large" or "general" seats. Candidates apply for seats directly. You'll want to <a href="{{ route('board.positions') }}">review the list of positions</a> and choose one or more to add (there's no hard limit on how many seats you can apply for). If you're having trouble nailing down which seat(s) are best to apply for, you can <a href="{{ 'mailto:manager@'.env('MAIL_DOMAIN', 'example.org') }}"> email the Station Manager</a> asking which seats best align with what you're excited about and what you want to do on the board.</p>
 @else
     <div class="alert alert-warning">
         One or more sections in this application need to be completed. Please answer all questions in sections labeled with an incomplete warning (<i class="fas fa-exclamation-circle"></i>) and then come back here.
