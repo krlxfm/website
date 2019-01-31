@@ -40,6 +40,9 @@
                                     <i class="{{ $app->common_complete ? 'fas text-success' : 'far text-muted' }} fa-copyright"></i>
                                     <i class="{{ collect($app->interview_schedule)->filter(function($slot) { return $slot == 0; })->count() > 0 ? 'far text-muted' : 'fas text-success' }} fa-calendar"></i>
                                 @endunless
+                                @if ($app->user->hasRole('board'))
+                                    <i class="fas fa-star"></i>
+                                @endif
                                 @if ($app->remote)
                                     <i class="fas fa-video"></i>
                                 @endif

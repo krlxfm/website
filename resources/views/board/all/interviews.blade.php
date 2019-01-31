@@ -31,6 +31,9 @@ function checkedIfTime($app, $time) {
                             <tr>
                                 <td style="white-space: nowrap;">
                                     {{ $app->user->full_name }}
+                                    @if ($app->user->hasRole('board'))
+                                        <i class="fas fa-star"></i>
+                                    @endif
                                     @if ($app->remote)
                                         <i class="fas fa-video"></i>
                                     @endif
