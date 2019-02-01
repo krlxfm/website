@@ -19,7 +19,7 @@
                         <a class="list-group-item list-group-item-action text-dark d-flex align-items-center" href="{{ route('board.app', date('Y')) }}">
                             <div>
                                 <h5 class="head-sans-serif mb-0">
-                                    <strong>{{ $board_app ? 'My' : 'Start' }} {{ $board_app->year }}-{{ $board_app->year + 1 }} Board Application</strong>
+                                    <strong>{{ $board_app ? 'My' : 'Start' }} {{ date('Y') }}-{{ date('Y') + 1 }} Board Application</strong>
                                 </h5>
                             </div>
                             <i class="ml-auto fas fa-chevron-right fa-2x text-muted"></i>
