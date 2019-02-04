@@ -47,7 +47,7 @@ function checkedIfTime($app, $time) {
                                     <input type="radio" name="interviews[{{ $app->id }}]" value="" {{ checkedIfTime($app, null) }}>
                                 </td>
                                 @foreach($dates as $date)
-                                    <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}" data-html="true" data-toggle="tooltip" data-placement="top" title="{{ $app->user->full_name . '<br>' . $date->format('D n/j, g:i a') }}">
+                                    <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}" data-html="true" data-toggle="tooltip" data-placement="top" title="<strong>{{ $app->user->full_name . '</strong><br>'.{{ implode(', ', $app->positions->pluck('position.abbr')->all()) }}.'<br>' . $date->format('D n/j, g:i a') }}">
                                         @if($app->interview_schedule[$date->format('Y-m-d H:i:s')] == 1)
                                             <i class="fas fa-times text-danger"></i>
                                         @else
