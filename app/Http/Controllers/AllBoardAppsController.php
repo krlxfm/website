@@ -73,7 +73,7 @@ class AllBoardAppsController extends Controller
                 }
             }],
             'interviews.*' => 'nullable|date',
-            'notify' => 'required|boolean'
+            'notify' => 'required|boolean',
         ]);
 
         foreach ($request->input('interviews') as $key => $time) {
@@ -117,7 +117,9 @@ class AllBoardAppsController extends Controller
     private function sendCandidateNotifications(array $candidates)
     {
         foreach ($candidates as $app_id => $time) {
-            if ($time === null) continue;
+            if ($time === null) {
+                continue;
+            }
             $app = BoardApp::find($app_id);
             $user = User::find(1);
             Mail::to($user)->queue(new BoardInterview($app));
