@@ -12,7 +12,7 @@
                             <tr>
                                 <th class="w-25">Time</th>
                                 <th class="w-50">Candidate</th>
-                                <th class="w-50">Position(s)</th>
+                                <th class="w-25">Position(s)</th>
                             </tr>
                         </thead>
                         @foreach($times as $time)

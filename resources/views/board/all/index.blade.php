@@ -28,7 +28,13 @@
                 <tbody>
                     @foreach($apps as $app)
                         <tr class="{{ $app->submitted ? '' : 'table-warning' }}">
-                            <td class="align-middle">{{ $app->user->full_name }}</td>
+                            <td class="align-middle">
+                                {{ $app->user->full_name }}
+                                @if($app->interview)
+                                    <br>
+                                    <small class="text-muted">Interview: {{ $app->interview->format('l, F j, Y, g:i a')}}</small>
+                                @endif
+                            </td>
                             <td class="align-middle">
                                 @unless ($app->submitted)
                                     @php

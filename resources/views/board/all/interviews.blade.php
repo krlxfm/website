@@ -14,7 +14,7 @@ function checkedIfTime($app, $time) {
 @section('mid')
     <div class="row">
         <div class="col">
-            <form method="post">
+            <form method="post" id="interviews-form">
                 @csrf
                 @method('patch')
                 <table class="table table-hover table-responsive">
@@ -47,7 +47,7 @@ function checkedIfTime($app, $time) {
                                     <input type="radio" name="interviews[{{ $app->id }}]" value="" {{ checkedIfTime($app, null) }}>
                                 </td>
                                 @foreach($dates as $date)
-                                    <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}">
+                                    <td class="text-center {{ $colors[$app->interview_schedule[$date->format('Y-m-d H:i:s')]] }}" data-html="true" data-toggle="tooltip" data-placement="top" title="{{ $app->user->full_name . '<br>' . $date->format('D n/j, g:i a') }}">
                                         @if($app->interview_schedule[$date->format('Y-m-d H:i:s')] == 1)
                                             <i class="fas fa-times text-danger"></i>
                                         @else
@@ -60,9 +60,15 @@ function checkedIfTime($app, $time) {
                     </tbody>
                 </table>
                 <p>
+                    <input type="hidden" name="notify" value="0" id="notify-field">
                     <button type="submit" class="btn btn-lg btn-primary">Save</button>
+                    <button type="button" class="btn btn-lg btn-info" id="save-with-email">Save and Notify Candidates</button>
                 </p>
             </form>
         </div>
     </div>
 @endsection
+
+@push('js')
+<script src="/js/pages/board/interviews.js" defer></script>
+@endpush

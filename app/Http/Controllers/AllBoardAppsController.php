@@ -70,6 +70,7 @@ class AllBoardAppsController extends Controller
                 }
             }],
             'interviews.*' => 'nullable|date',
+            'notify' => 'required|boolean'
         ]);
 
         foreach ($request->input('interviews') as $key => $time) {
@@ -78,7 +79,12 @@ class AllBoardAppsController extends Controller
             $app->save();
         }
 
-        $request->session()->flash('status', 'Interview times have been updated.');
+        if ($request->input('notify')) {
+            $this->sendCandidateNotifications($request->input('interviews'));
+            $request->session()->flash('status', 'Interview times have been saved, and candidates have been notified via email of their times.');
+        } else {
+            $request->session()->flash('status', 'Interview times have been updated. Candidates have not been notified yet; click "Save and Notify Candidates" to send emails.');
+        }
 
         return redirect()->route('board.interviews');
     }
@@ -103,5 +109,10 @@ class AllBoardAppsController extends Controller
         }
 
         return view('board.all.schedule', compact('apps', 'dates'));
+    }
+
+    private function sendCandidateNotifications(array $candidates)
+    {
+
     }
 }
