@@ -2,10 +2,13 @@
 
 namespace KRLX\Http\Controllers;
 
+use KRLX\User;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\BoardApp;
 use Illuminate\Http\Request;
+use KRLX\Mail\BoardInterview;
+use Illuminate\Support\Facades\Mail;
 
 class AllBoardAppsController extends Controller
 {
@@ -60,7 +63,7 @@ class AllBoardAppsController extends Controller
             'interviews' => ['array', function ($attribute, $value, $fail) {
                 // Custom validation logic to check that all IDs are valid, and no duplicate interviews.
                 $interviews = collect($value);
-                $interviews_without_null = $interviews->reject(function ($i) {
+                $interviews_without_null = $interviews->values()->reject(function ($i) {
                     return $i === null;
                 });
                 if (BoardApp::whereIn('id', $interviews->keys()->all())->count() !== $interviews->count()) {
@@ -113,6 +116,11 @@ class AllBoardAppsController extends Controller
 
     private function sendCandidateNotifications(array $candidates)
     {
-
+        foreach ($candidates as $app_id => $time) {
+            if ($time === null) continue;
+            $app = BoardApp::find($app_id);
+            $user = User::find(1);
+            Mail::to($user)->queue(new BoardInterview($app));
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace KRLX\Mail;
 
+use KRLX\BoardApp;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,14 +12,16 @@ class BoardInterview extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $app;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(BoardApp $app)
     {
-        //
+        $this->app = $app;
     }
 
     /**
@@ -28,6 +31,6 @@ class BoardInterview extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.board.interview');
+        return $this->from('manager@krlx.org')->markdown('mail.board.interview');
     }
 }
