@@ -121,8 +121,7 @@ class AllBoardAppsController extends Controller
                 continue;
             }
             $app = BoardApp::find($app_id);
-            $user = User::find(1);
-            Mail::to($user)->queue(new BoardInterview($app));
+            Mail::to($app->user)->queue(new BoardInterview($app));
         }
     }
 }
