@@ -5,7 +5,7 @@
         <div class="col">
             <h1>Interview Schedule</h1>
             @foreach($dates as $key => $times)
-                <div class="pdf-page-break">
+                <div class="{{ $loop->first ? '' : 'pdf-page-break'}}">
                     <h3 class="mb-3">{{ \Carbon\Carbon::parse($key)->format('l, F j, Y') }}</h3>
                     <table class="table table-sm">
                         <thead>
