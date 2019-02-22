@@ -18,13 +18,13 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="rescheduling_policy-accept" name="rescheduling_policy">
-                                <label class="custom-control-label" for="rescheduling_policy-accept">I have read and agree to the rescheduling policy stated above. <strong>I understand that KRLX has the right to refuse a reschedule request if I willingly fail to declare a conflict on my original application.</strong></label>
+                                <label class="custom-control-label" for="rescheduling_policy-accept">I have read and agree to the rescheduling policy stated above.<br><strong>I understand that KRLX has the right to refuse a reschedule request if I willingly fail to declare a conflict on my original application.</strong></label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="drop_policy-accept" name="drop_policy">
-                                <label class="custom-control-label" for="drop_policy-accept">I have read and agree to the show drop policy stated above. <strong>I understand that KRLX does not allow shows to be dropped after initial times are assigned except in extreme circumstances.</strong></label>
+                                <label class="custom-control-label" for="drop_policy-accept">I have read and agree to the show drop policy stated above.<br><strong>I understand that KRLX does not allow shows to be dropped after initial times are assigned except in extreme circumstances.</strong></label>
                             </div>
                         </div>
                         <div class="form-group">
