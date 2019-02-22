@@ -38,6 +38,8 @@ class PointController extends Controller
     {
         $request->validate([
             'contract' => 'accepted',
+            'drop_policy' => 'accepted',
+            'rescheduling_policy' => 'accepted',
             'term' => 'required|string|exists:terms,id',
         ]);
 

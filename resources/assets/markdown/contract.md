@@ -4,7 +4,7 @@ We need to get your signature of our membership agreement first before we can re
 This agreement is good for any number of shows in a single academic term.
 You will need to sign the agreement again in future terms, and anyone who does a show with you must also sign the agreement.
 
-**Please note that the membership agreement can be revised at any time, so please review it carefully.**
+**The membership agreement can be revised at any time, so please review it carefully.**
 You can view the membership agreement and its version history at any time on GitHub [here](https://github.com/krlxfm/website/blob/master/resources/assets/markdown/contract.md).
 
 **By applying for a radio show on KRLX and accepting a time slot you agree to follow all KRLX and Federal Communications Commission (FCC) guidelines, and you agree to indemnify, hold harmless, and defend KRLX if a complaint is received about something you do or broadcast. YOU ARE RESPONSIBLE FOR ALL CONTENT AIRED DURING YOUR ASSIGNED TIME SLOT - EVEN IF SOMEONE ELSE IS SITTING IN THE STUDIO OR PICKED UP ON A MICROPHONE OR CALL.**
@@ -104,16 +104,32 @@ Requests submitted after this time may be processed at the discretion of the Pro
 **PLEASE CAREFULLY REVIEW YOUR SCHEDULE AND ENSURE IT IS UP TO DATE. We reserve the right to refuse a reschedule request if you fail to declare a known conflict on your application.**
 
 Show conflicts must be legitimate.
-We reserve the right to verify your schedule and assign you to any time outside of your legitimate conflicts.
+We reserve the right to verify your schedule and assign you to any time outside of your legitimate conflicts, though we will make every attempt to assign you to a time you list as a preference.
 Be prepared to justify overnight or large numbers of conflicts.
 
 **SHOW TIMES MAY CHANGE AFTER INITIAL ASSIGNMENT TO ACCOMMODATE RESCHEDULES.**
 We will make every effort to minimize collateral damage of a reschedule.
 Times are not guaranteed until the schedule is locked.
 
-Shows may not be dropped after initial times are assigned, except in extreme circumstances.
+**Shows may not be dropped after initial times are assigned, except in extreme circumstances.**
 If you feel that this applies to you, please email the Programming Director and Station Manager as soon as you determine that you need to drop your show.
 You can drop your show online, no questions asked, at any time while applications are open.
+
+## Overnight Shows Policy
+
+KRLX and our 24-hour student-staffed broadcasting schedule have been Carleton traditions for decades.
+During academic terms we broadcast with live hosts 24 hours a day, 7 days a week.
+This does mean that some shows will be scheduled in the overnight hours, including on weekdays.
+Additionally, **being scheduled overnight is not sufficient grounds to request a reschedule in and of itself.**
+
+DJs not comfortable doing an overnight show are encouraged to join a group show with more experienced students before starting a show of their own.
+
+In accordance with the KRLX [priority system](https://github.com/krlxfm/website/wiki/Priority), DJs with more experience are assigned times before brand-new DJs.
+This means that less experienced DJs are more likely to receive an overnight time slot for their first few terms.
+
+KRLX recognizes the importance of sleep and we do take class schedules into account when building the radio schedule.
+
+Overnight conflicts are permitted, but must be legitimate (for example, Resident Assistants may declare standard duty hours).
 
 ## Attendance policy
 
@@ -152,7 +168,7 @@ All DJs must be trained by the Compliance Director at the start of their career.
 DJs must be re-trained if they have been inactive for one year or longer, or if directed by the Board.
 
 You are required to have an accurate phone number on file with KRLX, and we reserve the right to verify its accuracy.
-If your number changes, you need to update your account on the website as soon as possible.
+If your phone number changes, you need to update your account on the website as soon as possible.
 If we find that you have given us an inaccurate phone number, you will be suspended from KRLX until the problem is fixed.
 
 **KRLX has a zero tolerance policy against violence (sexual or otherwise), theft, damage to property, and discrimination. Should we become aware of any such incidents within the station or at our official events, we will report them to the appropriate authorities - without pleasure, but without hesitation. We strive to create an open and inclusive community of content creators, and these types of behaviors hinder our ability to do so.**
