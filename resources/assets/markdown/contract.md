@@ -33,8 +33,6 @@ Broadcasting any of the following content on KRLX is **ILLEGAL** and will result
 - Any content that you are being paid to broadcast ("payment" includes non-monetary compensation, i.e. merchandise, concert tickets, promotions, etc)
 - Calls to action
 
-Broadcasting any illegal content may result in enforcement actions by the FCC, which can include fines, broadcast restrictions, or revocation of the KRLX broadcast license. **DJs who cause the FCC to take action against the station will be immediately terminated.**
-
 While not necessarily illegal, it is extremely unethical (and against KRLX policy) to broadcast the following content:
 
 - The full identity of a caller or anyone outside the public domain. You must reference callers, guests, and other third parties by their first name unless you have their permission OR they fall under one of the following categories:
