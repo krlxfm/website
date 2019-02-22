@@ -4,6 +4,9 @@ We need to get your signature of our membership agreement first before we can re
 This agreement is good for any number of shows in a single academic term.
 You will need to sign the agreement again in future terms, and anyone who does a show with you must also sign the agreement.
 
+**Please note that the membership agreement can be revised at any time, so please review it carefully.**
+You can view the membership agreement and its version history at any time on GitHub [here](https://github.com/krlxfm/website/blob/master/resources/assets/markdown/contract.md).
+
 **By applying for a radio show on KRLX and accepting a time slot you agree to follow all KRLX and Federal Communications Commission (FCC) guidelines, and you agree to indemnify, hold harmless, and defend KRLX if a complaint is received about something you do or broadcast. YOU ARE RESPONSIBLE FOR ALL CONTENT AIRED DURING YOUR ASSIGNED TIME SLOT - EVEN IF SOMEONE ELSE IS SITTING IN THE STUDIO OR PICKED UP ON A MICROPHONE OR CALL.**
 
 We recognize that this agreement has a lot of serious-sounding stuff in it, and we hope this is the most stern we have to get.
@@ -29,6 +32,8 @@ Broadcasting any of the following content on KRLX is **ILLEGAL** and will result
 - Advertisements or promotions from commercial entities, or anything that could be interpreted as such _(this rule includes ads from YouTube and Spotify!)_
 - Any content that you are being paid to broadcast ("payment" includes non-monetary compensation, i.e. merchandise, concert tickets, promotions, etc)
 - Calls to action
+
+Broadcasting any illegal content may result in enforcement actions by the FCC, which can include fines, broadcast restrictions, or revocation of the KRLX broadcast license. **DJs who cause the FCC to take action against the station will be immediately terminated.**
 
 While not necessarily illegal, it is extremely unethical (and against KRLX policy) to broadcast the following content:
 
@@ -75,7 +80,7 @@ Your responsibilities while in the studio include, but are not limited to:
 - Reminding guests and callers of the rules before putting them on air
 
 You are responsible for the actions of your callers and guests, so please remind them of the rules before inviting them into KRLX or putting them on air.
-If you observe other DJs violating these rules, inform the Compliance Director right away.
+If you observe other DJs violating these rules, inform the Compliance Director right away - _it's better for us to know of an issue and address it proactively with the DJs involved, rather than needing to respond to an FCC complaint._
 
 Leaving the studio empty is **illegal** and is grounds for termination.
 If no one in the studio is a host of a radio show this term, it's treated the same as if it were completely empty.
@@ -91,7 +96,7 @@ If your time changes, you will be notified of the change as soon as it is publis
 Reschedule requests are only permitted under the following circumstances:
 
 - You are assigned a time that creates a scheduling conflict, as declared on your show application.
-- You are assigned a time that creates a scheduling conflict that you were became aware of after applications closed.
+- You are assigned a time that creates a scheduling conflict that you were became aware of after applications closed. (You can continue to edit your schedule after you submit your application.)
 - You have found another show that will switch times with you.
 - Special circumstances arise and the Programming Director has approved a reschedule request.
 
