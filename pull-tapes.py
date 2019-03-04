@@ -14,8 +14,11 @@ def time_rollover(time):
 def date_rollover(year, month, day):
     months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     y = year
+    print('year:', y)
     m = month
+    print('month:', m)
     d = day
+    print('day:', d)
     if y % 4 == 0:
         months[1] = 29
     if d > months[m - 1]:
@@ -83,18 +86,20 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
         day = date[2]
         if end_time < start_time:
             end_time += 2400
-        time = start_time
+        time = start_time - 30
         tmp_day = day
         while time < end_time:
-            print(time)
-            times.append([month, tmp_day, time])
             time += 30
             time = time_rollover(time)
             if time // 10000 == 1:
                 tmp_day += 1
                 end_time -= 2400
             time = time % 10000
-            print('time:', time, 'end_time:', end_time)
+            date = date_rollover(year, month, tmp_day)
+            year = date[0]
+            month = date[1]
+            tmp_day = date[2]
+            times.append([month, tmp_day, time])
     for t in times:
         os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/'.format(year, t[0], t[1], t[2], name))
 
