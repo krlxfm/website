@@ -40,6 +40,7 @@ class PointController extends Controller
             'contract' => 'accepted',
             'drop_policy' => 'accepted',
             'rescheduling_policy' => 'accepted',
+            'phone_number_verification' => 'accepted',
             'term' => 'required|string|exists:terms,id',
         ]);
 
