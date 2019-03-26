@@ -99,7 +99,7 @@ class CreateTerm extends Command
 
         $tracks = Track::where([['active', true], ['weekly', false]])->get();
         $track_managers = $tracks->reduce(function ($carry, $track) use ($user) {
-            $track_managers[$track->id] = $user->id;
+            $track_managers[$track->id] = [$user->id];
             return $track_managers;
         }, []);
 
@@ -109,6 +109,7 @@ class CreateTerm extends Command
         $term->off_air = $end;
         $term->applications_close = $appCloseDate;
         $term->track_managers = $track_managers;
+        $term->boosted = (substr($termId, -3) !== '-FA');
 
         $statuses = [
             "No - leave applications closed for everyone for now",
@@ -147,7 +148,7 @@ class CreateTerm extends Command
         if ($term->status != 'active') {
             $this->line('');
             $this->comment("Applications are not open to the general community.");
-            $this->comment("When you're ready to open applications, run php artisan term:activate {$term->id}.");
+            $this->comment("When you're ready to open applications, run php artisan term:status {$term->id}.");
         }
     }
 }

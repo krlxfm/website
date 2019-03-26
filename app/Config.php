@@ -15,7 +15,7 @@ class Config extends Model
      * @param  string  $value
      * @return null
      */
-    public function set(string $key, string $value)
+    public static function set(string $key, string $value)
     {
         $config = self::firstOrNew(['name', $key]);
         $config->value = $value;
