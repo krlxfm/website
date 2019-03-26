@@ -17,7 +17,7 @@ class Config extends Model
      */
     public static function set(string $key, string $value)
     {
-        $config = self::firstOrNew(['name', $key]);
+        $config = self::firstOrNew([['name', $key]]);
         $config->value = $value;
         $config->save();
     }

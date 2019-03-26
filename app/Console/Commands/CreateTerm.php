@@ -59,7 +59,7 @@ class CreateTerm extends Command
             do {
                 try {
                     $end = Carbon::parse($this->ask('What is the date that classes end?'));
-                    if (! $this->confirm("End date parsed as {$start->format('l, F j, Y')}. Is this correct?")) {
+                    if (! $this->confirm("End date parsed as {$end->format('l, F j, Y')}. Is this correct?")) {
                         $end = null;
                     }
                 } catch (\Exception $e) {
@@ -113,16 +113,12 @@ class CreateTerm extends Command
         $term->boosted = (substr($termId, -3) !== '-FA');
 
         $statuses = [
-            'No - leave applications closed for everyone for now',
-            'Limited access - allow board members and those with early access to apply, otherwise keep applications closed',
-            'Yes - open applications now',
+            'no' => 'No - leave applications closed for everyone for now',
+            'limited' => 'Limited access - allow board members and those with early access to apply, otherwise keep applications closed',
+            'yes' => 'Yes - open applications now',
         ];
-        $status_keys = [
-            'No - leave applications closed for everyone for now' => 'new',
-            'Limited access - allow board members and those with early access to apply, otherwise keep applications closed' => 'pending',
-            'Yes - open applications now' => 'active',
-        ];
-        $term->status = $status_keys[$this->choice('Would you like to open applications now?', $statuses, 1)];
+        $status_keys = ['no' => 'new', 'limited' => 'pending', 'yes' => 'active'];
+        $term->status = $status_keys[$this->choice('Would you like to open applications now?', $statuses, 'yes')];
         $term->save();
 
         Config::set('active term', $term->id);
@@ -146,7 +142,9 @@ class CreateTerm extends Command
         $this->table($headers, $data);
         $this->info('Details can be adjusted in the database or via Artisan later if needed.');
 
-        if ($term->status != 'active') {
+        if ($term->status == 'active') {
+            $this->info('Applications are now open. Please ask the Station Manager to make an announcement to the community@krlx.org and djs@krlx.org lists. Have a great term of radio!');
+        } else {
             $this->line('');
             $this->comment('Applications are not open to the general community.');
             $this->comment("When you're ready to open applications, run php artisan term:status {$term->id}.");
