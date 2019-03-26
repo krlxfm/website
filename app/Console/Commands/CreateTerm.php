@@ -39,7 +39,7 @@ class CreateTerm extends Command
         do {
             try {
                 $start = Carbon::parse($this->ask('What is the date that classes begin?'));
-                if (!$this->confirm("Start date parsed as {$start->format('l, F j, Y')}. Is this correct?")) {
+                if (! $this->confirm("Start date parsed as {$start->format('l, F j, Y')}. Is this correct?")) {
                     $start = null;
                 }
             } catch (\Exception $e) {
@@ -55,11 +55,11 @@ class CreateTerm extends Command
 
         $end = $start->copy()->addWeeks(9)->next($last_day[$start->format('D')]);
 
-        if (!$this->confirm("End date calculated as {$end->format('l, F j, Y')}. Is this correct?")) {
+        if (! $this->confirm("End date calculated as {$end->format('l, F j, Y')}. Is this correct?")) {
             do {
                 try {
                     $end = Carbon::parse($this->ask('What is the date that classes end?'));
-                    if (!$this->confirm("End date parsed as {$start->format('l, F j, Y')}. Is this correct?")) {
+                    if (! $this->confirm("End date parsed as {$start->format('l, F j, Y')}. Is this correct?")) {
                         $end = null;
                     }
                 } catch (\Exception $e) {
@@ -72,7 +72,7 @@ class CreateTerm extends Command
         $termNames = ['WI', 'WI', 'WI', 'SP', 'SP', 'SP', 'FA', 'FA', 'FA', 'FA', 'FA', 'WI', 'WI'];
         $termId = $start->format('Y').'-'.$termNames[$start->format('n')];
 
-        if (!$this->confirm("Is $termId the correct term ID?")) {
+        if (! $this->confirm("Is $termId the correct term ID?")) {
             $termId = $this->ask('Please enter the correct term ID.');
         }
 
@@ -100,6 +100,7 @@ class CreateTerm extends Command
         $tracks = Track::where([['active', true], ['weekly', false]])->get();
         $track_managers = $tracks->reduce(function ($carry, $track) use ($user) {
             $track_managers[$track->id] = [$user->id];
+
             return $track_managers;
         }, []);
 
@@ -112,14 +113,14 @@ class CreateTerm extends Command
         $term->boosted = (substr($termId, -3) !== '-FA');
 
         $statuses = [
-            "No - leave applications closed for everyone for now",
-            "Limited access - allow board members and those with early access to apply, otherwise keep applications closed",
-            "Yes - open applications now"
+            'No - leave applications closed for everyone for now',
+            'Limited access - allow board members and those with early access to apply, otherwise keep applications closed',
+            'Yes - open applications now',
         ];
         $status_keys = [
-            "No - leave applications closed for everyone for now" => 'new',
-            "Limited access - allow board members and those with early access to apply, otherwise keep applications closed" => 'pending',
-            "Yes - open applications now" => 'active'
+            'No - leave applications closed for everyone for now' => 'new',
+            'Limited access - allow board members and those with early access to apply, otherwise keep applications closed' => 'pending',
+            'Yes - open applications now' => 'active',
         ];
         $term->status = $status_keys[$this->choice('Would you like to open applications now?', $statuses, 1)];
         $term->save();
@@ -135,7 +136,7 @@ class CreateTerm extends Command
             ['Applications close', $appCloseDate->format('l, F j, Y g:i A')],
             ['Schedule locks', $onAirDate->copy()->subDay()->format('l, F j, Y g:i A')],
             ['On air', $onAirDate->format('l, F j, Y g:i A')],
-            ['Off air', $end->format('l, F j, Y g:i A')]
+            ['Off air', $end->format('l, F j, Y g:i A')],
         ];
         foreach ($tracks as $track) {
             $data[] = ["Track manager, {$track->name}", $user->full_name];
@@ -147,7 +148,7 @@ class CreateTerm extends Command
 
         if ($term->status != 'active') {
             $this->line('');
-            $this->comment("Applications are not open to the general community.");
+            $this->comment('Applications are not open to the general community.');
             $this->comment("When you're ready to open applications, run php artisan term:status {$term->id}.");
         }
     }

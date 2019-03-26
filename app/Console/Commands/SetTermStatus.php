@@ -39,8 +39,9 @@ class SetTermStatus extends Command
     public function handle()
     {
         $term = Term::find($this->argument('term'));
-        if (!$term) {
+        if (! $term) {
             $this->error("No term could be found with ID {$this->argument('term')}.");
+
             return 40;
         }
 
@@ -48,7 +49,7 @@ class SetTermStatus extends Command
             'pending' => 'Early access applications (board members and those with early access can submit)',
             'active' => 'Applications open',
             'closed' => 'Applications closed, schedule still editable',
-            'scheduled' => 'Schedule locked'
+            'scheduled' => 'Schedule locked',
         ];
         $new_status = $this->choice("What status would you like to apply to {$term->name}?", $statuses, 'active');
 
