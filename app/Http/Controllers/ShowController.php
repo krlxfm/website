@@ -242,7 +242,7 @@ class ShowController extends Controller
                 'day' => $show->day,
                 'start' => $show->start,
                 'end' => $show->end,
-                'flags' => ($show->priority->terms == 0 ? 'SHADOWING REQUIRED' : '')
+                'flags' => ($show->priority->terms == 0 ? 'SHADOWING REQUIRED' : ''),
             ]);
         }
         fclose($file);
@@ -288,7 +288,7 @@ class ShowController extends Controller
                 'phone' => $user->phone_number,
                 'terms' => $user->priorityAsOf($term->id)->terms,
                 'year' => $user->year,
-                'flags' => implode(', ', $flags)
+                'flags' => implode(', ', $flags),
             ]);
         }
         fclose($file);
