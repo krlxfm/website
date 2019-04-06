@@ -116,12 +116,13 @@ class Term extends Model
         return $this->shows()->with('track', 'hosts')->get()->filter(function ($show) use ($weekly) {
             return $show->track->weekly == $weekly and ($weekly ? ($show->track->order > 0) : ($show->track->order == 0));
         })->map(function ($show) {
+            $pr = $show->priority;
             $show->sort_data = [
                 (! $show->board_boost),
                 $show->track->order,
-                ($show->priority->year >= 1000),
-                (2000 - $show->priority->terms),
-                $show->priority->year,
+                ($pr->year >= 1000),
+                (2000 - $pr->terms),
+                $pr->year,
                 (! $show->submitted),
                 $show->updated_at,
                 $show->id,
