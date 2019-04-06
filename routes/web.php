@@ -70,6 +70,7 @@ Route::middleware(['auth', 'log', 'onboard'])->group(function () {
 
     Route::middleware('permission:see all DJs')->group(function () {
         Route::get('shows/djs/{term?}', 'ShowController@djs')->name('shows.djs');
+        Route::get('shows/roster/{term?}', 'ShowController@downloadRoster')->name('shows.downloadRoster');
     });
 
     Route::middleware('permission:build schedule')->group(function () {
