@@ -276,7 +276,9 @@ class ShowController extends Controller
         $shows = $term->shows()->where('submitted', false)->with('hosts')->get();
 
         foreach ($shows as $show) {
-            Mail::to($show->hosts)->queue(new ShowReminder($show));
+            if ($show->hosts->count > 0) {
+                Mail::to($show->hosts)->queue(new ShowReminder($show));
+            }
         }
     }
 
