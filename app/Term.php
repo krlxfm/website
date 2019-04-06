@@ -126,6 +126,7 @@ class Term extends Model
                 $show->updated_at,
                 $show->id,
             ];
+
             return $show;
         })->sort(function ($a, $b) {
             return $this->sortShowsByPriority($a->sort_data, $b->sort_data);
