@@ -6,7 +6,7 @@
             <div class="d-flex flex-wrap align-items-center">
                 <h1>DJ roster ({{ $users->count() }})</h1>
                 <div class="btn-group ml-auto">
-                    <a href="#" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
+                    <a href="{{ route('shows.downloadRoster', $term) }}" class="btn btn-primary"><i class="fas fa-download"></i> Download CSV</a>
                 </div>
             </div>
             @include('components.term-selector', ['root' => route('shows.djs')])

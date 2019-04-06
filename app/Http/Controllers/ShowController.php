@@ -233,7 +233,7 @@ class ShowController extends Controller
         $shows = $term->showsInPriorityOrder(true)->where('submitted', true);
 
         $file = fopen(storage_path('app/shows.csv'), 'w');
-        fputcsv($file, ['id', 'title', 'djs', 'day', 'start', 'end']);
+        fputcsv($file, ['id', 'title', 'djs', 'day', 'start', 'end', 'flags']);
         foreach ($shows as $show) {
             fputcsv($file, [
                 'id' => $show->id,
@@ -242,11 +242,58 @@ class ShowController extends Controller
                 'day' => $show->day,
                 'start' => $show->start,
                 'end' => $show->end,
+                'flags' => ($show->priority->terms == 0 ? 'SHADOWING REQUIRED' : '')
             ]);
         }
         fclose($file);
 
         return response()->download(storage_path('app/shows.csv'))->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Download a CSV of all shows.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  KRLX\Term|null  $term
+     * @return Illuminate\Http\Response
+     */
+    public function downloadRoster(Request $request, Term $term = null)
+    {
+        if ($term == null) {
+            $terms = Term::orderByDesc('on_air')->get();
+            $term = $terms->first();
+        }
+
+        $hosts = User::orderBy('email')->with(['points', 'shows' => function ($query) use ($term) {
+            return $query->where([['term_id', $term->id], ['submitted', true]]);
+        }])->get();
+
+        $users = $hosts->filter(function ($user) {
+            return $user->shows->count() > 0;
+        });
+
+        $file = fopen(storage_path('app/djs.csv'), 'w');
+        fputcsv($file, ['email', 'name', 'phone', 'terms', 'year', 'flags']);
+        foreach ($users as $user) {
+            $flags = [];
+            if ($user->priorityAsOf($term->id)->terms === 0) {
+                $flags[] = 'TRAINING REQUIRED';
+            }
+            if ($user->year <= ((int) date('Y') + (int) $term->boosted)) {
+                $flags[] = 'VERIFY CARD ACCESS';
+            }
+            fputcsv($file, [
+                'email' => $user->email,
+                'name' => $user->name,
+                'phone' => $user->phone_number,
+                'terms' => $user->priorityAsOf($term->id)->terms,
+                'year' => $user->year,
+                'flags' => implode(', ', $flags)
+            ]);
+        }
+        fclose($file);
+
+        return response()->download(storage_path('app/djs.csv'))->deleteFileAfterSend(true);
     }
 
     /**
