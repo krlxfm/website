@@ -279,7 +279,7 @@ class ShowController extends Controller
             if ($user->priorityAsOf($term->id)->terms === 0) {
                 $flags[] = 'TRAINING REQUIRED';
             }
-            if ($user->year <= ((int) date('Y') + (int) $term->boosted)) {
+            if ($user->year <= ((int) date('Y') - (int) $term->boosted)) {
                 $flags[] = 'VERIFY CARD ACCESS';
             }
             fputcsv($file, [
