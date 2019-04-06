@@ -113,10 +113,19 @@ class Term extends Model
      */
     public function showsInPriorityOrder(bool $weekly)
     {
-        $shows = $this->shows()->with('track', 'hosts')->get();
-
-        return $shows->filter(function ($show) use ($weekly) {
+        $shows = $this->shows()->with('track', 'hosts')->get()->filter(function ($show) use ($weekly) {
             return $show->track->weekly == $weekly and ($weekly ? ($show->track->order > 0) : ($show->track->order == 0));
+        })->map(function ($show) {
+            return [
+                (!$show->board_boost),
+                $show->track->order,
+                ($show->priority->year >= 1000),
+                (2000 - $show->priority->terms),
+                $show->priority->year,
+                (!$show->submitted),
+                $show->updated_at,
+                $show->id
+            ];
         })->sort(function ($a, $b) {
             return $this->sortShowsByPriority($a, $b);
         });
@@ -125,29 +134,15 @@ class Term extends Model
     /**
      * Function to sort shows in priority order.
      *
-     * @param  Show  $show_a
-     * @param  Show  $show_b
+     * @param  array  $show_a
+     * @param  array  $show_b
      * @return int
      */
-    protected function sortShowsByPriority(Show $show_a, Show $show_b)
+    protected function sortShowsByPriority(array $show_a, array $show_b)
     {
-        $priority_a = $show_a->priority;
-        $priority_b = $show_b->priority;
-
-        $boost_diff = $show_b->board_boost <=> $show_a->board_boost;
-        $track_diff = $show_a->track->order <=> $show_b->track->order;
-        $faculty_diff = ($priority_b->year < 1000) <=> ($priority_a->year < 1000);
-        $zone_diff = $priority_b->terms <=> $priority_a->terms;
-        $year_diff = $priority_a->year <=> $priority_b->year;
-        $completed_diff = $show_b->submitted <=> $show_a->submitted;
-        $updated_at_diff = $show_a->updated_at <=> $show_b->updated_at;
-        $id_diff = $show_a->id <=> $show_b->id;
-
-        $diffs = [$boost_diff, $track_diff, $faculty_diff, $zone_diff, $year_diff, $completed_diff, $updated_at_diff, $id_diff];
-
-        foreach ($diffs as $diff) {
-            if ($diff != 0) {
-                return $diff;
+        for ($i = 0; $i < count($show_a); $i++) {
+            if (($show_a[$i] <=> $show_b[$i]) !== 0) {
+                return $show_a[$i] <=> $show_b[$i];
             }
         }
     }
