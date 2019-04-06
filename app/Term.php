@@ -117,14 +117,14 @@ class Term extends Model
             return $show->track->weekly == $weekly and ($weekly ? ($show->track->order > 0) : ($show->track->order == 0));
         })->map(function ($show) {
             return [
-                (!$show->board_boost),
+                (! $show->board_boost),
                 $show->track->order,
                 ($show->priority->year >= 1000),
                 (2000 - $show->priority->terms),
                 $show->priority->year,
-                (!$show->submitted),
+                (! $show->submitted),
                 $show->updated_at,
-                $show->id
+                $show->id,
             ];
         })->sort(function ($a, $b) {
             return $this->sortShowsByPriority($a, $b);
