@@ -126,10 +126,10 @@ function checkNoWeekendTransition(grid) {
 
 function checkNoGaps(grid) {
     for (var i = 0; i < 7; i++) {
-        var start = moment("00:00:00");
+        var start = moment("00:00", 'HH:mm');
         for (var j = 0; j < 48; j++) {
             if (! grid[i][start.format('HH:mm')]) {
-                throwSchedulingFault('Fill in the gap at '+weekdayMapping[i]+' '+start.format('h:mm a'), 'warning');
+                throwSchedulingFault('Fill in the gap at '+weekdayMapping[i]+' '+start.format('h:mm a'), 'error');
             }
             start.add(30, 'm');
         }
