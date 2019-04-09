@@ -129,7 +129,7 @@ function checkNoGaps(grid) {
         var start = moment("00:00", 'HH:mm');
         for (var j = 0; j < 48; j++) {
             if (! grid[i][start.format('HH:mm')]) {
-                throwSchedulingFault('Fill in the gap at '+weekdayMapping[i]+' '+start.format('h:mm a'), 'error');
+                throwSchedulingFault('Fill in the gap at '+weekdayMapping[i]+' '+start.format('h:mm a'), 'warning');
             }
             start.add(30, 'm');
         }

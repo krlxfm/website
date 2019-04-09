@@ -7,7 +7,7 @@ exports.publishDraft = function () {
         swal({
             icon: 'warning',
             title: 'Ignore warning?',
-            text: 'The schedule currently has ' + app.controlMessages.warnings.length + ' active warning(s). Are you sure you want to publish the schedule with these warnings?',
+            text: 'The schedule currently has ' + app.controlMessages.warnings.length + ' active warning(s). The most important one is: '+app.controlMessages.warnings[0]+'. Are you sure you want to publish the schedule with these warnings?',
             buttons: true,
             dangerMode: true
         })
