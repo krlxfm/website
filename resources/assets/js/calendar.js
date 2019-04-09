@@ -124,6 +124,18 @@ function checkNoWeekendTransition(grid) {
     }
 }
 
+function checkNoGaps(grid) {
+    for (var i = 0; i < 7; i++) {
+        var start = moment("00:00:00");
+        for (var j = 0; j < 48; j++) {
+            if (! grid[i][start.format('HH:mm')]) {
+                throwSchedulingFault('Fill in the gap at '+weekdayMapping[i]+' '+start.format('h:mm a'), 'warning');
+            }
+            start.add(30, 'm');
+        }
+    }
+}
+
 function checkNoSpringForwardShenanigans(grid) {
     if(!moment(term.on_air).isDST() && moment(term.off_air).isDST()) {
         if(grid[0]["02:00"] != grid[0]["02:30"]) {
@@ -176,6 +188,7 @@ exports.checkForErrors = function () {
     checkNoConflictOverlaps(recurringShows, 'classes');
 
     // Warnings - these allow a schedule to publish, but warn you of potentially bad ideas.
+    checkNoGaps(grid);
     checkNoConflictOverlaps(recurringShows, 'conflicts');
     checkNoLongShows(recurringShows);
     check1aMercyRule(recurringShows);
