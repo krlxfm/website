@@ -3,7 +3,6 @@
 namespace KRLX\Policies;
 
 use KRLX\Show;
-use KRLX\Term;
 use KRLX\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
