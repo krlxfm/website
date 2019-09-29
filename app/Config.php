@@ -1,5 +1,7 @@
 <?php
 
+define('WP_MEMORY_LIMIT', '64M');
+
 namespace KRLX;
 
 use Illuminate\Database\Eloquent\Model;
