@@ -2,7 +2,6 @@
 
 namespace KRLX\Http\Controllers;
 
-use KRLX\User;
 use KRLX\Config;
 use Carbon\Carbon;
 use KRLX\BoardApp;
