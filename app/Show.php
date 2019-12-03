@@ -3,9 +3,9 @@
 namespace KRLX;
 
 use Carbon\Carbon;
-use KRLX\Events\ShowCreating;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KRLX\Events\ShowCreating;
 
 class Show extends Model
 {

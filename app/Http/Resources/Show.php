@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Resources;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use KRLX\Term;
 use KRLX\User;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class Show extends JsonResource
 {

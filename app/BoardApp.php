@@ -2,8 +2,8 @@
 
 namespace KRLX;
 
-use KRLX\Events\BoardAppCreating;
 use Illuminate\Database\Eloquent\Model;
+use KRLX\Events\BoardAppCreating;
 
 class BoardApp extends Model
 {

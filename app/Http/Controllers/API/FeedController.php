@@ -2,12 +2,12 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\Show;
-use KRLX\Term;
-use KRLX\Track;
 use Carbon\Carbon;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Http\Resources\Show as ShowResource;
+use KRLX\Show;
+use KRLX\Term;
+use KRLX\Track;
 
 class FeedController extends Controller
 {

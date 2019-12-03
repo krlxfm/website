@@ -2,11 +2,11 @@
 
 namespace KRLX\Mail;
 
-use KRLX\Show;
-use KRLX\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use KRLX\Show;
+use KRLX\User;
 
 class NewUserInvitation extends Mailable
 {

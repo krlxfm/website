@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
+use KRLX\User;
 use Tests\UnitBaseCase;
 
 class ShowTest extends UnitBaseCase

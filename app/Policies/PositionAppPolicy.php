@@ -2,9 +2,9 @@
 
 namespace KRLX\Policies;
 
-use KRLX\User;
-use KRLX\PositionApp;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use KRLX\PositionApp;
+use KRLX\User;
 
 class PositionAppPolicy
 {

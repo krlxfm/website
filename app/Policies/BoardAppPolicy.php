@@ -2,9 +2,9 @@
 
 namespace KRLX\Policies;
 
-use KRLX\User;
-use KRLX\BoardApp;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use KRLX\BoardApp;
+use KRLX\User;
 
 class BoardAppPolicy
 {

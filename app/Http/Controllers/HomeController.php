@@ -2,11 +2,11 @@
 
 namespace KRLX\Http\Controllers;
 
-use KRLX\Term;
 use Carbon\Carbon;
-use KRLX\BoardApp;
 use Illuminate\Http\Request;
+use KRLX\BoardApp;
 use KRLX\Http\Controllers\API\FeedController;
+use KRLX\Term;
 
 class HomeController extends Controller
 {

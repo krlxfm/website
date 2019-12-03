@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use KRLX\User;
 use Tests\AuthenticatedTestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class OnboardTest extends AuthenticatedTestCase
 {

@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\User;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
+use KRLX\User;
 
 class UserController extends Controller
 {

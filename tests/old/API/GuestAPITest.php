@@ -2,10 +2,10 @@
 
 namespace Tests\API;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Term;
 use KRLX\Track;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GuestAPITest extends TestCase
 {

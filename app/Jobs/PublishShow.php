@@ -2,17 +2,17 @@
 
 namespace KRLX\Jobs;
 
-use KRLX\Show;
-use Illuminate\Bus\Queueable;
-use KRLX\Mail\ScheduleTimeChange;
 use Google_Service_Calendar_Event;
-use KRLX\Mail\InitialTimeAssigned;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Google_Service_Calendar_EventDateTime;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
+use KRLX\Mail\InitialTimeAssigned;
+use KRLX\Mail\ScheduleTimeChange;
+use KRLX\Show;
 
 class PublishShow implements ShouldQueue
 {

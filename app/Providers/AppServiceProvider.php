@@ -2,14 +2,14 @@
 
 namespace KRLX\Providers;
 
-use Spatie\Menu\Laravel\Link;
-use Spatie\Menu\Laravel\Menu;
+use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\Events\JobProcessed;
-use Illuminate\Queue\Events\JobProcessing;
+use Spatie\Menu\Laravel\Link;
+use Spatie\Menu\Laravel\Menu;
 
 class AppServiceProvider extends ServiceProvider
 {

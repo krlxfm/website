@@ -2,11 +2,11 @@
 
 namespace KRLX\Events;
 
-use KRLX\User;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Queue\SerializesModels;
+use KRLX\User;
 
 class UserCreating
 {

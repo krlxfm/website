@@ -2,14 +2,14 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
-use Tests\DuskTestCase;
+use KRLX\User;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Shows\Create as CreatePage;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 class ShowTest extends DuskTestCase
 {

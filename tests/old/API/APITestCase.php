@@ -2,9 +2,9 @@
 
 namespace Tests\API;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class APITestCase extends TestCase
 {

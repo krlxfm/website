@@ -2,16 +2,16 @@
 
 namespace Tests\API;
 
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use KRLX\Mail\NewUserInvitation;
+use KRLX\Notifications\ShowInvitation;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
-use KRLX\Mail\NewUserInvitation;
+use KRLX\User;
 use Tests\AuthenticatedTestCase;
-use Illuminate\Support\Facades\Mail;
-use KRLX\Notifications\ShowInvitation;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
 
 class ShowTest extends AuthenticatedTestCase
 {

@@ -2,12 +2,12 @@
 
 namespace KRLX\Http\Controllers;
 
-use KRLX\Config;
 use Carbon\Carbon;
-use KRLX\BoardApp;
 use Illuminate\Http\Request;
-use KRLX\Mail\BoardInterview;
 use Illuminate\Support\Facades\Mail;
+use KRLX\BoardApp;
+use KRLX\Config;
+use KRLX\Mail\BoardInterview;
 
 class AllBoardAppsController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use KRLX\Term;
 use KRLX\User;
 use Tests\UnitBaseCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class UserTest extends UnitBaseCase
 {

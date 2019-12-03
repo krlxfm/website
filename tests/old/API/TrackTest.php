@@ -2,8 +2,8 @@
 
 namespace Tests\API;
 
-use KRLX\Track;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use KRLX\Track;
 
 class TrackTest extends APITestCase
 {

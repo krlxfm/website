@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Login\Login;
 use Tests\Browser\Pages\Login\Registration;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 class RegistrationTest extends DuskTestCase
 {

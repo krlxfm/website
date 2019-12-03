@@ -2,13 +2,13 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\Show;
-use KRLX\Term;
-use KRLX\Jobs\PublishShow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use KRLX\Jobs\FinalPublishShow;
 use KRLX\Http\Controllers\Controller;
+use KRLX\Jobs\FinalPublishShow;
+use KRLX\Jobs\PublishShow;
+use KRLX\Show;
+use KRLX\Term;
 
 class ScheduleController extends Controller
 {

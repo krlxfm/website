@@ -2,17 +2,17 @@
 
 namespace KRLX\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
+use KRLX\Http\Controllers\API\ShowController as APIController;
+use KRLX\Rules\Profanity;
+use KRLX\Rulesets\ShowRuleset;
 use KRLX\Show;
 use KRLX\Term;
+use KRLX\Track;
 use KRLX\User;
 use Validator;
-use KRLX\Track;
-use KRLX\Rules\Profanity;
-use Illuminate\Http\Request;
-use KRLX\Rulesets\ShowRuleset;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Log;
-use KRLX\Http\Controllers\API\ShowController as APIController;
 
 class ShowController extends Controller
 {

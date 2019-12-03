@@ -2,9 +2,9 @@
 
 namespace KRLX\Policies;
 
-use KRLX\User;
-use KRLX\Track;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use KRLX\Track;
+use KRLX\User;
 
 class TrackPolicy
 {

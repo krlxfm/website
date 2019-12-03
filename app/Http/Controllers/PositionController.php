@@ -2,10 +2,10 @@
 
 namespace KRLX\Http\Controllers;
 
-use KRLX\BoardApp;
-use KRLX\PositionApp;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use KRLX\BoardApp;
+use KRLX\PositionApp;
 
 class PositionController extends Controller
 {

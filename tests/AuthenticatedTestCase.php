@@ -2,9 +2,9 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Term;
 use KRLX\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthenticatedTestCase extends TestCase
 {

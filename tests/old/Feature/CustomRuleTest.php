@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use KRLX\Show;
-use KRLX\User;
-use KRLX\Track;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use KRLX\Show;
+use KRLX\Track;
+use KRLX\User;
+use Tests\TestCase;
 
 class CustomRuleTest extends TestCase
 {

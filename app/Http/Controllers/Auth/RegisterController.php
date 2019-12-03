@@ -2,12 +2,12 @@
 
 namespace KRLX\Http\Controllers\Auth;
 
-use KRLX\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use KRLX\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use KRLX\Http\Controllers\Controller;
+use KRLX\User;
 
 class RegisterController extends Controller
 {

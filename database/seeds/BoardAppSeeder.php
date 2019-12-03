@@ -1,9 +1,9 @@
 <?php
 
-use KRLX\Config;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
+use KRLX\Config;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class BoardAppSeeder extends Seeder
 {
