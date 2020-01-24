@@ -2,12 +2,12 @@
 
 namespace Tests\API;
 
-use KRLX\Show;
-use KRLX\Jobs\PublishShow;
-use KRLX\Jobs\FinalPublishShow;
-use Tests\AuthenticatedTestCase;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
+use KRLX\Jobs\FinalPublishShow;
+use KRLX\Jobs\PublishShow;
+use KRLX\Show;
+use Tests\AuthenticatedTestCase;
 
 class ScheduleTest extends AuthenticatedTestCase
 {

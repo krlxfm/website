@@ -2,10 +2,10 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\Term;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Http\Requests\TermUpdateRequest;
+use KRLX\Term;
 
 class TermController extends Controller
 {

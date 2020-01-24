@@ -2,12 +2,12 @@
 
 namespace KRLX\Console\Commands;
 
-use KRLX\Term;
-use KRLX\User;
-use KRLX\Track;
-use KRLX\Config;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use KRLX\Config;
+use KRLX\Term;
+use KRLX\Track;
+use KRLX\User;
 
 class CreateTerm extends Command
 {

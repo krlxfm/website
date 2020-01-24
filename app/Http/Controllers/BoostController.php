@@ -2,10 +2,10 @@
 
 namespace KRLX\Http\Controllers;
 
+use Illuminate\Http\Request;
+use KRLX\Boost;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\Boost;
-use Illuminate\Http\Request;
 
 class BoostController extends Controller
 {

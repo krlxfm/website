@@ -1,7 +1,7 @@
 <?php
 
-use KRLX\Config;
 use Illuminate\Database\Seeder;
+use KRLX\Config;
 
 class ConfigSeeder extends Seeder
 {

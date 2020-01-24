@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Controllers;
 
+use Illuminate\Http\Request;
 use KRLX\Term;
 use Parsedown;
-use Illuminate\Http\Request;
 
 class PointController extends Controller
 {

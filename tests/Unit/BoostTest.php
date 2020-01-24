@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use KRLX\Show;
 use KRLX\Boost;
+use KRLX\Show;
 use Tests\UnitBaseCase;
 
 class BoostTest extends UnitBaseCase

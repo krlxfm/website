@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Config;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConfigTest extends TestCase
 {

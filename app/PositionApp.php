@@ -2,8 +2,8 @@
 
 namespace KRLX;
 
-use KRLX\Events\PositionAppCreating;
 use Illuminate\Database\Eloquent\Model;
+use KRLX\Events\PositionAppCreating;
 
 class PositionApp extends Model
 {

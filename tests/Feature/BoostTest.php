@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
+use KRLX\User;
 use Tests\AuthenticatedTestCase;
 
 class BoostTest extends AuthenticatedTestCase

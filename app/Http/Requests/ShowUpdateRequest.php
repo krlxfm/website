@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Requests;
 
-use KRLX\Track;
-use KRLX\Rulesets\ShowRuleset;
 use Illuminate\Foundation\Http\FormRequest;
+use KRLX\Rulesets\ShowRuleset;
+use KRLX\Track;
 
 class ShowUpdateRequest extends FormRequest
 {

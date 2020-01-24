@@ -2,13 +2,13 @@
 
 namespace KRLX\Http\Controllers;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use KRLX\BoardApp;
+use KRLX\Config;
+use KRLX\Position;
 use KRLX\User;
 use Validator;
-use KRLX\Config;
-use Carbon\Carbon;
-use KRLX\BoardApp;
-use KRLX\Position;
-use Illuminate\Http\Request;
 
 class BoardController extends Controller
 {

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
-use Carbon\Carbon;
+use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowSupportTest extends TestCase
 {

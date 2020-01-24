@@ -2,8 +2,8 @@
 
 namespace KRLX\Console\Commands;
 
-use KRLX\Term;
 use Illuminate\Console\Command;
+use KRLX\Term;
 
 class SetTermStatus extends Command
 {

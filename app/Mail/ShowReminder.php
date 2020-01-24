@@ -2,11 +2,11 @@
 
 namespace KRLX\Mail;
 
-use KRLX\Show;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use KRLX\Show;
 
 class ShowReminder extends Mailable
 {

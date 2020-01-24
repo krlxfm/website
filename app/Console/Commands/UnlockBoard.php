@@ -2,10 +2,10 @@
 
 namespace KRLX\Console\Commands;
 
-use KRLX\User;
-use KRLX\Track;
-use KRLX\Config;
 use Illuminate\Console\Command;
+use KRLX\Config;
+use KRLX\Track;
+use KRLX\User;
 
 class UnlockBoard extends Command
 {
@@ -43,9 +43,10 @@ class UnlockBoard extends Command
 
         $this->table(['Q#', 'Question Text'], $common_data);
 
-        if (!$this->confirm('Do you wish to continue with these common questions?')) {
+        if (! $this->confirm('Do you wish to continue with these common questions?')) {
             $this->comment('Please update the common questions in the "configs" table in the database and then try again.');
             $this->comment('Common questions must be a JSON-valid array of strings.');
+
             return 0;
         }
         $this->info('✓ Common questions OK.');
@@ -57,24 +58,29 @@ class UnlockBoard extends Command
         $correct_year = true;
         foreach ($interview_opts as $option) {
             $interview_data[] = [$option['date'], $option['start'], $option['end']];
-            if (intval(substr($option['date'], 0, 4)) !== date('Y')) $correct_year = false;
+            if (intval(substr($option['date'], 0, 4)) !== date('Y')) {
+                $correct_year = false;
+            }
         }
         $this->table(['Date', 'Start Time', 'End Time'], $interview_data);
 
-        if (!$correct_year) {
+        if (! $correct_year) {
             $this->error('Error: The interview dates are not using the correct year.');
             $this->error('Please revise the interview options in the database "configs" table and try again.');
+
             return 0;
-        } else if (!$this->confirm('Do you wish to continue with these interview options?')) {
+        } elseif (! $this->confirm('Do you wish to continue with these interview options?')) {
             $this->comment('Please update the interview options in the "configs" table in the database and then try again.');
             $this->comment('Interview options must be a JSON-valid array of objects, each containing date [yyyy-mm-dd], start, and end times [24-hour hh:mm].');
+
             return 0;
         }
         $this->info('✓ Interview dates and times OK.');
 
-        if (!$this->confirm('Have you verified the questions in each position and do you want to use them?')) {
+        if (! $this->confirm('Have you verified the questions in each position and do you want to use them?')) {
             $this->comment('Please update the questions belonging to each position in the "positions" database table and try again.');
             $this->comment('Position-specific questions must be a JSON-valid array of strings.');
+
             return 0;
         }
 
@@ -99,9 +105,13 @@ class UnlockBoard extends Command
         $candidates = $candidates->reject(function ($user) use ($bar, $weekly_tracks) {
             $bar->advance();
 
-            if ($user->points->count() === 0) return true;
+            if ($user->points->count() === 0) {
+                return true;
+            }
             $most_recent_pt = $user->points->sortByDesc('created_at')->first();
-            if ($most_recent_pt->status === 'withheld') return true;
+            if ($most_recent_pt->status === 'withheld') {
+                return true;
+            }
             if ($most_recent_pt->status === 'provisioned') {
                 return $user->shows->where('term_id', $most_recent_pt->term_id)->filter(function ($show) use ($weekly_tracks) {
                     return in_array($show->track_id, $weekly_tracks) and $show->submitted;
@@ -112,8 +122,9 @@ class UnlockBoard extends Command
         $this->line('');
         $this->info('✓ '.$candidates->count().' candidates identified.');
 
-        if (!$this->confirm('Do you wish to unlock board applications now? This is your last chance to stop.')) {
+        if (! $this->confirm('Do you wish to unlock board applications now? This is your last chance to stop.')) {
             $this->comment('Board applications have remained locked.');
+
             return 0;
         }
         $this->line('Unlocking applications...');

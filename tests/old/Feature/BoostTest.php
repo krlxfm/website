@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
+use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BoostTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
-use Carbon\Carbon;
+use KRLX\User;
 use Tests\AuthenticatedTestCase;
 
 class ShowRosterTest extends AuthenticatedTestCase

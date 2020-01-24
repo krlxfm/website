@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\WithFaker;
 use KRLX\User;
 use Tests\AuthenticatedTestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class OnboardTest extends AuthenticatedTestCase
 {
@@ -81,11 +81,11 @@ class OnboardTest extends AuthenticatedTestCase
         foreach ($options as $year => $value) {
             $phone = $this->faker()->regexify('507-222-[0-9]{4}');
             $req_carleton = $this->actingAs($this->carleton)->post('/welcome', [
-                 'first_name' => $this->carleton->first_name,
-                 'name' => $this->carleton->name,
-                 'phone_number' => $phone,
-                 'status' => $value,
-             ]);
+                'first_name' => $this->carleton->first_name,
+                'name' => $this->carleton->name,
+                'phone_number' => $phone,
+                'status' => $value,
+            ]);
 
             $user = User::find($this->carleton->id);
 

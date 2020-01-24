@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
+use KRLX\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowTest extends TestCase
 {
@@ -253,8 +253,8 @@ class ShowTest extends TestCase
     public function testJoinShowViewRenders()
     {
         $show = factory(Show::class)->create([
-             'track_id' => $this->track->id,
-             'term_id' => $this->term->id,
+            'track_id' => $this->track->id,
+            'term_id' => $this->term->id,
         ]);
         $show->invitees()->attach($this->user);
         $request = $this->get("/shows/join/{$show->id}");

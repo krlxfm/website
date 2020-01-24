@@ -2,9 +2,9 @@
 
 namespace KRLX\Http\Controllers;
 
+use Carbon\Carbon;
 use KRLX\Term;
 use KRLX\Track;
-use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
