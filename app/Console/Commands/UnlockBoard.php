@@ -34,6 +34,7 @@ class UnlockBoard extends Command
         $this->line('You may need to widen your terminal to see everything.');
         if ($this->confirm('Are you running this script with the yes command?')) {
             $this->error('While yes is a very good command, please actually read what\'s going on here.');
+
             return 40;
         }
 
@@ -59,9 +60,10 @@ class UnlockBoard extends Command
         $this->line('');
         $this->line('Validating strucutral integrity of position-specific questions...');
         $positions = Position::where('active', true)->get()->pluck('app_questions');
-        foreach($positions as $pos) {
-            if (json_decode($pos, true) === null or !is_array(json_decode($pos, true))) {
+        foreach ($positions as $pos) {
+            if (json_decode($pos, true) === null or ! is_array(json_decode($pos, true))) {
                 $this->error('Error: one or more positions has app_questions that are not in the valid structure.');
+
                 return 40;
             }
         }
