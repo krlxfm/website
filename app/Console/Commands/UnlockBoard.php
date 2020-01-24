@@ -62,7 +62,7 @@ class UnlockBoard extends Command
         $this->line('Validating strucutral integrity of position-specific questions...');
         $positions = Position::where('active', true)->get()->pluck('app_questions');
         foreach ($positions as $pos) {
-            if (!is_array($pos)) {
+            if (! is_array($pos)) {
                 $this->error('Error: one or more positions has app_questions that are not in the valid structure.');
 
                 return 40;
