@@ -2,10 +2,10 @@
 
 namespace KRLX\Mail;
 
-use KRLX\BoardApp;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use KRLX\BoardApp;
 
 class BoardInterview extends Mailable
 {

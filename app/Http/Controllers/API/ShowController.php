@@ -2,24 +2,24 @@
 
 namespace KRLX\Http\Controllers\API;
 
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
+use KRLX\Http\Controllers\Controller;
+use KRLX\Http\Requests\ShowUpdateRequest;
+use KRLX\Http\Resources\Show as ShowResource;
+use KRLX\Mail\NewUserInvitation;
+use KRLX\Mail\ShowReminder;
+use KRLX\Mail\ShowSubmitted;
+use KRLX\Notifications\ShowInvitation;
+use KRLX\Rulesets\ShowRuleset;
 use KRLX\Show;
 use KRLX\Term;
 use KRLX\User;
 use Validator;
-use KRLX\Mail\ShowReminder;
-use Illuminate\Http\Request;
-use KRLX\Mail\ShowSubmitted;
-use KRLX\Rulesets\ShowRuleset;
-use Illuminate\Validation\Rule;
-use KRLX\Mail\NewUserInvitation;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use KRLX\Http\Controllers\Controller;
-use KRLX\Notifications\ShowInvitation;
-use KRLX\Http\Requests\ShowUpdateRequest;
-use KRLX\Http\Resources\Show as ShowResource;
-use Illuminate\Contracts\Encryption\DecryptException;
 
 class ShowController extends Controller
 {

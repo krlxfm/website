@@ -2,8 +2,8 @@
 
 namespace KRLX\Http\Requests;
 
-use KRLX\Rules\ValidatorRule;
 use Illuminate\Foundation\Http\FormRequest;
+use KRLX\Rules\ValidatorRule;
 
 class TrackUdpateRequest extends FormRequest
 {

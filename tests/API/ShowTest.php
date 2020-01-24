@@ -2,16 +2,16 @@
 
 namespace Tests\API;
 
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use KRLX\Mail\NewUserInvitation;
+use KRLX\Notifications\ShowInvitation;
 use KRLX\Show;
 use KRLX\Term;
-use KRLX\User;
 use KRLX\Track;
-use KRLX\Mail\NewUserInvitation;
+use KRLX\User;
 use Tests\AuthenticatedTestCase;
-use Illuminate\Support\Facades\Mail;
-use KRLX\Notifications\ShowInvitation;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Notification;
 
 class ShowTest extends AuthenticatedTestCase
 {
@@ -123,16 +123,16 @@ class ShowTest extends AuthenticatedTestCase
         $pending_term = factory(Term::class)->create(['status' => 'pending']);
 
         $closed_term_show = factory(Show::class)->create([
-             'title' => 'Gray Duck',
-             'track_id' => $this->show->track_id,
-             'term_id' => $closed_term->id,
+            'title' => 'Gray Duck',
+            'track_id' => $this->show->track_id,
+            'term_id' => $closed_term->id,
         ]);
         $closed_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
 
         $pending_term_show = factory(Show::class)->create([
-             'title' => 'Gray Duck',
-             'track_id' => $this->show->track_id,
-             'term_id' => $closed_term->id,
+            'title' => 'Gray Duck',
+            'track_id' => $this->show->track_id,
+            'term_id' => $closed_term->id,
         ]);
         $pending_term_show->hosts()->attach($this->carleton, ['accepted' => true]);
 

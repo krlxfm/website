@@ -2,12 +2,12 @@
 
 namespace KRLX\Http\Controllers\Auth;
 
-use KRLX\User;
-use Socialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use KRLX\Http\Controllers\Controller;
+use KRLX\User;
+use Socialite;
 
 class CarletonAuthController extends Controller
 {

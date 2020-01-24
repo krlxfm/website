@@ -2,10 +2,10 @@
 
 namespace KRLX\Listeners;
 
-use KRLX\Show;
-use Jdenticon\Identicon;
 use Faker\Factory as Faker;
+use Jdenticon\Identicon;
 use KRLX\Events\ShowCreating;
+use KRLX\Show;
 
 class FillShowDefaults
 {

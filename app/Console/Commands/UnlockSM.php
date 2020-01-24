@@ -2,9 +2,9 @@
 
 namespace KRLX\Console\Commands;
 
-use KRLX\User;
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use KRLX\User;
 
 class UnlockSM extends Command
 {
@@ -30,13 +30,14 @@ class UnlockSM extends Command
     public function handle()
     {
         $email = $this->argument('user');
-        if (!Str::endsWith($email, '@carleton.edu')) {
+        if (! Str::endsWith($email, '@carleton.edu')) {
             $email = $email.'@carleton.edu';
         }
         $user = User::whereEmail($email)->first();
 
-        if (!$user) {
+        if (! $user) {
             $this->error("No user with the email $email could be found.");
+
             return 40;
         }
 

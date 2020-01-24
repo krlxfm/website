@@ -2,9 +2,9 @@
 
 namespace KRLX\Console\Commands;
 
-use KRLX\Show;
-use KRLX\Point;
 use Illuminate\Console\Command;
+use KRLX\Point;
+use KRLX\Show;
 
 class IssueXP extends Command
 {

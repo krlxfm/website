@@ -2,10 +2,10 @@
 
 namespace KRLX\Http\Controllers\Auth;
 
-use KRLX\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use KRLX\User;
 
 class LoginController extends Controller
 {

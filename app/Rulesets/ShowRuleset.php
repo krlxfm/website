@@ -2,10 +2,10 @@
 
 namespace KRLX\Rulesets;
 
+use Illuminate\Validation\Rule;
+use KRLX\Rules\Profanity;
 use KRLX\Show;
 use KRLX\Track;
-use KRLX\Rules\Profanity;
-use Illuminate\Validation\Rule;
 
 class ShowRuleset
 {

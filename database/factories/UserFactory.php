@@ -1,7 +1,7 @@
 <?php
 
-use KRLX\Term;
 use Faker\Generator as Faker;
+use KRLX\Term;
 
 /*
 |--------------------------------------------------------------------------

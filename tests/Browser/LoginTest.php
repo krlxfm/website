@@ -2,12 +2,12 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use KRLX\User;
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\Login\Login;
 use Tests\Browser\Pages\Login\Password;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {

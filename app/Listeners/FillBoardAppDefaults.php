@@ -2,8 +2,8 @@
 
 namespace KRLX\Listeners;
 
-use KRLX\Config;
 use Carbon\Carbon;
+use KRLX\Config;
 use KRLX\Events\BoardAppCreating;
 
 class FillBoardAppDefaults

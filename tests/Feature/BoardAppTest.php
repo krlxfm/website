@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use KRLX\User;
-use KRLX\Config;
 use Carbon\Carbon;
+use KRLX\Config;
 use KRLX\Position;
+use KRLX\User;
 use Tests\AuthenticatedTestCase;
 
 class BoardAppTest extends AuthenticatedTestCase

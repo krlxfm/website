@@ -2,9 +2,9 @@
 
 namespace KRLX\Policies;
 
+use Illuminate\Auth\Access\HandlesAuthorization;
 use KRLX\Term;
 use KRLX\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TermPolicy
 {

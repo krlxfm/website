@@ -2,10 +2,10 @@
 
 namespace KRLX\Http\Controllers\API;
 
-use KRLX\Track;
 use Illuminate\Http\Request;
 use KRLX\Http\Controllers\Controller;
 use KRLX\Http\Requests\TrackUdpateRequest;
+use KRLX\Track;
 
 class TrackController extends Controller
 {

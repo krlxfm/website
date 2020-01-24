@@ -2,9 +2,9 @@
 
 namespace KRLX;
 
-use KRLX\Events\TrackCreating;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KRLX\Events\TrackCreating;
 
 class Track extends Model
 {
