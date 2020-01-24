@@ -5,10 +5,9 @@ namespace KRLX\Console\Commands;
 use KRLX\User;
 use KRLX\Track;
 use KRLX\Config;
-use KRLX\Permission;
 use Illuminate\Console\Command;
 
-class IssueXP extends Command
+class UnlockBoard extends Command
 {
     /**
      * The name and signature of the console command.
