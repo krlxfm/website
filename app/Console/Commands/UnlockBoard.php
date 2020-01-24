@@ -4,6 +4,7 @@ namespace KRLX\Console\Commands;
 
 use Illuminate\Console\Command;
 use KRLX\Config;
+use KRLX\Position;
 use KRLX\Track;
 use KRLX\User;
 
