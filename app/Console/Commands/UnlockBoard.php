@@ -5,6 +5,7 @@ namespace KRLX\Console\Commands;
 use KRLX\User;
 use KRLX\Track;
 use KRLX\Config;
+use KRLX\Position;
 use Illuminate\Console\Command;
 
 class UnlockBoard extends Command
@@ -30,8 +31,14 @@ class UnlockBoard extends Command
      */
     public function handle()
     {
-        $this->line('Starting to check board app configs...');
+        $this->line('Welcome to the KRLX Board Application Unlock Script.');
         $this->line('You may need to widen your terminal to see everything.');
+        if ($this->confirm('Are you running this script with the yes command?')) {
+            $this->error('While yes is a very good command, please actually read what\'s going on here.');
+            return 40;
+        }
+
+        $this->line('Starting to check board app configs...');
         $this->line('');
         $this->line('Common questions are as follows:');
 
@@ -49,6 +56,16 @@ class UnlockBoard extends Command
             return 0;
         }
         $this->info('✓ Common questions OK.');
+        $this->line('');
+        $this->line('Validating strucutral integrity of position-specific questions...');
+        $positions = Position::where('active', true)->get()->pluck('app_questions');
+        foreach($positions as $pos) {
+            if (json_decode($pos, true) === null or !is_array(json_decode($pos, true))) {
+                $this->error('Error: one or more positions has app_questions that are not in the valid structure.');
+                return 40;
+            }
+        }
+        $this->info('✓ Position-specific question structural integrity check passed.');
         $this->line('');
         $this->line('Interview time options are as follows (candidates can choose times at 15-minute intervals, excluding the end time):');
 
@@ -72,9 +89,9 @@ class UnlockBoard extends Command
         }
         $this->info('✓ Interview dates and times OK.');
 
-        if (!$this->confirm('Have you verified the questions in each position and do you want to use them?')) {
-            $this->comment('Please update the questions belonging to each position in the "positions" database table and try again.');
-            $this->comment('Position-specific questions must be a JSON-valid array of strings.');
+        if (!$this->confirm('Have you verified the questions and descriptions for each position, and do you want to use them?')) {
+            $this->comment('Please update the questions and descriptions belonging to each position in the "positions" database table and try again.');
+            $this->comment('Position-specific questions must be a JSON-valid array of strings. Position descriptions are an HTML string.');
             return 0;
         }
 
