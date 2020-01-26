@@ -77,7 +77,7 @@ class UnlockBoard extends Command
         $correct_year = true;
         foreach ($interview_opts as $option) {
             $interview_data[] = [$option['date'], $option['start'], $option['end']];
-            if (intval(substr($option['date'], 0, 4)) !== date('Y')) {
+            if (intval(substr($option['date'], 0, 4)) !== intval(date('Y'))) {
                 $correct_year = false;
             }
         }
