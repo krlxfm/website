@@ -3,7 +3,6 @@
 namespace KRLX\Console\Commands;
 
 use Illuminate\Console\Command;
-use KRLX\Position;
 use KRLX\User;
 
 class LockBoard extends Command
