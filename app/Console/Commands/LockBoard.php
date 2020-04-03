@@ -28,12 +28,20 @@ class LockBoard extends Command
      */
     public function handle()
     {
-        if ($this->confirm('Are you sure you wish to revoke all users\' permission to apply for board seats?')) {
-            User::chunk(50, function ($users) {
-                foreach ($users as $user) {
-                    $user->revokePermissionTo('apply for board seats');
-                }
-            });
+        if (! $this->confirm('Are you sure you wish to revoke all users\' permission to apply for board seats?')) {
+            $this->error('Aborting changes.');
+
+            return 0;
         }
+        User::chunk(50, function ($users) {
+            $bar = $this->output->createProgressBar($users->count());
+            $bar->start();
+            foreach ($users as $user) {
+                $user->revokePermissionTo('apply for board seats');
+                $bar->advance();
+            }
+            $bar->finish();
+        });
+        $this->info('✓ Board applications have been locked.');
     }
 }
