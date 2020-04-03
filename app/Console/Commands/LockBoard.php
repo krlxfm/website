@@ -34,7 +34,7 @@ class LockBoard extends Command
                 foreach ($users as $user) {
                     $user->revokePermissionTo('apply for board seats');
                 }
-            })
+            });
         }
     }
 }
