@@ -1,0 +1,4 @@
+Files which have been modified to reflect the unusual broadcasting circumstances of Spring 2020
+
+resources/views/legal/contract.blade.php
+resources/assets/markdown/contract.md
