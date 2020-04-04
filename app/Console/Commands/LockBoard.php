@@ -35,9 +35,16 @@ class LockBoard extends Command
         }
         $this->info('Identifying eligible applicants...');
         $users = User::all();
+        $bar = $this->output->createProgressBar($users->count());
+        $bar->start();
         $eligible = $users->filter(function ($user) {
+            $bar->advance();
+
             return $user->hasPermissionTo('apply for board seats');
         });
+        $bar->finish();
+        $this->line('');
+
         $this->info('Revoking permissions...');
         $bar = $this->output->createProgressBar($eligible->count());
         $bar->start();
