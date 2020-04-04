@@ -129,6 +129,6 @@ class AssignBoard extends Command
         });
 
         $this->line('');
-        $this->info('✓ All roles successfully updated.')
+        $this->info('✓ All roles successfully updated.');
     }
 }
