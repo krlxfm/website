@@ -4,9 +4,8 @@ namespace KRLX\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use KRLX\User;
 
-class AssignBoard extends Command
+class UpdateBoard extends Command
 {
     /**
      * The name and signature of the console command.
@@ -49,10 +48,10 @@ class AssignBoard extends Command
         $users->each(function ($user) use ($bar) {
             $bar->advance();
             if ($user->hasRole('board')) {
-                $curr = True;
+                $curr = true;
                 $curr_board[] = [$user];
             } else {
-                $curr = False;
+                $curr = false;
             }
             $title = $user->title;
             if ($title !== 'KRLX Community') {
