@@ -62,7 +62,7 @@ class UpdateBoard extends Command
                     } else {
                         $ret_board->push($user);
                     }
-                } else if (! Str::startsWith($title, 'Emeritus')) {
+                } elseif (! Str::startsWith($title, 'Emeritus')) {
                     $new_board->push($user);
                 }
             }
@@ -77,21 +77,21 @@ class UpdateBoard extends Command
         $this->table(['Current', 'Graduating', 'Returning', 'New'], $tallies);
 
         $grad_names = [];
-        $grad_board->each(function ($user) use ($grad_names) {
+        foreach ($grad_board as $user) {
             $grad_names[] = [$user->name];
-        });
-        $this->table(['Graduating Seniors'], $grad_names);
+        }
+        $this->table(['Graduating Members'], $grad_names);
 
         $ret_names = [];
-        $ret_board->each(function ($user) use ($ret_names) {
+        foreach ($ret_board as $user) {
             $ret_names[] = [$user->name];
-        });
+        }
         $this->table(['Returning Members'], $ret_names);
 
         $new_names = [];
-        $new_board->each(function ($user) use ($new_names) {
+        foreach ($new_board as $user) {
             $new_names[] = [$user->name];
-        });
+        }
         $this->table(['New Members'], $new_names);
 
         $accounted_for = $grad_board->concat($ret_board);
