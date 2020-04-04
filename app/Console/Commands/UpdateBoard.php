@@ -3,7 +3,6 @@
 namespace KRLX\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use KRLX\User;
 
@@ -72,8 +71,14 @@ class UpdateBoard extends Command
         $this->line('');
         $this->info('✓ Successfully identified users.');
         $this->line('');
+
+        $curr_board = collect($curr_board);
+        $grad_board = collect($grad_board);
+        $ret_board = collect($ret_board);
+        $new_board = collect($ret_board);
+
         $tallies = [];
-        $tallies[] = [collect($curr_board)->count(), collect($grad_board)->count(), collect($ret_board)->count(), collect($new_board)->count()];
+        $tallies[] = [$curr_board->count(), $grad_board->count(), $ret_board->count(), $new_board->count()];
         $this->table(['Current', 'Graduating', 'Returning', 'New'], $tallies);
 
         $this->table(['Graduating Seniors'], $grad_board->pluck('name')->toArray());
