@@ -4,6 +4,7 @@ namespace KRLX\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use KRLX\User;
 
 class UpdateBoard extends Command
 {
@@ -39,7 +40,7 @@ class UpdateBoard extends Command
             return 0;
         }
         $this->line('Getting current, graduating, returning, and new board members...');
-        $users = Users::all();
+        $users = User::all();
         $bar = $this->output->createProgressBar($users->count());
         $curr_board = [];
         $grad_board = [];
