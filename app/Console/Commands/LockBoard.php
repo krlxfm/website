@@ -54,6 +54,7 @@ class LockBoard extends Command
         }
         $bar->finish();
 
+        $this->line('');
         $this->info('✓ Board applications have been locked.');
     }
 }
