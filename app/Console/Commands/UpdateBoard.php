@@ -46,7 +46,7 @@ class UpdateBoard extends Command
         $grad_board = collect([]);
         $ret_board = collect([]);
         $new_board = collect([]);
-        $users->each(function ($user) use ($bar) {
+        $users->each(function ($user) use ($bar, $curr_board, $grad_board, $ret_board, $new_board) {
             $bar->advance();
             if ($user->hasRole('board')) {
                 $curr = true;
