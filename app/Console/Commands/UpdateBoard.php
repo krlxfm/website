@@ -62,7 +62,7 @@ class UpdateBoard extends Command
                     } else {
                         $ret_board->push($user);
                     }
-                } else {
+                } else if (! Str::startsWith($title, 'Emeritus')) {
                     $new_board->push($user);
                 }
             }
