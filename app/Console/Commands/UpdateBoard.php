@@ -76,11 +76,23 @@ class UpdateBoard extends Command
         $tallies[] = [$curr_board->count(), $grad_board->count(), $ret_board->count(), $new_board->count()];
         $this->table(['Current', 'Graduating', 'Returning', 'New'], $tallies);
 
-        $this->table(['Graduating Seniors'], $grad_board->pluck('name')->toArray());
+        $grad_names = [];
+        $grad_board->each(function ($user) use ($grad_names) {
+            $grad_names[] = [$user->name];
+        });
+        $this->table(['Graduating Seniors'], $grad_names);
 
-        $this->table(['Returning Members'], $ret_board->pluck('name')->toArray());
+        $ret_names = [];
+        $ret_board->each(function ($user) use ($ret_names) {
+            $ret_names[] = [$user->name];
+        });
+        $this->table(['Returning Members'], $ret_names);
 
-        $this->table(['New Members'], $new_board->pluck('name')->toArray());
+        $new_names = [];
+        $new_board->each(function ($user) use ($new_names) {
+            $new_names[] = [$user->name];
+        });
+        $this->table(['New Members'], $new_names);
 
         $accounted_for = $grad_board->concat($ret_board);
         $unaccounted_for = $curr_board->diff($accounted_for);
