@@ -126,7 +126,7 @@ class AssignBoard extends Command
             if ($this->confirm('Would you like to remove \'board\' role for '.$user->name.'?')) {
                 $user->removeRole('board');
             }
-        }
+        });
 
         $this->line('');
         $this->info('✓ All roles successfully updated.')
