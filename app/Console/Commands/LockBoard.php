@@ -40,7 +40,7 @@ class LockBoard extends Command
         $eligible = $users->filter(function ($user) {
             $bar->advance();
             return $user->hasPermissionTo('apply for board seats');
-        })
+        });
         $bar->finish();
 
         $this->info('Revoking permissions...');
