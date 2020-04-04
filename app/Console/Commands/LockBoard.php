@@ -39,6 +39,7 @@ class LockBoard extends Command
         $users = User::all();
         $eligible = $users->filter(function ($user) {
             $bar->advance();
+
             return $user->hasPermissionTo('apply for board seats');
         });
         $bar->finish();
@@ -51,7 +52,7 @@ class LockBoard extends Command
             $bar->advance();
         }
         $bar->finish();
-        
+
         $this->info('✓ Board applications have been locked.');
     }
 }
