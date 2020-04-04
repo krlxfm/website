@@ -42,15 +42,15 @@ class UpdateBoard extends Command
         $this->line('Getting current, graduating, returning, and new board members...');
         $users = User::all();
         $bar = $this->output->createProgressBar($users->count());
-        $curr_board = [];
-        $grad_board = [];
-        $ret_board = [];
-        $new_board = [];
+        $curr_board = collect([]);
+        $grad_board = collect([]);
+        $ret_board = collect([]);
+        $new_board = collect([]);
         $users->each(function ($user) use ($bar) {
             $bar->advance();
             if ($user->hasRole('board')) {
                 $curr = true;
-                $curr_board[] = [$user];
+                $curr_board->push($user);
             } else {
                 $curr = false;
             }
@@ -58,12 +58,12 @@ class UpdateBoard extends Command
             if ($title !== 'KRLX Community') {
                 if ($curr) {
                     if (Str::startsWith($title, 'Emeritus')) {
-                        $grad_board[] = [$user];
+                        $grad_board->push($user);
                     } else {
-                        $ret_board[] = [$user];
+                        $ret_board->push($user);
                     }
                 } else {
-                    $new_board[] = [$user];
+                    $new_board->push($user);
                 }
             }
         });
@@ -71,11 +71,6 @@ class UpdateBoard extends Command
         $this->line('');
         $this->info('✓ Successfully identified users.');
         $this->line('');
-
-        $curr_board = collect($curr_board);
-        $grad_board = collect($grad_board);
-        $ret_board = collect($ret_board);
-        $new_board = collect($ret_board);
 
         $tallies = [];
         $tallies[] = [$curr_board->count(), $grad_board->count(), $ret_board->count(), $new_board->count()];
