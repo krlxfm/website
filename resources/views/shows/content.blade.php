@@ -5,7 +5,7 @@
     <p>Please fill in the following information about your show. Required fields are marked with a red asterisk (<span class="text-danger">*</span>) and must be filled in to continue. Some of this information may be published in programming catalogs and other locations.</p>
     <div class="row">
         <div class="col">
-            <form method="post" action="/shows/{{ $show->id }}" id="content-form">
+            <form method="post" action="{{ url("/shows/{$show->id}") }}" id="content-form">
                 @method('patch')
                 @csrf
                 <div class="form-group row">

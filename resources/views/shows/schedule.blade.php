@@ -4,7 +4,7 @@
     @parent
     <div class="row">
         <div class="col">
-            <form method="post" action="/shows/{{ $show->id }}" id="scheduling-form">
+            <form method="post" action="{{ url("/shows/{$show->id}") }}" id="scheduling-form">
                 @method('patch')
                 @csrf
                 @if($show->track->weekly)

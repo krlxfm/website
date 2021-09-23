@@ -12,7 +12,7 @@
 
             <div class="card my-3">
                 <div class="card-body">
-                    <form action="/contract" method="post">
+                    <form action="{{ url("/contract") }}" method="post">
                         @csrf
                         <input type="hidden" name="term" value="{{ $term->id }}">
                         <div class="form-group">

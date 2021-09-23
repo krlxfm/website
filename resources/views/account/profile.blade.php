@@ -5,7 +5,7 @@
         <div class="col">
             <h1>My account</h1>
             <p>Fields marked with <i class="fab fa-markdown"></i> support <a href="https://daringfireball.net/projects/markdown/syntax">Markdown formatting</a>. Fields marked with <span class="text-danger">*</span> are required.</p>
-            <form action="/welcome" method="post">
+            <form action="{{ url("/welcome") }}" method="post">
                 @include('partials.profileform')
                 <input type="hidden" name="source" value="profile">
                 <p>

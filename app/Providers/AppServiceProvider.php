@@ -7,6 +7,7 @@ use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Menu\Laravel\Link;
 use Spatie\Menu\Laravel\Menu;
@@ -20,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!$this->app->environment('local')) {
+            URL::forceScheme('https');
+        }
+
         Queue::before(function (JobProcessing $event) {
             $body = unserialize($event->job->payload()['data']['command']);
             if ($event->job->resolveName() == 'KRLX\Jobs\PublishShow' or $event->job->resolveName() == 'KRLX\Jobs\FinalPublishShow') {
