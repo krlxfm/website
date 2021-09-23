@@ -87,6 +87,10 @@ class HomeController extends Controller
         $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
         $user->year = $statuses[$request->input('status')];
 
+        if (! ends_with($user->email, '@carleton.edu')) {
+            $user->year = 3;
+        }
+
         $pronoun_fields = ['pronouns-he', 'pronouns-she', 'pronouns-they', 'other_pronouns'];
         $pronouns = [];
         foreach ($pronoun_fields as $field) {
