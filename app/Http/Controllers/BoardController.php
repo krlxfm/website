@@ -76,8 +76,9 @@ class BoardController extends Controller
      *
      * @param  int  $year
      * @param  Illuminate\Http\Request  $request
-     * @throws Illuminate\Http\Response
      * @return Illuminate\Http\Response|void
+     *
+     * @throws Illuminate\Http\Response
      */
     private function validateYear($year, Request $request)
     {

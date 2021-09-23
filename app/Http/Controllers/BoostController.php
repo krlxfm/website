@@ -83,6 +83,7 @@ class BoostController extends Controller
 
     /**
      * Displays all upgrade certificates and which shows they're attached to.
+     *
      * @return Illuminate\Http\Response
      */
     public function master()

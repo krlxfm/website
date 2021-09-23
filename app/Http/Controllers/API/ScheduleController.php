@@ -41,7 +41,7 @@ class ScheduleController extends Controller
     /**
      * Synchronize multiple shows to the calendar at once.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return void
      */
     public function sync(Request $request)

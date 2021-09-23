@@ -211,8 +211,9 @@ class ShowController extends Controller
      * @param  string  $token
      * @param  string  $email
      * @param  string  $show
-     * @throws DecryptException
      * @return void
+     *
+     * @throws DecryptException
      */
     private function validateToken(string $token, string $email, string $show)
     {
