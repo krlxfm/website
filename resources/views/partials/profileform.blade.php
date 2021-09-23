@@ -16,16 +16,16 @@
         <small id="first_name_help" class="form-text text-muted">This is used in emails and other private settings. Most people use their first (given) name.</small>
     </div>
 </div>
-@if(ends_with(Auth::user()->email, '@carleton.edu'))
-    <div class="form-group row">
-        <label for="phone_number" class="col-sm-3 col-md-2 col-form-label">
-            Phone number <span class="text-danger">*</span>
-        </label>
-        <div class="col-sm-9 col-md-10">
-            <input type="tel" name="phone_number" class="form-control" id="phone_number" value="{{ old('phone_number') ?? Auth::user()->phone_number }}" required>
-            <small id="phone_number_help" class="form-text text-muted">Please enter your cell phone if you have one, otherwise request a campus landline from the Telecommunications Office. <strong>This MUST be a US phone number!</strong></small>
-        </div>
+<div class="form-group row">
+    <label for="phone_number" class="col-sm-3 col-md-2 col-form-label">
+        Phone number <span class="text-danger">*</span>
+    </label>
+    <div class="col-sm-9 col-md-10">
+        <input type="tel" name="phone_number" class="form-control" id="phone_number" value="{{ old('phone_number') ?? Auth::user()->phone_number }}" required>
+        <small id="phone_number_help" class="form-text text-muted">Please enter your cell phone if you have one, otherwise request a campus landline from the Telecommunications Office. <strong>This MUST be a US phone number!</strong></small>
     </div>
+</div>
+@if(ends_with(Auth::user()->email, '@carleton.edu'))
     <fieldset class="form-group">
         <div class="row">
             <legend class="col-form-label col-sm-3 col-md-2 pt-0">

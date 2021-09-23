@@ -16,9 +16,6 @@ class OnboardUser
     public function handle($request, Closure $next)
     {
         $user = $request->user();
-        if (! ends_with($user->email, '@carleton.edu')) {
-            return $next($request);
-        }
 
         if ($user->phone_number == null) {
             $request->session()->put('url.intended', $request->path());
