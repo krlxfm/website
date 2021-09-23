@@ -44,7 +44,7 @@ class ShowPolicy
      */
     public function create(User $user)
     {
-        return ends_with($user->email, '@carleton.edu');
+        return true;
     }
 
     /**
