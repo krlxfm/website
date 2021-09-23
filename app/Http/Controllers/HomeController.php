@@ -84,10 +84,11 @@ class HomeController extends Controller
             }
             $user->{$field} = $request->input($field);
         }
-        $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
-        $user->year = $statuses[$request->input('status')];
 
-        if (! ends_with($user->email, '@carleton.edu')) {
+        if (ends_with($user->email, '@carleton.edu')) {
+            $statuses = ['faculty' => 1, 'staff' => 2, 'student' => $request->input('year')];
+            $user->year = $statuses[$request->input('status')];
+        } else {
             $user->year = 3;
         }
 
@@ -116,7 +117,7 @@ class HomeController extends Controller
             'name' => 'required|string',
             'first_name' => 'required|string',
             'phone_number' => 'required|string|min:10',
-            'status' => 'required|in:student,faculty,staff',
+            'status' => 'sometimes|present|in:student,faculty,staff',
             'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
             'major' => 'sometimes|present|max:190',
             'hometown' => 'sometimes|present|max:190',

@@ -25,71 +25,71 @@
         <small id="phone_number_help" class="form-text text-muted">Please enter your cell phone if you have one, otherwise request a campus landline from the Telecommunications Office. <strong>This MUST be a US phone number!</strong></small>
     </div>
 </div>
-@if(ends_with(Auth::user()->email, '@carleton.edu'))
-    <fieldset class="form-group">
-        <div class="row">
-            <legend class="col-form-label col-sm-3 col-md-2 pt-0">
-                Pronouns
-            </legend>
-            <div class="col-sm-9 col-md-10">
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        id="pronouns-he"
-                        type="checkbox"
-                        name="pronouns-he"
-                        value="he-him-his"
-                        {{ str_contains(Auth::user()->pronouns, 'he/him/his') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="pronouns-he">
-                        he / him / his
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        id="pronouns-she"
-                        type="checkbox"
-                        name="pronouns-she"
-                        value="she-her-hers"
-                        {{ str_contains(Auth::user()->pronouns, 'she/her/hers') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="pronouns-she">
-                        she / her / hers
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        id="pronouns-they"
-                        type="checkbox"
-                        name="pronouns-they"
-                        value="they-them-their"
-                        {{ str_contains(Auth::user()->pronouns, 'they/them/their') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="pronouns-they">
-                        they / them / their
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        id="pronouns-other"
-                        type="checkbox"
-                        name="other_pronouns_checkbox"
-                        value="other"
-                        {{ (strlen(Auth::user()->pronouns) > 0 and (ends_with(Auth::user()->pronouns, 'he/him/his') or ends_with(Auth::user()->pronouns, 'she/her/hers') or ends_with(Auth::user()->pronouns, 'they/them/their'))) ? '' : 'checked' }}>
-                    <label class="form-check-label" for="pronouns-other">
-                        Other
-                    </label>
-                    @php
-                    $defaults = ['he/him/his', 'she/her/hers', 'they/them/their'];
-                    $pronouns = old('other_pronouns') ?? array_last(explode(', ', Auth::user()->pronouns));
-                    if (in_array($pronouns, $defaults)) $pronouns = '';
-                    @endphp
-                    <input type="text" name="other_pronouns" class="form-control" id="pronouns-other" value="{{  $pronouns }}" placeholder="Enter your pronouns here if they're not listed above.">
-                    <small id="pronouns-other_help" class="form-text text-muted">Enter your pronouns here if they're not listed above. <strong>Do not put commas in your response.</strong></small>
-                </div>
+<fieldset class="form-group">
+    <div class="row">
+        <legend class="col-form-label col-sm-3 col-md-2 pt-0">
+            Pronouns
+        </legend>
+        <div class="col-sm-9 col-md-10">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    id="pronouns-he"
+                    type="checkbox"
+                    name="pronouns-he"
+                    value="he-him-his"
+                    {{ str_contains(Auth::user()->pronouns, 'he/him/his') ? 'checked' : '' }}>
+                <label class="form-check-label" for="pronouns-he">
+                    he / him / his
+                </label>
+            </div>
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    id="pronouns-she"
+                    type="checkbox"
+                    name="pronouns-she"
+                    value="she-her-hers"
+                    {{ str_contains(Auth::user()->pronouns, 'she/her/hers') ? 'checked' : '' }}>
+                <label class="form-check-label" for="pronouns-she">
+                    she / her / hers
+                </label>
+            </div>
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    id="pronouns-they"
+                    type="checkbox"
+                    name="pronouns-they"
+                    value="they-them-their"
+                    {{ str_contains(Auth::user()->pronouns, 'they/them/their') ? 'checked' : '' }}>
+                <label class="form-check-label" for="pronouns-they">
+                    they / them / their
+                </label>
+            </div>
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    id="pronouns-other"
+                    type="checkbox"
+                    name="other_pronouns_checkbox"
+                    value="other"
+                    {{ (strlen(Auth::user()->pronouns) > 0 and (ends_with(Auth::user()->pronouns, 'he/him/his') or ends_with(Auth::user()->pronouns, 'she/her/hers') or ends_with(Auth::user()->pronouns, 'they/them/their'))) ? '' : 'checked' }}>
+                <label class="form-check-label" for="pronouns-other">
+                    Other
+                </label>
+                @php
+                $defaults = ['he/him/his', 'she/her/hers', 'they/them/their'];
+                $pronouns = old('other_pronouns') ?? array_last(explode(', ', Auth::user()->pronouns));
+                if (in_array($pronouns, $defaults)) $pronouns = '';
+                @endphp
+                <input type="text" name="other_pronouns" class="form-control" id="pronouns-other" value="{{  $pronouns }}" placeholder="Enter your pronouns here if they're not listed above.">
+                <small id="pronouns-other_help" class="form-text text-muted">Enter your pronouns here if they're not listed above. <strong>Do not put commas in your response.</strong></small>
             </div>
         </div>
-    </fieldset>
+    </div>
+</fieldset>
+@if(ends_with(Auth::user()->email, '@carleton.edu'))
     <fieldset class="form-group">
         <div class="row">
             <legend class="col-form-label col-sm-3 col-md-2 pt-0">
