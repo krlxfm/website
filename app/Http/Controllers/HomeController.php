@@ -58,7 +58,7 @@ class HomeController extends Controller
     public function onboard(Request $request)
     {
         $user = $request->user();
-        if (! ends_with($user->email, '@carleton.edu') or ! empty($user->phone_number)) {
+        if (! empty($user->phone_number)) {
             return redirect()->intended('/profile');
         }
 
