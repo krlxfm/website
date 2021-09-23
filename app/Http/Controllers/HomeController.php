@@ -73,7 +73,7 @@ class HomeController extends Controller
      */
     public function storeOnboarding(Request $request)
     {
-        $rules = $this->getValidationRules();
+        $rules = $this->getValidationRules($request);
         $request->validate($rules);
         $request->validate($this->getPronounValidationRules());
 
@@ -111,13 +111,12 @@ class HomeController extends Controller
      *
      * @return array
      */
-    private function getValidationRules()
+    private function getValidationRules(Request $request)
     {
-        return [
+        $rules = [
             'name' => 'required|string',
             'first_name' => 'required|string',
             'phone_number' => 'required|string|min:10',
-            'status' => 'sometimes|present|in:student,faculty,staff',
             'year' => 'required_if:status,student|nullable|integer|min:1900|max:'.(date('Y') + 5),
             'major' => 'sometimes|present|max:190',
             'hometown' => 'sometimes|present|max:190',
@@ -127,6 +126,12 @@ class HomeController extends Controller
             'source' => 'sometimes|present|string',
             'walkup' => 'sometimes|present|max:190',
         ];
+
+        if (ends_with($request->user()->email, '@carleton.edu')) {
+            $rules['status'] = 'required|in:student,faculty,staff';
+        }
+
+        return $rules;
     }
 
     /**
