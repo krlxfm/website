@@ -62,7 +62,7 @@ class Track extends Model
      * Generate "dummy" shows (used for calculating next shows) for active,
      * non-recurring tracks.
      *
-     * @return Array<KRLX\Show>
+     * @return array<KRLX\Show>
      */
     public static function dummyShows()
     {
