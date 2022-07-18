@@ -36,7 +36,7 @@ class FeedController extends Controller
     /**
      * Computes the Digital Signage Feeds.
      *
-     * @return Array<KRLX\Show>
+     * @return array<KRLX\Show>
      */
     public function signage()
     {
