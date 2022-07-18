@@ -23,7 +23,7 @@
         "array-unique": "^0.3.2",
         "flatten": "^1.0.3",
         "fullcalendar": "^3.10.1",
-        "jquery-ui": "^1.12.1",
+        "jquery-ui": "^1.13.2",
         "jquery-ui-dist": "^1.12.1",
         "jquery.maskedinput": "^1.4.1",
         "moment": "^2.24.0",
