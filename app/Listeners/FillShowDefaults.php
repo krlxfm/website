@@ -63,7 +63,8 @@ class FillShowDefaults
         $icon->setSize(300);
         $show->image = $icon->getImageDataUri();
         */
-        $show->image = 'https://krlx.org';
+        $show->image = 'https://www.krlx.org';
+
         $show->special_times = array_fill_keys(array_keys(config('defaults.special_times')), 'm');
     }
 }

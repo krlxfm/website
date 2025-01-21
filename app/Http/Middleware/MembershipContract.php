@@ -25,7 +25,7 @@ class MembershipContract
             $term = Term::orderByDesc('on_air')->get()->first();
         }
 
-        if (! $request->user()->points()->where([['status', '!=', 'none'], ['term_id', $term->id]])->first() and !$term->off_air->isPast()) {
+        if (! $request->user()->points()->where([['status', '!=', 'none'], ['term_id', $term->id]])->first() and ! $term->off_air->isPast()) {
             $request->session()->put('url.intended', $request->path());
             $request->session()->put('term', $term->id);
 
