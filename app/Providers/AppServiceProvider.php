@@ -93,6 +93,8 @@ class AppServiceProvider extends ServiceProvider
                 ->submenu($shows_dropdown)
                 ->submenu($board_dropdown)
                 ->route('profile', 'Profile')
+//                ->route('legal.tos', 'Terms of Service')
+                ->route('legal.contract', 'Membership Contract')
                 ->route('logout', 'Sign out')
                 ->each(function (Link $link) {
                     $link->addClass('nav-link');

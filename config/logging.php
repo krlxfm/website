@@ -35,7 +35,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['papertrail', 'single_err'],
+            'channels' => ['single_err'],
         ],
 
         'single_err' => [

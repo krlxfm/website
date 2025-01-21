@@ -99,6 +99,7 @@ Route::middleware(['auth', 'log', 'onboard'])->group(function () {
 
     Route::get('contract', 'PointController@contract')->name('legal.contract');
     Route::post('contract', 'PointController@sign');
+    Route::get('contractnoform', 'PointController@contractnoform')->name('legal.contractnoform');
 });
 
 Route::middleware('auth')->group(function () {

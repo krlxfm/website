@@ -28,6 +28,20 @@ class PointController extends Controller
         return view('legal.contract', compact('contract', 'term'));
     }
 
+    public function contractnoform(Request $request)
+    {
+        $parsedown = new Parsedown();
+        $contract = $parsedown->text(file_get_contents(resource_path('assets/markdown/contract.md')));
+
+        if ($request->session()->has('term')) {
+            $term = Term::find($request->session()->get('term'));
+        } else {
+            $term = Term::orderByDesc('on_air')->get()->first();
+        }
+
+        return view('legal.contractnoform', compact('contract', 'term'));
+    }
+
     /**
      * Sign the contract for a given term.
      *
