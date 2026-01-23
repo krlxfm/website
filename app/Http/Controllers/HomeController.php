@@ -73,6 +73,14 @@ class HomeController extends Controller
      */
     public function storeOnboarding(Request $request)
     {
+        //temporaray debug output
+        \Log::info('Form submission data:', [
+        'status' => $request->input('status'),
+        'year' => $request->input('year'),
+        'phone_number' => $request->input('phone_number'),
+        'all_data' => $request->all()
+        ]);
+
         $rules = $this->getValidationRules($request);
         $request->validate($rules);
         $request->validate($this->getPronounValidationRules());

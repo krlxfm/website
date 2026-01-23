@@ -15,6 +15,10 @@ function toggleClassYearRow() {
         $('input[name="year"]').prop("disabled", false);
     } else {
         $("#classyear-row").hide();
-        $('input[name="year"]').prop("disabled", true);
+        if ($(this).val() == "faculty") {
+            $('input[name="year"]').val(1);
+        } else if ($(this).val() == "staff") {
+            $('input[name="year"]').val(2);
+        }
     }
 }
