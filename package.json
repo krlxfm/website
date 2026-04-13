@@ -26,7 +26,7 @@
         "jquery-ui": "^1.12.1",
         "jquery-ui-dist": "^1.12.1",
         "jquery.maskedinput": "^1.4.1",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "sweetalert": "^2.1.0"
     }
 }
