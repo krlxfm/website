@@ -17,13 +17,13 @@ window.swal = require('sweetalert');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('conflict-list', require('./components/ConflictList.vue'));
-Vue.component('term-selector', require('./components/TermSelector.vue'));
-Vue.component('preference-list', require('./components/PreferenceList.vue'));
-Vue.component('participant-list', require('./components/ParticipantList.vue'));
-Vue.component('participant-search', require('./components/ParticipantSearch.vue'));
-Vue.component('schedule-preview', require('./components/SchedulePreview.vue'));
-Vue.component('board-app-position-order', require('./components/BoardPositionReorder.vue'));
+Vue.component('conflict-list', require('./components/ConflictList.vue').default);
+Vue.component('term-selector', require('./components/TermSelector.vue').default);
+Vue.component('preference-list', require('./components/PreferenceList.vue').default);
+Vue.component('participant-list', require('./components/ParticipantList.vue').default);
+Vue.component('participant-search', require('./components/ParticipantSearch.vue').default);
+Vue.component('schedule-preview', require('./components/SchedulePreview.vue').default);
+Vue.component('board-app-position-order', require('./components/BoardPositionReorder.vue').default);
 
 window.to12Hour = function(time) {
     var components = time.split(':');
